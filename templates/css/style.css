@@ -1,0 +1,46 @@
+body {
+    background-color: #252830;
+    color: #fff;
+}
+
+.page-title {
+    font-size: 30px;
+}
+
+header.page-header > div {
+    display: inline-block;
+    margin: 10px 0px;
+}
+
+.modal {
+    color: #131418;
+}
+
+section.page-content p {
+    font-size: 25px;
+}
+
+footer img {
+    width: 80px;
+}
+
+footer > section {
+    display: inline-block;
+    margin-right: 60px;
+}
+
+.page-title span {
+    font-size: 15px;
+    margin-left: 5px;
+    text-transform: uppercase;
+    border-bottom: 3px solid #0275d8;
+    display: inline;
+    position: relative;
+    top: -7px;
+    font-weight: bolder;
+}
+
+.container-fluid.steps > * {
+    font-size: 25px;
+    margin-bottom: 15px;
+}
