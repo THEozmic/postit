@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "Ifeanyi",
+    "password": "password",
+    "database": "postit-dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "Ifeanyi",
+    "password": "password",
+    "database": "postit-dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "Ifeanyi",
+    "password": "password",
+    "database": "postit-dev",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
