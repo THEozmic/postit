@@ -1,0 +1,50 @@
+aside.dashboard-menu {
+    display: inline-block;
+    margin-top: 30px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 1px;
+}
+
+aside.dashboard-menu ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+aside.dashboard-menu li {
+    margin: 10px 0px;
+}
+
+aside.dashboard-menu li
+ > a {
+    color: #ccc9c9;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    width: 200px;
+    font-size: 14px;
+}
+
+aside.dashboard-menu li
+ > a.active {
+    background-color: #0275d8;
+    border-radius: 3px;
+}
+
+aside.dashboard-menu li
+ > a:hover {
+    color: #fff;
+}
+
+aside.dashboard-menu li
+ > a.active:hover {
+    color: #ccc9c9;
+}
+
+section.page-container.container-fluid {
+    min-height: 350px;
+}
+.page-content {
+    display: inline-block;
+}

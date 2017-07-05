@@ -5,18 +5,16 @@ body {
 
 .page-title {
     font-size: 30px;
-}
-
-header.page-header > div {
-    display: inline-block;
-    margin: 10px 0px;
+    display: block;
+    text-decoration: none;
+    color: #fff;
 }
 
 .modal {
     color: #131418;
 }
 
-section.page-content p {
+section.page-container p {
     font-size: 25px;
 }
 
@@ -24,9 +22,9 @@ footer img {
     width: 80px;
 }
 
-footer > section {
+footer section {
     display: inline-block;
-    margin-right: 60px;
+    margin: 20px 50px 20px 0px;
 }
 
 .page-title span {
@@ -40,7 +38,9 @@ footer > section {
     font-weight: bolder;
 }
 
-.container-fluid.steps > * {
-    font-size: 25px;
-    margin-bottom: 15px;
+
+
+.page-title:hover {
+    text-decoration: none;
+    color: #fff;
 }

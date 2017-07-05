@@ -7,17 +7,18 @@
         <!-- Stylesheets -->
         <!-- Latest compiled and minified Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-        <link href="css/style.css" rel="stylesheet">
+        <link href="css/general.css" rel="stylesheet">
+        <link href="css/index.css" rel="stylesheet">
    </head>
     <body>
 
-        <header class="page-header container justify-content-center align-items-center">
-            <div class="page-title">Post<span>It</span></div>
+        <header class="page-header container-fluid mt-5">
+            <a class="page-title container justify-content-center align-items-center" href="index.html">Post<span>It</span></a>
         </header>
 
         <section class="page-content container-fluid">
             <div class="container justify-content-center align-items-center">
-                <p class="mt-5">A simple web application that lets you share messages quickly.</p>
+                <p class="mt-5">A web application that lets you easily share messages quickly.</p>
                 <div>
                     <button class="btn btn-primary" data-toggle="modal" data-target="#createAccountModal">Create an account</button>
                     <button class="btn btn-secondary" data-toggle="modal" data-target="#loginModal">Login</button>
@@ -62,7 +63,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Create</button>
+                        <button type="button" class="btn btn-primary" onclick="location.href='dashboard-index.html'">Create</button>
                     </div>
                     </div>
                 </div>
@@ -88,34 +89,37 @@
                                     <label>Password</label>
                                     <input class="form-control" type="password"/>
                                 </div>
+                                <a href="forgot-password.html">Forgot Password?</a>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Login</button>
+                        <button type="button" class="btn btn-primary" onclick="location.href='dashboard-index.html'">Login</button>
                     </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <footer class="container mt-5 fixed-bottom">
-            <section> 
-                <h5>About</h5>
-                <p><strong>PostIt</strong> is an open source web application.</p>
-            </section>
+        <footer class="container-fluid mt-5 bottom">
+            <div class="container justify-content-center align-items-center">
+                <section> 
+                    <h5>About</h5>
+                    <p><strong>PostIt</strong> is an open source web application.</p>
+                </section>
 
-            <section>
-                <h5>Made with love by</h5>
-                <div><img src="images/Landscape-white.png"/></div>
-            </section>
+                <section>
+                    <h5>Made with love by</h5>
+                    <div><img src="images/Landscape-white.png"/></div>
+                </section>
 
-            <section>
-                <h5>Help and support</h5>
-                <a href="#/userguide">User Guide</a></li>
-                
-            </section>
+                <section>
+                    <h5>Help and support</h5>
+                    <a href="#/userguide">User Guide</a></li>
+                    
+                </section>
+            </div>
         </footer>
         <!-- Javascript -->
         <script src="js/main.js"></script>
