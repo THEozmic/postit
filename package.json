@@ -20,7 +20,12 @@
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^4.1.1",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.6.1",
+    "eslint-plugin-react": "^7.1.0"
+  },
   "scripts": {
     "dev": "webpack-dev-server --content-base client --inline --hot"
   }
