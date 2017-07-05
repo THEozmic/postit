@@ -10,7 +10,7 @@
   "globals": {
     "describe": true,
     "expect": true,
-    "React" : true
+    "react" : true
   },
   "parserOptions": {
      "ecmaFeatures" : {

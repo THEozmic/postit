@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
 import '../scss/index.scss';
 import SideMenu from './components/side-menu';
