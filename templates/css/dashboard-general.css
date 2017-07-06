@@ -1,7 +1,7 @@
 aside.dashboard-menu {
     display: inline-block;
     margin-top: 30px;
-    position: sticky;
+    /* position: sticky; */
     position: -webkit-sticky;
     top: 1px;
 }

@@ -1,4 +1,5 @@
 const Groups = require('../models').Groups;
+const Messages = require('../models').Messages;
 
 module.exports = {
   create(req, res) {
@@ -15,5 +16,23 @@ module.exports = {
       .findAll()
       .then(groups => res.status(200).send(groups))
       .catch(error => res.status(400).send(error));
+  },
+  addUser(req, res) {
+    return '{"status": 200}';
+  },
+  message(req, res) {
+    return Messages
+      .create({ 
+        from_user: req.body.from_user,
+        to_group: req.body.to_group
+       })
+      .then(messages => res.status(200).send(messages))
+      .catch(error => res.status(404).send(error));
+  },
+  messages(req, res) {
+    return  Messages
+      .findAll({ where: { id: [req.body.id] } })
+      .then(messages => res.status(200).send(messages))
+      .catch(error => res.status(404).send(error));
   }
 };

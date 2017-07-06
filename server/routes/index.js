@@ -27,5 +27,5 @@ module.exports = (app) => {
 
   // API route that allows a logged in user retrieve messages that
   // have been posted to groups he/she belongs to
-  app.post('/api/group/:id/messages', groupsController.messages);
+  app.put('/api/group/:id/messages', groupsController.messages);
 };
