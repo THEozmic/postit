@@ -13,6 +13,8 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
     "body-parser": "^1.17.2",
+    "chai": "^4.0.2",
+    "chai-http": "^3.0.0",
     "css-loader": "^0.28.4",
     "express": "^4.15.3",
     "morgan": "^1.8.2",
@@ -27,6 +29,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "devDependencies": {
+    "chai": "^4.0.2",
+    "chai-http": "^3.0.0",
     "eslint": "^4.1.1",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.6.1",
@@ -38,6 +42,6 @@
   "scripts": {
     "start:dev": "nodemon ./server/bin/www",
     "dev": "webpack-dev-server --content-base client --inline --hot",
-    "test": "make test"
+    "test": "mocha server/test --timeout 10000"
   }
 }
