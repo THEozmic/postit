@@ -76,7 +76,9 @@ describe('PostIt Tests', () => {
         .type('form')
         .send({
           from_user: '1',
-          message: 'Test message to group'
+          to_group: '1',
+          message: 'Test message to group',
+          priority: 'Normal'
         })
         .end((err, res) => {
           res.status.should.equal(201);
