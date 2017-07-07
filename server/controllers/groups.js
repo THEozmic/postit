@@ -24,9 +24,11 @@ module.exports = {
     return Messages
       .create({ 
         from_user: req.body.from_user,
-        to_group: req.body.to_group
+        to_group: req.body.to_group,
+        message: req.body.message,
+        priority: req.body.priority
        })
-      .then(messages => res.status(200).send(messages))
+      .then(message => res.status(200).send(message))
       .catch(error => res.status(404).send(error));
   },
   messages(req, res) {
