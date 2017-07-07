@@ -76,7 +76,6 @@ describe('PostIt Tests', () => {
         .type('form')
         .send({
           from_user: '1',
-          to_group: '1',
           message: 'Test message to group'
         })
         .end((err, res) => {

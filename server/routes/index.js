@@ -14,13 +14,13 @@ module.exports = (app) => {
   app.get('/api/user', usersController.fetch);
 
   // API route that allow users create broadcast groups
-  app.post('/api/group/', groupsController.create);
+  app.post('/api/group/new', groupsController.create);
 
   // API route to get list of all groups
   app.get('/api/group/', groupsController.fetch);
 
   // API route that allow users add other users to groups
-  app.post('/api/group/:id/user', groupsController.addUser);
+  app.post('/api/group/:id/add/:user_id', groupsController.addUser);
 
   // API route that allows a logged in user post messages to created groups
   app.post('/api/group/:id/message', groupsController.message);

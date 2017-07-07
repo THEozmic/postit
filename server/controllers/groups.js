@@ -24,7 +24,8 @@ module.exports = {
     return Messages
       .create({ 
         from_user: req.body.from_user,
-        to_group: req.body.to_group
+        to_group: req.body.id,
+        message: req.body.message
        })
       .then(messages => res.status(200).send(messages))
       .catch(error => res.status(404).send(error));
