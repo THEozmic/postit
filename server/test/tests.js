@@ -87,21 +87,21 @@ describe('PostIt Tests', () => {
     });
   });
 
-  // describe('Testing all update routes', () => {
-  //   it('returns message read status', (done) => {
-  //     chai.request(app)
-  //       .put('/api/group/1/messages')
-  //       .type('form')
-  //       .send({
-  //         user: '1'
-  //       })
-  //       .end((err, res) => {
-  //         res.status.should.equal(200);
-  //         res.group.should.equal('1');
-  //         done();
-  //       });
-  //   });
-  // });
+  describe('Testing all update routes', () => {
+    it('returns message read status', (done) => {
+      chai.request(app)
+        .put('/api/group/1/messages')
+        .type('form')
+        .send({
+          user: '1'
+        })
+        .end((err, res) => {
+          res.status.should.equal(200);
+          res.group.should.equal('1');
+          done();
+        });
+    });
+  });
 
   // describe('Testing route authentication', () => {
   //   it('returns error when logged out user tries to create group', (done) => {
