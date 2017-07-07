@@ -58,7 +58,7 @@ describe('PostIt Tests', () => {
     });
     it('returns new group', (done) => {
       chai.request(app)
-        .post('/api/group/')
+        .post('/api/group/new')
         .type('form')
         .send({
           name: 'Test Group',
