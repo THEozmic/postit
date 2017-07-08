@@ -1,6 +1,5 @@
 process.env.NODE_ENV = 'test';
 
-const models = require('../models');
 const app = require('../app');
 const chaiHttp = require('chai-http');
 const chai = require('chai');
@@ -9,9 +8,9 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('PostIt Tests', () => {
-  describe('Testing get routes', () => {
-    it('returns all registered users', (done) => {
+describe('PostIt Tests: ', () => {
+  describe('Retrieving data', () => {
+    it('GET /api/user/ does get all registered users', (done) => {
       chai.request(app)
         .get('/api/user/')
         .end((err, res) => {
@@ -20,7 +19,7 @@ describe('PostIt Tests', () => {
           done();
         });
     });
-    it('returns all created groups', (done) => {
+    it('GET /api/group/ does get all created groups', (done) => {
       chai.request(app)
         .get('/api/group/')
         .end((err, res) => {
@@ -29,9 +28,9 @@ describe('PostIt Tests', () => {
           done();
         });
     });
-    it('returns all messages in a group', (done) => {
+    it('GET /api/group/:id/messages/ does get all messages in a group', (done) => {
       chai.request(app)
-        .put('/api/group/1/messages')
+        .get('/api/group/1/messages/')
         .end((err, res) => {
           res.body.should.be.a('array');
           res.should.have.status(200);
@@ -40,10 +39,10 @@ describe('PostIt Tests', () => {
     });
   });
 
-  describe('Testing all create routes', () => {
-    it('returns new user', (done) => {
+  describe('Creating data: ', () => {
+    it('POST /api/user/signup/ does create new user', (done) => {
       chai.request(app)
-        .post('/api/user/signup')
+        .post('/api/user/signup/')
         .type('form')
         .send({
           password: '123',
@@ -56,9 +55,9 @@ describe('PostIt Tests', () => {
           done();
         });
     });
-    it('returns new group', (done) => {
+    it('POST /api/group/new/ does create new group', (done) => {
       chai.request(app)
-        .post('/api/group/new')
+        .post('/api/group/new/')
         .type('form')
         .send({
           name: 'Test Group',
@@ -70,9 +69,9 @@ describe('PostIt Tests', () => {
           done();
         });
     });
-    it('returns new message', (done) => {
+    it('POST /api/group/:id/message/ does create new group message', (done) => {
       chai.request(app)
-        .post('/api/group/1/message')
+        .post('/api/group/1/message/')
         .type('form')
         .send({
           from_user: '1',
@@ -82,22 +81,6 @@ describe('PostIt Tests', () => {
         })
         .end((err, res) => {
           res.status.should.equal(201);
-          done();
-        });
-    });
-  });
-
-  describe('Testing all update routes', () => {
-    it('returns message read status', (done) => {
-      chai.request(app)
-        .put('/api/group/1/messages')
-        .type('form')
-        .send({
-          user: '1'
-        })
-        .end((err, res) => {
-          res.status.should.equal(200);
-          res.group.should.equal('1');
           done();
         });
     });

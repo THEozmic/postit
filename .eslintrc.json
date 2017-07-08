@@ -5,7 +5,7 @@
     "node": true,
     "browser": true,
     "es6": true,
-    "mocha": true,
+    "mocha": true
   },
   "globals": {
     "describe": true,

@@ -22,18 +22,21 @@ module.exports = {
   },
   message(req, res) {
     return Messages
-      .create({ 
+      .create({
         from_user: req.body.from_user,
         to_group: req.body.to_group,
         message: req.body.message,
         priority: req.body.priority
-       })
+      })
       .then(message => res.status(200).send(message))
       .catch(error => res.status(404).send(error));
   },
   messages(req, res) {
-    return  Messages
-      .findAll({ where: { id: [req.body.id] } })
+    return Messages
+      .findAll({
+        where: { to_group: [req.params.id] },
+        attributes: ['id', 'message', 'from_user', 'to_group', 'priority']
+      })
       .then(messages => res.status(200).send(messages))
       .catch(error => res.status(404).send(error));
   }

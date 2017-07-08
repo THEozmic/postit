@@ -1,6 +1,7 @@
 const usersController = require('../controllers').users;
 const groupsController = require('../controllers').groups;
-const messageController  = require('../controllers').messages;
+const messageController = require('../controllers').messages;
+const readMessagesController = require('../controllers').readMessages;
 
 module.exports = (app) => {
   app.get('/api', (req, res) => res.status(200).send({
@@ -26,7 +27,9 @@ module.exports = (app) => {
   // API route that allows a logged in user post messages to created groups
   app.post('/api/group/:id/message', messageController.create);
 
-  // API route that allows a logged in user retrieve messages that
-  // have been posted to groups he/she belongs to
+  // API route that allows a logged in user retrieve messages from group
   app.get('/api/group/:id/messages', groupsController.messages);
+
+  // API route that marks messages as read
+  app.post('/api/group/:id/messages', readMessagesController.create);
 };
