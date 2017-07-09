@@ -16,4 +16,5 @@ before_script:
   - createuser Ifeanyi -s -U postgres
   - createdb postit-dev --username=Ifeanyi
   - sequelize db:migrate
-after_script: istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+after_success:
+- npm run coveralls
