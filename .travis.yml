@@ -13,5 +13,3 @@ before_install:
     - sh -e /etc/init.d/xvfb start
 before_script:
     - npm install
-    - nodemon ./server/bin/www --exec babel-node ./server/app
-    - mocha --compilers js:babel-core/register server/test --timeout 10000 --watch
