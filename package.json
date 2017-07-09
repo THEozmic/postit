@@ -41,7 +41,7 @@
   "scripts": {
     "start:dev": "nodemon ",
     "dev": "webpack-dev-server --content-base client --inline --hot",
-    "test": "mocha --compilers js:babel-core/register server/test --timeout 10000 --watch",
+    "test": "mocha --compilers js:babel-core/register server/test --timeout 10000",
     "exec": "nodemon ./server/bin/www --exec babel-node ./server/app"
   }
 }

@@ -10,6 +10,8 @@ script:
     - npm test
 services:
   - postgresql
+cache: 
+  - npm install
 before_script:
   - createuser Ifeanyi -s -U postgres
   - createdb postit-dev --username=Ifeanyi
