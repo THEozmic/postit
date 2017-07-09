@@ -13,3 +13,4 @@ services:
 before_script:
   - createuser Ifeanyi -s -U postgres
   - createdb postit-dev --username=Ifeanyi
+  - sequelize db:migrate
