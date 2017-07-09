@@ -1,11 +1,7 @@
-const users = require('./users');
-const groups = require('./groups');
-const messages = require('./messages');
-const readMessages = require('./readmessages');
+import users from './users';
+import groups from './groups';
+import messages from './messages';
+import groupUsers from './groupusers';
 
-module.exports = {
-  users,
-  groups,
-  messages,
-  readMessages
-};
+const controllers = { users, groups, messages, groupUsers };
+export default controllers;

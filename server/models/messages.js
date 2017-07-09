@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const Messages = sequelize.define('Messages', {
     from_user: {
       type: DataTypes.STRING,

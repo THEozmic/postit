@@ -1,6 +1,17 @@
 language: node_js
-before_install:
-- npm install
-branches:
+branches: 
   only:
-  - server
+      - master
+services: # enable various services
+  - postgres
+node_js:
+    - "0.10"
+script: 
+  
+before_install:
+    - export DISPLAY=:99.0
+    - sh -e /etc/init.d/xvfb start
+before_script:
+    - npm install
+    - nodemon ./server/bin/www --exec babel-node ./server/app
+    - mocha --compilers js:babel-core/register server/test --timeout 10000 --watch

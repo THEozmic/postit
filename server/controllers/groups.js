@@ -1,9 +1,8 @@
-const Groups = require('../models').Groups;
-const Messages = require('../models').Messages;
+import models from '../models';
 
-module.exports = {
+export default {
   create(req, res) {
-    return Groups
+    return models.Groups
       .create({
         name: req.body.name,
         type: req.body.type
@@ -12,16 +11,13 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
   fetch(req, res) {
-    return Groups
+    return models.Groups
       .findAll()
       .then(groups => res.status(200).send(groups))
       .catch(error => res.status(400).send(error));
   },
-  addUser(req, res) {
-    return '{"status": 200}';
-  },
   message(req, res) {
-    return Messages
+    return models.Messages
       .create({
         from_user: req.body.from_user,
         to_group: req.body.to_group,
@@ -32,11 +28,33 @@ module.exports = {
       .catch(error => res.status(404).send(error));
   },
   messages(req, res) {
-    return Messages
+    // models.sequelize.query(`SELECT * FROM "Messages" WHERE to_group = '${[req.params.id]}'`,
+    //   { type: models.sequelize.QueryTypes.SELECT,
+    //     include: [{ association: 'GroupUsers' }],
+    models.Messages
       .findAll({
         where: { to_group: [req.params.id] },
-        attributes: ['id', 'message', 'from_user', 'to_group', 'priority']
+        attributes: ['id', 'message', 'from_user', 'to_group', 'priority', 'createdAt'],
+        //     // include: [{
+        //     //   model: models.GroupUsers,
+        //     //   as: 'members_seen',
+        //     //   include: [{
+        //     //     model: models.Messages,
+        //     //     where: {
+        //     //       to_group: [req.params.id],
+        //     //       updated_at
+        //     //     },
+        //     //     required: false
+        //     //   }]
+        //     // }]
       })
+      // .then((messages) => {
+      //   if (messages) {
+      //     for (let i = 0; i < messages.length; i += 1) {
+      //       models
+      //     }
+      //   }
+      // })
       .then(messages => res.status(200).send(messages))
       .catch(error => res.status(404).send(error));
   }
