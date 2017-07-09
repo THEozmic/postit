@@ -5,6 +5,6 @@ branches:
 services: # enable various services
   - postgres
 node_js:
-    - "0.10"
+    - "6.11.0"
 before_script:
     - npm install
