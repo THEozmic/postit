@@ -34,7 +34,7 @@
     "webpack": "^2.6.1"
   },
   "devDependencies": {
-    "eslint": "^4.1.1",
+    "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.6.1",
     "eslint-plugin-react": "^7.1.0"
