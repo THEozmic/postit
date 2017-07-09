@@ -12,4 +12,4 @@ services:
   - postgresql
 before_script:
   - createuser Ifeanyi -s -U postgres
-  - psql -c 'create database postit-dev;' -U Ifeanyi
+  - psql -c postit-dev -U Ifeanyi
