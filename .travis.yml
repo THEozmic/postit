@@ -2,9 +2,9 @@ language: node_js
 branches: 
   only:
       - master
-services: # enable various services
-  - postgres
 node_js:
     - "6.11.0"
-before_script:
+install:
     - npm install
+script:
+    - npm test
