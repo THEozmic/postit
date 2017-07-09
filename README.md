@@ -1,3 +1,5 @@
+**STATUS**
+https://travis-ci.org/THEozmic/postit.svg?branch=master
 **POSTIT**
 > - A simple web application that lets users send messages as broadcast to friends and colleagues
 
