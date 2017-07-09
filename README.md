@@ -1,5 +1,6 @@
 **STATUS**
 > - [![Build Status](https://travis-ci.org/THEozmic/postit.svg?branch=master)](https://travis-ci.org/THEozmic/postit)
+> - [![Coverage Status](https://coveralls.io/repos/github/THEozmic/postit/badge.svg)](https://coveralls.io/github/THEozmic/postit)
 
 **POSTIT**
 > - A simple web application that lets users send messages as broadcast to friends and colleagues
