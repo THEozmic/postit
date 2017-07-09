@@ -1,6 +1,6 @@
 {
   "name": "postit",
-  "version": "^4",
+  "version": "6.11.0",
   "private": true,
   "dependencies": {
     "babel-cli": "^6.24.1",
