@@ -38,15 +38,14 @@
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.6.1",
     "eslint-plugin-react": "^7.1.0",
-    "mocha-lcov-reporter": "^1.3.0"
+    "mocha-lcov-reporter": "^1.3.0",
+    "nyc": "^11.0.3"
   },
   "scripts": {
     "start:dev": "nodemon ",
     "dev": "webpack-dev-server --content-base client --inline --hot",
-    "test": "mocha --compilers js:babel-core/register server/test --timeout 10000",
-    "test-dev": "mocha --compilers js:babel-core/register server/test --timeout 10000 --watch",
-    "exec": "nodemon ./server/bin/www --exec babel-node ./server/app",
-    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha server/test/tests",
-    "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
+    "test": "nyc mocha --compilers js:babel-core/register server/test --timeout 10000",
+    "test-dev": "mocha --compilers js:babel-core/register server/test --timeout 10000 --watch",    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha server/test/tests",
+    "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test"
   }
 }
