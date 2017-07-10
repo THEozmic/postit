@@ -35,9 +35,9 @@ models.GroupUsers.destroy({
 
 describe('PostIt Tests: ', () => {
   describe('Creating data: ', () => {
-    it('POST /api/user/signup/ does create new user', (done) => {
+    it('POST /api/users/signup/ does create new user', (done) => {
       chai.request(app)
-        .post('/api/user/signup/')
+        .post('/api/users/signup/')
         .type('form')
         .send({
           password: 'testpassword',
@@ -50,9 +50,9 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('POST /api/user/signin/ does login user', (done) => {
+    it('POST /api/users/signin/ does login user', (done) => {
       chai.request(app)
-        .post('/api/user/signin/')
+        .post('/api/users/signin/')
         .type('form')
         .send({
           password: 'testpassword',
@@ -65,9 +65,9 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('POST /api/group/ does create new group', (done) => {
+    it('POST /api/groups/ does create new group', (done) => {
       chai.request(app)
-        .post('/api/group/')
+        .post('/api/groups/')
         .type('form')
         .send({
           name: 'Test Group',
@@ -80,9 +80,9 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('POST /api/group/:id/user does add user to group', (done) => {
+    it('POST /api/groups/:id/user does add user to group', (done) => {
       chai.request(app)
-        .post('/api/group/:id/user')
+        .post('/api/groups/:id/user')
         .type('form')
         .send({
           user_id: '1',
@@ -96,9 +96,9 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('POST /api/group/:id/message/ does create new group message', (done) => {
+    it('POST /api/groups/:id/message/ does create new group message', (done) => {
       chai.request(app)
-        .post('/api/group/1/message/')
+        .post('/api/groups/1/message/')
         .type('form')
         .send({
           from_user: '1',
@@ -116,9 +116,9 @@ describe('PostIt Tests: ', () => {
   });
 
   describe('Retrieving data', () => {
-    it('GET /api/user/ does get all registered users', (done) => {
+    it('GET /api/users/ does get all registered users', (done) => {
       chai.request(app)
-        .get(`/api/user/?token=${token}`)
+        .get(`/api/users/?token=${token}`)
         .end((err, res) => {
           res.status.should.equals(200);
           res.body.should.be.a('array');
@@ -126,9 +126,9 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('GET /api/group/ does get all created groups', (done) => {
+    it('GET /api/groups/ does get all created groups', (done) => {
       chai.request(app)
-        .get(`/api/group/?token=${token}`)
+        .get(`/api/groups/?token=${token}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
@@ -136,9 +136,9 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('GET /api/group/:id/messages/ does get all messages in a group', (done) => {
+    it('GET /api/groups/:id/messages/ does get all messages in a group', (done) => {
       chai.request(app)
-        .get(`/api/group/1/messages/?token=${token}`)
+        .get(`/api/groups/1/messages/?token=${token}`)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
@@ -149,9 +149,9 @@ describe('PostIt Tests: ', () => {
   });
 
   describe('Routes are protected', () => {
-    it('POST /api/group/ is protected', (done) => {
+    it('POST /api/groups/ is protected', (done) => {
       chai.request(app)
-        .post('/api/group/')
+        .post('/api/groups/')
         .type('form')
         .send({
           name: 'Test Group',
@@ -162,9 +162,9 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('POST /api/group/:id/user is protected', (done) => {
+    it('POST /api/groups/:id/user is protected', (done) => {
       chai.request(app)
-        .post('/api/group/:id/user')
+        .post('/api/groups/:id/user')
         .type('form')
         .send({
           user_id: '1',
@@ -176,9 +176,9 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('POST /api/group/:id/message/ is protected', (done) => {
+    it('POST /api/groups/:id/message/ is protected', (done) => {
       chai.request(app)
-        .post('/api/group/1/message/')
+        .post('/api/groups/1/message/')
         .type('form')
         .send({
           from_user: '1',
