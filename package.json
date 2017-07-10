@@ -46,7 +46,7 @@
     "test": "mocha --compilers js:babel-core/register server/test --timeout 10000",
     "test-dev": "mocha --compilers js:babel-core/register server/test --timeout 10000 --watch",
     "exec": "nodemon ./server/bin/www --exec babel-node ./server/app",
-    "cover": "istanbul cover test",
+    "cover": "istanbul cover ./node_modules/mocha/bin/_mocha server/test/tests",
     "coveralls": "npm run cover -- --report lcovonly && cat ./coverage/lcov.info | coveralls"
   }
 }
