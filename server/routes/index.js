@@ -3,11 +3,10 @@ import controllers from '../controllers';
 
 export default (app) => {
   // API routes for users to create accounts and login to the application
-  app.post('/api/user/signup', controllers.users.create);
-  app.post('/api/user/signin', controllers.users.auth);
+  app.post('/api/users/signup/', controllers.users.create);
+  app.post('/api/users/signin/', controllers.users.auth);
 
   app.use((req, res, next) => {
-    // exclude these url from this middleware
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
     jwt.verify(token, 'Armageddon', (err, decoded) => {
       if (err) {
@@ -22,16 +21,16 @@ export default (app) => {
     });
   });
 
-  app.get('/api', (req, res) => res.status(200).send({
+  app.post('/api', (req, res) => res.status(200).send({
     message: 'Welcome to the PostIT API',
   }));
 
-  app.post('/api', (req, res) => res.status(200).send({
+  app.get('/api/', (req, res) => res.status(200).send({
     message: 'Welcome to the PostIT API'
   }));
 
   // API route to get list of all users
-  app.get('/api/users', controllers.users.fetch);
+  app.get('/api/users/', controllers.users.fetch);
 
   // API route that allow users create broadcast groups
   app.post('/api/groups/', controllers.groups.create);
@@ -40,11 +39,11 @@ export default (app) => {
   app.get('/api/groups/', controllers.groups.fetch);
 
   // API route that allow users add other users to groups
-  app.post('/api/groups/:id/user', controllers.groupUsers.addUser);
+  app.post('/api/groups/:id/user/', controllers.groupUsers.addUser);
 
   // API route that allows a logged in user post messages to created groups
-  app.post('/api/groups/:id/message', controllers.messages.create);
+  app.post('/api/groups/:id/message/', controllers.messages.create);
 
   // API route that allows a logged in user retrieve messages from group
-  app.get('/api/groups/:id/messages', controllers.groups.messages);
+  app.get('/api/groups/:id/messages/', controllers.groups.messages);
 };

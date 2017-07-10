@@ -26,7 +26,7 @@ export default {
         // create a token
           const token = jwt.sign({
             data: user[0]
-          }, 'secret', { expiresIn: '1h' });
+          }, 'Armageddon', { expiresIn: '1h' });
 
           res.status(202).send({
             token,
