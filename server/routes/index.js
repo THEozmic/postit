@@ -9,7 +9,7 @@ export default (app) => {
   app.use((req, res, next) => {
     // exclude these url from this middleware
     const token = req.body.token || req.query.token || req.headers['x-access-token'];
-    jwt.verify(token, 'secret', (err, decoded) => {
+    jwt.verify(token, 'Armageddon', (err, decoded) => {
       if (err) {
         res.status(401).send({
           message: 'user not authenticated, invalid access token'
