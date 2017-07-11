@@ -38,6 +38,9 @@ export default (app) => {
   // API route to get list of all groups
   app.get('/api/groups/', controllers.groups.fetch);
 
+  // API route to get list of all members in a group
+  app.get('/api/groups/:id', controllers.groups.fetchMembers);
+
   // API route that allow users add other users to groups
   app.post('/api/groups/:id/user/', controllers.groupUsers.addUser);
 
