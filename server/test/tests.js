@@ -193,7 +193,6 @@ describe('PostIt Tests: ', () => {
   });
 
   describe('Inputes are validated', () => {
-
     it('POST /api/groups/ is validated', (done) => {
       chai.request(app)
         .post('/api/groups/')
