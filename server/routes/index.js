@@ -5,9 +5,9 @@ export default (app) => {
   // API routes for users to create accounts and login to the application
   app.post('/api/users/signup/', controllers.users.create);
   app.post('/api/users/signin/', controllers.users.auth);
-
+  let token;
   app.use((req, res, next) => {
-    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    token = req.body.token || req.query.token || req.headers['x-access-token'];
     jwt.verify(token, 'Armageddon', (err, decoded) => {
       if (err) {
         res.status(401).send({
@@ -19,6 +19,13 @@ export default (app) => {
       req.decoded = decoded;
       next();
     });
+  });
+
+  app.use((req, res, next) => {
+    if (token) {
+      res.set('token', token);
+    }
+    next();
   });
 
   app.post('/api', (req, res) => res.status(200).send({
