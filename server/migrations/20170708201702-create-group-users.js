@@ -8,13 +8,15 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_id: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       group_id: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      update_trigger: {
-        type: Sequelize.STRING
+      last_seen: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
