@@ -16,6 +16,11 @@ export default (sequelize, DataTypes) => {
     classMethods: {
       associate: (models) => {
         // associations can be defined here
+        Users.belongsToMany(models.Groups, {
+          through: {
+            model: 'GroupMembers'
+          }
+        });
       }
     }
   });
