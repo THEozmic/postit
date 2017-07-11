@@ -18,7 +18,7 @@ before_script:
   - sequelize db:migrate
 after_success:
 - npm run coveralls
-after_script:
-- "./node_modules/coveralls/bin/coveralls.js"
+# after_script:
+# - "./node_modules/coveralls/bin/coveralls.js"
 notifications:
   webhooks: https://coveralls.io/webhook?repo_token=wBlDofmDPhojs4ZHiyOuWA5qkhfeUss0x
