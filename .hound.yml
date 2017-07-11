@@ -4,3 +4,4 @@ exclude:
   - "template/**"
 sass-lint:
   enabled: true
+fail_on_violations: true
