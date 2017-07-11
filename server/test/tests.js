@@ -87,7 +87,7 @@ describe('PostIt Tests: ', () => {
         .send({
           user_id: '1',
           group_id: '1',
-          last_seen: 'null',
+          update_trigger: 'null',
           token
         })
         .end((err, res) => {
