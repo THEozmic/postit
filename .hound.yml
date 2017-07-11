@@ -5,4 +5,6 @@ exclude:
 sass-lint:
   enabled: true
 fail_on_violations: true
+jshint:
+  config_file: .jshintrc
 esversion: 6
