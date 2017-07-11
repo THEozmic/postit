@@ -82,12 +82,11 @@ describe('PostIt Tests: ', () => {
     });
     it('POST /api/groups/:id/user does add user to group', (done) => {
       chai.request(app)
-        .post('/api/groups/:id/user')
+        .post('/api/groups/1/user')
         .type('form')
         .send({
           user_id: '1',
           group_id: '1',
-          update_trigger: 'null',
           token
         })
         .end((err, res) => {
