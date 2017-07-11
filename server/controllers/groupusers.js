@@ -4,9 +4,9 @@ export default {
   addUser(req, res) {
     return models.GroupUsers
       .create({
-        user_id: req.body.user_id,
+        user_id: req.params.id,
         group_id: req.body.group_id,
-        update_trigger: ''
+        last_seen: Date.now()
       })
       .then(result => res.status(201).send(result))
       .catch(error => res.status(400).send(error));
