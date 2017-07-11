@@ -8,13 +8,12 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    update_trigger: {
+    last_seen: {
       // when the value of this is changed, the updated_at column changes too
       // it is changed each time the user logs in and opens the group
       // it is used to track the "last_seen" time of the user in the group and that is
       // used to determine the "read" status of a message
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.DATE
     }
   }, {
     classMethods: {

@@ -2,16 +2,23 @@ language: node_js
 branches: 
   only:
       - master
-services: # enable various services
-  - postgres
 node_js:
-    - "0.10"
-script: 
-  
-before_install:
-    - export DISPLAY=:99.0
-    - sh -e /etc/init.d/xvfb start
-before_script:
+    - "6.11.0"
+install:
     - npm install
-    - nodemon ./server/bin/www --exec babel-node ./server/app
-    - mocha --compilers js:babel-core/register server/test --timeout 10000 --watch
+script:
+    - npm test
+services:
+  - postgresql
+cache: 
+  - npm install
+before_script:
+  - createuser Ifeanyi -s -U postgres
+  - createdb postit-dev --username=Ifeanyi
+  - sequelize db:migrate
+after_success:
+- npm run coveralls
+# after_script:
+# - "./node_modules/coveralls/bin/coveralls.js"
+notifications:
+  webhooks: https://coveralls.io/webhook?repo_token=wBlDofmDPhojs4ZHiyOuWA5qkhfeUss0x
