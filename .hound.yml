@@ -1,10 +1,4 @@
-scss:
-  enabled: true
-exclude:
-  - "template/**"
-sass-lint:
-  enabled: true
-fail_on_violations: true
 eslint:
   enabled: true
   config_file: .eslintrc
+fail_on_violations: true
