@@ -191,4 +191,93 @@ describe('PostIt Tests: ', () => {
         });
     });
   });
+
+  describe('Inputes are validated', () => {
+
+    it('POST /api/groups/ is validated', (done) => {
+      chai.request(app)
+        .post('/api/groups/')
+        .type('form')
+        .send({
+          type: 'public',
+          token
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.message.should.equal('Param: "name" is required');
+          done();
+        });
+    });
+
+    it('POST /api/groups/ is validated', (done) => {
+      chai.request(app)
+        .post('/api/groups/')
+        .type('form')
+        .send({
+          name: 'Test group'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.message.should.equal('Param: "type" is required');
+          done();
+        });
+    });
+    it('POST /api/groups/:id/user is validated', (done) => {
+      chai.request(app)
+        .post('/api/groups/:id/user')
+        .type('form')
+        .send({
+          group_id: '1',
+          last_seen: 'null'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.message.should.equal('Param: "user_id" is required');
+          done();
+        });
+    });
+    it('POST /api/groups/:id/user is validated', (done) => {
+      chai.request(app)
+        .post('/api/groups/:id/user')
+        .type('form')
+        .send({
+          user_id: '1',
+          last_seen: 'null'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          res.body.message.should.equal('Param: "group_id" is required');
+          done();
+        });
+    });
+    it('POST /api/groups/:id/user is validated', (done) => {
+      chai.request(app)
+        .post('/api/groups/:id/user')
+        .type('form')
+        .send({
+          user_id: '1',
+          group_id: '1'
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.message.should.equal('Param: "last_seen" is NOT required');
+          done();
+        });
+    });
+    it('POST /api/groups/:id/message/ is validated', (done) => {
+      chai.request(app)
+        .post('/api/groups/1/message/')
+        .type('form')
+        .send({
+          to_group: '1',
+          message: 'Test message to group',
+          priority: 'Normal'
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          res.body.message.should.equal('Param: "last_seen" is NOT required');
+          done();
+        });
+    });
+  });
 });
