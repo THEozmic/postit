@@ -21,13 +21,6 @@ export default (app) => {
     });
   });
 
-  app.use((req, res, next) => {
-    if (token) {
-      res.set('token', token);
-    }
-    next();
-  });
-
   app.post('/api', (req, res) => res.status(200).send({
     message: 'Welcome to the PostIT API',
   }));
