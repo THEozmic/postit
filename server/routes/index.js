@@ -7,7 +7,7 @@ export default (app) => {
   app.post('/api/users/signin/', controllers.users.auth);
   let token;
   app.use((req, res, next) => {
-    token = req.body.token || req.query.token || req.headers['x-access-token'];
+    token = req.headers['x-access-token'];
     jwt.verify(token, 'Armageddon', (err, decoded) => {
       if (err) {
         res.status(401).send({

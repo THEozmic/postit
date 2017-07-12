@@ -118,7 +118,8 @@ describe('PostIt Tests: ', () => {
   describe('Retrieving data', () => {
     it('GET /api/users/ does get all registered users', (done) => {
       chai.request(app)
-        .get(`/api/users/?token=${token}`)
+        .get('/api/users/')
+        .set('x-access-token', token)
         .end((err, res) => {
           res.status.should.equals(200);
           res.body.should.be.a('array');
@@ -128,7 +129,7 @@ describe('PostIt Tests: ', () => {
     });
     it('GET /api/groups/ does get all created groups', (done) => {
       chai.request(app)
-        .get(`/api/groups/?token=${token}`)
+        .get('/api/groups/')
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
@@ -138,7 +139,7 @@ describe('PostIt Tests: ', () => {
     });
     it('GET /api/groups/:id/messages/ does get all messages in a group', (done) => {
       chai.request(app)
-        .get(`/api/groups/1/messages/?token=${token}`)
+        .get('/api/groups/1/messages/')
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
