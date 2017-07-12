@@ -6,7 +6,8 @@ export default (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unqiue: true
     },
     password: {
       type: DataTypes.STRING,
