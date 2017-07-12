@@ -14,10 +14,10 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "Ifeanyi",
-    "password": "password",
-    "database": "postit_dev",
-    "host": "https://postit-michael.herokuapp.com",
+    "username": "qyzxythpfkvxlt",
+    "password": "fcf1fa2f09f0b48bed942809f27d2695423247d5a31621f18c25901a82cba8e6",
+    "database": "d4nq09rjst5t70",
+    "host": "postgres://qyzxythpfkvxlt:fcf1fa2f09f0b48bed942809f27d2695423247d5a31621f18c25901a82cba8e6@ec2-107-21-109-15.compute-1.amazonaws.com:5432/d4nq09rjst5t70",
     "dialect": "postgres"
   }
 }
