@@ -10,13 +10,23 @@ export default {
         password: req.body.password
       })
       .then(user => res.status(201).send(user))
-      .catch(error => res.status(400).send(error));
+      .catch((error) => {
+        const newError = {};
+        newError.message = error.message;
+        newError.code = 400;
+        return newError;
+      });
   },
   fetch(req, res) {
     return models.Users
       .findAll()
       .then(users => res.status(200).send(users))
-      .catch(error => res.status(400).send(error));
+      .catch((error) => {
+        const newError = {};
+        newError.message = error.message;
+        newError.code = 400;
+        return newError;
+      });
   },
   auth(req, res) {
     models.Users
