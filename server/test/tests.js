@@ -278,5 +278,31 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
+    it('POST /api/users/signup/ raises duplicate email error', (done) => {
+      chai.request(app)
+        .post('/api/users/signup/')
+        .type('form')
+        .send({
+          password: 'testpassword',
+          email: 'test@user.com'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+    it('POST /api/users/signup/ raises duplicate username error', (done) => {
+      chai.request(app)
+        .post('/api/users/signup/')
+        .type('form')
+        .send({
+          password: 'testpassword',
+          username: 'testusername'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
   });
 });
