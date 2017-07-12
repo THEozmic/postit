@@ -20,12 +20,15 @@ export default {
     return models.Groups
       .findById(req.params.id, {
         include: [{
-          model: models.Users,
+          model: models.GroupUsers,
           as: 'users',
         }],
       })
       .then(groups => res.status(200).send(groups))
-      .catch(error => res.status(400).send(error));
+      .catch((error) => {
+        console.log(error);
+        res.status(400).send(error);
+      });
   },
   message(req, res) {
     return models.Messages

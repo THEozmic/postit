@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize)=> {
+  up: (queryInterface, Sequelize) => {
     queryInterface.createTable('GroupUsers', {
       id: {
         allowNull: false,
@@ -9,11 +9,19 @@ module.exports = {
       },
       user_id: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       group_id: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Groups',
+          key: 'id'
+        }
       },
       last_seen: {
         type: Sequelize.DATE
@@ -28,7 +36,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface /* , Sequelize */) => {
     queryInterface.dropTable('GroupUsers');
   }
 };

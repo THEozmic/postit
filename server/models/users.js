@@ -16,9 +16,10 @@ export default (sequelize, DataTypes) => {
     classMethods: {
       associate: (models) => {
         // associations can be defined here
-        // Users.belongsToMany(models.Groups, {
-        //   through: {
-        //     model: 'GroupMembers'
+        // Users.hasMany(models.GroupUsers, {
+        //   foreignKey: {
+        //     name: 'user_id',
+        //     onDelete: 'CASCADE'
         //   }
         // });
       }
