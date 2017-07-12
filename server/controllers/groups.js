@@ -2,6 +2,15 @@ import models from '../models';
 
 export default {
   create(req, res) {
+    if (!req.body.name) {
+      res.status(400).send({ message: 'Param: "name" is required' });
+      return;
+    }
+
+    if (!req.body.type) {
+      res.status(400).send({ message: 'Param: "type" is required' });
+      return;
+    }
     return models.Groups
       .create({
         name: req.body.name,

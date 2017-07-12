@@ -21,12 +21,8 @@ export default (app) => {
     });
   });
 
-  app.post('/api', (req, res) => res.status(200).send({
+  app.all('/api', (req, res) => res.status(200).send({
     message: 'Welcome to the PostIT API',
-  }));
-
-  app.get('/api/', (req, res) => res.status(200).send({
-    message: 'Welcome to the PostIT API'
   }));
 
   // API route to get list of all users
