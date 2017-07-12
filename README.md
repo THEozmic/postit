@@ -22,6 +22,6 @@
 **INSTALLATION**
 > - Run `npm install` to install dependencies/dev-dependencies
 > - Setup Postgres
-  - setup your db according to settings in `server/config/config.json`
-  - then run `$ sequelize db:migrate`
+> - setup your db according to settings in `server/config/config.json`
+> - then run `$ sequelize db:migrate`
 > - Run `npm run exec` to start server
