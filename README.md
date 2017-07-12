@@ -20,6 +20,7 @@
 > - server: container express/postgres implementation of the backend
 
 **INSTALLATION**
+> - Clone the repo
 > - Run `npm install` to install dependencies/dev-dependencies
 > - Setup Postgres
 > - setup your db according to settings in `server/config/config.json`
