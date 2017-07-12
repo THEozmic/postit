@@ -2,22 +2,22 @@
   "development": {
     "username": "Ifeanyi",
     "password": "password",
-    "database": "postit-dev",
+    "database": "postit_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "Ifeanyi",
     "password": "password",
-    "database": "postit-dev",
+    "database": "postit_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
     "username": "Ifeanyi",
     "password": "password",
-    "database": "postit-dev",
-    "host": "127.0.0.1",
+    "database": "postit_dev",
+    "host": "https://postit-michael.herokuapp.com",
     "dialect": "postgres"
   }
 }
