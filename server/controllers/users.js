@@ -1,31 +1,39 @@
 import jwt from 'jsonwebtoken';
 import models from '../models';
 
+const newRes = {};
 export default {
   create(req, res) {
     return models.Users
       .create({
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        phone: req.body.phone
       })
-      .then(user => res.status(201).send(user))
+      .then((user) => {
+        newRes.message = user.message;
+        newRes.code = 201;
+        newRes.success = true;
+        res.status(newRes.code).send(newRes);
+      })
       .catch((error) => {
-        const newError = {};
-        newError.message = error.message;
-        newError.code = 400;
-        return newError;
+        newRes.message = `${error.message}. username or email is taken`;
+        newRes.code = 400;
+        newRes.success = false;
+        res.status(newRes.code).send(newRes);
       });
   },
   fetch(req, res) {
     return models.Users
-      .findAll()
+      .findAll({ attributes:
+        ['id', 'username', 'email', 'phone', 'createdAt', 'updatedAt'] })
       .then(users => res.status(200).send(users))
       .catch((error) => {
-        const newError = {};
-        newError.message = error.message;
-        newError.code = 400;
-        return newError;
+        newRes.message = error.message;
+        newRes.code = 400;
+        newRes.success = false;
+        res.status(newRes.code).send(newRes);
       });
   },
   auth(req, res) {
