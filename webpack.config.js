@@ -1,11 +1,11 @@
-const debug = process.env.NODE_ENV !== "production";
+const debug = process.env.NODE_ENV !== 'production';
 const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-  context: path.join(__dirname, "client"),
-  devtool: debug ? "inline-sourcemap" : false,
-  entry: "./js/app.js",
+  context: path.join(__dirname, 'client'),
+  devtool: debug ? 'inline-sourcemap' : false,
+  entry: './js/app.js',
   module: {
     loaders: [
       {
@@ -14,7 +14,8 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015', 'stage-0'],
-          plugins: ['react-html-attrs', 'transform-decorators-legacy', 'transform-class-properties'],
+          plugins: ['react-html-attrs', 'transform-decorators-legacy',
+            'transform-class-properties'],
         }
       },
       {
@@ -25,8 +26,8 @@ module.exports = {
     ]
   },
   output: {
-    path: __dirname + "/client/dist/",
-    filename: "bundle.min.js"
+    path: `${__dirname}/client/dist/`,
+    filename: 'bundle.min.js'
   },
   plugins: debug ? [] : [
     new webpack.optimize.DedupePlugin(),

@@ -95,7 +95,8 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('POST /api/groups/:id/message/ does create new group message', (done) => {
+    it('POST /api/groups/:id/message/ does create new group message',
+    (done) => {
       chai.request(app)
         .post('/api/groups/1/message/')
         .type('form')
