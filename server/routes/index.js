@@ -21,12 +21,8 @@ export default (app) => {
     });
   });
 
-  app.post('/api', (req, res) => res.status(200).send({
+  app.all('/api', (req, res) => res.status(200).send({
     message: 'Welcome to the PostIT API',
-  }));
-
-  app.get('/api/', (req, res) => res.status(200).send({
-    message: 'Welcome to the PostIT API'
   }));
 
   // API route to get list of all users
@@ -37,6 +33,9 @@ export default (app) => {
 
   // API route to get list of all groups
   app.get('/api/groups/', controllers.groups.fetch);
+
+  // API route to get list of all users in a group
+  app.get('/api/group/:id', controllers.groups.fetchMembers);
 
   // API route that allow users add other users to groups
   app.post('/api/groups/:id/user/', controllers.groupUsers.addUser);

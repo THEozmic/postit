@@ -20,7 +20,8 @@ export default {
   },
   auth(req, res) {
     models.Users
-      .findAll({ where: { username: [req.body.username], password: [req.body.password] } })
+      .findAll({ where: { username: [req.body.username],
+        password: [req.body.password] } })
       .then((user) => {
         if (user[0]) {
         // create a token
