@@ -2,6 +2,15 @@ import models from '../models';
 
 export default {
   create(req, res) {
+    if (!req.body.name) {
+      res.status(400).send({ message: 'Param: "name" is required' });
+      return;
+    }
+
+    if (!req.body.type) {
+      res.status(400).send({ message: 'Param: "type" is required' });
+      return;
+    }
     return models.Groups
       .create({
         name: req.body.name,
@@ -42,33 +51,18 @@ export default {
       .catch(error => res.status(404).send(error));
   },
   messages(req, res) {
-    // models.sequelize.query(`SELECT * FROM "Messages" WHERE to_group = '${[req.params.id]}'`,
-    //   { type: models.sequelize.QueryTypes.SELECT,
-    //     include: [{ association: 'GroupUsers' }],
     models.Messages
       .findAll({
         where: { to_group: [req.params.id] },
-        attributes: ['id', 'message', 'from_user', 'to_group', 'priority', 'createdAt'],
-        //     // include: [{
-        //     //   model: models.GroupUsers,
-        //     //   as: 'members_seen',
-        //     //   include: [{
-        //     //     model: models.Messages,
-        //     //     where: {
-        //     //       to_group: [req.params.id],
-        //     //       updated_at
-        //     //     },
-        //     //     required: false
-        //     //   }]
-        //     // }]
+        attributes: [
+          'id',
+          'message',
+          'from_user',
+          'to_group',
+          'priority',
+          'createdAt'
+        ],
       })
-      // .then((messages) => {
-      //   if (messages) {
-      //     for (let i = 0; i < messages.length; i += 1) {
-      //       models
-      //     }
-      //   }
-      // })
       .then(messages => res.status(200).send(messages))
       .catch(error => res.status(404).send(error));
   }
