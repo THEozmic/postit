@@ -95,7 +95,8 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('POST /api/groups/:id/message/ does create new group message', (done) => {
+    it('POST /api/groups/:id/message/ does create new group message',
+    (done) => {
       chai.request(app)
         .post('/api/groups/1/message/')
         .type('form')
@@ -213,7 +214,8 @@ describe('PostIt Tests: ', () => {
         .post('/api/groups/')
         .type('form')
         .send({
-          name: 'Test group'
+          name: 'Test group',
+          token
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -227,7 +229,8 @@ describe('PostIt Tests: ', () => {
         .type('form')
         .send({
           group_id: '1',
-          last_seen: 'null'
+          last_seen: 'null',
+          token
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -241,7 +244,8 @@ describe('PostIt Tests: ', () => {
         .type('form')
         .send({
           user_id: '1',
-          last_seen: 'null'
+          last_seen: 'null',
+          token
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -255,11 +259,11 @@ describe('PostIt Tests: ', () => {
         .type('form')
         .send({
           user_id: '1',
-          group_id: '1'
+          group_id: '1',
+          token
         })
         .end((err, res) => {
           res.should.have.status(201);
-          res.body.message.should.equal('Param: "last_seen" is NOT required');
           done();
         });
     });
@@ -270,11 +274,11 @@ describe('PostIt Tests: ', () => {
         .send({
           to_group: '1',
           message: 'Test message to group',
-          priority: 'Normal'
+          priority: 'Normal',
+          token
         })
         .end((err, res) => {
           res.status.should.equal(400);
-          res.body.message.should.equal('Param: "last_seen" is NOT required');
           done();
         });
     });

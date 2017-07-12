@@ -1,12 +1,20 @@
 export default (sequelize, DataTypes) => {
   const GroupUsers = sequelize.define('GroupUsers', {
     user_id: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
     },
     group_id: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'Groups',
+        key: 'id'
+      }
     },
     last_seen: {
       // when the value of this is changed, the updated_at column changes too
@@ -19,6 +27,12 @@ export default (sequelize, DataTypes) => {
     classMethods: {
       associate: (models) => {
         // associations can be defined here
+        GroupUsers.belongsTo(models.Groups, {
+          foreignKey: {
+            name: 'group_id',
+            onDelete: 'CASCADE'
+          }
+        });
       }
     }
   });

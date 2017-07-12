@@ -52,8 +52,9 @@
     "start:dev": "nodemon ",
     "dev": "webpack-dev-server --content-base client --inline --hot",
     "test_": "nyc mocha --compilers js:babel-core/register server/test --timeout 10000",
-    "test-dev": "mocha --compilers js:babel-core/register server/test --timeout 10000 --watch",
+    "test-dev": "mocha --compilers js:babel-core/register server/test --timeout 10000",
     "exec": "nodemon ./server/bin/www --exec babel-node ./server/app",
+    "start": "nodemon ./server/bin/www --exec babel-node ./server/app",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test ",
     "test": "node_modules/.bin/mocha --compilers js:babel-core/register server/test/tests.js --reporter spec --slow 50 --timeout 60000",
     "cover": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- -u exports --compilers js:babel-register server/test/tests.js"

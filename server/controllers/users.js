@@ -14,19 +14,25 @@ export default {
   },
   fetch(req, res) {
     return models.Users
-      .findAll()
+      .findAll({
+        include: [{
+          model: models.GroupUsers,
+          as: 'groups',
+        }],
+      })
       .then(users => res.status(200).send(users))
       .catch(error => res.status(400).send(error));
   },
   auth(req, res) {
     models.Users
-      .findAll({ where: { username: [req.body.username], password: [req.body.password] } })
+      .findAll({ where: { username: [req.body.username],
+        password: [req.body.password] } })
       .then((user) => {
         if (user[0]) {
         // create a token
           const token = jwt.sign({
             data: user[0]
-          }, 'Armageddon', { expiresIn: '1h' });
+          }, 'Armageddon', { expiresIn: '10h' });
 
           res.status(202).send({
             token,
