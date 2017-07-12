@@ -2,22 +2,22 @@
   "development": {
     "username": "Ifeanyi",
     "password": "password",
-    "database": "postit-dev",
+    "database": "postit_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "Ifeanyi",
     "password": "password",
-    "database": "postit-dev",
+    "database": "postit_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
-    "username": "Ifeanyi",
-    "password": "password",
-    "database": "postit-dev",
-    "host": "127.0.0.1",
+    "username": "qyzxythpfkvxlt",
+    "password": "fcf1fa2f09f0b48bed942809f27d2695423247d5a31621f18c25901a82cba8e6",
+    "database": "d4nq09rjst5t70",
+    "host": "ec2-107-21-109-15.compute-1.amazonaws.com",
     "dialect": "postgres"
   }
 }

@@ -14,12 +14,7 @@ export default {
   },
   fetch(req, res) {
     return models.Users
-      .findAll({
-        include: [{
-          model: models.GroupUsers,
-          as: 'groups',
-        }],
-      })
+      .findAll()
       .then(users => res.status(200).send(users))
       .catch(error => res.status(400).send(error));
   },
