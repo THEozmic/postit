@@ -2,13 +2,8 @@ import models from '../models';
 
 export default {
   create(req, res) {
-    if (!req.body.name) {
-      res.status(400).send({ message: 'Param: "name" is required' });
-      return;
-    }
-
-    if (!req.body.type) {
-      res.status(400).send({ message: 'Param: "type" is required' });
+    if (!req.body.name || !req.body.type) {
+      res.status(400).send({ message: 'Params: "name" and "type" are required' });
       return;
     }
     return models.Groups
