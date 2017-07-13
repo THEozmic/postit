@@ -1,22 +1,41 @@
 import jwt from 'jsonwebtoken';
 import models from '../models';
 
+const newRes = {};
 export default {
   create(req, res) {
     return models.Users
       .create({
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        phone: req.body.phone
       })
-      .then(user => res.status(201).send(user))
-      .catch(error => res.status(400).send(error));
+      .then((user) => {
+        newRes.message = user.message;
+        newRes.code = 201;
+        newRes.success = true;
+        newRes.body = req.body;
+        res.status(newRes.code).send(newRes);
+      })
+      .catch((error) => {
+        newRes.message = `${error.message}.`;
+        newRes.code = 400;
+        newRes.success = false;
+        res.status(newRes.code).send(newRes);
+      });
   },
   fetch(req, res) {
     return models.Users
-      .findAll()
+      .findAll({ attributes:
+        ['id', 'username', 'email', 'phone', 'createdAt', 'updatedAt'] })
       .then(users => res.status(200).send(users))
-      .catch(error => res.status(400).send(error));
+      .catch((error) => {
+        newRes.message = error.message;
+        newRes.code = 400;
+        newRes.success = false;
+        res.status(newRes.code).send(newRes);
+      });
   },
   auth(req, res) {
     models.Users
@@ -26,8 +45,8 @@ export default {
         if (user[0]) {
         // create a token
           const token = jwt.sign({
-            data: user[0]
-          }, 'Armageddon', { expiresIn: '1h' });
+            data: user[0].username
+          }, 'Armageddon', { expiresIn: '10h' });
 
           res.status(202).send({
             token,

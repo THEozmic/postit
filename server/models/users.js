@@ -6,21 +6,23 @@ export default (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      unqiue: true
     },
     password: {
       type: DataTypes.STRING,
       allowNull: false
     },
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {
     classMethods: {
       associate: (models) => {
-        // associations can be defined here
-        // Users.belongsToMany(models.Groups, {
-        //   through: {
-        //     model: 'GroupMembers'
-        //   }
-        // });
+        Users.belongsToMany(models.Groups, {
+          through: models.GroupUsers
+        });
       }
     }
   });

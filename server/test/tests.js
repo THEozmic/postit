@@ -10,31 +10,35 @@ let token;
 chai.use(chaiHttp);
 
 models.Users.destroy({
-  where: {},
   cascade: true,
-  truncate: true
+  truncate: true,
+  restartIdentity: true
 });
 
 models.Messages.destroy({
-  where: {},
   cascade: true,
-  truncate: true
+  truncate: true,
+  restartIdentity: true
 });
 
 models.Groups.destroy({
-  where: {},
   cascade: true,
-  truncate: true
+  truncate: true,
+  restartIdentity: true
 });
 
 models.GroupUsers.destroy({
-  where: {},
   cascade: true,
-  truncate: true
+  truncate: true,
+  restartIdentity: true
 });
 
 describe('PostIt Tests: ', () => {
   describe('Creating data: ', () => {
+    beforeEach((done) => {
+      models.sequelize.sync();
+      done();
+    });
     it('POST /api/users/signup/ does create new user', (done) => {
       chai.request(app)
         .post('/api/users/signup/')
@@ -42,10 +46,11 @@ describe('PostIt Tests: ', () => {
         .send({
           password: 'testpassword',
           username: 'testusername',
-          email: 'test@user.com'
+          email: 'test@user.com',
+          phone: '07010346915'
         })
         .end((err, res) => {
-          res.body.email.should.equal('test@user.com');
+          res.body.body.email.should.equal('test@user.com');
           res.should.have.status(201);
           done();
         });
@@ -68,11 +73,11 @@ describe('PostIt Tests: ', () => {
     it('POST /api/groups/ does create new group', (done) => {
       chai.request(app)
         .post('/api/groups/')
+        .set('x-access-token', token)
         .type('form')
         .send({
           name: 'Test Group',
-          type: 'public',
-          token
+          type: 'public'
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -83,15 +88,14 @@ describe('PostIt Tests: ', () => {
     it('POST /api/groups/:id/user does add user to group', (done) => {
       chai.request(app)
         .post('/api/groups/1/user')
+        .set('x-access-token', token)
         .type('form')
         .send({
-          user_id: '1',
-          group_id: '1',
-          token
+          user_id: 1,
         })
         .end((err, res) => {
           res.should.have.status(201);
-          res.body.user_id.should.equal('1');
+          res.body.user_id.should.equal(1);
           done();
         });
     });
@@ -99,13 +103,13 @@ describe('PostIt Tests: ', () => {
     (done) => {
       chai.request(app)
         .post('/api/groups/1/message/')
+        .set('x-access-token', token)
         .type('form')
         .send({
           from_user: '1',
           to_group: '1',
           message: 'Test message to group',
-          priority: 'Normal',
-          token
+          priority: 'Normal'
         })
         .end((err, res) => {
           res.status.should.equal(201);
@@ -118,7 +122,8 @@ describe('PostIt Tests: ', () => {
   describe('Retrieving data', () => {
     it('GET /api/users/ does get all registered users', (done) => {
       chai.request(app)
-        .get(`/api/users/?token=${token}`)
+        .get('/api/users/')
+        .set('x-access-token', token)
         .end((err, res) => {
           res.status.should.equals(200);
           res.body.should.be.a('array');
@@ -128,7 +133,8 @@ describe('PostIt Tests: ', () => {
     });
     it('GET /api/groups/ does get all created groups', (done) => {
       chai.request(app)
-        .get(`/api/groups/?token=${token}`)
+        .get('/api/groups/')
+        .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
@@ -136,9 +142,11 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('GET /api/groups/:id/messages/ does get all messages in a group', (done) => {
+    it('GET /api/groups/:id/messages/ does get all messages in a group',
+    (done) => {
       chai.request(app)
-        .get(`/api/groups/1/messages/?token=${token}`)
+        .get('/api/groups/1/messages/')
+        .set('x-access-token', token)
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
@@ -197,10 +205,10 @@ describe('PostIt Tests: ', () => {
     it('POST /api/groups/ is validated', (done) => {
       chai.request(app)
         .post('/api/groups/')
+        .set('x-access-token', token)
         .type('form')
         .send({
-          type: 'public',
-          token
+          type: 'public'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -212,10 +220,10 @@ describe('PostIt Tests: ', () => {
     it('POST /api/groups/ is validated', (done) => {
       chai.request(app)
         .post('/api/groups/')
+        .set('x-access-token', token)
         .type('form')
         .send({
-          name: 'Test group',
-          token
+          name: 'Test group'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -226,11 +234,11 @@ describe('PostIt Tests: ', () => {
     it('POST /api/groups/:id/user is validated', (done) => {
       chai.request(app)
         .post('/api/groups/:id/user')
+        .set('x-access-token', token)
         .type('form')
         .send({
           group_id: '1',
-          last_seen: 'null',
-          token
+          last_seen: 'null'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -241,26 +249,24 @@ describe('PostIt Tests: ', () => {
     it('POST /api/groups/:id/user is validated', (done) => {
       chai.request(app)
         .post('/api/groups/:id/user')
+        .set('x-access-token', token)
         .type('form')
         .send({
           user_id: '1',
-          last_seen: 'null',
-          token
+          last_seen: 'null'
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.message.should.equal('Param: "group_id" is required');
           done();
         });
     });
     it('POST /api/groups/:id/user is validated', (done) => {
       chai.request(app)
-        .post('/api/groups/:id/user')
+        .post('/api/groups/1/user')
+        .set('x-access-token', token)
         .type('form')
         .send({
           user_id: '1',
-          group_id: '1',
-          token
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -270,15 +276,43 @@ describe('PostIt Tests: ', () => {
     it('POST /api/groups/:id/message/ is validated', (done) => {
       chai.request(app)
         .post('/api/groups/1/message/')
+        .set('x-access-token', token)
         .type('form')
         .send({
           to_group: '1',
           message: 'Test message to group',
-          priority: 'Normal',
-          token
+          priority: 'Normal'
         })
         .end((err, res) => {
           res.status.should.equal(400);
+          done();
+        });
+    });
+    it('POST /api/users/signup/ raises duplicate email error', (done) => {
+      chai.request(app)
+        .post('/api/users/signup/')
+        .set('x-access-token', token)
+        .type('form')
+        .send({
+          password: 'testpassword',
+          email: 'test@user.com'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+    it('POST /api/users/signup/ raises duplicate username error', (done) => {
+      chai.request(app)
+        .post('/api/users/signup/')
+        .set('x-access-token', token)
+        .type('form')
+        .send({
+          password: 'testpassword',
+          username: 'testusername'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
           done();
         });
     });

@@ -7,7 +7,7 @@ export default (app) => {
   app.post('/api/users/signin/', controllers.users.auth);
   let token;
   app.use((req, res, next) => {
-    token = req.body.token || req.query.token || req.headers['x-access-token'];
+    token = req.headers['x-access-token'];
     jwt.verify(token, 'Armageddon', (err, decoded) => {
       if (err) {
         res.status(401).send({
@@ -35,7 +35,7 @@ export default (app) => {
   app.get('/api/groups/', controllers.groups.fetch);
 
   // API route to get list of all users in a group
-  app.get('/api/group/:id', controllers.groups.fetchMembers);
+  app.get('/api/groups/:id', controllers.groups.fetchMembers);
 
   // API route that allow users add other users to groups
   app.post('/api/groups/:id/user/', controllers.groupUsers.addUser);
