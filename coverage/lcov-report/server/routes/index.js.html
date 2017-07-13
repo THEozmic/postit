@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">83.33% </span>
+        <span class="strong">95.45% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>20/24</span>
+        <span class='fraction'>21/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">88.89% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>8/9</span>
+        <span class='fraction'>2/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">66.67% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>2/4</span>
+        <span class='fraction'>2/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">90.91% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>20/22</span>
+        <span class='fraction'>21/21</span>
       </div>
     </div>
   </div>
@@ -91,37 +91,26 @@
 46
 47
 48
-49
-50
-51
-52
-53
-54
-55</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+49</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -130,7 +119,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -155,55 +143,49 @@
 import controllers from '../controllers';
 &nbsp;
 export default (app) =&gt; {
+  // API routes for users to create accounts and login to the application
+  app.post('/api/users/signup/', controllers.users.create);
+  app.post('/api/users/signin/', controllers.users.auth);
+  let token;
   app.use((req, res, next) =&gt; {
-    // exclude these url from this middleware
-    if (req.originalUrl === '/api/user/signin/' || req.originalUrl === '/api/user/signup/') {
+    token = req.headers['x-access-token'];
+    jwt.verify(token, 'Armageddon', (err, decoded) =&gt; {
+      if (err) {
+        res.status(401).send({
+          message: 'user not authenticated, invalid access token'
+        });
+        return;
+      }
+      // if everything is good, save to request for use in other routes
+      req.decoded = decoded;
       next();
-    } else {
-      const token = req.body.token || req.query.token || req.headers['x-access-token'];
-      jwt.verify(token, 'secret', (err, decoded) =&gt; {
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (err) {
-          res.status(401).send({
-            message: 'user not authenticated, invalid access token'
-          });
-          return;
-        }
-        // if everything is good, save to request for use in other routes
-<span class="cstat-no" title="statement not covered" >        req.decoded = decoded;</span>
-<span class="cstat-no" title="statement not covered" >        next();</span>
-      });
-    }
+    });
   });
 &nbsp;
-  app.get('/api', <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>req, res) =&gt; res.status(200).send({</span>
+  app.all('/api', <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>req, res) =&gt; res.status(200).send({</span>
     message: 'Welcome to the PostIT API',
   }));
 &nbsp;
-  app.post('/api', <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>req, res) =&gt; res.status(200).send({</span>
-    message: 'Welcome to the PostIT API'
-  }));
-&nbsp;
-  // API routes for users to create accounts and login to the application
-  app.post('/api/user/signup', controllers.users.create);
-  app.post('/api/user/signin', controllers.users.auth);
-&nbsp;
   // API route to get list of all users
-  app.get('/api/user', controllers.users.fetch);
+  app.get('/api/users/', controllers.users.fetch);
 &nbsp;
   // API route that allow users create broadcast groups
-  app.post('/api/group/', controllers.groups.create);
+  app.post('/api/groups/', controllers.groups.create);
 &nbsp;
   // API route to get list of all groups
-  app.get('/api/group/', controllers.groups.fetch);
+  app.get('/api/groups/', controllers.groups.fetch);
+&nbsp;
+  // API route to get list of all users in a group
+  app.get('/api/groups/:id', controllers.groups.fetchMembers);
 &nbsp;
   // API route that allow users add other users to groups
-  app.post('/api/group/:id/user', controllers.groupUsers.addUser);
+  app.post('/api/groups/:id/user/', controllers.groupUsers.addUser);
 &nbsp;
   // API route that allows a logged in user post messages to created groups
-  app.post('/api/group/:id/message', controllers.messages.create);
+  app.post('/api/groups/:id/message/', controllers.messages.create);
 &nbsp;
   // API route that allows a logged in user retrieve messages from group
-  app.get('/api/group/:id/messages', controllers.groups.messages);
+  app.get('/api/groups/:id/messages/', controllers.groups.messages);
 };
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -211,7 +193,7 @@ export default (app) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Jul 10 2017 08:42:08 GMT+0100 (W. Central Africa Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jul 13 2017 12:13:27 GMT+0100 (W. Central Africa Standard Time)
 </div>
 </div>
 <script src="..\..\prettify.js"></script>
