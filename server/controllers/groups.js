@@ -2,7 +2,7 @@ import models from '../models';
 
 export default {
   create(req, res) {
-    if (!req.body.name ||!req.body.type) {
+    if (!req.body.name || !req.body.type) {
       res.status(400).send({ message: 'Params: "name" and "type" are required' });
       return;
     }
