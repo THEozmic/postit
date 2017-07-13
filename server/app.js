@@ -17,10 +17,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // sends back a welcome message in JSON format.
 routes(app);
 
-app.get('*', (req, res) => res.status(404).send({
+app.get('api/*', (req, res) => res.status(404).send({
   message: 'Route not found',
 }));
-app.post('*', (req, res) => res.status(404).send({
+app.post('api/*', (req, res) => res.status(404).send({
   message: 'Route not found',
 }));
 
