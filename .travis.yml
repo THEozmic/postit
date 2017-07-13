@@ -19,4 +19,4 @@ before_script:
 after_success:
 - npm run coveralls
 notifications:
-  webhooks: https://coveralls.io/webhook?repo_token=wBlDofmDPhojs4ZHiyOuWA5qkhfeUss0x
+  webhooks: https://coveralls.io/webhook?repo_token=cG2GU5sfLoIeAbNADg67A6vorgqPKhtfe
