@@ -8,11 +8,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       from_user: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       to_group: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       message: {

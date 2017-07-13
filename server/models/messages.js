@@ -1,12 +1,20 @@
 export default (sequelize, DataTypes) => {
   const Messages = sequelize.define('Messages', {
     from_user: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      refrences: {
+        model: 'Users',
+        key: 'id'
+      }
     },
     to_group: {
-      type: DataTypes.STRING,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      refrences: {
+        model: 'Users',
+        key: 'id'
+      }
     },
     message: {
       type: DataTypes.STRING,
@@ -19,7 +27,10 @@ export default (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: (models) => {
-        // associations can be defined here
+        Messages.belongsTo(models.Group, {
+          onDelete: 'CASCADE',
+          foreignKey: 'group_id'
+        });
       }
     }
   });

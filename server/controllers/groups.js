@@ -27,15 +27,9 @@ export default {
   },
   fetchMembers(req, res) {
     return models.Groups
-      .findById(req.params.id, {
-        include: [{
-          model: models.GroupUsers,
-          as: 'users',
-        }],
-      })
+      .findAll({ where: { id: req.params.id } })
       .then(groups => res.status(200).send(groups))
       .catch((error) => {
-        console.log(error);
         res.status(400).send(error);
       });
   },

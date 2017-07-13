@@ -11,13 +11,12 @@ export default (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: (models) => {
-        // associations can be defined here
-        // Groups.hasMany(models.GroupUsers, {
-        //   foreignKey: {
-        //     name: 'group_id',
-        //     onDelete: 'CASCADE'
-        //   }
-        // });
+        Groups.belongsToMany(models.Users, {
+          through: models.GroupUsers
+        });
+        Groups.hasMany(models.Messages, {
+          foreignKey: 'group_id',
+        });
       }
     }
   });

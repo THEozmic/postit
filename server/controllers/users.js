@@ -15,10 +15,11 @@ export default {
         newRes.message = user.message;
         newRes.code = 201;
         newRes.success = true;
+        newRes.body = req.body;
         res.status(newRes.code).send(newRes);
       })
       .catch((error) => {
-        newRes.message = `${error.message}. username or email is taken`;
+        newRes.message = `${error.message}.`;
         newRes.code = 400;
         newRes.success = false;
         res.status(newRes.code).send(newRes);

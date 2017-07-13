@@ -7,7 +7,7 @@ export default {
       return;
     }
 
-    if (!req.body.group_id) {
+    if (!req.params.id) {
       res.status(400).send({ message: 'Param: "group_id" is required' });
       return;
     }
