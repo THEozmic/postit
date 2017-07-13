@@ -212,7 +212,7 @@ describe('PostIt Tests: ', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.message.should.equal('Param: "name" is required');
+          res.body.message.should.equal('Params: "name" and "type" are required');
           done();
         });
     });
@@ -227,7 +227,7 @@ describe('PostIt Tests: ', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-          res.body.message.should.equal('Param: "type" is required');
+          res.body.message.should.equal('Params: "name" and "type" are required');
           done();
         });
     });
