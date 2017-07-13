@@ -288,8 +288,8 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('POST /api/groups/:id/message/ does not create message without group',
-     (done) => {
+    it('POST /api/groups/:id/message/ \
+    does not create message without group', (done) => {
       chai.request(app)
         .post('/api/groups/1/message/')
         .set('x-access-token', token)
