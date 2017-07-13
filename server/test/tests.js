@@ -288,6 +288,38 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
+    it('POST /api/groups/:id/message/ \
+    does not create message without group', (done) => {
+      chai.request(app)
+        .post('/api/groups/1/message/')
+        .set('x-access-token', token)
+        .type('form')
+        .send({
+          from_user: '1',
+          message: 'Test message to group',
+          priority: 'Normal'
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          done();
+        });
+    });
+    it('POST /api/groups/:id/message/ does not create message without priority',
+     (done) => {
+      chai.request(app)
+        .post('/api/groups/1/message/')
+        .set('x-access-token', token)
+        .type('form')
+        .send({
+          message: 'Test message to group',
+          from_user: '1',
+          to_group: '1'
+        })
+        .end((err, res) => {
+          res.status.should.equal(400);
+          done();
+        });
+    });
     it('POST /api/users/signup/ raises duplicate email error', (done) => {
       chai.request(app)
         .post('/api/users/signup/')
@@ -295,7 +327,9 @@ describe('PostIt Tests: ', () => {
         .type('form')
         .send({
           password: 'testpassword',
-          email: 'test@user.com'
+          username: 'testusername',
+          email: 'test@user.com',
+          phone: '07010346915'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -309,7 +343,69 @@ describe('PostIt Tests: ', () => {
         .type('form')
         .send({
           password: 'testpassword',
-          username: 'testusername'
+          username: 'testusername',
+          email: 'test@user.com',
+          phone: '07010346915'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+    it('POST /api/users/signup/ does not signup without username', (done) => {
+      chai.request(app)
+        .post('/api/users/signup/')
+        .set('x-access-token', token)
+        .type('form')
+        .send({
+          password: 'testpassword',
+          email: 'test2@user.com',
+          phone: '07010346915'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+    it('POST /api/users/signup/ does not signup without username', (done) => {
+      chai.request(app)
+        .post('/api/users/signup/')
+        .set('x-access-token', token)
+        .type('form')
+        .send({
+          password: 'testpassword',
+          email: 'test2@user.com',
+          phone: '07010346915'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+    it('POST /api/users/signup/ does not signup without email', (done) => {
+      chai.request(app)
+        .post('/api/users/signup/')
+        .set('x-access-token', token)
+        .type('form')
+        .send({
+          password: 'testpassword',
+          username: 'testusername2',
+          phone: '07010346915'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+    it('POST /api/users/signup/ does not signup without phone', (done) => {
+      chai.request(app)
+        .post('/api/users/signup/')
+        .set('x-access-token', token)
+        .type('form')
+        .send({
+          password: 'testpassword',
+          username: 'testusername2',
+          email: 'testemail@email.com'
         })
         .end((err, res) => {
           res.should.have.status(400);
