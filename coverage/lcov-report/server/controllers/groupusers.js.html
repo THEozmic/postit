@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">61.54% </span>
+        <span class="strong">7.69% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>8/13</span>
+        <span class='fraction'>1/13</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>3/4</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>3/6</span>
+        <span class='fraction'>0/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">61.54% </span>
+        <span class="strong">7.69% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>8/13</span>
+        <span class='fraction'>1/13</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -83,23 +83,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -117,25 +117,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import models from '../models';
 &nbsp;
-export default <span class="fstat-no" title="function not covered" >{</span>
+export default <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >{</span></span>
   addUser(req, res) {
-    if (!req.body.user_id) {
-      res.status(400).send({ message: 'Param: "user_id" is required' });
-      return;
+<span class="cstat-no" title="statement not covered" >    if (!req.body.user_id) {</span>
+<span class="cstat-no" title="statement not covered" >      res.status(400).send({ message: 'Param: "user_id" is required' });</span>
+<span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!req.params.id) {
+<span class="cstat-no" title="statement not covered" >    if (!req.params.id) {</span>
 <span class="cstat-no" title="statement not covered" >      res.status(400).send({ message: 'Param: "group_id" is required' });</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
-    return models.GroupUsers
+<span class="cstat-no" title="statement not covered" >    return models.GroupUsers</span>
       .create({
         user_id: req.body.user_id,
         group_id: req.params.id
       })
-      .then(result =&gt; res.status(201).send(result))
-      .catch(error =&gt; res.status(400).send(error));
+      .then(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >result =&gt; res.status(201).send(result))</span></span>
+      .catch(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >error =&gt; res.status(400).send(error));</span></span>
   },
   update(req, res) {
 <span class="cstat-no" title="statement not covered" >    return models.GroupUsers</span>
@@ -157,7 +157,7 @@ export default <span class="fstat-no" title="function not covered" >{</span>
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jul 13 2017 13:10:37 GMT+0100 (W. Central Africa Standard Time)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Jul 13 2017 15:06:18 GMT+0100 (W. Central Africa Standard Time)
 </div>
 </div>
 <script src="..\..\prettify.js"></script>

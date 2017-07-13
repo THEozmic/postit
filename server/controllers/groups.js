@@ -21,8 +21,8 @@ export default {
       .catch(error => res.status(400).send(error));
   },
   fetchMembers(req, res) {
-    return models.Groups
-      .findAll({ where: { id: req.params.id } })
+    return models.GroupUsers
+      .findAll({ where: { group_id: req.params.id } })
       .then(groups => res.status(200).send(groups))
       .catch((error) => {
         res.status(400).send(error);
