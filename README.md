@@ -4,7 +4,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/THEozmic/postit/badge.svg)](https://coveralls.io/github/THEozmic/postit)
 
-[![Test Coverage(https://codeclimate.com/github/THEozmic/postit/badges/coverage.svg)](https://codeclimate.com/github/THEozmic/postit/coverage) 
+[![Test Coverage](https://codeclimate.com/github/THEozmic/postit/badges/coverage.svg)](https://codeclimate.com/github/THEozmic/postit/coverage)
 
 [![Code Climate](https://codeclimate.com/github/THEozmic/postit/badges/gpa.svg)](https://codeclimate.com/github/THEozmic/postit)
 
