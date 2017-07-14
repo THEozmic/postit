@@ -4,6 +4,7 @@
 
 **POSTIT**
 > - A simple web application that lets users send messages as broadcast to friends and colleagues
+> - https://postit-michael.herokuapp.com/
 
 **TECH STACK**
 > - Front-end: React/Redux + SASS
@@ -22,3 +23,6 @@
 > - setup your db according to settings in `server/config/config.json`
 > - then run `$ sequelize db:migrate`
 > - Run `npm run exec` to start server
+
+**API DOCS**
+> - http://docs.postitmichael.apiary.io
