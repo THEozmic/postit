@@ -1,12 +1,18 @@
 export default (sequelize, DataTypes) => {
   const Groups = sequelize.define('Groups', {
     name: {
+      allowNull: false,
       type: DataTypes.STRING,
-      allowNull: false
+      validate: {
+        notEmpty: true
+      }
     },
     type: {
+      allowNull: false,
       type: DataTypes.STRING,
-      allowNull: false
+      validate: {
+        isIn: [['Public', 'Private']]
+      }
     }
   }, {
     classMethods: {

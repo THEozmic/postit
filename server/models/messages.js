@@ -2,27 +2,25 @@ export default (sequelize, DataTypes) => {
   const Messages = sequelize.define('Messages', {
     from_user: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      refrences: {
-        model: 'Users',
-        key: 'id'
-      }
+      allowNull: false
     },
     to_group: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      refrences: {
-        model: 'Users',
-        key: 'id'
-      }
+      allowNull: false
     },
     message: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
     },
     priority: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isIn: [['Normal', 'Urgent', 'Critical']]
+      }
     }
   }, {
     classMethods: {

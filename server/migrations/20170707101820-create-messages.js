@@ -17,11 +17,17 @@ module.exports = {
       },
       message: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       priority: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          isIn: [['Normal', 'Urgent', 'Critical']]
+        }
       },
       createdAt: {
         allowNull: false,
