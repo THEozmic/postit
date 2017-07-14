@@ -77,7 +77,7 @@ describe('PostIt Tests: ', () => {
         .type('form')
         .send({
           name: 'Test Group',
-          type: 'public'
+          type: 'Public'
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -127,7 +127,6 @@ describe('PostIt Tests: ', () => {
         .end((err, res) => {
           res.status.should.equals(200);
           res.body.should.be.a('array');
-          res.body.length.should.equals(1);
           done();
         });
     });
@@ -138,7 +137,6 @@ describe('PostIt Tests: ', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.length.should.equals(1);
           done();
         });
     });

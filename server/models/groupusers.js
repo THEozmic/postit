@@ -24,18 +24,6 @@ export default (sequelize, DataTypes) => {
       // used to determine the "read" status of a message
       type: DataTypes.DATE
     }
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-        GroupUsers.belongsTo(models.Groups, {
-          foreignKey: {
-            name: 'group_id',
-            onDelete: 'CASCADE'
-          }
-        });
-      }
-    }
   });
   return GroupUsers;
 };

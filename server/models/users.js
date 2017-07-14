@@ -1,28 +1,33 @@
 export default (sequelize, DataTypes) => {
   const Users = sequelize.define('Users', {
     username: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    email: {
-      type: DataTypes.STRING,
       allowNull: false,
-      unqiue: true
-    },
-    password: {
       type: DataTypes.STRING,
-      allowNull: false
+      unique: true,
+      validate: {
+        notEmpty: true
+      }
     },
     phone: {
+      allowNull: false,
       type: DataTypes.STRING,
-      allowNull: false
-    }
-  }, {
-    classMethods: {
-      associate: (models) => {
-        Users.belongsToMany(models.Groups, {
-          through: models.GroupUsers
-        });
+      validate: {
+        not: ['[a-z]', 'i']
+      }
+    },
+    email: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        isEmail: true
+      }
+    },
+    password: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
       }
     }
   });
