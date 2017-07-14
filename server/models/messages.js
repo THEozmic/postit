@@ -22,15 +22,6 @@ export default (sequelize, DataTypes) => {
         isIn: [['Normal', 'Urgent', 'Critical']]
       }
     }
-  }, {
-    classMethods: {
-      associate: (models) => {
-        Messages.belongsTo(models.Group, {
-          onDelete: 'CASCADE',
-          foreignKey: 'group_id'
-        });
-      }
-    }
   });
   return Messages;
 };

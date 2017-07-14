@@ -14,17 +14,6 @@ export default (sequelize, DataTypes) => {
         isIn: [['Public', 'Private']]
       }
     }
-  }, {
-    classMethods: {
-      associate: (models) => {
-        Groups.belongsToMany(models.Users, {
-          through: models.GroupUsers
-        });
-        Groups.hasMany(models.Messages, {
-          foreignKey: 'group_id',
-        });
-      }
-    }
   });
   return Groups;
 };

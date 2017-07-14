@@ -30,14 +30,6 @@ export default (sequelize, DataTypes) => {
         notEmpty: true
       }
     }
-  }, {
-    classMethods: {
-      associate: (models) => {
-        Users.belongsToMany(models.Groups, {
-          through: models.GroupUsers
-        });
-      }
-    }
   });
   return Users;
 };
