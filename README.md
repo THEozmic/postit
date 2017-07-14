@@ -5,6 +5,7 @@
 **POSTIT**
 > - A simple web application that lets users send messages as broadcast to friends and colleagues
 > - https://postit-michael.herokuapp.com/
+> - Template: https://theozmic.github.io/Postit-template/index.html
 
 **TECH STACK**
 > - Front-end: React/Redux + SASS
