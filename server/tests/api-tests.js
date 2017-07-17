@@ -105,6 +105,36 @@ describe('API Tests: ', () => {
           done();
         });
     });
+    it('returns 400 error with duplicate email', (done) => {
+      chai.request(app)
+        .post('/api/users/')
+        .type('form')
+        .send({
+          password: 'testpassword',
+          username: 'testusername3',
+          email: 'test@user.com',
+          phone: '07010346915'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+    it('returns 400 error with duplicate username', (done) => {
+      chai.request(app)
+        .post('/api/users/')
+        .type('form')
+        .send({
+          password: 'testpassword',
+          username: 'testusername',
+          email: 'test@user3.com',
+          phone: '07010346915'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
   });
 
   describe('Login a user', () => {
