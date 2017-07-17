@@ -15,5 +15,12 @@ export default (sequelize, DataTypes) => {
       }
     }
   });
+  Groups.associate = (models) => {
+    Groups.belongsToMany(models.Users, {
+      through: 'GroupUsers',
+      as: 'users',
+      foreignKey: 'groupId'
+    });
+  };
   return Groups;
 };

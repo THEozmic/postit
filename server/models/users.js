@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt-nodejs';
+
 export default (sequelize, DataTypes) => {
   const Users = sequelize.define('Users', {
     username: {
@@ -31,5 +33,12 @@ export default (sequelize, DataTypes) => {
       }
     }
   });
+  Users.associate = (models) => {
+    Users.belongsToMany(models.Groups, {
+      through: 'GroupUsers',
+      as: 'groups',
+      foreignKey: 'userId'
+    });
+  };
   return Users;
 };

@@ -7,21 +7,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user_id: {
+      userId: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id'
-        }
+        type: Sequelize.INTEGER
       },
-      group_id: {
+      groupId: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Groups',
-          key: 'id'
-        }
+        type: Sequelize.INTEGER
       },
       last_seen: {
         type: Sequelize.DATE
