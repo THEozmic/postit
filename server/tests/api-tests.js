@@ -280,7 +280,6 @@ describe('API Tests: ', () => {
           phone: '07010346915'
         })
         .end((err, res) => {
-          console.log(res.body.error, '=============>>>');
           res.body.error.message.should.equal('email already exists');
           done();
         });
