@@ -38,6 +38,22 @@ export default {
       });
     }
 
+    if (!req.body.password || req.body.password.trim() === '') {
+      return res.status(400)
+      .send({
+        error: { message: 'password cannot be empty' },
+        data: req.body
+      });
+    }
+
+    if (!req.body.phone || req.body.phone.trim() === '') {
+      return res.status(400)
+      .send({
+        error: { message: 'phone cannot be empty' },
+        data: req.body
+      });
+    }
+
     const hashedPass = bcrypt
     .hashSync(req.body.password, salt, null);
     return models.Users
@@ -58,22 +74,16 @@ export default {
       })
       .catch((error) => {
         if (error.errors[0].message === 'username must be unique') {
-          newRes.error = 'username already exists';
+          newRes.error = { message: 'username already exists' };
         }
         if (error.errors[0].message === 'email must be unique') {
-          newRes.error = 'email already exists';
+          newRes.error = { message: 'email already exists' };
         }
         if (error.errors[0].message === 'Validation isEmail on email failed') {
-          newRes.error = 'not an email';
-        }
-        if (!req.body.password || req.body.password.trim() === '') {
-          newRes.error = 'password cannot be empty';
-        }
-        if (!req.body.phone || req.body.phone.trim() === '') {
-          newRes.error = 'phone cannot be empty';
+          newRes.error = { message: 'not an email' };
         }
         if (!newRes.error) {
-          newRes.error = error.errors[0].message;
+          newRes.error = { message: error.errors[0].message };
         }
 
         newRes.data = req.body;
