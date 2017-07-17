@@ -155,9 +155,9 @@ describe('API Tests: ', () => {
         .post('/api/users/')
         .type('form')
         .send({
-          password: '     ',
-          username: 'testusername',
-          email: 'test@user3.com',
+          password: '       ',
+          username: 'testusername5',
+          email: 'test@user5.com',
           phone: '07010346915'
         })
         .end((err, res) => {
@@ -172,7 +172,7 @@ describe('API Tests: ', () => {
         .send({
           password: 'testpass',
           username: '     ',
-          email: 'test@user3.com',
+          email: 'test@user4.com',
           phone: '07010346915'
         })
         .end((err, res) => {
@@ -201,9 +201,9 @@ describe('API Tests: ', () => {
         .type('form')
         .send({
           password: 'testpass',
-          username: 'testusername3',
-          email: 'test@email3.com',
-          phone: '     '
+          username: 'testusername6',
+          email: 'test@email6.com',
+          phone: '        '
         })
         .end((err, res) => {
           res.should.have.status(400);
