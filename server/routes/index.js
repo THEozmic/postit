@@ -3,8 +3,8 @@ import controllers from '../controllers';
 
 export default (app) => {
   // API routes for users to create accounts and login to the application
-  app.post('/api/users/signup/', controllers.users.create);
-  app.post('/api/users/signin/', controllers.users.auth);
+  app.post('/api/users/', controllers.users.create);
+  app.post('/api/signin/', controllers.users.auth);
   let token;
   app.use((req, res, next) => {
     token = req.headers['x-access-token'];
