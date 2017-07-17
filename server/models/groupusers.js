@@ -1,27 +1,22 @@
 export default (sequelize, DataTypes) => {
   const GroupUsers = sequelize.define('GroupUsers', {
-    user_id: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
+      refrences: {
         model: 'Users',
         key: 'id'
       }
     },
-    group_id: {
+    groupId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
+      refrences: {
         model: 'Groups',
         key: 'id'
       }
     },
     last_seen: {
-      // when the value of this is changed, the updated_at column changes too
-      // it is changed each time the user logs in and opens the group
-      // it is used to track the "last_seen" time of the user
-      // in the group and that is
-      // used to determine the "read" status of a message
       type: DataTypes.DATE
     }
   });
