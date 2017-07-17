@@ -108,7 +108,19 @@ describe('API Tests: ', () => {
   });
 
   describe('Login a user', () => {
-
+    it('works with complete parameters', (done) => {
+      chai.request(app)
+        .post('/api/signin/')
+        .type('form')
+        .send({
+          password: 'testpassword',
+          username: 'testusername'
+        })
+        .end((err, res) => {
+          res.should.have.status(202);
+          done();
+        });
+    });
   });
 
   describe('Create a new group', () => {
