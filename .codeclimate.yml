@@ -15,4 +15,4 @@ ratings:
   - "server/**/*.js"
 exclude_paths:
 - node_modules/
-- server/test/
+- server/tests/
