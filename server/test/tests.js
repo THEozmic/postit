@@ -100,23 +100,23 @@ describe('PostIt Tests: ', () => {
         });
     });
     it('POST /api/groups/:id/message/ does create new group message',
-    (done) => {
-      chai.request(app)
-        .post('/api/groups/1/message/')
-        .set('x-access-token', token)
-        .type('form')
-        .send({
-          from_user: '1',
-          to_group: '1',
-          message: 'Test message to group',
-          priority: 'Normal'
-        })
-        .end((err, res) => {
-          res.status.should.equal(201);
-          res.body.message.should.equal('Test message to group');
-          done();
-        });
-    });
+      (done) => {
+        chai.request(app)
+          .post('/api/groups/1/message/')
+          .set('x-access-token', token)
+          .type('form')
+          .send({
+            from_user: '1',
+            to_group: '1',
+            message: 'Test message to group',
+            priority: 'Normal'
+          })
+          .end((err, res) => {
+            res.status.should.equal(201);
+            res.body.message.should.equal('Test message to group');
+            done();
+          });
+      });
   });
 
   describe('Retrieving data', () => {
@@ -141,17 +141,17 @@ describe('PostIt Tests: ', () => {
         });
     });
     it('GET /api/groups/:id/messages/ does get all messages in a group',
-    (done) => {
-      chai.request(app)
-        .get('/api/groups/1/messages/')
-        .set('x-access-token', token)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('array');
-          res.body.length.should.equals(1);
-          done();
-        });
-    });
+      (done) => {
+        chai.request(app)
+          .get('/api/groups/1/messages/')
+          .set('x-access-token', token)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('array');
+            res.body.length.should.equals(1);
+            done();
+          });
+      });
   });
 
   describe('Routes are protected', () => {
@@ -214,7 +214,6 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-
     it('POST /api/groups/ is validated', (done) => {
       chai.request(app)
         .post('/api/groups/')
@@ -229,14 +228,14 @@ describe('PostIt Tests: ', () => {
           done();
         });
     });
-    it('POST /api/groups/:id/user is validated', (done) => {
+    it('POST /api/groups/:id/user does not work without userId', (done) => {
       chai.request(app)
         .post('/api/groups/:id/user')
         .set('x-access-token', token)
         .type('form')
         .send({
-          group_id: '1',
-          last_seen: 'null'
+          groupId: '1',
+          lastSeen: 'null'
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -287,7 +286,7 @@ describe('PostIt Tests: ', () => {
         });
     });
     it('POST /api/groups/:id/message/ \
-    does not create message without group', (done) => {
+     does not create message without group', (done) => {
       chai.request(app)
         .post('/api/groups/1/message/')
         .set('x-access-token', token)
