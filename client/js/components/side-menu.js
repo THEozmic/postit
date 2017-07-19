@@ -17,6 +17,6 @@ export default class SideMenu extends React.Component {
     @returns {JSX} SideMenu component
   */
   render() {
-    return (<div>Hello World</div>);
+    return (<div>Hello Michael</div>);
   }
 }

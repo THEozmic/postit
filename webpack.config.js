@@ -3,14 +3,12 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-  context: path.join(__dirname, 'client'),
-  devtool: debug ? 'inline-sourcemap' : false,
-  entry: './js/app.js',
+  devtool: debug ? 'inline-sourcemap' : true,
+  entry: './client/js/app.js',
   module: {
     loaders: [
       {
         test: /\.js?$/,
-        exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015', 'stage-0'],
@@ -20,18 +18,33 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        exclude: /node_modules/,
         loader: 'style-loader!css-loader!sass-loader'
+      },
+      { test: /\.css$/,
+        loaders: [
+          'style-loader',
+          'css-loader?importLoaders=1',
+          'font-loader?format[]=truetype&format[]=woff&format[]=embedded-opentype'
+        ] },
+      { test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        loader: 'file-loader?name=fonts/[name].[ext]'
       }
     ]
   },
   output: {
-    path: `${__dirname}/client/dist/`,
-    filename: 'bundle.min.js'
+    path: `${__dirname}/dist/`,
+    filename: 'bundle.min.js',
+    publicPath: '/dist/'
   },
-  plugins: debug ? [] : [
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery',
+      Hammer: 'hammerjs/hammer'
+    }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false })
   ],
 };

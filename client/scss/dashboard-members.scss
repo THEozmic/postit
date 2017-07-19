@@ -1,0 +1,22 @@
+.search-results > div {
+    padding: 10px;
+    margin: 10px 0px;
+    border-radius: 3px;
+    cursor: pointer;
+    &:hover {
+        background-color: #0275d8;
+    }
+}
+
+.search-pages {
+    margin: 10px;
+
+    a {
+        margin-right: 15px;
+        padding: 3px 15px;
+        background-color: #0275d8;
+        border-radius: 3px;
+        color: #fff;
+        text-decoration: none;
+    }
+}

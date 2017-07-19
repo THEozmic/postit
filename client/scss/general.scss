@@ -1,0 +1,44 @@
+body {
+    background-color: #252830;
+    color: #fff;
+}
+
+.page-title {
+    font-size: 30px;
+    display: block;
+    text-decoration: none;
+    color: #fff;
+
+    span {
+        font-size: 15px;
+        margin-left: 5px;
+        text-transform: uppercase;
+        border-bottom: 3px solid #0275d8;
+        display: inline;
+        position: relative;
+        top: -7px;
+        font-weight: bolder;
+    }
+
+    &:hover {
+        text-decoration: none;
+        color: #fff;
+    }
+}
+
+.modal {
+    color: #131418;
+}
+
+section.page-container p {
+    font-size: 25px;
+}
+
+footer img {
+    width: 80px;
+}
+
+footer section {
+    display: inline-block;
+    margin: 20px 50px 20px 0px;
+}
