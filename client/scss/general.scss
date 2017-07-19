@@ -8,6 +8,22 @@ body {
     display: block;
     text-decoration: none;
     color: #fff;
+
+    span {
+        font-size: 15px;
+        margin-left: 5px;
+        text-transform: uppercase;
+        border-bottom: 3px solid #0275d8;
+        display: inline;
+        position: relative;
+        top: -7px;
+        font-weight: bolder;
+    }
+
+    &:hover {
+        text-decoration: none;
+        color: #fff;
+    }
 }
 
 .modal {
@@ -25,22 +41,4 @@ footer img {
 footer section {
     display: inline-block;
     margin: 20px 50px 20px 0px;
-}
-
-.page-title span {
-    font-size: 15px;
-    margin-left: 5px;
-    text-transform: uppercase;
-    border-bottom: 3px solid #0275d8;
-    display: inline;
-    position: relative;
-    top: -7px;
-    font-weight: bolder;
-}
-
-
-
-.page-title:hover {
-    text-decoration: none;
-    color: #fff;
 }

@@ -4,6 +4,18 @@ span.message-type {
     border-radius: 3px;
     color: #252830;
     font-weight: bolder;
+    
+    .urgent {
+        background-color: #FFC107;
+    }
+
+    .critical {
+        background-color: #FF5722;
+    }
+
+    .normal {
+        background-color: #CDDC39;
+    }
 }
 
 .message-container {
@@ -19,18 +31,8 @@ span.message-type {
     margin: 5px 0px 0px;
 }
 
-.message {display: block;/* margin-top: 0px; */}
-
-.message-type.urgent {
-    background-color: #FFC107;
-}
-
-.message-type.critical {
-    background-color: #FF5722;
-}
-
-span.message-type.normal {
-    background-color: #CDDC39;
+.message {
+    display: block;
 }
 
 .new-message {
