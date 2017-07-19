@@ -1,12 +1,11 @@
 .container-fluid.steps > * {
-    font-size: 20px;
-    margin-bottom: 15px;
+  font-size: 20px;
+  margin-bottom: 15px;
 }
 
-
-@import "general.scss";
-@import "dashboard-members.scss";
-@import "dashboard-ingroup.scss";
-@import "dashboard-index.scss";
-@import "dashboard-general.scss";
+@import "general";
+@import "dashboard-members";
+@import "dashboard-ingroup";
+@import "dashboard-index";
+@import "dashboard-general";
 
