@@ -19,7 +19,11 @@
     "chai-http": "^3.0.0",
     "css-loader": "^0.28.4",
     "express": "^4.15.3",
+    "file-loader": "^0.11.2",
+    "font-loader": "^0.1.2",
+    "jquery": "^3.2.1",
     "jsonwebtoken": "^7.4.1",
+    "materialize-css": "^0.99.0",
     "mocha": "^3.4.2",
     "morgan": "^1.8.2",
     "nodemon": "^1.11.0",
@@ -30,7 +34,8 @@
     "sass-loader": "^6.0.6",
     "sequelize": "^4.2.1",
     "sequelize-cli": "^2.7.0",
-    "style-loader": "^0.18.2"
+    "style-loader": "^0.18.2",
+    "webpack": "^2.7.0"
   },
   "devDependencies": {
     "coveralls": "^2.13.1",
@@ -50,7 +55,7 @@
     ]
   },
   "scripts": {
-    "start:dev": "nodemon ",
+    "start:dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --progress --colors --inline --content-base client/",
     "dev": "webpack-dev-server --content-base client --inline --hot",
     "test_": "nyc mocha --compilers js:babel-core/register --timeout 10000",
     "test-dev": "mocha --compilers js:babel-core/register --timeout 10000",
