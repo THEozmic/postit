@@ -27,7 +27,8 @@ module.exports = {
   },
   output: {
     path: `${__dirname}/client/dist/`,
-    filename: 'bundle.min.js'
+    filename: 'bundle.min.js',
+    publicPath: '/client/dist/'
   },
   plugins: debug ? [] : [
     new webpack.optimize.DedupePlugin(),
