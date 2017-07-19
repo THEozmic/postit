@@ -32,7 +32,7 @@ module.exports = {
     ]
   },
   output: {
-    path: `${__dirname}/dist/`,
+    path: `${__dirname}/client/dist/`,
     filename: 'bundle.min.js',
     publicPath: '/dist/'
   },
