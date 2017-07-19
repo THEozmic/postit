@@ -1,4 +1,4 @@
-aside.dashboard-menu {
+.dashboard-menu {
   display: inline-block;
   margin-top: 30px;
   position: -webkit-sticky;
@@ -31,23 +31,23 @@ aside.dashboard-menu {
   }
 }
 
-section.page-container.container-fluid {
-    min-height: 350px;
+.page-container.container-fluid {
+  min-height: 350px;
 }
 .page-content {
-    display: inline-block;
+  display: inline-block;
 }
 
-span.group-unread-count {
-    border-radius: 50%;
-    padding: 5px;
-    font-size: 10px;
-    color: #ffffff;
-    top: -10px;
-    right: -10px;
-    width: 25px;
-    height: 25px;
-    text-align: center;
-    display: inline-block;
-    position: relative;
+.group-unread-count {
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 10px;
+  color: #ffffff;
+  top: -10px;
+  right: -10px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  display: inline-block;
+  position: relative;
 }
