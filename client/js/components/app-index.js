@@ -25,7 +25,7 @@ export default class AppIndex extends React.Component {
                     <p
                     className="mt-5">
                         <h5>{'A web application\
-                        that lets you easily share messages quickly.'}</h5>
+                        that lets you easily share messages to people you care about.'}</h5>
                     </p>
                     <div class="action-buttons">
                         <button
