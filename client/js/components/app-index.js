@@ -12,7 +12,7 @@ export default class AppIndex extends React.Component {
   render() {
     return (
         <div>
-            <header className="page-header container-fluid mt-5">
+            <header className="page-header col s12">
                 <a
                 className={'page-title container\
                 justify-content-center\
@@ -20,29 +20,29 @@ export default class AppIndex extends React.Component {
                 href="index.html">Post<span>It</span></a>
             </header>
 
-            <section className="page-content container-fluid">
-                <div
-                className="container justify-content-center align-items-center">
+            <section className="container col s12">
+                <div>
                     <p
                     className="mt-5">
-                    {'A web application\
-                     that lets you easily share messages quickly.'}</p>
-                    <div>
+                        <h5>{'A web application\
+                        that lets you easily share messages quickly.'}</h5>
+                    </p>
+                    <div class="action-buttons">
                         <button
-                        className="btn btn-primary"
+                        className="waves-effect waves-light btn action-btn"
                         data-toggle="modal"
                         data-target="#createAccountModal">
                         Create an account</button>
                         <button
-                        className="btn btn-secondary"
+                        className="waves-effect waves-light btn action-btn"
                         data-toggle="modal"
                         data-target="#loginModal">Login</button>
                     </div>
-                    <div className="container-fluid steps mt-5">
-                        <div className="row"> 1. Create an account</div>
-                        <div className="row"> 2. Create a message board</div>
-                        <div className="row"> 3. Add friends to board</div>
-                        <div className="row"> 4. Post away!</div>
+                    <div className="steps">
+                        <div> 1. Create an account</div>
+                        <div> 2. Create a message board</div>
+                        <div> 3. Add friends to board</div>
+                        <div> 4. Post away!</div>
                     </div>
                 </div>
             </section>
@@ -173,13 +173,13 @@ export default class AppIndex extends React.Component {
                 </div>
             </section>
 
-            <footer className="container-fluid mt-5 bottom">
+            <footer className="container left col s12">
                 <div
-                className="container justify-content-center align-items-center">
+                className="col s12">
                     <section>
                         <h5>About</h5>
                         <p>
-                            <strong>PostIt</strong>
+                            <strong>PostIt </strong>
                             is an open source web application.
                         </p>
                     </section>

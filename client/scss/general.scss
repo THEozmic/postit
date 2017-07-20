@@ -24,12 +24,24 @@ body {
     }
 }
 
+.action-btn {
+    margin: 5px 10px 5px 0px;
+}
+
+.container {
+    margin-left: 100px;
+}
+
 .modal {
   color: #131418;
 }
 
 .page-container p {
   font-size: 25px;
+}
+
+.page-header {
+    margin: 50px 0px;
 }
 
 footer img {
@@ -39,4 +51,5 @@ footer img {
 footer section {
   display: inline-block;
   margin: 20px 50px 20px 0px;
+  vertical-align: top;
 }
