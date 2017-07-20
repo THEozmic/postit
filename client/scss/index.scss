@@ -1,6 +1,13 @@
-.container-fluid.steps > * {
-  font-size: 20px;
-  margin-bottom: 15px;
+.steps{
+  margin-top: 30px;
+  * {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+}
+
+.action-buttons {
+    margin-top: 30px
 }
 
 @import "general";
