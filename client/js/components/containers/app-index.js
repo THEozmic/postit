@@ -1,14 +1,26 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import actions from '../../actions';
 
 /**
-  Docs of this class
+  Index page parent component
 */
-export default class AppIndex extends React.Component {
-
+class AppIndex extends React.Component {
   /**
-    Docs of this method
-    @returns {JSX} SideMenu component
+    returns the component jsx
+    @returns {JSX} component
   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      showLoginModal: false
+    };
+    this.showLoginModal = this.showLoginModal.bind(this);
+  }
+
+  showLoginModal() {
+    this.setState({ showLoginModal: true });
+  }
   render() {
     return (
         <div>
@@ -22,21 +34,23 @@ export default class AppIndex extends React.Component {
 
             <section className="container col s12">
                 <div>
-                    <p
-                    className="mt-5">
-                        <h5>{'A web application\
-                        that lets you easily share messages to people you care about.'}</h5>
-                    </p>
+                    <h5>
+                        <p className="mt-5">A web application
+                            that lets you easily share
+                            messages to people you care about.
+                        </p>
+                    </h5>
                     <div class="action-buttons">
                         <button
-                        className="waves-effect waves-light btn action-btn"
-                        data-toggle="modal"
-                        data-target="#createAccountModal">
-                        Create an account</button>
+                        className="waves-effect waves-light btn action-btn">
+                        Create an account
+                        </button>
                         <button
-                        className="waves-effect waves-light btn action-btn"
-                        data-toggle="modal"
-                        data-target="#loginModal">Login</button>
+                        onClick={this.showLoginModal}
+                        className="waves-effect waves-light btn action-btn">
+                        Login
+                        </button>
+
                     </div>
                     <div className="steps">
                         <div> 1. Create an account</div>
@@ -49,7 +63,7 @@ export default class AppIndex extends React.Component {
 
             <section className="container">
                 <div
-                class="modal fade"
+                className="modal fade"
                 id="createAccountModal"
                 tabIndex="-1"
                 role="dialog"
@@ -118,59 +132,60 @@ export default class AppIndex extends React.Component {
                         </div>
                     </div>
                 </div>
-
+                
                 <div
-                className="modal fade"
+                className="modal open"
                 id="loginModal"
                 tabIndex="-1"
                 role="dialog" aria-labelledby="loginModal" aria-hidden="true">
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                        <div className="modal-header">
-                            <h5
-                            className="modal-title"
-                            id="loginModalLabel">Login to your account</h5>
-                            <button
-                            type="button"
-                            className="close"
-                            data-dismiss="modal"
-                            aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <form>
-                                <div>
-                                    <div className="form-group">
-                                        <label>Username/Email</label>
-                                        <input
-                                        className="form-control" type="text"/>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Password</label>
-                                        <input
-                                        className="form-control"
-                                        type="password"/>
-                                    </div>
-                                    <a
-                                    href="forgot-password.html">
-                                    Forgot Password?</a>
-                                </div>
-                            </form>
-                        </div>
-                        <div className="modal-footer">
-                            <button
-                            type="button"
-                            className="btn btn-secondary"
-                            data-dismiss="modal">Cancel</button>
-                            <button
-                            type="button"
-                            className="btn btn-primary">
-                            Login</button>
-                        </div>
-                        </div>
-                    </div>
+                  <div className="modal-dialog" role="document">
+                      <div className="modal-content">
+                      <div className="modal-header">
+                          <h5
+                          className="modal-title"
+                          id="loginModalLabel">Login to your account</h5>
+                          <button
+                          type="button"
+                          className="close"
+                          data-dismiss="modal"
+                          aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div className="modal-body">
+                          <form>
+                              <div>
+                                  <div className="form-group">
+                                      <label>Username/Email</label>
+                                      <input
+                                      className="form-control" type="text"/>
+                                  </div>
+                                  <div className="form-group">
+                                      <label>Password</label>
+                                      <input
+                                      className="form-control"
+                                      type="password"/>
+                                  </div>
+                                  <a
+                                  href="forgot-password.html">
+                                  Forgot Password?</a>
+                              </div>
+                          </form>
+                      </div>
+                      <div className="modal-footer">
+                          <button
+                          type="button"
+                          className="btn btn-secondary"
+                          data-dismiss="modal">Cancel</button>
+                          <button
+                          type="button"
+                          className="btn btn-primary">
+                          Login</button>
+                      </div>
+                      </div>
+                  </div>
                 </div>
+                
             </section>
 
             <footer className="container left col s12">
@@ -199,3 +214,22 @@ export default class AppIndex extends React.Component {
     );
   }
 }
+
+const stateToProps = (state) => {
+  if (state) {
+    return {
+      loginFormIsOpen: state.loginFormIsOpen
+    };
+  }
+};
+
+const dispatchToProps = (dispatch) => {
+  if (dispatch) {
+    return {
+      toggleLoginModal: loginFormIsOpen =>
+      dispatch(actions.toggleLoginModal(loginFormIsOpen))
+    };
+  }
+};
+
+export default connect(stateToProps, dispatchToProps)(AppIndex);
