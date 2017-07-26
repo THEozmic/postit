@@ -16,6 +16,10 @@ a {
   background-color: $primary-color-hover;
 }
 
+.btn:focus, .btn-large:focus, .btn-floating:focus {
+    background-color: $primary-color-hover;
+}
+
 input[type=text]:not(.browser-default):focus:not([readonly]),
 input[type=password]:not(.browser-default):focus:not([readonly]),
 input[type=email]:not(.browser-default):focus:not([readonly]) {
@@ -62,10 +66,6 @@ input[type=email]:not(.browser-default):focus:not([readonly])+label {
 
 .action-btn {
     margin: 5px 10px 5px 0px;
-}
-
-.container {
-    margin-left: 10%;
 }
 
 .modal {

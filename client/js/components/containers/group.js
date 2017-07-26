@@ -10,7 +10,7 @@ const Group = () =>
         <div className="row">
           <SideMenu/>
           <div className="section page-content align-top pl-0 col m7 l9">
-            <h5>Andela Bootcampers</h5>
+            <h5 className="group-header">Andela Bootcampers</h5>
             <Messages/>
           </div>
         </div>

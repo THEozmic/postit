@@ -30,6 +30,12 @@
   }
 }
 
+@media (min-width: 630px) {
+  .dashboard-menu {
+    position: sticky;
+  }
+}
+
 .page-container.container-fluid {
   min-height: 350px;
 }
@@ -53,4 +59,12 @@
 
 .badge-danger {
     background-color: #d9534f;
+}
+
+.group-header {
+  position: sticky;
+  top: -1px;
+  background-color: #252830;
+  padding: 15px 0px;
+  margin-top: 0px;
 }

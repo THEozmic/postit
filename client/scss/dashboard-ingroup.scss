@@ -32,9 +32,13 @@
   display: block;
 }
 
+.messages {
+  padding: 5px;
+}
+
 .new-message {
   position: sticky;
-  bottom: 0px;
+  bottom: -1px;
   background-color: #252830;
   padding: 15px 0px;
   width: 100%;
