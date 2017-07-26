@@ -7,7 +7,7 @@ const Register = () =>
     <section className="container">
       <h5>Create a new account</h5>
       <div className='row'>
-        <div className='col s11 m6'>
+        <div className='col s12 m6'>
           <form className='form'>
             <div className='input-field'>
               <input type='text' id='username'/>
@@ -29,7 +29,7 @@ const Register = () =>
             className='waves-effect waves-light btn action-btn'>
             Register</button>
             <a className='right waves-effect waves-teal btn-flat action-btn'
-             href='#login'>Or Login</a>
+             href='#login'>Login</a>
           </form>
         </div>
       </div>

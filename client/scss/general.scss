@@ -39,6 +39,11 @@ input[type=email]:not(.browser-default):focus:not([readonly])+label {
   color: $primary-color;
 }
 
+select {
+  color: #000;
+  height: auto;
+}
+
 .input-field label {
   color: #bbbbbb;
 }
@@ -65,7 +70,7 @@ input[type=email]:not(.browser-default):focus:not([readonly])+label {
 }
 
 .action-btn {
-    margin: 5px 10px 5px 0px;
+  margin: 5px 2px 5px 0px;
 }
 
 .modal {
@@ -88,7 +93,7 @@ input[type=email]:not(.browser-default):focus:not([readonly])+label {
 }
 
 .page-header {
-    margin: 30px 0px;
+  margin: 30px 0px;
 }
 
 footer img {

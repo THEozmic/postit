@@ -5,7 +5,7 @@ import 'jquery/dist/jquery';
 import 'materialize-css';
 import 'materialize-css/dist/css/materialize.min.css';
 import '../scss/index.scss';
-import { Home, Register, Login } from './components/presentational';
+import { Home, Register, Login, NewGroup, Search } from './components/presentational';
 import { Dashboard, Group } from './components/containers';
 
 const Root = () => (
@@ -16,6 +16,8 @@ const Root = () => (
     <Route path='/login' component={Login}/>
     <Route path='/dashboard' component={Dashboard}/>
     <Route path ='/group' component={Group}/>
+    <Route path ='/new-group' component={NewGroup}/>
+    <Route path ='/search' component={Search}/>
   </div>
 </Router>
 );

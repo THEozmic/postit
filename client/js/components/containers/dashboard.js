@@ -9,7 +9,7 @@ const Dashboard = () =>
       <div className="container">
         <div className="row">
           <SideMenu/>
-          <div className="section page-content align-top pl-0 col m7 l9">
+          <div className="section page-content align-top pl-0 col m7 l8 xl9">
             <h5>My Groups</h5>
             <Groups/>
           </div>

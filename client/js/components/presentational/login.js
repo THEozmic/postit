@@ -7,7 +7,7 @@ const Login = () =>
     <section className="container">
       <h5>Login to your account</h5>
       <div className='row'>
-        <div className='col s11 m6'>
+        <div className='col s12 m6'>
           <form className='form'>
             <div className='input-field'>
               <input type='text' id='username'/>
@@ -20,7 +20,7 @@ const Login = () =>
             <a href='#dashboard'
             className='waves-effect waves-light btn action-btn'>Login</a>
             <a className='right waves-effect waves-teal btn-flat action-btn'
-            href='#register'>Or Register</a>
+            href='#register'>Register</a>
             <div className="section">
               <a href='#recover-password'>Forgot Password?</a>
             </div>

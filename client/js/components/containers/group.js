@@ -8,8 +8,8 @@ const Group = () =>
     <section className="page-container container-fluid">
       <div className="container">
         <div className="row">
-          <SideMenu/>
-          <div className="section page-content align-top pl-0 col m7 l9">
+          <SideMenu ingroup={true}/>
+          <div className="section page-content align-top pl-0 col m7 l8 xl9">
             <h5 className="group-header">Andela Bootcampers</h5>
             <Messages/>
           </div>

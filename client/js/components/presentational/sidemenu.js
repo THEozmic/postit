@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SideMenu = () =>
+const SideMenu = ({ ingroup = false }) =>
 <aside className="left dashboard-menu pr-3">
   <ul>
     <li>
@@ -9,9 +9,10 @@ const SideMenu = () =>
     <li>
       <a href="#new-group" data-toggle="modal" data-target="#createGroupModal">Create Group</a>
     </li>
+    { ingroup ?
     <li>
-      <a href="#search">Find Member</a>
-    </li>
+      <a href="#search">Add members</a>
+    </li> : ''}
     <li>
       <a href="#">Logout</a>
     </li>

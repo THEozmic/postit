@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import scrollToElement from 'scroll-to-element';
 
 class Messages extends React.Component {
   constructor(props) {
     super(props);
   }
   componentDidMount() {
-    const scrollToDiv = ReactDOM.findDOMNode(this.refs.last);
-    scrollToDiv.scrollTop = scrollToDiv.scrollHeight;
+    scrollToElement('.second', {
+      offset: -60,
+      ease: 'out-bounce',
+      duration: 900
+    });
   }
 
   render() {
@@ -55,7 +59,359 @@ class Messages extends React.Component {
             <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
             <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
           </div>
-          <div className="message-container" ref="last">
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@michael, @emeka, @tracy, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@emeka, @tracy, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@philip, @michael, @tracy, @emeka</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@michael, @emeka, @tracy, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@emeka, @tracy, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@philip, @michael, @tracy, @emeka</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@michael, @emeka, @tracy, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@emeka, @tracy, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@philip, @michael, @tracy, @emeka</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@michael, @emeka, @tracy, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@emeka, @tracy, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@philip, @michael, @tracy, @emeka</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@michael, @emeka, @tracy, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@emeka, @tracy, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@philip, @michael, @tracy, @emeka</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@michael, @emeka, @tracy, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@emeka, @tracy, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@philip, @michael, @tracy, @emeka</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@michael, @emeka, @tracy, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@emeka, @tracy, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@philip, @michael, @tracy, @emeka</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@michael, @emeka, @tracy, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@emeka, @tracy, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@philip, @michael, @tracy, @emeka</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@michael, @emeka, @tracy, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@emeka, @tracy, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@philip, @michael, @tracy, @emeka</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@michael, @emeka, @tracy, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@emeka, @tracy, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@philip, @michael, @tracy, @emeka</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@michael, @emeka, @tracy, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@emeka, @tracy, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
+            <div className="message-details">
+              <span className="messenger">@emeka</span>
+              <span className="message-type normal">Normal</span>
+            </div>
+            <div className="message">Welcome bootcampers! I am emeka and I am your Facilitator, please get yourself comfortable with the study videos.</div>
+            <div className="message-read-list">Read by: <span>@philip, @michael, @tracy, @emeka</span></div>
+          </div>
+          <div className="message-container second">
+            <div className="message-details">
+              <span className="messenger">@michael</span>
+              <span className="message-type urgent">Urgent</span>
+            </div>
+            <div className="message">Hello guys, I just got an invitation to the fellowship program. I thought I should let you guys know.</div>
+            <div className="message-read-list">Read by: <span>@tracy, @emeka, @michael, @philip</span></div>
+          </div>
+          <div className="message-container">
             <div className="message-details">
               <span className="messenger">@emeka</span>
               <span className="message-type normal">Normal</span>
@@ -69,14 +425,14 @@ class Messages extends React.Component {
               <textarea className="message-box" placeholder="Type your message..."></textarea>
             </div>
             <div className="col-12 pl-0 pr-0">
-              <div className="col-6 container m-0 float-left pl-0">
-                <select className="form-control">
-                  <option>Normal</option>
-                  <option>Urgent</option>
-                  <option>Critical</option>
+              <div class="priority-level">
+                <select class="browser-default">
+                  <option value="Normal">Normal</option>
+                  <option value="Urgent">Urgent</option>
+                  <option value="Critical">Critical</option>
                 </select>
               </div>
-              <div className="right"><button className="btn btn-primary float-right">Send</button></div>
+              <div className="right"><button className="btn btn-primary">Send</button></div>
             </div>
           </div>
       </div>

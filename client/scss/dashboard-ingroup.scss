@@ -17,23 +17,30 @@
  
 .message-container {
   color: #252830;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
+  display: inline-block;
 }
 
 .message-details, .message, .message-read-list {
   display: inline-block;
-  padding: 10px;
+  padding: 5px;
   background-color: #fff;
   border-radius: 3px;
   margin: 5px 0px 0px;
+  font-size: 13px;
+}
+
+.message-details {
+  margin-right: 5px;
+  float: left;
+}
+
+.message-read-list {
+  float: left;
 }
 
 .message {
-  display: block;
-}
-
-.messages {
-  padding: 5px;
+  float: left;
 }
 
 .new-message {
@@ -47,13 +54,22 @@
 
 .message-box {
   display: inline-block;
-  min-height: 60px;
-  max-height: 100px;
+  border: none;
   background-color: #fff;
   color: #252830;
   padding: 10px;
   border-radius: 3px;
   max-width: 702px;
-  overflow: auto;
   min-width: 100%;
+  height: auto;
+  resize: none; 
+}
+
+.messenger {
+  margin-right: 10px;
+}
+
+.priority-level {
+  display: inline-block;
+  width: 100px;
 }

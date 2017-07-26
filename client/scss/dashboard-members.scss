@@ -1,21 +1,41 @@
-.search-results > div {
-  padding: 10px;
-  margin: 10px 0px;
-  border-radius: 3px;
-  cursor: pointer;
-  &:hover {
-    background-color: $primary-color;
-  }
+.search-results .selected {
+  background-color: #252830;
+}
+
+.search-results span {
+  color: #ffffff;
+  padding: 5px 12px;
+  background-color: #8e9095;
+  margin: 5px;
+  border-radius: 2px;
+  display: inline-block;
+  min-width: 70px;
+}
+
+.search-results {
+  margin: 15px 0px;
+}
+
+.search-prev {
+  float: left;
+  border-right: 1px solid white;
+}
+
+.search-next {
+  float: right;
+  border-left: 1px solid white;
 }
 
 .search-pages {
-  margin: 10px;
+  margin: 10px 0px;
+  background-color: $primary-color;
+  padding: 5px;
+  border-radius: 2px;
+  text-align: center;
   a {
-    margin-right: 15px;
     padding: 3px 15px;
-    background-color: $primary-color;
-    border-radius: 3px;
     color: #fff;
     text-decoration: none;
+    display: inline-block;
   }
 }
