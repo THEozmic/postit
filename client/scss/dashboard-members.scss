@@ -4,7 +4,7 @@
   border-radius: 3px;
   cursor: pointer;
   &:hover {
-    background-color: #0275d8;
+    background-color: $primary-color;
   }
 }
 
@@ -13,7 +13,7 @@
   a {
     margin-right: 15px;
     padding: 3px 15px;
-    background-color: #0275d8;
+    background-color: $primary-color;
     border-radius: 3px;
     color: #fff;
     text-decoration: none;

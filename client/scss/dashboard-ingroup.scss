@@ -4,13 +4,13 @@
   border-radius: 3px;
   color: #252830;
   font-weight: bolder;
-  .urgent {
+  &.urgent {
      background-color: #FFC107;
   }
-  .critical {
+  &.critical {
      background-color: #FF5722;
   }
-  .normal {
+  &.normal {
      background-color: #CDDC39;
   }
 }
@@ -39,4 +39,17 @@
   padding: 15px 0px;
   width: 100%;
   display: inline-block;
+}
+
+.message-box {
+  display: inline-block;
+  min-height: 60px;
+  max-height: 100px;
+  background-color: #fff;
+  color: #252830;
+  padding: 10px;
+  border-radius: 3px;
+  max-width: 702px;
+  overflow: auto;
+  min-width: 100%;
 }

@@ -59,7 +59,7 @@
     ]
   },
   "scripts": {
-    "start:dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --progress --colors --inline --content-base client/",
+    "start:dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js -w --progress --colors --inline --content-base client/",
     "dev": "webpack-dev-server --content-base client --inline --hot",
     "test_": "nyc mocha --compilers js:babel-core/register --timeout 10000",
     "test-dev": "mocha --compilers js:babel-core/register --timeout 10000",

@@ -1,8 +1,8 @@
-import React from 'react';
-import AppIndex from '../containers/app-index';
+import Home from './home';
+import Register from './register';
+import Login from './login';
+import Header from './header';
+import Footer from './footer';
+import SideMenu from './sidemenu';
 
-export default class App extends React.Component {
-  render() {
-    return <div><AppIndex/></div>;
-  }
-}
+export { Home, Register, Login, Header, Footer, SideMenu };

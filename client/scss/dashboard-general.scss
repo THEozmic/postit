@@ -1,7 +1,6 @@
 .dashboard-menu {
   display: inline-block;
-  margin-top: 30px;
-  position: -webkit-sticky;
+  margin-right: 30px;
   top: 1px;
   ul {
     list-style: none;
@@ -18,8 +17,8 @@
     display: block;
     width: 200px;
     font-size: 14px;
-    .active {
-      background-color: #0275d8;
+    &.active {
+      background-color: $primary-color;
       border-radius: 3px;
       &:hover {
         color: #ccc9c9;
@@ -50,4 +49,8 @@
   text-align: center;
   display: inline-block;
   position: relative;
+}
+
+.badge-danger {
+    background-color: #d9534f;
 }
