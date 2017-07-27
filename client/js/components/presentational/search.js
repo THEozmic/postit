@@ -1,11 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Footer, Header } from './';
 
-const Search = () =>
+const Search = ({ selectedGroup }) =>
 <div>
   <Header/>
     <section className="container">
-      <h5>Add users to a group</h5>
+      <h5>Add users to { selectedGroup } group</h5>
       <div className='row'>
         <div className='col s12 m6'>
           <form className='form'>
@@ -30,4 +31,9 @@ const Search = () =>
   <Footer/>
 </div>;
 
-export default Search;
+const mapStateToProps = (state) => {
+  return {
+    selectedGroup: state.selectedGroup
+  };
+};
+export default connect(mapStateToProps, null)(Search);

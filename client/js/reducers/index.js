@@ -1,19 +1,8 @@
-// import { createStore, combineReducers } from 'redux';
-// import createAccount from './createAccount';
-// import loginUser from './loginUser';
+import { combineReducers } from 'redux';
+import selectedGroup from './selectedGroup';
 
-// const postItApp = combineReducers({
-//   createAccount,
-//   loginUser
-// });
+const rootReducer = combineReducers({
+  selectedGroup
+});
 
-// const appStore = createStore(postItApp);
-
-
-// export default { appStore };
-
-import toggleLogin from './toggleLogin';
-
-export {
-  toggleLogin
-};
+export default rootReducer;
