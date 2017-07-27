@@ -1,40 +1,64 @@
 import React from 'react';
-import { Footer, Header } from './';
+import { connect } from 'react-redux';
+import Form from './form';
+import registerUser from '../../actions/registerUser';
 
-const Register = () =>
-<div>
-  <Header/>
-    <section className="container">
-      <h5>Create a new account</h5>
-      <div className='row'>
-        <div className='col s12 m6'>
-          <form className='form'>
-            <div className='input-field'>
-              <input type='text' id='username'/>
-              <label for='username'>Username</label>
-            </div>
-            <div className='input-field'>
-              <input type='email' id='email'/>
-              <label for='email'>Email</label>
-            </div>
-            <div className='input-field'>
-              <input type='text' id='phone'/>
-              <label for='phone'>Phone</label>
-            </div>
-            <div className='input-field'>
-              <input type='password' id='password'/>
-              <label for='password'>Password</label>
-            </div>
-            <button
-            className='waves-effect waves-light btn action-btn'>
-            Register</button>
-            <a className='right waves-effect waves-teal btn-flat action-btn'
-             href='#login'>Login</a>
-          </form>
+class Register extends React.Component{
+
+  constructor(props) {
+    super(props);
+
+    this.onRegisterUser = this.onRegisterUser.bind(this);
+  }
+
+  onRegisterUser(e) {
+    e.preventDefault();
+    let { username, email, phone, password } = this;
+    username = username.value;
+    const user = {
+      username,
+      email,
+      phone,
+      password
+    };
+    this.props.onRegisterUser(user);
+    location.hash = '#dashboard';
+  }
+
+  render() {
+    return (
+      <Form title='Create a new account'>
+        <div className='input-field'>
+          <input type='text' id='username' ref={(input) => { this.username = input; }}/>
+          <label for='username'>Username</label>
         </div>
-      </div>
-    </section>
-  <Footer/>
-</div>;
+        <div className='input-field'>
+          <input type='email' id='email' ref={(input) => { this.email = input; }}/>
+          <label for='email'>Email</label>
+        </div>
+        <div className='input-field'>
+          <input type='text' id='phone' ref={(input) => { this.phone = input; }}/>
+          <label for='phone'>Phone</label>
+        </div>
+        <div className='input-field'>
+          <input type='password' id='password' ref={(input) => { this.password = input; }}/>
+          <label for='password'>Password</label>
+        </div>
+        <button
+        onClick= { this.onRegisterUser }
+        className='waves-effect waves-light btn action-btn'>
+        Register</button>
+        <a className='right waves-effect waves-teal btn-flat action-btn'
+          href='#login'>Login</a>
+      </Form>
+    );
+  }
+}
 
-export default Register;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onRegisterUser: user => dispatch(registerUser(user))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Register);

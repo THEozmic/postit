@@ -5,6 +5,5 @@ import Header from './header';
 import Footer from './footer';
 import SideMenu from './sidemenu';
 import NewGroup from './new-group';
-import Search from './search';
 
-export { Home, Register, Login, Header, Footer, SideMenu, NewGroup, Search };
+export { Home, Register, Login, Header, Footer, SideMenu, NewGroup };

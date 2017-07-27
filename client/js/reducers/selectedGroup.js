@@ -2,7 +2,7 @@ const selectedGroup = (state = '', action) => {
   const { type, group } = action;
   switch (type) {
     case 'CHANGE_SELECTED_GROUP':
-      return 'Andela Bootcampers';
+      return group;
     default:
       return state;
   }

@@ -1,6 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-const Header = () =>
+const Header = ({ user }) =>
 <header className="page-header">
     <div className='container'>
       <a
@@ -9,7 +10,16 @@ const Header = () =>
       Post
       <span>It</span>
       </a>
+      { user.username === undefined ? '' :
+      <span className="user-greeting">Hi, { user.username }</span>
+      }
     </div>
 </header>;
 
-export default Header;
+const mapStateToProps = (state) => {
+  return {
+    user: state.userData
+  };
+};
+export default connect(mapStateToProps, null)(Header);
+
