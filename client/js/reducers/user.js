@@ -1,9 +1,10 @@
 const userData = (state = {}, action) => {
   const { type, user } = action;
   switch (type) {
-    case 'REGISTER_USER':
-      console.log(user, '==========>>>');
+    case 'LOGIN_USER':
       return user;
+    case 'LOGOUT_USER':
+      return {};
     default:
       return state;
   }

@@ -1,4 +1,4 @@
-.search-results .selected {
+.search-results .ingroup {
   background-color: #252830;
 }
 
@@ -10,6 +10,7 @@
   border-radius: 2px;
   display: inline-block;
   min-width: 70px;
+  cursor: pointer;
 }
 
 .search-results {

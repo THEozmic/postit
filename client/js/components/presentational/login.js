@@ -1,23 +1,73 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Form from './form';
+import loginUser from '../../actions/loginUser';
 
-const Login = () =>
-<Form title='Login to your account'>
-  <div className='input-field'>
-    <input type='text' id='username'/>
-    <label for='username'>Username</label>
-  </div>
-  <div className='input-field'>
-    <input type='password' id='password'/>
-    <label for='password'>Password</label>
-  </div>
-  <a href='#dashboard'
-  className='waves-effect waves-light btn action-btn'>Login</a>
-  <a className='right waves-effect waves-teal btn-flat action-btn'
-  href='#register'>Register</a>
-  <div className="section">
-    <a href='#recover-password'>Forgot Password?</a>
-  </div>
-</Form>;
+class Login extends React.Component {
 
-export default Login;
+  constructor(props) {
+    super(props);
+    this.onLoginUser = this.onLoginUser.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+    this.state = {
+      error_message: ''
+    };
+  }
+
+  onFocus() {
+    this.setState({ error_message: '' });
+  }
+
+  onLoginUser(e) {
+    e.preventDefault();
+    let { username, password } = this;
+    username = username.value.trim();
+    password = password.value;
+    const user = {
+      username,
+      password,
+      email: 'dummy@email.com',
+      phone: '090PHONNY'
+    };
+    if (username === '' || password === '') {
+      this.setState({ error_message: 'Error: One or more fields are empty' });
+      return;
+    }
+    this.props.onLoginUser(user);
+    location.hash = '#dashboard';
+  }
+
+  render() {
+    return (
+      <Form title='Login to your account'>
+        <div className='input-field'>
+          <input onFocus={this.onFocus}
+          type='text' id='username'
+          ref = {(input) => { this.username = input; }} />
+          <label for='username'>Username</label>
+        </div>
+        <div className='input-field'>
+          <input onFocus={this.onFocus}
+          type='password' id='password' ref={(input) => { this.password = input; }}/>
+          <label for='password'>Password</label>
+        </div>
+        { this.state.error_message === '' ? '' :
+        <div className='red card' style={{ padding: '5px 10px' }}>{this.state.error_message}</div>}
+        <button
+        onClick= { this.onLoginUser }
+        className='waves-effect waves-light btn action-btn'>
+        Login</button>
+        <a className='right waves-effect waves-teal btn-flat action-btn'
+          href='#register'>Register</a>
+      </Form>
+    );
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLoginUser: user => dispatch(loginUser(user))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);
+
