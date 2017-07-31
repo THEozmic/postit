@@ -48,4 +48,7 @@ export default (app) => {
 
   // API route that returns current logged in user and their group(s)
   app.get('/api/users/me/', controllers.users.fetchMe);
+
+  // API route for search
+  app.get('/api/search/:term', controllers.users.search);
 };

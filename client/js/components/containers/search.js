@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Form from '../presentational/form';
+import api from '../helpers/api';
 
 class Search extends React.Component {
   constructor(props) {
@@ -13,12 +14,19 @@ class Search extends React.Component {
   }
 
   onSearchChange() {
-    const users = [
-      { id: 1, username: '@kobi', ingroup: false },
-      { id: 2, username: '@sola', ingroup: false },
-      { id: 3, username: '@akpan', ingroup: false }];
-
-    this.setState({ foundUsers: users });
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
+    api(null, `/api/search/${this.term.value}`, 'GET', headers).then(
+      (users) => {
+        console.log(users);
+        this.setState({ foundUsers: users.data });
+      }
+    );
+    // const users = [
+    //   { id: 1, username: '@kobi', ingroup: false },
+    //   { id: 2, username: '@sola', ingroup: false },
+    //   { id: 3, username: '@akpan', ingroup: false }];
   }
 
   onSelectUser(user) {
@@ -66,7 +74,7 @@ class Search extends React.Component {
           {this.state.foundUsers.map(fUser =>
             <span key={fUser.id}
             onClick={() => this.onSelectUser(fUser)}
-            className={fUser.ingroup ? 'ingroup' : ''}>{fUser.username}</span>
+            className={fUser.ingroup ? 'ingroup' : ''}>@{fUser.username}</span>
           )}
           <div class="search-pages"><a href="#/1" className="search-prev">Prev</a><a href="#/2">2</a><a href="#/3" className="search-next">Next</a></div>
         </div>

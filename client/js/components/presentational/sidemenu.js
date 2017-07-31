@@ -14,9 +14,6 @@ const SideMenu = ({ active = 'dashboard', user, ingroup = false, onChangeSelecte
       onLoginUser(sessionStorage.getItem('user'));
       console.log('SIDEMENU_SESSION:::::::', sessionStorage.getItem('user'));
     }
-  } else {
-    // location.hash = '#login';
-    // return null;
   }
 
   console.log('SIDEMENU_USER:::::::', user);

@@ -156,5 +156,22 @@ export default {
           data: req.body
         });
       });
+  },
+  search(req, res) {
+    console.log('=============>>>>>>>>', `%${req.params.term}`);
+    return models.Users
+    .findAll({
+      where: { username: { $iLike: `%${req.params.term}%` } },
+      attributes: ['id', 'username']
+    })
+    .then((users) => {
+      res.status(200).send({ data: users });
+    })
+    .catch((error) => {
+      newRes.message = error.message;
+      newRes.code = 400;
+      newRes.success = false;
+      res.status(newRes.code).send(newRes);
+    });
   }
 };

@@ -26,14 +26,6 @@ class Group extends React.Component {
         this.props.loadMessages(messages);
         console.log('MESSAGES::::::::::>>>> ', messages);
       });
-    // const messages = [
-    //   {
-    //     id: 1, from: '@michael', priority: 'normal', content: 'Hello guys', readBy: ['@emeka', '@obi']
-    //   },
-    //   {
-    //     id: 2, from: '@emeka', priority: 'normal', content: 'Hello @michael', readBy: ['@michael', '@obi'],
-    //   }
-    // ];
   }
 
   render() {
