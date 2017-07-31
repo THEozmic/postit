@@ -14,13 +14,6 @@ module.exports = {
           notEmpty: true
         }
       },
-      type: {
-        allowNull: false,
-        type: Sequelize.STRING,
-        validate: {
-          isIn: [['Public', 'Private']]
-        }
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

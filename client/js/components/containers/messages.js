@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import 'whatwg-fetch';
 import scrollToElement from 'scroll-to-element';
 import sendMessage from '../../actions/sendMessage';
+import loadMessages from '../../actions/loadMessages';
+import api from '../helpers/api';
 
 class Messages extends React.Component {
   constructor(props) {
@@ -28,31 +29,42 @@ class Messages extends React.Component {
 
   send(e) {
     e.preventDefault();
-    let { content, from, priority } = this;
+    let { content, priority } = this;
     content = content.value.trim();
-    from = '@michael';
-    priority = priority.value.trim().toLowerCase();
-    const id = this.props.messages[this.props.messages.length - 1].id + 1;
+    priority = priority.value.trim();
     const readBy = [];
-    if (content === '' || from === '' || priority === '') {
+    if (content === '' || priority === '') {
       this.setState({ message_error: 'Error: Message has no priority, sender or content' });
       return;
     }
-    const newMessage = { id, content, from, priority, readBy };
-    fetch('http://localhost:8000/api/users')
-    .then((response) => {
-      console.log(response, '==============>>>>');
-      if (response.body.status === 200) {
-        this.props.send(newMessage);
-      }
-    });
+    console.log('PROPS_USER:::::::', this.props.user);
+    const newMessageBody =
+    `message=${content}&from_user=${JSON.parse(this.props.user).data.username}
+    &priority=${priority}&to_group=${this.props.selectedGroup.id}`;
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/x-www-form-urlencoded');
+    headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
+    api(newMessageBody, `/api/groups/${this.props.selectedGroup.id}/message`, 'POST', headers).then(
+      (response) => {
+        const newMessage = {
+          id: response.id,
+          message: content,
+          from_user: JSON.parse(this.props.user).data.username,
+          priority: priority.toLowerCase()
+        };
+        console.log('NEW MESSAGE CONCAT:::::', this.props.messages.concat([newMessage]));
+        this.props.loadMessages(this.props.messages.concat([newMessage]));
 
+        console.log(response);
+      }
+    );
     this.content.value = '';
     this.scrollPane();
   }
 
   render() {
     let n = 0;
+    console.log('MESSAGES::::::: ', this.props.messages);
     return (
       <div className="page-content align-top pl-0 col-md-7 col-lg-9">
         <div className="messages">
@@ -68,14 +80,15 @@ class Messages extends React.Component {
               <div className={`message-container${secondClass}`} key={message.id}>
                 <div className="message">
                   <div className="message-details">
-                    <span className="messenger">{message.from}</span>
-                    <span className={`message-type ${message.priority}`}>{message.priority}</span>
+                    <span className="messenger">@{message.from_user}</span>
+                    <span className={`message-type ${message.priority.toLowerCase()}`}>
+                      {message.priority.toLowerCase()}</span>
                   </div>
-                  <div>{message.content}</div>
-                  {message.readBy.length === 0 ? '' :
+                  <div>{message.message}</div>
+                  {/* {message.readBy.length === 0 ? '' :
                   <div className="message-read-list">Read by: <span>
                   {message.readBy.join(', ')}</span></div>
-                  }
+                  } */}
                 </div>
               </div>);
           })
@@ -101,10 +114,19 @@ class Messages extends React.Component {
     );
   }
 }
-const mapDispatchToProps = (dispatch) => {
+
+const mapStateToProps = (state) => {
   return {
-    send: newMessage => dispatch(sendMessage(newMessage))
+    user: state.userData,
+    selectedGroup: state.selectedGroup
   };
 };
 
-export default connect(null, mapDispatchToProps)(Messages);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    send: newMessage => dispatch(sendMessage(newMessage)),
+    loadMessages: allMessages => dispatch(loadMessages(allMessages))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Messages);

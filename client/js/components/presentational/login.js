@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Form from './form';
 import loginUser from '../../actions/loginUser';
+import api from '../helpers/api';
 
 class Login extends React.Component {
 
@@ -19,27 +20,33 @@ class Login extends React.Component {
   }
 
   onLoginUser(e) {
+    console.log('user');
     e.preventDefault();
     let { username, password } = this;
     username = username.value.trim();
     password = password.value;
-    const user = {
-      username,
-      password,
-      email: 'dummy@email.com',
-      phone: '090PHONNY'
-    };
-    if (username === '' || password === '') {
+    if (username !== '' || password !== '') {
+      const userString = `username=${username}&password=${password}`;
+      api(userString, 'http://localhost:3000/api/signin', 'POST').then(
+        (_loginRes) => {
+          if (_loginRes.error === undefined) {
+            console.log(_loginRes);
+            this.props.onLoginUser(JSON.stringify(_loginRes));
+            sessionStorage.setItem('user', JSON.stringify(_loginRes));
+            location.hash = '#dashboard';
+          } else {
+            this.setState({ error_message: _loginRes.error.message });
+          }
+        }
+      );
+    } else {
       this.setState({ error_message: 'Error: One or more fields are empty' });
-      return;
     }
-    this.props.onLoginUser(user);
-    location.hash = '#dashboard';
   }
 
   render() {
     return (
-      <Form title='Login to your account'>
+      <Form title='Login to your account' sidemenu={false}>
         <div className='input-field'>
           <input onFocus={this.onFocus}
           type='text' id='username'

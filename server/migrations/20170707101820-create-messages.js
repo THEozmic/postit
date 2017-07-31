@@ -8,7 +8,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       from_user: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false
       },
       to_group: {

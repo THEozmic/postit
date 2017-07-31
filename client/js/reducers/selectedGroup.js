@@ -1,4 +1,4 @@
-const selectedGroup = (state = '', action) => {
+const selectedGroup = (state = {}, action) => {
   const { type, group } = action;
   switch (type) {
     case 'CHANGE_SELECTED_GROUP':

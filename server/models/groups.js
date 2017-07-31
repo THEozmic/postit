@@ -6,13 +6,6 @@ export default (sequelize, DataTypes) => {
       validate: {
         notEmpty: true
       }
-    },
-    type: {
-      allowNull: false,
-      type: DataTypes.STRING,
-      validate: {
-        isIn: [['Public', 'Private']]
-      }
     }
   });
   Groups.associate = (models) => {

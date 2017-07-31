@@ -46,12 +46,18 @@ class Search extends React.Component {
 
   render() {
     const { selectedGroup } = this.props;
-    if (selectedGroup === '') {
-      location.hash = 'dashboard';
+    console.log('SELECTED GROUP:::::::', selectedGroup);
+    if (selectedGroup.name === '' || selectedGroup.name === undefined) {
+      location.hash = '#dashboard';
+      return null;
     }
-    const title = `Add users to ${selectedGroup} group`;
-    return(
-      <Form title={ title }>
+
+    const title = ['Add users to ',
+      <span style={{ color: '#0275d8' }}>{ selectedGroup.name }</span>,
+      ' group'];
+    
+    return (
+      <Form title={ title } active='search' ingroup={true}>
         <div className='input-field'>
           <input type='text' id='search' onChange={ this.onSearchChange } ref={(input) => { this.term = input; }}/>
           <label for='search'>Search by username</label>

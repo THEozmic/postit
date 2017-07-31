@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Form from './form';
 import loginUser from '../../actions/loginUser';
+import api from '../helpers/api';
 
 class Register extends React.Component {
 
@@ -35,24 +36,32 @@ class Register extends React.Component {
       this.setState({ error_message: 'Error: One or more fields are empty' });
       return;
     }
-    const userString = `username=${username}&email=${email}&password=${password}&phon=${phone}`;
-    fetch('http://localhost:3000/api/users', { method: 'POST',
-      body: userString
-    })
-    .then((body) => {
-      console.log(body, '==============>>>>');
-      if (response.body.status === 200) {
-        this.props.onLoginUser(user);
-        location.hash = '#dashboard';
-      } else {
-        this.setState({ error_message: response.body.error.message });
+    const userString = `username=${username}&email=${email}&password=${password}&phone=${phone}`;
+    api(userString, 'http://localhost:3000/api/users', 'POST', null).then(
+      (_registerRes) => {
+        if (_registerRes.error === undefined) {
+          api(userString, 'http://localhost:3000/api/signin', 'POST', null).then(
+            (_loginRes) => {
+              if (_loginRes.error === undefined) {
+                console.log(_loginRes);
+                this.props.onLoginUser(JSON.stringify(_loginRes));
+                sessionStorage.setItem('user', JSON.stringify(_loginRes));
+                location.hash = '#dashboard';
+              } else {
+                this.setState({ error_message: _loginRes.error.message });
+              }
+            }
+          );
+        } else {
+          this.setState({ error_message: _registerRes.error.message });
+        }
       }
-    });
+    );
   }
 
   render() {
     return (
-      <Form title='Create a new account'>
+      <Form title='Create a new account' sidemenu={false}>
         <div className='input-field'>
           <input onFocus={this.onFocus}
           type='text' id='username'

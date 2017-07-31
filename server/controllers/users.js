@@ -103,7 +103,7 @@ export default {
       });
   },
   fetchMe(req, res) {
-    const username = req.decoded.data;
+    const username = req.decoded.data.username;
     return models.Users
     .find({
       include: [{
@@ -132,19 +132,19 @@ export default {
       .then((user) => {
         const givenPassword = req.body.password;
         if (user[0]) {
-          if (bcrypt.hashSync(givenPassword, salt) === user[0].password) {
+          if (bcrypt.compareSync(givenPassword, user[0].password)) {
           // create a token
             const token = jwt.sign({
-              data: user[0].username
+              data: user[0]
             }, 'Armageddon', { expiresIn: '48h' });
 
             res.status(202).send({
               token,
-              data: req.body
+              data: { username: user[0].username, email: user[0].email, id: user[0].id }
             });
           } else {
             res.status(401).send({
-              message: 'invalid password',
+              error: { message: 'Invalid password and username -' },
               data: req.body
             });
           }
@@ -152,7 +152,7 @@ export default {
         }
 
         res.status(404).send({
-          message: 'invalid username',
+          error: { message: 'Invalid password and username' },
           data: req.body
         });
       });

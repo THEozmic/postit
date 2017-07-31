@@ -2,16 +2,20 @@ import models from '../models';
 
 export default {
   create(req, res) {
-    if (!req.body.name || !req.body.type) {
+    if (!req.body.name) {
       res.status(400).send({ message: 'Params: "name" and "type" are required' });
       return;
     }
     return models.Groups
       .create({
         name: req.body.name,
-        type: req.body.type
       })
-      .then(group => res.status(201).send(group))
+      .then((group) => {
+        const userId = req.decoded.data.id;
+        models.GroupUsers
+        .create({ userId, groupId: group.id })
+        .then(res.status(201).send(group));
+      })
       .catch(error => res.status(400).send(error));
   },
   fetch(req, res) {
