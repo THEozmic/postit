@@ -29,6 +29,10 @@ export default (sequelize, DataTypes) => {
       validate: {
         notEmpty: true
       }
+    },
+    lastSeenTrigger: {
+      allowNull: true,
+      type: DataTypes.STRING
     }
   });
   Users.associate = (models) => {

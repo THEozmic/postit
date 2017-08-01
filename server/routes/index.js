@@ -37,8 +37,8 @@ export default (app) => {
   // API route to get list of all users in a group
   app.get('/api/groups/:id/users', controllers.groups.fetchMembers);
 
-  // API route that allow users add other users to groups
-  app.post('/api/groups/:id/user/', controllers.groupUsers.addUser);
+  // API route that allow users add/remove other users to/from groups
+  app.post('/api/groups/:id/user/', controllers.groupUsers.upsert);
 
   // API route that allows a logged in user post messages to created groups
   app.post('/api/groups/:id/message/', controllers.messages.create);
@@ -50,5 +50,5 @@ export default (app) => {
   app.get('/api/users/me/', controllers.users.fetchMe);
 
   // API route for search
-  app.get('/api/search/:term', controllers.users.search);
+  app.get('/api/search/:group/:term', controllers.users.search);
 };

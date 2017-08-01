@@ -1,7 +1,7 @@
 import models from '../models';
 
 export default {
-  addUser(req, res) {
+  upsert(req, res) {
     if (!req.body.userId) {
       res.status(400)
       .send({ error: { message: 'Param: "user_id" is required' } });

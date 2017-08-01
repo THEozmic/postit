@@ -7,38 +7,64 @@ class Search extends React.Component {
   constructor(props) {
     super(props);
     this.onSearchChange = this.onSearchChange.bind(this);
+    this.onFinishClick = this.onFinishClick.bind(this);
     this.state = {
       foundUsers: [],
       selectedUsers: []
     };
   }
 
-  onSearchChange() {
+  onFinishClick() {
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
-    api(null, `/api/search/${this.term.value}`, 'GET', headers).then(
-      (users) => {
-        console.log(users);
-        this.setState({ foundUsers: users.data });
-      }
-    );
-    // const users = [
-    //   { id: 1, username: '@kobi', ingroup: false },
-    //   { id: 2, username: '@sola', ingroup: false },
-    //   { id: 3, username: '@akpan', ingroup: false }];
+    api().then();
+  }
+
+  onSearchChange() {
+    if (this.term.value.trim() !== '') {
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/x-www-form-urlencoded');
+      headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
+      api(null, `/api/search/${this.props.selectedGroup.id}/${this.term.value.trim()}`, 'GET', headers).then(
+        (users) => {
+          console.log(users);
+          const nUsers = users.data.map((user) => {
+            this.state.selectedUsers.map((sUser) => {
+              if (sUser.id === user.id) {
+                user.ingroup = true;
+              }
+              return users;
+            });
+            console.log('USER:::>>>>', user);
+            return user;
+          });
+          this.setState({ foundUsers: nUsers });
+        }
+      );
+    }
   }
 
   onSelectUser(user) {
     // Remove from selectedUsers list if it exists there
     // or Add to selectedUsers list
-    if (this.state.selectedUsers.includes(user)) {
+    let alreadySelected = false;
+    this.state.selectedUsers.map((sUser) => {
+      if (sUser.id === user.id) {
+        alreadySelected = true;
+        return sUser;
+      }
+      return false;
+    });
+    console.log('ALREADY SELECTED:::::', alreadySelected);
+    if (!alreadySelected) {
+      const selectedUsers = this.state.selectedUsers.concat(user);
+      this.setState({ selectedUsers });
+    } else {
       const users = this.state.selectedUsers.filter(sUser => sUser.id !== user.id);
       this.setState({ selectedUsers: users });
-    } else {
-      const users = this.state.selectedUsers.concat(user);
-      this.setState({ selectedUsers: users });
     }
+    console.log('SELECTED USERS:::::', this.state.selectedUsers.concat(user));
 
     // flip the ingroup value
     let foundUsers = Object.assign([], this.state.foundUsers);
@@ -63,9 +89,10 @@ class Search extends React.Component {
     const title = ['Add users to ',
       <span style={{ color: '#0275d8' }}>{ selectedGroup.name }</span>,
       ' group'];
-    
+
     return (
       <Form title={ title } active='search' ingroup={true}>
+        <h6 style={{ color: '#0275d8' }}>Selected Users: { this.state.selectedUsers.map(user => `${user.id}, `) }</h6>
         <div className='input-field'>
           <input type='text' id='search' onChange={ this.onSearchChange } ref={(input) => { this.term = input; }}/>
           <label for='search'>Search by username</label>
@@ -78,8 +105,8 @@ class Search extends React.Component {
           )}
           <div class="search-pages"><a href="#/1" className="search-prev">Prev</a><a href="#/2">2</a><a href="#/3" className="search-next">Next</a></div>
         </div>
-        <a className='waves-effect waves-light btn action-btn'
-          href='#group'>Finish</a>
+        <button className='waves-effect waves-light btn action-btn'
+          onClick={this.onFinishClick}>Finish</button>
         <a className='right waves-effect waves-teal btn-flat action-btn'
         href='#dashboard'>Cancel</a>
       </Form>);

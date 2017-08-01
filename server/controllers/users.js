@@ -165,7 +165,32 @@ export default {
       attributes: ['id', 'username']
     })
     .then((users) => {
-      res.status(200).send({ data: users });
+      const newUsers = [];
+      if (users.length === 0) {
+        res.status(200).send({ data: newUsers });
+        return;
+      }
+      users.map((user, key) => {
+        newUsers.push(user.dataValues);
+        return models.GroupUsers
+        .find({
+          where: { userId: user.id, groupId: req.params.group },
+          attributes: ['userId']
+        }).then((result) => {
+          console.log('RESULT:::::::>>>>>>>', result);
+          console.log('KEEEYYYYY::::>>>', key);
+          if (result !== null) {
+            console.log('RESULT2:::::::>>>>>>>', result);
+            newUsers[key].ingroup = true;
+            console.log('USER::::>>>>', user);
+            console.log('NEWUSER::::>>>>', newUsers[key]);
+          } else {
+            newUsers[key].ingroup = false;
+          }
+          res.status(200).send({ data: newUsers });
+        });
+      });
+      // res.status(200).send({ data: newUsers });
     })
     .catch((error) => {
       newRes.message = error.message;
