@@ -37,6 +37,10 @@ module.exports = {
           notEmpty: true
         }
       },
+      lastSeenTrigger: {
+        allowNull: true,
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

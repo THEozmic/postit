@@ -1,22 +1,63 @@
 body {
   background-color: #252830;
   color: #fff;
+  font-family: 'Open Sans';
 }
 
 a {
-  color: #26a69a;
+  color: $primary-color;
+}
+
+.btn, .btn-large {
+  background-color: $primary-color;
+}
+
+.btn:hover, .btn-large:hover {
+  background-color: $primary-color-hover;
+}
+
+.btn:focus, .btn-large:focus, .btn-floating:focus {
+    background-color: $primary-color-hover;
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]) {
+  border-bottom: 1px solid $primary-color;
+  box-shadow: 0 1px 0 0 $primary-color;
+}
+
+input[type=text]:not(.browser-default),
+input[type=password]:not(.browser-default),
+input[type=email]:not(.browser-default) {
+  border-bottom: 1px solid #dcdcdc;
+}
+
+input[type=text]:not(.browser-default):focus:not([readonly])+label,
+input[type=password]:not(.browser-default):focus:not([readonly])+label,
+input[type=email]:not(.browser-default):focus:not([readonly])+label {
+  color: $primary-color;
+}
+
+select {
+  color: #000;
+  height: auto;
+}
+
+.input-field label {
+  color: #bbbbbb;
 }
 
 .page-title {
   font-size: 30px;
-  display: block;
+  display: inline-block;
   text-decoration: none;
   color: #fff;
   span {
     font-size: 15px;
     margin-left: 5px;
     text-transform: uppercase;
-    border-bottom: 3px solid #26a69a;
+    border-bottom: 3px solid $primary-color;
     display: inline;
     position: relative;
     top: -7px;
@@ -29,15 +70,22 @@ a {
 }
 
 .action-btn {
-    margin: 5px 10px 5px 0px;
-}
-
-.container {
-    margin-left: 100px;
+  margin: 5px 2px 5px 0px;
 }
 
 .modal {
   color: #131418;
+}
+
+.form {
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.form input, .form input::placeholder {
+  color: #252830;
 }
 
 .page-container p {
@@ -45,7 +93,7 @@ a {
 }
 
 .page-header {
-    margin: 50px 0px;
+  margin: 30px 0px;
 }
 
 footer img {

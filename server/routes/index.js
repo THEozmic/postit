@@ -11,7 +11,7 @@ export default (app) => {
     jwt.verify(token, 'Armageddon', (err, decoded) => {
       if (err) {
         res.status(401).send({
-          message: 'user not authenticated, invalid access token'
+          error: { message: 'user not authenticated, invalid access token' }
         });
         return;
       }
@@ -37,11 +37,8 @@ export default (app) => {
   // API route to get list of all users in a group
   app.get('/api/groups/:id/users', controllers.groups.fetchMembers);
 
-  // API route to get list of all users in a group
-  app.get('/api/groups/:id', controllers.groups.fetch);
-
-  // API route that allow users add other users to groups
-  app.post('/api/groups/:id/user/', controllers.groupUsers.addUser);
+  // API route that allow users add/remove other users to/from groups
+  app.post('/api/groups/:id/user/', controllers.groupUsers.upsert);
 
   // API route that allows a logged in user post messages to created groups
   app.post('/api/groups/:id/message/', controllers.messages.create);
@@ -51,4 +48,7 @@ export default (app) => {
 
   // API route that returns current logged in user and their group(s)
   app.get('/api/users/me/', controllers.users.fetchMe);
+
+  // API route for search
+  app.get('/api/search/:group/:term', controllers.users.search);
 };

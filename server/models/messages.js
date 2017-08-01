@@ -1,7 +1,7 @@
 export default (sequelize, DataTypes) => {
   const Messages = sequelize.define('Messages', {
     from_user: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false
     },
     to_group: {

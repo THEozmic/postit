@@ -103,7 +103,7 @@ export default {
       });
   },
   fetchMe(req, res) {
-    const username = req.decoded.data;
+    const username = req.decoded.data.username;
     return models.Users
     .find({
       include: [{
@@ -132,19 +132,19 @@ export default {
       .then((user) => {
         const givenPassword = req.body.password;
         if (user[0]) {
-          if (bcrypt.hashSync(givenPassword, salt) === user[0].password) {
+          if (bcrypt.compareSync(givenPassword, user[0].password)) {
           // create a token
             const token = jwt.sign({
-              data: user[0].username
+              data: user[0]
             }, 'Armageddon', { expiresIn: '48h' });
 
             res.status(202).send({
               token,
-              data: req.body
+              data: { username: user[0].username, email: user[0].email, id: user[0].id }
             });
           } else {
             res.status(401).send({
-              message: 'invalid password',
+              error: { message: 'Invalid password and username -' },
               data: req.body
             });
           }
@@ -152,9 +152,51 @@ export default {
         }
 
         res.status(404).send({
-          message: 'invalid username',
+          error: { message: 'Invalid password and username' },
           data: req.body
         });
       });
+  },
+  search(req, res) {
+    console.log('=============>>>>>>>>', `%${req.params.term}`);
+    return models.Users
+    .findAll({
+      where: { username: { $iLike: `%${req.params.term}%` } },
+      attributes: ['id', 'username']
+    })
+    .then((users) => {
+      const newUsers = [];
+      if (users.length === 0) {
+        res.status(200).send({ data: newUsers });
+        return;
+      }
+      users.map((user, key) => {
+        newUsers.push(user.dataValues);
+        return models.GroupUsers
+        .find({
+          where: { userId: user.id, groupId: req.params.group },
+          attributes: ['userId']
+        }).then((result) => {
+          console.log('RESULT:::::::>>>>>>>', result);
+          console.log('KEEEYYYYY::::>>>', key);
+          if (result !== null) {
+            console.log('RESULT2:::::::>>>>>>>', result);
+            newUsers[key].ingroup = true;
+            console.log('USER::::>>>>', user);
+            console.log('NEWUSER::::>>>>', newUsers[key]);
+          } else {
+            newUsers[key].ingroup = false;
+          }
+          res.status(200).send({ data: newUsers });
+        });
+      });
+      // res.status(200).send({ data: newUsers });
+    })
+    .catch((error) => {
+      newRes.message = error.message;
+      newRes.code = 400;
+      newRes.success = false;
+      res.status(newRes.code).send(newRes);
+    });
   }
 };

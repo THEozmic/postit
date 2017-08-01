@@ -1,10 +1,42 @@
 import models from '../models';
 
 export default {
-  addUser(req, res) {
-    if (!req.body.userId) {
+  // create(req, res) {
+  //   if (!req.body.userId) {
+  //     res.status(400)
+  //     .send({ error: { message: 'Param: "user_id" is required' } });
+  //     return;
+  //   }
+
+  //   if (!req.params.id) {
+  //     res.status(400)
+  //     .send({ error: { message: 'Param: "group_id" is required' } });
+  //     return;
+  //   }
+
+  //   models.GroupUsers
+  //   .find({
+  //     where: {
+  //       userId: req.body.userId,
+  //       groupId: req.params.id
+  //     } }).then((data) => {
+  //       if (data) {
+  //         return res.status(400)
+  //         .send({ error: { message: 'user already in group' } });
+  //       }
+  //       return models.GroupUsers
+  //         .create({
+  //           userId: req.body.userId,
+  //           groupId: req.params.id
+  //         })
+  //         .then(result => res.status(201).send(result))
+  //         .catch(error => res.status(400).send(error));
+  //     });
+  // },
+  upsert(req, res) {
+    if (!req.body.users) {
       res.status(400)
-      .send({ error: { message: 'Param: "user_id" is required' } });
+      .send({ error: { message: 'Param: "users" is required' } });
       return;
     }
 
@@ -14,24 +46,18 @@ export default {
       return;
     }
 
-    models.GroupUsers
-    .find({
-      where: {
-        userId: req.body.userId,
-        groupId: req.params.id
-      } }).then((data) => {
-        if (data) {
-          return res.status(400)
-          .send({ error: { message: 'user already in group' } });
+    JSON.parse(req.body.users).map(user =>
+      models.GroupUsers
+      .findOne({ where: { userId: user.id, groupId: req.params.id } })
+      .then((result) => {
+        if (result) {
+          return result.destroy();
         }
-        return models.GroupUsers
-          .create({
-            userId: req.body.userId,
-            groupId: req.params.id
-          })
-          .then(result => res.status(201).send(result))
-          .catch(error => res.status(400).send(error));
-      });
+        models.GroupUsers.create({ userId: user.id, groupId: req.params.id });
+      }).then(res.status(200)
+      .send({ data: { message: 'members list updated' } }))
+      .catch(error => res.status(400).send(error))
+    );
   },
   update(req, res) {
     return models.GroupUsers

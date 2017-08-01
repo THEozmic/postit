@@ -1,8 +1,8 @@
 .dashboard-menu {
   display: inline-block;
-  margin-top: 30px;
-  position: -webkit-sticky;
+  margin-right: 30px;
   top: 1px;
+  width: 100%;
   ul {
     list-style: none;
     margin: 0px;
@@ -16,10 +16,9 @@
     text-decoration: none;
     padding: 10px;
     display: block;
-    width: 200px;
     font-size: 14px;
-    .active {
-      background-color: #0275d8;
+    &.active {
+      background-color: $primary-color;
       border-radius: 3px;
       &:hover {
         color: #ccc9c9;
@@ -31,11 +30,19 @@
   }
 }
 
+@media (min-width: 630px) {
+  .dashboard-menu {
+    position: sticky;
+    width: 200px;
+  }
+}
+
 .page-container.container-fluid {
   min-height: 350px;
 }
 .page-content {
   display: inline-block;
+  width: 100%;
 }
 
 .group-unread-count {
@@ -50,4 +57,32 @@
   text-align: center;
   display: inline-block;
   position: relative;
+}
+
+.badge-danger {
+    background-color: #d9534f;
+}
+
+.group-header {
+  position: sticky;
+  top: -1px;
+  background-color: #252830;
+  padding: 15px 0px;
+  margin-top: 0px;
+  height: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  width: 100%;
+}
+
+.user-greeting {
+  font-size: 12px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 3px;
+  float: right;
+  color: #252830;
+  margin: 10px;
 }
