@@ -14,11 +14,13 @@ class Search extends React.Component {
     };
   }
 
-  onFinishClick() {
+  onFinishClick(e) {
+    e.preventDefault();
     const headers = new Headers();
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
-    api().then();
+    api(`users=${JSON.stringify(this.state.selectedUsers)}`, `/api/groups/${this.props.selectedGroup.id}/user/`, 'POST', headers)
+    .then(result => console.log('FINISH RESULT:::::', result));
   }
 
   onSearchChange() {
