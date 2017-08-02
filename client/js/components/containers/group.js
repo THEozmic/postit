@@ -10,8 +10,8 @@ class Group extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: 'Loading...',
-      selectedGroup: {}
+      loading: 'Loading Messages...',
+      selectedGroup: { name: 'Loading...' }
     };
   }
 
@@ -30,7 +30,6 @@ class Group extends React.Component {
 
   render() {
     const { messages } = this.props;
-    console.log(messages, '=======>>>>');
     return (
       <div>
         <Header/>
@@ -40,7 +39,8 @@ class Group extends React.Component {
                 <SideMenu ingroup={true}/>
                 <div className="section page-content align-top pl-0 col m7 l8 xl9">
                   <h5 className="group-header">{ this.state.selectedGroup.name }</h5>
-                   <Messages messages={ messages }/>
+                   { this.state.loading !== '' ? this.state.loading :
+                   <Messages messages={ messages }/> }
                 </div>
               </div>
             </div>

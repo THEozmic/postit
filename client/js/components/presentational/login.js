@@ -20,17 +20,15 @@ class Login extends React.Component {
   }
 
   onLoginUser(e) {
-    console.log('user');
     e.preventDefault();
     let { username, password } = this;
     username = username.value.trim();
     password = password.value;
     if (username !== '' || password !== '') {
       const userString = `username=${username}&password=${password}`;
-      api(userString, 'http://localhost:3000/api/signin', 'POST').then(
+      api(userString, '/api/signin', 'POST').then(
         (_loginRes) => {
           if (_loginRes.error === undefined) {
-            console.log(_loginRes);
             this.props.onLoginUser(JSON.stringify(_loginRes));
             sessionStorage.setItem('user', JSON.stringify(_loginRes));
             location.hash = '#dashboard';

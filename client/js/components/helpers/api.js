@@ -1,16 +1,21 @@
 // Abstraction of the fetch api
 
 const api = (body, url, method) => (new Promise((resolve) => {
-  let headers = new Headers();
+  const headers = new Headers();
   headers.append('Content-Type', 'application/x-www-form-urlencoded');
-  headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
-  if (body === '' || body === null) {
+  if (sessionStorage.getItem('user') !== null) {
+    headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
+  }
+
+  if (body === null) {
+    body = '';
+  }
+  if (method.toUpperCase() === 'GET') {
     fetch(url, { method,
       headers
     })
     .then(response => response.json())
     .then((response) => {
-      console.log(response, '==============>>>>');
       resolve(response);
     });
   } else {
@@ -20,7 +25,6 @@ const api = (body, url, method) => (new Promise((resolve) => {
     })
     .then(response => response.json())
     .then((response) => {
-      console.log(response, '==============>>>>');
       resolve(response);
     });
   }

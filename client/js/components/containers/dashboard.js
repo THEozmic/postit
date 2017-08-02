@@ -3,11 +3,6 @@ import { Footer, Header, SideMenu } from '../presentational';
 import { Groups } from './';
 import api from '../helpers/api';
 
-// const groups = [
-//   { name: 'Andela Bootcampers', id: 1, unread: 5 },
-//   { name: 'React Devs', id: 2, unread: 7 }
-// ];
-
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);

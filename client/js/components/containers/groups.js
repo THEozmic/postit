@@ -9,7 +9,6 @@ class Groups extends React.Component {
 
   render() {
     const { groups } = this.props;
-    console.log('Groups: ', groups);
     return (
     <div>
       {

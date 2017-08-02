@@ -8,13 +8,21 @@ class Search extends React.Component {
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onFinishClick = this.onFinishClick.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
-    this.selectedGroup = { name: 'Test', id: 4 };
     this.state = {
       foundUsers: [],
       selectedUsers: [],
       nextPage: 2,
-      prevPage: 0
+      prevPage: 0,
+      selectedGroup: {}
     };
+  }
+
+  componentWillMount() {
+    const id = location.href.split('/')[location.href.split('/').length - 2];
+    api(null, `/api/groups/${id}`, 'GET')
+    .then((result) => {
+      this.setState({ selectedGroup: result });
+    });
   }
 
   onPageChange(page) {
@@ -35,7 +43,7 @@ class Search extends React.Component {
 
   onFinishClick(e) {
     e.preventDefault();
-    api(`users=${JSON.stringify(this.state.selectedUsers)}`, `/api/groups/${this.selectedGroup.id}/user/`, 'POST')
+    api(`users=${JSON.stringify(this.state.selectedUsers)}`, `/api/groups/${this.state.selectedGroup.id}/user/`, 'POST')
     .then((result) => {
       if (result.data.message === 'user removed' || result.data.message === 'user added') {
         history.back();
@@ -46,7 +54,7 @@ class Search extends React.Component {
   onSearchChange(page = this.state.prevPage + 1) {
     this.setState({ foundUsers: [] });
     if (this.term.value.trim() !== '') {
-      api(null, `/api/search/${this.selectedGroup.id}/${this.term.value.trim()}/${page - 1}`, 'GET').then(
+      api(null, `/api/search/${this.state.selectedGroup.id}/${this.term.value.trim()}/${page - 1}`, 'GET').then(
         (users) => {
           console.log(users);
           const nUsers = users.data.map((user) => {
@@ -100,7 +108,7 @@ class Search extends React.Component {
     // }
 
     const title = ['Add users to ',
-      <span style={{ color: '#0275d8' }}>{ this.selectedGroup.name }</span>,
+      <span style={{ color: '#0275d8' }}>{ this.state.selectedGroup.name }</span>,
       ' group'];
 
     return (

@@ -10,7 +10,8 @@ class Messages extends React.Component {
     super(props);
     this.state = {
       message_error: '',
-      selectedGroup: {}
+      selectedGroup: {},
+      sendStatus: 'SEND'
     };
     this.send = this.send.bind(this);
   }
@@ -45,11 +46,14 @@ class Messages extends React.Component {
       this.setState({ message_error: 'Error: Message has no priority, sender or content' });
       return;
     }
+
+    this.setState({ sendStatus: 'SEND...' });
     const newMessageBody =
     `message=${content}&from_user=${JSON.parse(this.props.user).data.username}
     &priority=${priority}&to_group=${this.state.selectedGroup.id}`;
     api(newMessageBody, `/api/groups/${this.state.selectedGroup.id}/message`, 'POST').then(
       (response) => {
+        this.setState({ sendStatus: 'SEND' });
         const newMessage = {
           id: response.id,
           message: content,
@@ -107,7 +111,7 @@ class Messages extends React.Component {
                   <option value="Critical">Critical</option>
                 </select>
               </div>
-              <div className="right"><button className="btn btn-primary" onClick={this.send}>Send</button></div>
+              <div className="right"><button disabled={this.state.sendStatus === 'SEND...'} className="btn btn-primary" onClick={this.send}>{this.state.sendStatus}</button></div>
             </div>
           </div>
       </div>

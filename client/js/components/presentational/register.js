@@ -26,24 +26,17 @@ class Register extends React.Component {
     email = email.value.trim();
     phone = phone.value.trim();
     password = password.value;
-    const user = {
-      username,
-      email,
-      phone,
-      password
-    };
     if (username === '' || email === '' || phone === '' || password === '') {
       this.setState({ error_message: 'Error: One or more fields are empty' });
       return;
     }
     const userString = `username=${username}&email=${email}&password=${password}&phone=${phone}`;
-    api(userString, 'http://localhost:3000/api/users', 'POST', null).then(
+    api(userString, '/api/users', 'POST', null).then(
       (_registerRes) => {
         if (_registerRes.error === undefined) {
-          api(userString, 'http://localhost:3000/api/signin', 'POST', null).then(
+          api(userString, '/api/signin', 'POST', null).then(
             (_loginRes) => {
               if (_loginRes.error === undefined) {
-                console.log(_loginRes);
                 this.props.onLoginUser(JSON.stringify(_loginRes));
                 sessionStorage.setItem('user', JSON.stringify(_loginRes));
                 location.hash = '#dashboard';
