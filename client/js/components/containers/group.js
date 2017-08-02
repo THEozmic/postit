@@ -17,7 +17,6 @@ class Group extends React.Component {
 
   componentWillMount() {
     const id = location.href.split('/')[location.href.split('/').length - 1];
-    console.log('Location:::', this.props.location.query);
     api(null, `/api/groups/${id}`, 'GET')
     .then((result) => {
       this.setState({ selectedGroup: result });

@@ -9,10 +9,9 @@ class Messages extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message_error: ''
+      message_error: '',
+      selectedGroup: {}
     };
-
-    this.selectedGroup = { name: 'Test', id: 4 };
     this.send = this.send.bind(this);
   }
 
@@ -21,6 +20,14 @@ class Messages extends React.Component {
       offset: -60,
       ease: 'in-expo',
       duration: 900
+    });
+  }
+
+  componentWillMount() {
+    const id = location.href.split('/')[location.href.split('/').length - 1];
+    api(null, `/api/groups/${id}`, 'GET')
+    .then((result) => {
+      this.setState({ selectedGroup: result });
     });
   }
 
@@ -40,8 +47,8 @@ class Messages extends React.Component {
     }
     const newMessageBody =
     `message=${content}&from_user=${JSON.parse(this.props.user).data.username}
-    &priority=${priority}&to_group=${this.selectedGroup.id}`;
-    api(newMessageBody, `/api/groups/${this.selectedGroup.id}/message`, 'POST').then(
+    &priority=${priority}&to_group=${this.state.selectedGroup.id}`;
+    api(newMessageBody, `/api/groups/${this.state.selectedGroup.id}/message`, 'POST').then(
       (response) => {
         const newMessage = {
           id: response.id,
