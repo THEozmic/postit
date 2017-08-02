@@ -11,8 +11,9 @@ class Messages extends React.Component {
     this.state = {
       message_error: ''
     };
+
+    this.selectedGroup = { name: 'Test', id: 4 };
     this.send = this.send.bind(this);
-    this.scrollPane = this.scrollPane.bind(this);
   }
 
   scrollPane() {
@@ -37,14 +38,10 @@ class Messages extends React.Component {
       this.setState({ message_error: 'Error: Message has no priority, sender or content' });
       return;
     }
-    console.log('PROPS_USER:::::::', this.props.user);
     const newMessageBody =
     `message=${content}&from_user=${JSON.parse(this.props.user).data.username}
-    &priority=${priority}&to_group=${this.props.selectedGroup.id}`;
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
-    api(newMessageBody, `/api/groups/${this.props.selectedGroup.id}/message`, 'POST', headers).then(
+    &priority=${priority}&to_group=${this.selectedGroup.id}`;
+    api(newMessageBody, `/api/groups/${this.selectedGroup.id}/message`, 'POST').then(
       (response) => {
         const newMessage = {
           id: response.id,
@@ -52,10 +49,7 @@ class Messages extends React.Component {
           from_user: JSON.parse(this.props.user).data.username,
           priority: priority.toLowerCase()
         };
-        console.log('NEW MESSAGE CONCAT:::::', this.props.messages.concat([newMessage]));
         this.props.loadMessages(this.props.messages.concat([newMessage]));
-
-        console.log(response);
       }
     );
     this.content.value = '';
@@ -64,7 +58,6 @@ class Messages extends React.Component {
 
   render() {
     let n = 0;
-    console.log('MESSAGES::::::: ', this.props.messages);
     return (
       <div className="page-content align-top pl-0 col-md-7 col-lg-9">
         <div className="messages">
@@ -117,8 +110,7 @@ class Messages extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.userData,
-    selectedGroup: state.selectedGroup
+    user: state.userData
   };
 };
 

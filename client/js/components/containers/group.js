@@ -10,40 +10,37 @@ class Group extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: 'Loading...'
+      loading: 'Loading...',
+      selectedGroup: {}
     };
   }
 
   componentWillMount() {
-    const headers = new Headers();
-    const { selectedGroup } = this.props;
-    console.log('GROUP:::::::', selectedGroup);
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
-    api(null, `/api/groups/${this.props.selectedGroup.id}/messages`, 'GET', headers).then(
-      (messages) => {
-        this.setState({ loading: '', messages });
-        this.props.loadMessages(messages);
-        console.log('MESSAGES::::::::::>>>> ', messages);
-      });
+    const id = location.href.split('/')[location.href.split('/').length - 1];
+    console.log('Location:::', this.props.location.query);
+    api(null, `/api/groups/${id}`, 'GET')
+    .then((result) => {
+      this.setState({ selectedGroup: result });
+      api(null, `/api/groups/${id}/messages`, 'GET').then(
+        (messages) => {
+          this.setState({ loading: '', messages });
+          this.props.loadMessages(messages);
+        });
+    });
   }
 
   render() {
-    const { onChangeSelectedGroup, messages, selectedGroup } = this.props;
+    const { messages } = this.props;
     console.log(messages, '=======>>>>');
-    if (selectedGroup.name === '' || selectedGroup.name === undefined || selectedGroup.name === null) {
-      location.hash = '#dashboard';
-      return null;
-    }
     return (
       <div>
         <Header/>
           <section className="page-container container-fluid">
             <div className="container">
               <div className="row">
-                <SideMenu ingroup={true} onChangeSelectedGroup={ onChangeSelectedGroup }/>
+                <SideMenu ingroup={true}/>
                 <div className="section page-content align-top pl-0 col m7 l8 xl9">
-                  <h5 className="group-header">{ selectedGroup.name }</h5>
+                  <h5 className="group-header">{ this.state.selectedGroup.name }</h5>
                    <Messages messages={ messages }/>
                 </div>
               </div>
@@ -58,13 +55,11 @@ class Group extends React.Component {
 const mapStateToProps = (state) => {
   return {
     messages: state.messages,
-    selectedGroup: state.selectedGroup
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onChangeSelectedGroup: group => dispatch(changeSelectedGroupAction(group)),
     loadMessages: allMessages => dispatch(loadMessages(allMessages))
   };
 };

@@ -34,6 +34,9 @@ export default (app) => {
   // API route to get list of all groups
   app.get('/api/groups/', controllers.groups.fetch);
 
+   // API route to get list of all groups
+  app.get('/api/groups/:id', controllers.groups.fetch);
+
   // API route to get list of all users in a group
   app.get('/api/groups/:id/users', controllers.groups.fetchMembers);
 
@@ -50,5 +53,5 @@ export default (app) => {
   app.get('/api/users/me/', controllers.users.fetchMe);
 
   // API route for search
-  app.get('/api/search/:group/:term', controllers.users.search);
+  app.get('/api/search/:group/:term/:page', controllers.users.search);
 };

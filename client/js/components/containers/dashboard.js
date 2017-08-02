@@ -22,10 +22,7 @@ class Dashboard extends React.Component {
       location.hash = '#login';
       return;
     }
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
-    api(null, '/api/users/me/', 'GET', headers).then((response) => {
+    api(null, '/api/users/me/', 'GET').then((response) => {
       console.log('Response: ', response);
       this.setState({ groups: response.data.groups, loading: '' });
     });

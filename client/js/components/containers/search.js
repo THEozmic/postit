@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Form from '../presentational/form';
 import api from '../helpers/api';
 
@@ -8,27 +7,46 @@ class Search extends React.Component {
     super(props);
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onFinishClick = this.onFinishClick.bind(this);
+    this.onPageChange = this.onPageChange.bind(this);
+    this.selectedGroup = { name: 'Test', id: 4 };
     this.state = {
       foundUsers: [],
-      selectedUsers: []
+      selectedUsers: [],
+      nextPage: 2,
+      prevPage: 0
     };
+  }
+
+  onPageChange(page) {
+    if (this.term.value.trim() !== '') {
+      if (page === 'prev') {
+        if (this.state.prevPage > 0) {
+          this.onSearchChange(this.state.prevPage);
+          this.setState({ nextPage: this.state.nextPage - 1 });
+          this.setState({ prevPage: this.state.prevPage - 1 });
+        }
+      } else {
+        this.onSearchChange(this.state.nextPage);
+        this.setState({ nextPage: this.state.nextPage + 1 });
+        this.setState({ prevPage: this.state.prevPage + 1 });
+      }
+    }
   }
 
   onFinishClick(e) {
     e.preventDefault();
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
-    api(`users=${JSON.stringify(this.state.selectedUsers)}`, `/api/groups/${this.props.selectedGroup.id}/user/`, 'POST', headers)
-    .then(result => console.log('FINISH RESULT:::::', result));
+    api(`users=${JSON.stringify(this.state.selectedUsers)}`, `/api/groups/${this.selectedGroup.id}/user/`, 'POST')
+    .then((result) => {
+      if (result.data.message === 'user removed' || result.data.message === 'user added') {
+        history.back();
+      }
+    });
   }
 
-  onSearchChange() {
+  onSearchChange(page = this.state.prevPage + 1) {
+    this.setState({ foundUsers: [] });
     if (this.term.value.trim() !== '') {
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/x-www-form-urlencoded');
-      headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
-      api(null, `/api/search/${this.props.selectedGroup.id}/${this.term.value.trim()}`, 'GET', headers).then(
+      api(null, `/api/search/${this.selectedGroup.id}/${this.term.value.trim()}/${page - 1}`, 'GET').then(
         (users) => {
           console.log(users);
           const nUsers = users.data.map((user) => {
@@ -48,8 +66,6 @@ class Search extends React.Component {
   }
 
   onSelectUser(user) {
-    // Remove from selectedUsers list if it exists there
-    // or Add to selectedUsers list
     let alreadySelected = false;
     this.state.selectedUsers.map((sUser) => {
       if (sUser.id === user.id) {
@@ -58,7 +74,6 @@ class Search extends React.Component {
       }
       return false;
     });
-    console.log('ALREADY SELECTED:::::', alreadySelected);
     if (!alreadySelected) {
       const selectedUsers = this.state.selectedUsers.concat(user);
       this.setState({ selectedUsers });
@@ -66,11 +81,9 @@ class Search extends React.Component {
       const users = this.state.selectedUsers.filter(sUser => sUser.id !== user.id);
       this.setState({ selectedUsers: users });
     }
-    console.log('SELECTED USERS:::::', this.state.selectedUsers.concat(user));
 
     // flip the ingroup value
     let foundUsers = Object.assign([], this.state.foundUsers);
-    console.log(foundUsers);
     foundUsers = foundUsers.map((fUser) => {
       if (fUser.id === user.id) {
         fUser.ingroup = !fUser.ingroup;
@@ -81,22 +94,19 @@ class Search extends React.Component {
   }
 
   render() {
-    const { selectedGroup } = this.props;
-    console.log('SELECTED GROUP:::::::', selectedGroup);
-    if (selectedGroup.name === '' || selectedGroup.name === undefined) {
-      location.hash = '#dashboard';
-      return null;
-    }
+    // if (this.selectedGroup.name === '' || this.selectedGroup.name === undefined) {
+    //   location.hash = '#dashboard';
+    //   return null;
+    // }
 
     const title = ['Add users to ',
-      <span style={{ color: '#0275d8' }}>{ selectedGroup.name }</span>,
+      <span style={{ color: '#0275d8' }}>{ this.selectedGroup.name }</span>,
       ' group'];
 
     return (
       <Form title={ title } active='search' ingroup={true}>
-        <h6 style={{ color: '#0275d8' }}>Selected Users: { this.state.selectedUsers.map(user => `${user.id}, `) }</h6>
         <div className='input-field'>
-          <input type='text' id='search' onChange={ this.onSearchChange } ref={(input) => { this.term = input; }}/>
+          <input type='text' id='search' onChange={ () => this.onSearchChange() } ref={(input) => { this.term = input; }}/>
           <label for='search'>Search by username</label>
         </div>
         <div className='search-results'>
@@ -105,7 +115,8 @@ class Search extends React.Component {
             onClick={() => this.onSelectUser(fUser)}
             className={fUser.ingroup ? 'ingroup' : ''}>@{fUser.username}</span>
           )}
-          <div class="search-pages"><a href="#/1" className="search-prev">Prev</a><a href="#/2">2</a><a href="#/3" className="search-next">Next</a></div>
+          <div class="search-pages">
+            <span onClick={() => this.onPageChange('prev')} className="search-prev">Prev</span><span>{this.state.prevPage + 1}</span><span onClick={() => this.onPageChange('next')} className="search-next">Next</span></div>
         </div>
         <button className='waves-effect waves-light btn action-btn'
           onClick={this.onFinishClick}>Finish</button>
@@ -115,9 +126,4 @@ class Search extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    selectedGroup: state.selectedGroup
-  };
-};
-export default connect(mapStateToProps, null)(Search);
+export default Search;

@@ -158,10 +158,13 @@ export default {
       });
   },
   search(req, res) {
-    console.log('=============>>>>>>>>', `%${req.params.term}`);
+    console.log('PAGE::::::>>>>>>>>', `>${req.params.page}`);
+    console.log('DECODED:::::::', req.decoded);
     return models.Users
     .findAll({
-      where: { username: { $iLike: `%${req.params.term}%`, $ne: req.decoded.username } },
+      limit: 10,
+      offset: req.params.page * 10,
+      where: { username: { $iLike: `%${req.params.term}%`, $ne: req.decoded.data.username } },
       attributes: ['id', 'username']
     })
     .then((users) => {

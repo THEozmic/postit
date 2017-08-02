@@ -50,13 +50,20 @@ export default {
       models.GroupUsers
       .findOne({ where: { userId: user.id, groupId: req.params.id } })
       .then((result) => {
-        if (result) {
-          return result.destroy();
+        console.log('UPSERT RESULT::::>>>>', result);
+        if (result !== null) {
+          models.GroupUsers.destroy({ where: { userId: user.id, groupId: req.params.id } })
+          .then(res.status(200)
+          .send({ data: { message: 'user removed' } }))
+          .catch(error => res.status(400).send(error));
+        } else {
+          models.GroupUsers.create({ userId: user.id, groupId: req.params.id })
+          .then(res.status(200)
+          .send({ data: { message: 'user added' } }))
+          .catch(error => res.status(400).send(error));
         }
-        models.GroupUsers.create({ userId: user.id, groupId: req.params.id });
-      }).then(res.status(200)
-      .send({ data: { message: 'members list updated' } }))
-      .catch(error => res.status(400).send(error))
+        return result;
+      })
     );
   },
   update(req, res) {

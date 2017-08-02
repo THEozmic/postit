@@ -21,9 +21,9 @@ render(
       <Route path='/register' component={Register}/>
       <Route path='/login' component={Login}/>
       <Route path='/dashboard' component={Dashboard}/>
-      <Route path ='/group' component={Group}/>
+      <Route exact path ='/group/:id' component={Group}/>
       <Route path ='/new-group' component={NewGroup}/>
-      <Route path ='/search' component={Search}/>
+      <Route path ='/group/:id/search' component={Search}/>
       <Route path ='/recover-password' component={Recover}/>
     </div>
   </Router>

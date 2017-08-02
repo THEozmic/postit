@@ -19,7 +19,8 @@ export default {
       .catch(error => res.status(400).send(error));
   },
   fetch(req, res) {
-    return models.Groups
+    if (req.params.id === undefined) {
+      return models.Groups
       .findAll({ include: [{
         model: models.Users,
         through: {
@@ -30,6 +31,22 @@ export default {
       })
       .then(groups => res.status(200).send(groups))
       .catch(error => res.status(400).send(error));
+    }
+
+    return models.Groups
+    .findOne({
+      where: { id: req.params.id },
+      attributes: ['id', 'name'],
+      include: [{
+        model: models.Users,
+        through: {
+          attributes: ['id', 'username'],
+        },
+        as: 'users'
+      }]
+    })
+    .then(groups => res.status(200).send(groups))
+    .catch(error => res.status(400).send(error));
   },
   fetchMembers(req, res) {
     return models.GroupUsers
