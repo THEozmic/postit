@@ -161,7 +161,7 @@ export default {
     console.log('=============>>>>>>>>', `%${req.params.term}`);
     return models.Users
     .findAll({
-      where: { username: { $iLike: `%${req.params.term}%` } },
+      where: { username: { $iLike: `%${req.params.term}%`, $ne: req.decoded.username } },
       attributes: ['id', 'username']
     })
     .then((users) => {
