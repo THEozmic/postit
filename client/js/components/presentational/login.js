@@ -58,6 +58,9 @@ class Login extends React.Component {
         </div>
         { this.state.error_message === '' ? '' :
         <div className='red card' style={{ padding: '5px 10px' }}>{this.state.error_message}</div>}
+        <div className='section'>
+          <a href='recover-password'>Forgot Password?</a>
+        </div>
         <button
         onClick= { this.onLoginUser }
         className='waves-effect waves-light btn action-btn'>
