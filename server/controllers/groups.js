@@ -77,10 +77,52 @@ export default {
           'from_user',
           'to_group',
           'priority',
-          'createdAt'
+          'readBy'
         ],
+        order: [
+          ['id', 'ASC']
+        ]
       })
       .then(messages => res.status(200).send(messages))
       .catch(error => res.status(404).send(error));
+  },
+  readMessage(req, res) {
+    models.Messages
+    .findAll({
+      where: { to_group: [req.params.id] },
+      attributes: [
+        'id',
+        'from_user',
+        'readBy'
+      ],
+    })
+    .then((results) => {
+      results.map((result) => {
+        if (result.dataValues.from_user !== req.decoded.data.username) {
+          console.log(':::RESULT:::', result);
+          console.log(':::FROM USER:::', result.dataValues.from_user);
+          console.log(':::LOGGED USER:::', req.decoded.data.username);
+          console.log(':::EQUAL??:::', result.dataValues.from_user === req.decoded.data.username);
+          let readList = result.dataValues.readBy.split(',');
+          readList = readList.filter(username =>
+            username !== req.decoded.data.username
+          );
+          console.log(':::NEW READ LIST:::', readList);
+          readList.push(req.decoded.data.username);
+          if (result.dataValues.readBy !== '') {
+            return result.updateAttributes({
+              readBy: readList.join(',')
+            });
+          }
+
+          return result.updateAttributes({
+            readBy: req.decoded.data.username
+          });
+        }
+        return false;
+      });
+      res.status(200).send({ data: { message: 'message read' } });
+    })
+    .catch(error => res.status(404).send(error));
   }
 };

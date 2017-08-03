@@ -24,10 +24,16 @@ module.exports = {
       },
       priority: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
+        defaultValue: 'Normal',
         validate: {
           isIn: [['Normal', 'Urgent', 'Critical']]
         }
+      },
+      readBy: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: ''
       },
       createdAt: {
         allowNull: false,

@@ -104,7 +104,7 @@ export default {
   },
   fetchMe(req, res) {
     const username = req.decoded.data.username;
-    return models.Users
+    models.Users
     .find({
       include: [{
         model: models.Groups,
@@ -117,7 +117,18 @@ export default {
       attributes: ['id', 'email', 'username', 'createdAt']
     })
     .then((user) => {
+      // user.groups.map((group) => {
+      //   console.log(':::GROUP ID:::', group.dataValues.id);
+      //   return models.Messages
+      //   .find({
+      //     where: { to_group: group.dataValues.id },
+      //     attributes: ['readBy']
+      //   }).then((messages) => {
+      //     console.log(':::MESSAGES READBY:::', messages.dataValues.readBy);
+      //   });
+      // });
       res.status(200).send({ data: user });
+      console.log(':::GROUP 1:::', user.groups[0].dataValues.name);
     })
     .catch((error) => {
       newRes.message = error.message;

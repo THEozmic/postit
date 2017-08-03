@@ -30,6 +30,7 @@ class Messages extends React.Component {
     .then((result) => {
       this.setState({ selectedGroup: result });
     });
+    api('', `/api/groups/${id}/read`, 'POST');
   }
 
   componentDidMount() {
@@ -41,7 +42,7 @@ class Messages extends React.Component {
     let { content, priority } = this;
     content = content.value.trim();
     priority = priority.value.trim();
-    const readBy = [];
+    const readBy = '';
     if (content === '' || priority === '') {
       this.setState({ message_error: 'Error: Message has no priority, sender or content' });
       return;
@@ -49,8 +50,7 @@ class Messages extends React.Component {
 
     this.setState({ sendStatus: 'SEND...' });
     const newMessageBody =
-    `message=${content}&from_user=${JSON.parse(this.props.user).data.username}
-    &priority=${priority}&to_group=${this.state.selectedGroup.id}`;
+    `message=${content}&from_user=${JSON.parse(this.props.user).data.username}&priority=${priority}&to_group=${this.state.selectedGroup.id}`;
     api(newMessageBody, `/api/groups/${this.state.selectedGroup.id}/message`, 'POST').then(
       (response) => {
         this.setState({ sendStatus: 'SEND' });
@@ -58,7 +58,8 @@ class Messages extends React.Component {
           id: response.id,
           message: content,
           from_user: JSON.parse(this.props.user).data.username,
-          priority: priority.toLowerCase()
+          priority: priority.toLowerCase(),
+          readBy
         };
         this.props.loadMessages(this.props.messages.concat([newMessage]));
       }
@@ -89,10 +90,10 @@ class Messages extends React.Component {
                       {message.priority.toLowerCase()}</span>
                   </div>
                   <div>{message.message}</div>
-                  {/* {message.readBy.length === 0 ? '' :
-                  <div className="message-read-list">Read by: <span>
-                  {message.readBy.join(', ')}</span></div>
-                  } */}
+                   { message.readBy === '' && message.readBy.length === 0 ? '' :
+                  <div className="message-read-list">Read by: <span>@
+                  {message.readBy.split(',').join(', @')}</span></div>
+                  }
                 </div>
               </div>);
           })

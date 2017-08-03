@@ -15,9 +15,15 @@ export default (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
+    readBy: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: ''
+    },
     priority: {
       type: DataTypes.STRING,
-      allowNull: false,
+      defaultValue: 'Normal',
+      allowNull: true,
       validate: {
         isIn: [['Normal', 'Urgent', 'Critical']]
       }
