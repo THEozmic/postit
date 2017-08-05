@@ -105,8 +105,8 @@ class Messages extends React.Component {
               ref={(input) => { this.content = input; }}></textarea>
             </div>
             <div className="col-12 pl-0 pr-0">
-              <div class="priority-level">
-                <select class="browser-default" ref={(input) => { this.priority = input; }}>
+              <div className="priority-level">
+                <select className="browser-default" ref={(input) => { this.priority = input; }}>
                   <option value="Normal">Normal</option>
                   <option value="Urgent">Urgent</option>
                   <option value="Critical">Critical</option>

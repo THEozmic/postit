@@ -127,7 +127,62 @@ export default {
       //     console.log(':::MESSAGES READBY:::', messages.dataValues.readBy);
       //   });
       // });
-      res.status(200).send({ data: user });
+      let groups = user.groups;
+      let n = 0;
+      const newGroups = [];
+      groups = groups.map((group, key) => {
+        newGroups.push(group);
+        models.Messages
+        .findAll({
+          where: { to_group: group.id },
+          attributes: ['from_user', 'readBy']
+        }).then(
+          (result) => {
+            n += 1;
+            let m = 0;
+            newGroups[key].dataValues.count = 0;
+            result.map((message) => {
+              m += 1;
+              const readBy = message.dataValues.readBy.split(',');
+              let count = 0;
+              let hasRead = false;
+              readBy.map((readByUsername) => {
+                if (readByUsername === req.decoded.data.username) {
+                  console.log('HAS READ');
+                  hasRead = true;
+                } else {
+                  console.log('HAS NOT READ');
+                }
+                if (message.dataValues.from_user === req.decoded.data.username) {
+                  hasRead = true;
+                }
+                console.log('FROM USER>>>', message.dataValues.from_user);
+                console.log('MY USERNAME>>>>', req.decoded.data.username);
+                return readByUsername;
+              });
+              if (!hasRead) {
+                count += 1;
+              }
+              newGroups[key].dataValues.count += count;
+              user.groups = newGroups;
+              if (count === 100) {
+                groups.length = n;
+                m = result.length;
+                count = '99+';
+                newGroups[key].dataValues.count = count;
+                user.groups = newGroups;
+              }
+              if (n === groups.length && m === result.length) {
+                console.log('N>>>>>>', n);
+                res.status(200).send({ data: user });
+              }
+              console.log('GROUPS>>>>', user.groups);
+              return message;
+            });
+          }
+        );
+        return newGroups;
+      });
       console.log(':::GROUP 1:::', user.groups[0].dataValues.name);
     })
     .catch((error) => {
@@ -186,25 +241,39 @@ export default {
       }
       users.map((user, key) => {
         newUsers.push(user.dataValues);
+        models.GroupUsers
+        .find({
+          where: { userId: user.id, groupId: req.params.group },
+          attributes: ['userId']
+        }).then((result) => {
+          console.log('RESULT>>><<>><<>', result);
+          if (result !== null) {
+            newUsers[key].ingroup = true;
+          } else {
+            newUsers[key].ingroup = false;
+          }
+          return newUsers;
+        });
+      });
+      let n = 0;
+      users.map((user, key) => {
+        newUsers.push(user.dataValues);
         return models.GroupUsers
         .find({
           where: { userId: user.id, groupId: req.params.group },
           attributes: ['userId']
         }).then((result) => {
-          console.log('RESULT:::::::>>>>>>>', result);
-          console.log('KEEEYYYYY::::>>>', key);
+          n += 1;
           if (result !== null) {
-            console.log('RESULT2:::::::>>>>>>>', result);
             newUsers[key].ingroup = true;
-            console.log('USER::::>>>>', user);
-            console.log('NEWUSER::::>>>>', newUsers[key]);
           } else {
             newUsers[key].ingroup = false;
           }
-          res.status(200).send({ data: newUsers });
+          if (n === users.length) {
+            res.status(200).send({ data: newUsers });
+          }
         });
       });
-      // res.status(200).send({ data: newUsers });
     })
     .catch((error) => {
       newRes.message = error.message;
@@ -212,5 +281,16 @@ export default {
       newRes.success = false;
       res.status(newRes.code).send(newRes);
     });
+  },
+  updatePassword(req, res) {
+    const hashedPass = bcrypt
+    .hashSync(req.body.password, salt, null);
+    return models.Users
+      .update(
+        { password: hashedPass },
+        { where: { username: req.body.username } }
+      ).then(() =>
+        res.status(200).send({ data: { message: 'Password Reset Successful' } })
+      );
   }
 };

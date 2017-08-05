@@ -45,7 +45,7 @@ class Search extends React.Component {
     e.preventDefault();
     api(`users=${JSON.stringify(this.state.selectedUsers)}`, `/api/groups/${this.state.selectedGroup.id}/user/`, 'POST')
     .then((result) => {
-      if (result.data.message === 'user removed' || result.data.message === 'user added') {
+      if (result.data.message === 'members updated') {
         history.back();
       }
     });

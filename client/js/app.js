@@ -7,7 +7,7 @@ import 'materialize-css';
 import 'materialize-css/dist/css/materialize.min.css';
 import '../scss/index.scss';
 import configureStore from './stores/configureStore';
-import { Home, Register, Login, NewGroup, Recover } from './components/presentational';
+import { Home, Register, Login, NewGroup, Recover, NewPassword } from './components/presentational';
 import { Dashboard, Group, Search } from './components/containers';
 
 const store = configureStore();
@@ -25,6 +25,7 @@ render(
       <Route path ='/new-group' component={NewGroup}/>
       <Route path ='/group/:id/search' component={Search}/>
       <Route path ='/recover-password' component={Recover}/>
+      <Route path ='/new-password' component={NewPassword}/>
     </div>
   </Router>
 </Provider>
