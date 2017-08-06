@@ -6,13 +6,13 @@ function sendEmail(email, message, priority) {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'theozmic@gmail.com',
-      pass: 'Ozoemena121212'
+      user: 'xxxx',
+      pass: 'xxxx'
     }
   });
 
   const mailOptions = {
-    from: 'theozmic@gmail.com',
+    from: 'xxxx',
     to: email,
     subject: `POSTIT: You have a message marked as ${priority.toUpperCase()}`,
     text: message
@@ -20,10 +20,9 @@ function sendEmail(email, message, priority) {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log(error);
-    } else {
-      console.log(`Email sent: ${info.response}`);
+      return error;
     }
+    return info;
   });
 }
 
@@ -38,6 +37,7 @@ function fetchMembersEmail(groupId) {
     resolve(result);
   })));
 }
+
 export default {
   create(req, res) {
     return models.Messages
@@ -51,26 +51,21 @@ export default {
         const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
-            user: 'theozmic@gmail.com',
-            pass: 'Ozoemena121212'
+            user: 'xxxx',
+            pass: 'xxxx'
           }
         });
 
-        // const mailOptions = {
-        //   from: 'theozmic@gmail.com',
-        //   to: req.body.decoded.data.email,
-        //   subject: `POSTIT: You have a message marked as ${req.body.priority.toUpperCase()}`,
-        //   text: `${req.body.from_user}: ${req.body.message}`
-        // };
-
         if (req.body.priority.toLowerCase() === 'critical') {
-          transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-              console.log(error);
-            } else {
-              console.log(`Email sent: ${info.response}`);
-            }
-          });
+          fetchMembersEmail(req.body.to_group).then(
+            (results) => {
+              results.map(result =>
+                sendEmail(result.dataValues.email,
+                  `${req.body.from_user}: ${req.body.message}`, 'critical'));
+            });
+
+          // This does not work (as required)
+          // due to api limitations on the free subscription
           const nexmo = new Nexmo({
             apiKey: '7130d0b2',
             apiSecret: '38bf6a4bfb6f4077'

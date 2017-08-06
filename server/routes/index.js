@@ -5,8 +5,10 @@ export default (app) => {
   // API routes for users to create accounts and login to the application
   app.post('/api/users/', controllers.users.create);
   app.post('/api/signin/', controllers.users.auth);
+  // API route to request for new password
+  app.post('/api/users/request-password', controllers.users.passwordRequest);
   // API route to reset password
-  app.get('/api/users/reset-password', controllers.users.updatePassword);
+  app.post('/api/users/reset-password/:hash', controllers.users.updatePassword);
   let token;
   app.use((req, res, next) => {
     token = req.headers['x-access-token'];

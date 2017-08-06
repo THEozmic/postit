@@ -50,7 +50,7 @@ class Messages extends React.Component {
 
     this.setState({ sendStatus: 'SEND...' });
     const newMessageBody =
-    `message=${content}&from_user=${JSON.parse(this.props.user).data.username}&priority=${priority}&to_group=${this.state.selectedGroup.id}`;
+    `message=${content}&priority=${priority}&to_group=${this.state.selectedGroup.id}`;
     api(newMessageBody, `/api/groups/${this.state.selectedGroup.id}/message`, 'POST').then(
       (response) => {
         this.setState({ sendStatus: 'SEND' });

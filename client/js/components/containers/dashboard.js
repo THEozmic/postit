@@ -33,8 +33,10 @@ class Dashboard extends React.Component {
                 <SideMenu/>
                 <div className="section page-content align-top pl-0 col m7 l8 xl9">
                   <h5>My Groups</h5>
-                  { this.state.loading }
-                  <Groups groups={this.state.groups}/>
+                  { this.state.loading === '' ?
+                    <Groups groups={this.state.groups}/>
+                    : this.state.loading
+                  }
                 </div>
               </div>
             </div>

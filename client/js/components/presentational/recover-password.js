@@ -1,5 +1,6 @@
 import React from 'react';
 import Form from './form';
+import api from '../helpers/api';
 
 class Recover extends React.Component {
   constructor(props) {
@@ -16,10 +17,17 @@ class Recover extends React.Component {
       location.hash = '#login';
       return;
     }
-    this.setState({
-      successMessage: 'A password reset link has been sent to that email',
-      buttonText: 'Okay'
-    });
+    api(`email=${this.email.value}`,
+    '/api/users/request-password/', 'POST').then(
+      (response) => {
+        if (response.data.error === undefined) {
+          this.setState({
+            successMessage: 'A password reset link has been sent to that email',
+            buttonText: 'Okay'
+          });
+        }
+      }
+    );
   }
   render() {
     return (
@@ -29,7 +37,7 @@ class Recover extends React.Component {
             { this.state.successMessage }
           </div> :
           <div className='input-field'>
-            <input type='email' id='email'/>
+            <input type='email' id='email' ref={(input) => { this.email = input; } }/>
             <label for='email'>Email</label>
           </div>
         }

@@ -11,9 +11,9 @@ class Groups extends React.Component {
     const { groups } = this.props;
     return (
     <div>
-      {
-        groups.map((group) => {
-          return <a className="group-card" href={`#group/${group.id}`}
+      { groups.length !== 0 ?
+        groups.map(group =>
+          <a className="group-card" href={`#group/${group.id}`}
           key={group.id}>
             <div className="group-name">
                { group.count === 0 ? '' :
@@ -21,8 +21,9 @@ class Groups extends React.Component {
               }
               <span>{group.name}</span>
             </div>
-          </a>;
-        }, this)
+          </a>
+        ) :
+        'You don\'t belong to any group'
       }
     </div>);
   }

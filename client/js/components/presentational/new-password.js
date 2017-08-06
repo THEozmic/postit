@@ -30,8 +30,12 @@ class NewPassword extends React.Component {
       return;
     }
     if (this.password.value !== '') {
-      
-      api(`password=${this.password.value}&email=`, '/api/users/reset-password/', 'POST')
+      const hash = location.href.split('/')[5];
+      if (hash === undefined) {
+        location.hash = '#login';
+        return;
+      }
+      api(`password=${this.password.value}`, `/api/users/reset-password/${hash}`, 'POST')
       .then((response) => {
         this.setState({
           success: 'Password reset successful',
