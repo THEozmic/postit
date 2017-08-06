@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt-nodejs';
+import crypto from 'crypto';
+import nodemailer from 'nodemailer';
 import models from '../models';
 
 const newRes = {};
@@ -104,7 +106,7 @@ export default {
   },
   fetchMe(req, res) {
     const username = req.decoded.data.username;
-    return models.Users
+    models.Users
     .find({
       include: [{
         model: models.Groups,
@@ -117,7 +119,69 @@ export default {
       attributes: ['id', 'email', 'username', 'createdAt']
     })
     .then((user) => {
-      res.status(200).send({ data: user });
+      let groups = user.groups;
+      if (user.groups.length !== 0) {
+        let n = 1;
+        const newGroups = [];
+        groups = groups.map((group, key) => {
+          newGroups.push(group);
+          models.Messages
+          .findAll({
+            where: { to_group: group.id },
+            attributes: ['from_user', 'readBy']
+          }).then(
+            (result) => {
+              if (newGroups[key] !== undefined) {
+                let m = 0;
+                newGroups[key].dataValues.count = 0;
+                if (result.length === 0) {
+                  if (n === groups.length) {
+                    res.status(200).send({ data: user });
+                  }
+                } else {
+                  result.map((message) => {
+                    m += 1;
+                    const readBy = message.dataValues.readBy.split(',');
+                    let count = 0;
+                    let hasRead = false;
+                    readBy.map((readByUsername) => {
+                      if (readByUsername === req.decoded.data.username) {
+                        hasRead = true;
+                      }
+                      if (message.dataValues.from_user === req.decoded.data.username) {
+                        hasRead = true;
+                      }
+                      return readByUsername;
+                    });
+                    if (!hasRead) {
+                      count += 1;
+                    }
+                    newGroups[key].dataValues.count += count;
+                    user.groups = newGroups;
+                    if (count === 100) {
+                      groups.length = n;
+                      m = result.length;
+                      count = '99+';
+                      newGroups[key].dataValues.count = count;
+                      user.groups = newGroups;
+                    }
+                    if (n === groups.length && m === result.length) {
+                      res.status(200).send({ data: user });
+                    }
+                    return message;
+                  });
+                }
+                n += 1;
+              } else {
+                res.status(200).send({ data: user });
+              }
+            }
+          );
+          return newGroups;
+        });
+      } else {
+        res.status(200).send({ data: user });
+      }
     })
     .catch((error) => {
       newRes.message = error.message;
@@ -144,7 +208,7 @@ export default {
             });
           } else {
             res.status(401).send({
-              error: { message: 'Invalid password and username -' },
+              error: { message: 'Invalid password and username' },
               data: req.body
             });
           }
@@ -158,10 +222,11 @@ export default {
       });
   },
   search(req, res) {
-    console.log('=============>>>>>>>>', `%${req.params.term}`);
     return models.Users
     .findAll({
-      where: { username: { $iLike: `%${req.params.term}%` } },
+      limit: 10,
+      offset: req.params.page * 10,
+      where: { username: { $iLike: `%${req.params.term}%`, $ne: req.decoded.data.username } },
       attributes: ['id', 'username']
     })
     .then((users) => {
@@ -172,31 +237,131 @@ export default {
       }
       users.map((user, key) => {
         newUsers.push(user.dataValues);
+        models.GroupUsers
+        .find({
+          where: { userId: user.id, groupId: req.params.group },
+          attributes: ['userId']
+        }).then((result) => {
+          if (result !== null) {
+            newUsers[key].ingroup = true;
+          } else {
+            newUsers[key].ingroup = false;
+          }
+          return newUsers;
+        });
+      });
+      let n = 0;
+      users.map((user, key) => {
+        newUsers.push(user.dataValues);
         return models.GroupUsers
         .find({
           where: { userId: user.id, groupId: req.params.group },
           attributes: ['userId']
         }).then((result) => {
-          console.log('RESULT:::::::>>>>>>>', result);
-          console.log('KEEEYYYYY::::>>>', key);
+          n += 1;
           if (result !== null) {
-            console.log('RESULT2:::::::>>>>>>>', result);
             newUsers[key].ingroup = true;
-            console.log('USER::::>>>>', user);
-            console.log('NEWUSER::::>>>>', newUsers[key]);
           } else {
             newUsers[key].ingroup = false;
           }
-          res.status(200).send({ data: newUsers });
+          if (n === users.length) {
+            res.status(200).send({ data: newUsers });
+          }
         });
       });
-      // res.status(200).send({ data: newUsers });
     })
     .catch((error) => {
       newRes.message = error.message;
       newRes.code = 400;
       newRes.success = false;
       res.status(newRes.code).send(newRes);
+    });
+  },
+  updatePassword(req, res) {
+    const hashedPass = bcrypt
+    .hashSync(req.body.password, salt, null);
+    models.PasswordRequests
+    .findOne({
+      where: { hash: req.params.hash }
+    }).then((result) => {
+      const email = result.dataValues.email;
+      const date = new Date();
+      const now = `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
+      if (now > result.dataValues.expiresIn) {
+        res.status(200).send({ data: { error: { message: 'Invalid link' } } });
+        return;
+      }
+      return models.Users
+        .update(
+          { password: hashedPass },
+          { where: { email } }
+        ).then(() =>
+          res.status(200).send({ data: { message: 'Password Reset Successful' } })
+        );
+    });
+  },
+  passwordRequest(req, res) {
+    const email = req.body.email;
+    const secret = req.body.email;
+    const hash = crypto
+    .createHash('sha256', secret)
+    .update(Date.now().toString())
+    .digest('hex');
+    const date = new Date();
+    date.setHours(date.getHours() + 1);
+    const expiresIn = `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
+    if (email === undefined || email.trim() === '') {
+      res.status(400).send({ data: { error: { message: 'valid email is required' } } });
+      return;
+    }
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'xxxx',
+        pass: 'xxxx'
+      }
+    });
+
+    const mailOptions = {
+      from: 'xxxx',
+      to: email,
+      subject: 'Password Reset Request',
+      html: `Hello ${email}, if you have requested for a new password, please follow \n<a href='http://localhost:3000/#/new-password/${hash}'>this link</a> to reset your password`
+    };
+
+    models.PasswordRequests
+    .findOne({
+      where: { email }
+    }).then((response) => {
+      if (response === null) {
+        models.PasswordRequests
+        .create({
+          email,
+          expiresIn,
+          hash
+        }).then(() => {
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              res.status(503).send({ data: { error: { message: error } } });
+            } else {
+              res.status(200).send({ data: { message: info } });
+            }
+          });
+        });
+      } else {
+        response.update({
+          hash,
+          expiresIn
+        }).then(() => {
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              res.status(503).send({ data: { error: { message: error } } });
+            } else {
+              res.status(200).send({ data: { message: info } });
+            }
+          });
+        });
+      }
     });
   }
 };

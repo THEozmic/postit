@@ -3,11 +3,6 @@ import { Footer, Header, SideMenu } from '../presentational';
 import { Groups } from './';
 import api from '../helpers/api';
 
-// const groups = [
-//   { name: 'Andela Bootcampers', id: 1, unread: 5 },
-//   { name: 'React Devs', id: 2, unread: 7 }
-// ];
-
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -22,10 +17,7 @@ class Dashboard extends React.Component {
       location.hash = '#login';
       return;
     }
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
-    api(null, '/api/users/me/', 'GET', headers).then((response) => {
+    api(null, '/api/users/me/', 'GET').then((response) => {
       console.log('Response: ', response);
       this.setState({ groups: response.data.groups, loading: '' });
     });
@@ -41,8 +33,10 @@ class Dashboard extends React.Component {
                 <SideMenu/>
                 <div className="section page-content align-top pl-0 col m7 l8 xl9">
                   <h5>My Groups</h5>
-                  { this.state.loading }
-                  <Groups groups={this.state.groups}/>
+                  { this.state.loading === '' ?
+                    <Groups groups={this.state.groups}/>
+                    : this.state.loading
+                  }
                 </div>
               </div>
             </div>

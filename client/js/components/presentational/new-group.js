@@ -21,10 +21,7 @@ class NewGroup extends React.Component {
       location.hash = '#login';
       return;
     }
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
-    api(`name=${this.name.value}`, '/api/groups', 'POST', headers).then(
+    api(`name=${this.name.value}`, '/api/groups', 'POST').then(
       (response) => {
         console.log(response);
         location.hash = '#dashboard';

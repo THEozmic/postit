@@ -5,44 +5,28 @@ import changeSelectedGroup from '../../actions/changeSelectedGroup';
 class Groups extends React.Component {
   constructor(props) {
     super(props);
-    this.onChangeSelectedGroup = this.onChangeSelectedGroup.bind(this);
-    this.groupSaved = false;
-  }
-
-  onChangeSelectedGroup(group, e) {
-    // save group id
-    if (!this.groupSaved) {
-      this.props.onChangeSelectedGroup(group);
-      console.log(e);
-      this.groupSaved = true;
-    }
   }
 
   render() {
     const { groups } = this.props;
-    console.log('Groups: ', groups);
     return (
     <div>
-      {
-        groups.map((group) => {
-          return <a className="group-card" href="#group"
-          onClick={e => this.onChangeSelectedGroup(group, e)} key={group.id}>
+      { groups.length !== 0 ?
+        groups.map(group =>
+          <a className="group-card" href={`#group/${group.id}`}
+          key={group.id}>
             <div className="group-name">
-              <span className="right group-unread-count badge-danger">{group.unread}</span>
+               { group.count === 0 ? '' :
+              <span className="right group-unread-count badge-danger">{group.count}</span>
+              }
               <span>{group.name}</span>
             </div>
-          </a>;
-        }, this)
+          </a>
+        ) :
+        'You don\'t belong to any group'
       }
     </div>);
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onChangeSelectedGroup: group => dispatch(changeSelectedGroup(group)),
-  };
-};
-
-
-export default connect(null, mapDispatchToProps)(Groups);
+export default Groups;

@@ -9,10 +9,11 @@ class Messages extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message_error: ''
+      message_error: '',
+      selectedGroup: {},
+      sendStatus: 'SEND'
     };
     this.send = this.send.bind(this);
-    this.scrollPane = this.scrollPane.bind(this);
   }
 
   scrollPane() {
@@ -21,6 +22,15 @@ class Messages extends React.Component {
       ease: 'in-expo',
       duration: 900
     });
+  }
+
+  componentWillMount() {
+    const id = location.href.split('/')[location.href.split('/').length - 1];
+    api(null, `/api/groups/${id}`, 'GET')
+    .then((result) => {
+      this.setState({ selectedGroup: result });
+    });
+    api('', `/api/groups/${id}/read`, 'POST');
   }
 
   componentDidMount() {
@@ -32,30 +42,26 @@ class Messages extends React.Component {
     let { content, priority } = this;
     content = content.value.trim();
     priority = priority.value.trim();
-    const readBy = [];
+    const readBy = '';
     if (content === '' || priority === '') {
       this.setState({ message_error: 'Error: Message has no priority, sender or content' });
       return;
     }
-    console.log('PROPS_USER:::::::', this.props.user);
+
+    this.setState({ sendStatus: 'SEND...' });
     const newMessageBody =
-    `message=${content}&from_user=${JSON.parse(this.props.user).data.username}
-    &priority=${priority}&to_group=${this.props.selectedGroup.id}`;
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/x-www-form-urlencoded');
-    headers.append('x-access-token', JSON.parse(sessionStorage.getItem('user')).token);
-    api(newMessageBody, `/api/groups/${this.props.selectedGroup.id}/message`, 'POST', headers).then(
+    `message=${content}&priority=${priority}&to_group=${this.state.selectedGroup.id}`;
+    api(newMessageBody, `/api/groups/${this.state.selectedGroup.id}/message`, 'POST').then(
       (response) => {
+        this.setState({ sendStatus: 'SEND' });
         const newMessage = {
           id: response.id,
           message: content,
           from_user: JSON.parse(this.props.user).data.username,
-          priority: priority.toLowerCase()
+          priority: priority.toLowerCase(),
+          readBy
         };
-        console.log('NEW MESSAGE CONCAT:::::', this.props.messages.concat([newMessage]));
         this.props.loadMessages(this.props.messages.concat([newMessage]));
-
-        console.log(response);
       }
     );
     this.content.value = '';
@@ -64,7 +70,6 @@ class Messages extends React.Component {
 
   render() {
     let n = 0;
-    console.log('MESSAGES::::::: ', this.props.messages);
     return (
       <div className="page-content align-top pl-0 col-md-7 col-lg-9">
         <div className="messages">
@@ -85,10 +90,10 @@ class Messages extends React.Component {
                       {message.priority.toLowerCase()}</span>
                   </div>
                   <div>{message.message}</div>
-                  {/* {message.readBy.length === 0 ? '' :
-                  <div className="message-read-list">Read by: <span>
-                  {message.readBy.join(', ')}</span></div>
-                  } */}
+                   { message.readBy === '' && message.readBy.length === 0 ? '' :
+                  <div className="message-read-list">Read by: <span>@
+                  {message.readBy.split(',').join(', @')}</span></div>
+                  }
                 </div>
               </div>);
           })
@@ -100,14 +105,14 @@ class Messages extends React.Component {
               ref={(input) => { this.content = input; }}></textarea>
             </div>
             <div className="col-12 pl-0 pr-0">
-              <div class="priority-level">
-                <select class="browser-default" ref={(input) => { this.priority = input; }}>
+              <div className="priority-level">
+                <select className="browser-default" ref={(input) => { this.priority = input; }}>
                   <option value="Normal">Normal</option>
                   <option value="Urgent">Urgent</option>
                   <option value="Critical">Critical</option>
                 </select>
               </div>
-              <div className="right"><button className="btn btn-primary" onClick={this.send}>Send</button></div>
+              <div className="right"><button disabled={this.state.sendStatus === 'SEND...'} className="btn btn-primary" onClick={this.send}>{this.state.sendStatus}</button></div>
             </div>
           </div>
       </div>
@@ -117,8 +122,7 @@ class Messages extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.userData,
-    selectedGroup: state.selectedGroup
+    user: state.userData
   };
 };
 

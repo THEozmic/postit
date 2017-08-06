@@ -20,17 +20,15 @@ class Login extends React.Component {
   }
 
   onLoginUser(e) {
-    console.log('user');
     e.preventDefault();
     let { username, password } = this;
     username = username.value.trim();
     password = password.value;
     if (username !== '' || password !== '') {
       const userString = `username=${username}&password=${password}`;
-      api(userString, 'http://localhost:3000/api/signin', 'POST').then(
+      api(userString, '/api/signin', 'POST').then(
         (_loginRes) => {
           if (_loginRes.error === undefined) {
-            console.log(_loginRes);
             this.props.onLoginUser(JSON.stringify(_loginRes));
             sessionStorage.setItem('user', JSON.stringify(_loginRes));
             location.hash = '#dashboard';
@@ -60,6 +58,9 @@ class Login extends React.Component {
         </div>
         { this.state.error_message === '' ? '' :
         <div className='red card' style={{ padding: '5px 10px' }}>{this.state.error_message}</div>}
+        <div className='section'>
+          <a href='#recover-password'>Forgot Password?</a>
+        </div>
         <button
         onClick= { this.onLoginUser }
         className='waves-effect waves-light btn action-btn'>

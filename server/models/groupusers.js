@@ -15,9 +15,6 @@ export default (sequelize, DataTypes) => {
         model: 'Groups',
         key: 'id'
       }
-    },
-    last_seen: {
-      type: DataTypes.DATE
     }
   });
   return GroupUsers;
