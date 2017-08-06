@@ -285,6 +285,12 @@ export default {
       where: { hash: req.params.hash }
     }).then((result) => {
       const email = result.dataValues.email;
+      const date = new Date();
+      const now = `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
+      if (now > result.dataValues.expiresIn) {
+        res.status(200).send({ data: { error: { message: 'Invalid link' } } });
+        return;
+      }
       return models.Users
         .update(
           { password: hashedPass },
