@@ -100,7 +100,7 @@ class Group extends React.Component {
                     </span>
                   </div>
                    { this.state.loading !== '' ? this.state.loading :
-                   <Messages messages={ this.state.messages }/> }
+                   <Messages messages={ this.state.messages } loadMessages={ this.props.loadMessages }/> }
                 </div>
               </div>
             </div>

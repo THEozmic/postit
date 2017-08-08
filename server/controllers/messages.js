@@ -43,7 +43,7 @@ export default {
     return models.Messages
       .create({
         message: req.body.message,
-        from_user: req.body.from_user,
+        from_user: req.decoded.data.username,
         to_group: req.body.to_group,
         priority: req.body.priority
       })

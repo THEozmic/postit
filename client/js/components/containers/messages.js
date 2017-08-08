@@ -11,7 +11,8 @@ class Messages extends React.Component {
     this.state = {
       message_error: '',
       selectedGroup: {},
-      sendStatus: 'SEND'
+      sendStatus: 'SEND',
+      messages: []
     };
     this.send = this.send.bind(this);
   }
@@ -26,6 +27,7 @@ class Messages extends React.Component {
 
   componentWillMount() {
     const id = location.href.split('/')[location.href.split('/').length - 1];
+    this.setState({ messages: this.props.messages });
     api(null, `/api/groups/${id}`, 'GET')
     .then((result) => {
       this.setState({ selectedGroup: result });
@@ -51,7 +53,8 @@ class Messages extends React.Component {
     this.setState({ sendStatus: 'SEND...' });
     const newMessageBody =
     `message=${content}&priority=${priority}&to_group=${this.state.selectedGroup.id}`;
-    api(newMessageBody, `/api/groups/${this.state.selectedGroup.id}/message`, 'POST').then(
+    api(newMessageBody, `/api/groups/${this.state.selectedGroup.id}/message`,
+    'POST').then(
       (response) => {
         this.setState({ sendStatus: 'SEND' });
         const newMessage = {
@@ -61,7 +64,8 @@ class Messages extends React.Component {
           priority: priority.toLowerCase(),
           readBy
         };
-        this.props.loadMessages(this.props.messages.concat([newMessage]));
+        const newMessages = this.props.messages.concat([newMessage]);
+        this.setState({ messages: newMessages });
       }
     );
     this.content.value = '';
@@ -73,7 +77,7 @@ class Messages extends React.Component {
     return (
       <div className="page-content align-top pl-0 col-md-7 col-lg-9">
         <div className="messages">
-          { this.props.messages.map((message) => {
+          { this.state.messages.map((message) => {
             n += 1;
             let secondClass = '';
             if (this.props.messages.length - 1 === n) {
@@ -129,7 +133,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     send: newMessage => dispatch(sendMessage(newMessage)),
-    loadMessages: allMessages => dispatch(loadMessages(allMessages))
   };
 };
 
