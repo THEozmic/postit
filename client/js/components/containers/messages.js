@@ -65,7 +65,8 @@ class Messages extends React.Component {
           readBy
         };
         const newMessages = this.props.messages.concat([newMessage]);
-        this.setState({ messages: newMessages });
+        this.props.loadMessages(newMessages);
+        // this.setState({ messages: newMessages });
       }
     );
     this.content.value = '';
@@ -77,7 +78,7 @@ class Messages extends React.Component {
     return (
       <div className="page-content align-top pl-0 col-md-7 col-lg-9">
         <div className="messages">
-          { this.state.messages.map((message) => {
+          { this.props.messages.map((message) => {
             n += 1;
             let secondClass = '';
             if (this.props.messages.length - 1 === n) {
