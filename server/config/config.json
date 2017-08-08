@@ -1,13 +1,13 @@
 {
   "development": {
-    "username": "Ifeanyi",
+    "username": "ifeanyi",
     "password": "password",
     "database": "postit_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "username": "Ifeanyi",
+    "username": "ifeanyi",
     "password": "password",
     "database": "postit_dev",
     "host": "127.0.0.1",

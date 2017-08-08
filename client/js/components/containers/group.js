@@ -84,7 +84,7 @@ class Group extends React.Component {
             <div className="container">
               <div className="row">
                 <SideMenu ingroup={true}/>
-                <div className="section page-content align-top pl-0 col m7 l8 xl9">
+                <div className="section page-content align-top pl-0 col m7 l8">
                   <div className='group-header-container'>
                     <span className='group-header'>
                       <h5>{ this.state.selectedGroup.name }</h5>
