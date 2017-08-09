@@ -34,6 +34,9 @@ class SideMenu extends React.Component {
       if (user.token === undefined) {
         onLoginUser(sessionStorage.getItem('user'));
       }
+    } else {
+      location.hash = '#login';
+      return null;
     }
 
     return (
