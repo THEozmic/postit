@@ -43,6 +43,10 @@ class Login extends React.Component {
   }
 
   render() {
+    if (sessionStorage.getItem('user') !== null) {
+      location.hash = '#dashboard';
+      return null;
+    }
     return (
       <Form title='Login to your account' sidemenu={false}>
         <div className='input-field'>
