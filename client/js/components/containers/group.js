@@ -50,6 +50,7 @@ class Group extends React.Component {
       });
       console.log('NEW MESSAGES>>>>', newMessages);
       this.setState({ messages: newMessages });
+      this.props.loadMessages(newMessages);
       console.log('MESSAGE STATE>>>', this.state.messages);
       console.log('ORIGINAL MESSAGE STATE>>>', this.state.originalMessages);
     }
@@ -65,12 +66,15 @@ class Group extends React.Component {
       });
       console.log('NEW MESSAGES>>>>', newMessages);
       this.setState({ messages: newMessages });
+      this.props.loadMessages(newMessages);
       console.log('MESSAGE STATE>>>', this.state.messages);
       console.log('ORIGINAL MESSAGE STATE>>>', this.state.originalMessages);
     }
     if (e.target.value === 'All') {
       this.setState({ messages: this.state.originalMessages });
+      this.props.loadMessages(this.state.originalMessages);
       console.log('MESSAGE STATE>>>', this.state.messages);
+      this.props.loadMessages(this.state.originalMessages);
       console.log('ORIGINAL MESSAGE STATE>>>', this.state.originalMessages);
     }
     this.setState({ filter: e.target.value });
@@ -100,7 +104,7 @@ class Group extends React.Component {
                     </span>
                   </div>
                    { this.state.loading !== '' ? this.state.loading :
-                   <Messages messages={ this.state.messages } loadMessages={ this.props.loadMessages }/> }
+                   <Messages messages={ this.props.messages } loadMessages={ this.props.loadMessages }/> }
                 </div>
               </div>
             </div>

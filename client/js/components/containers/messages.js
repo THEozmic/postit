@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import scrollToElement from 'scroll-to-element';
 import sendMessage from '../../actions/sendMessage';
-import loadMessages from '../../actions/loadMessages';
 import api from '../helpers/api';
 
 class Messages extends React.Component {
