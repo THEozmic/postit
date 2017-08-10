@@ -2,6 +2,7 @@ import models from '../models';
 
 export default {
   create(req, res) {
+    console.log('DESCRIPTION::::::::;', req.body.desc);
     if (!req.body.name) {
       res.status(400).send({ message: 'Params: "name" is required' });
       return;
@@ -12,6 +13,7 @@ export default {
         desc: req.body.desc
       })
       .then((group) => {
+        console.log('DESCRIPTION::::::::;', req.body.desc);
         const userId = req.decoded.data.id;
         models.GroupUsers
         .create({ userId, groupId: group.id })
