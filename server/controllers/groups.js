@@ -3,12 +3,13 @@ import models from '../models';
 export default {
   create(req, res) {
     if (!req.body.name) {
-      res.status(400).send({ message: 'Params: "name" and "type" are required' });
+      res.status(400).send({ message: 'Params: "name" is required' });
       return;
     }
     return models.Groups
       .create({
         name: req.body.name,
+        desc: req.body.desc
       })
       .then((group) => {
         const userId = req.decoded.data.id;
@@ -36,7 +37,7 @@ export default {
     return models.Groups
     .findOne({
       where: { id: req.params.id },
-      attributes: ['id', 'name'],
+      attributes: ['id', 'name', 'desc'],
       include: [{
         model: models.Users,
         through: {
