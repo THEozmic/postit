@@ -20,7 +20,7 @@ class Groups extends React.Component {
               <span className="right group-unread-count badge-danger">{group.count}</span>
               }
               <span>{group.name}</span>
-              <small>{group.desc}</small>
+              <small className="group-desc">{group.desc}</small>
             </div>
           </a>
         ) :

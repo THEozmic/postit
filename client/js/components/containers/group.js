@@ -91,7 +91,7 @@ class Group extends React.Component {
                 <div className="section page-content align-top pl-0 col m7 l8">
                   <div className='group-header-container'>
                     <span className='group-header'>
-                      <h5>{ this.state.selectedGroup.name }</h5>
+                      <h5 title={this.state.selectedGroup.desc}>{ this.state.selectedGroup.name }</h5>
                     </span>
                     <span className='message-filter-container'>
                       <select className="browser-default left"

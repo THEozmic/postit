@@ -15,8 +15,9 @@ module.exports = {
         }
       },
       desc: {
-        allowNull: true,
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.STRING,
+        defaultValue: 'no description',
       },
       createdAt: {
         allowNull: false,

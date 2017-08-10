@@ -17,7 +17,7 @@
  
 .message-container {
   color: #252830;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   display: block;
   min-height: 30px;
 }
@@ -70,10 +70,8 @@
 
 .message > div {
   padding: 5px;
-  background-color: #f2f1f1;
   border-radius: 3px;
   margin-top: 5px;
-  border: 1px solid #e6e5e5;
   font-size: 12px;
 }
 
@@ -101,6 +99,7 @@
 
 .messenger {
   margin-right: 10px;
+  color: $primary-color;
 }
 
 .priority-level {

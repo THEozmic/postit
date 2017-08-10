@@ -8,8 +8,9 @@ export default (sequelize, DataTypes) => {
       }
     },
     desc: {
-      allowNull: true,
-      type: DataTypes.STRING
+      allowNull: false,
+      type: DataTypes.STRING,
+      defaultValue: 'no description',
     }
   });
   Groups.associate = (models) => {

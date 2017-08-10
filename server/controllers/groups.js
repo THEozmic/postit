@@ -7,10 +7,14 @@ export default {
       res.status(400).send({ message: 'Params: "name" is required' });
       return;
     }
+    let desc = req.body.desc;
+    if (desc === '') {
+      desc = 'no description';
+    }
     return models.Groups
       .create({
         name: req.body.name,
-        desc: req.body.desc
+        desc
       })
       .then((group) => {
         console.log('DESCRIPTION::::::::;', req.body.desc);
