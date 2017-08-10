@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for server/models/messages.js</title>
+    <title>Code coverage report for client/js/components/presentational/form.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../prettify.css" />
-    <link rel="stylesheet" href="../../base.css" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../sort-arrow-sprite.png);
+            background-image: url(../../../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -16,32 +16,32 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">server/models</a> messages.js
+      <a href="../../../../index.html">All files</a> / <a href="index.html">client/js/components/presentational</a> form.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">60% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/2</span>
+        <span class='fraction'>3/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/0</span>
+        <span class='fraction'>0/4</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/0</span>
+        <span class='fraction'>0/1</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/2</span>
+        <span class='fraction'>3/3</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line medium'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -72,11 +72,9 @@
 27
 28
 29
-30
-31
-32
-33
-34</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+30</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -103,45 +101,35 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export default (sequelize, DataTypes) =&gt; {
-  const Messages = sequelize.define('Messages', {
-    from_user: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    to_group: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    message: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      validate: {
-        notEmpty: true
-      }
-    },
-    readBy: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: ''
-    },
-    priority: {
-      type: DataTypes.STRING,
-      defaultValue: 'Normal',
-      allowNull: true,
-      validate: {
-        isIn: [['Normal', 'Urgent', 'Critical']]
-      }
-    }
-  });
-  return Messages;
-};
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
+import { Footer, Header, SideMenu } from './';
+&nbsp;
+const <span class="fstat-no" title="function not covered" >Form = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span>(</span>{ title, children, active, ingroup, sidemenu = true }) =&gt;</span>
+&lt;div&gt;
+  &lt;Header/&gt;
+    &lt;section className="page-container container-fluid"&gt;
+      &lt;div className="container"&gt;
+        &lt;div className="row"&gt;
+          { sidemenu ? &lt;SideMenu active={ active } ingroup={ingroup}/&gt; : '' }
+          &lt;div className="section page-content align-top pl-0 col m7 l8"&gt;
+            &lt;section&gt;
+              &lt;h5&gt;{ title }&lt;/h5&gt;
+              &lt;div className='row'&gt;
+                &lt;div className='col s12 m8'&gt;
+                  &lt;form className='form'&gt;
+                    { children }
+                  &lt;/form&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/section&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/section&gt;
+  &lt;Footer/&gt;
+&lt;/div&gt;;
+&nbsp;
+export default Form;
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
@@ -151,7 +139,7 @@
   generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Aug 10 2017 14:12:03 GMT+0100 (WAT)
 </div>
 </div>
-<script src="../../prettify.js"></script>
+<script src="../../../../prettify.js"></script>
 <script>
 window.onload = function () {
         if (typeof prettyPrint === 'function') {
@@ -159,6 +147,6 @@ window.onload = function () {
         }
 };
 </script>
-<script src="../../sorter.js"></script>
+<script src="../../../../sorter.js"></script>
 </body>
 </html>
