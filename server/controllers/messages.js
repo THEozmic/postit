@@ -51,8 +51,7 @@ function fetchMembersEmail(groupId) {
       attributes: ['id']
     }).then((groups) => {
       // Here, I am getting all the groups and leveraging my associations
-      // to 'getUsers' in that groups, including their emails, which is what
-      // I need
+      // to 'getUsers' in that groups, including their emails, which is what I need
       groups.getUsers({ attributes: ['email'] }).then((users) => {
         resolve(users);
       });

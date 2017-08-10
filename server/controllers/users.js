@@ -119,7 +119,14 @@ export default {
       attributes: ['id', 'email', 'username', 'createdAt']
     })
     .then((user) => {
-      let groups = user.groups;
+      let groups = '';
+      console.log('GROUPS:::::>>>>>>>>>>>>>>>>>>', user.groups);
+      if (user.groups !== undefined) {
+        groups = user.groups;
+      } else {
+        res.status(200).send({ data: user });
+        return;
+      }
       if (user.groups.length !== 0) {
         let n = 1;
         const newGroups = [];

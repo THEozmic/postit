@@ -93,7 +93,7 @@ class Messages extends React.Component {
                     <span className={`message-type ${message.priority.toLowerCase()}`}>
                       {message.priority.toLowerCase()}</span>
                   </div>
-                  <div>{message.message}</div>
+                  <div className="message-content">{message.message}</div>
                    { message.readBy === '' && message.readBy.length === 0 ? '' :
                   <div className="message-read-list">Read by: <span>@
                   {message.readBy.split(',').join(', @')}</span></div>

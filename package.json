@@ -83,6 +83,6 @@
     "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-register",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
-    "build": "webpack ./client/js/app.js -w --hot"
+    "build": "webpack ./client/js/app.js -w"
   }
 }
