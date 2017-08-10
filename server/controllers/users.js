@@ -112,7 +112,7 @@ export default {
         model: models.Groups,
         as: 'groups',
         required: false,
-        attributes: ['id', 'name'],
+        attributes: ['id', 'name', 'desc'],
         through: { attributes: [] }
       }],
       where: { username },
