@@ -7,7 +7,7 @@ import models from '../models';
 const newRes = {};
 const salt = bcrypt.genSaltSync(5);
 export default {
-  create(req, res) {
+  createUser(req, res) {
     if (!req.body.email || req.body.email.trim() === '') {
       return res.status(400)
       .send({
@@ -60,7 +60,7 @@ export default {
     .hashSync(req.body.password, salt, null);
     return models.Users
       .create({
-        username: req.body.username.trim(),
+        username: req.body.username.trim().toLowerCase(),
         email: req.body.email.trim(),
         password: hashedPass,
         phone: req.body.phone.trim()
@@ -92,7 +92,7 @@ export default {
         res.status(400).send(newRes);
       });
   },
-  fetch(req, res) {
+  fetchAllUsers(req, res) {
     return models.Users
       .findAll({ attributes:
         ['id', 'username', 'email', 'phone', 'createdAt', 'updatedAt'] })
@@ -104,7 +104,7 @@ export default {
         res.status(newRes.code).send(newRes);
       });
   },
-  fetchMe(req, res) {
+  fetchCurrentUser(req, res) {
     const username = req.decoded.data.username;
     models.Users
     .find({
@@ -197,9 +197,9 @@ export default {
       res.status(newRes.code).send(newRes);
     });
   },
-  auth(req, res) {
+  authenticateUser(req, res) {
     models.Users
-      .findAll({ where: { username: [req.body.username] } })
+      .findAll({ where: { username: [req.body.username.toLowerCase()] } })
       .then((user) => {
         const givenPassword = req.body.password;
         if (user[0]) {
@@ -228,7 +228,7 @@ export default {
         });
       });
   },
-  search(req, res) {
+  searchUsers(req, res) {
     return models.Users
     .findAll({
       limit: 10,
