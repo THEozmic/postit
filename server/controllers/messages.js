@@ -86,7 +86,6 @@ export default {
               // send email
               sendEmail(user.dataValues.email,
                 `${req.body.from_user}: ${req.body.message}`, 'critical');
-              
               // and sms
               // you want to substitute the second parameter with the actual phone number of
               // the recipient
