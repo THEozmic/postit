@@ -25,7 +25,7 @@ export default {
       })
       .catch(error => res.status(400).send(error));
   },
-  fetch(req, res) {
+  fetchGroups(req, res) {
     if (req.params.id === undefined) {
       return models.Groups
       .findAll({ include: [{
@@ -74,7 +74,7 @@ export default {
       .then(message => res.status(200).send(message))
       .catch(error => res.status(404).send(error));
   },
-  messages(req, res) {
+  findMessages(req, res) {
     models.Messages
       .findAll({
         where: { to_group: [req.params.id] },

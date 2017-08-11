@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.38% </span>
+        <span class="strong">2.13% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>1/42</span>
+        <span class='fraction'>1/47</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/8</span>
+        <span class='fraction'>0/10</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>0/22</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">2.44% </span>
+        <span class="strong">2.17% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>1/41</span>
+        <span class='fraction'>1/46</span>
       </div>
     </div>
   </div>
@@ -171,9 +171,21 @@
 126
 127
 128
-129</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+129
+130
+131
+132
+133
+134
+135
+136</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -184,6 +196,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -303,15 +317,22 @@
 &nbsp;
 export default <span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" ><span class="fstat-no" title="function not covered" >{</span></span></span></span></span></span>
   create(req, res) {
+<span class="cstat-no" title="statement not covered" >    console.log('DESCRIPTION::::::::;', req.body.desc);</span>
 <span class="cstat-no" title="statement not covered" >    if (!req.body.name) {</span>
-<span class="cstat-no" title="statement not covered" >      res.status(400).send({ message: 'Params: "name" and "type" are required' });</span>
+<span class="cstat-no" title="statement not covered" >      res.status(400).send({ message: 'Params: "name" is required' });</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
+    }
+    l</span>et desc = <span class="cstat-no" title="statement not covered" >req.body.desc;
+<span class="cstat-no" title="statement not covered" >    if (desc === '') {</span>
+<span class="cstat-no" title="statement not covered" >      desc = 'no description';</span>
     }
 <span class="cstat-no" title="statement not covered" >    return models.Groups</span>
       .create({
         name: req.body.name,
+        desc
       })
       .then(<span class="fstat-no" title="function not covered" >(</span>group) =&gt; {
+<span class="cstat-no" title="statement not covered" >        console.log('DESCRIPTION::::::::;', req.body.desc);</span>
         c</span>onst userId = <span class="cstat-no" title="statement not covered" >req.decoded.data.id;
 <span class="cstat-no" title="statement not covered" >        models.GroupUsers</span>
         .create({ userId, groupId: group.id })
@@ -319,7 +340,7 @@ export default <span class="fstat-no" title="function not covered" ><span class=
       })
       .catch(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >error =&gt; res.status(400).send(error));</span></span>
   },
-  fetch(req, res) {
+  fetchGroups(req, res) {
 <span class="cstat-no" title="statement not covered" >    if (req.params.id === undefined) {</span>
 <span class="cstat-no" title="statement not covered" >      return models.Groups</span>
       .findAll({ include: [{
@@ -337,7 +358,7 @@ export default <span class="fstat-no" title="function not covered" ><span class=
 <span class="cstat-no" title="statement not covered" >    return models.Groups</span>
     .findOne({
       where: { id: req.params.id },
-      attributes: ['id', 'name'],
+      attributes: ['id', 'name', 'desc'],
       include: [{
         model: models.Users,
         through: {
@@ -368,7 +389,7 @@ export default <span class="fstat-no" title="function not covered" ><span class=
       .then(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >message =&gt; res.status(200).send(message))</span></span>
       .catch(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >error =&gt; res.status(404).send(error));</span></span>
   },
-  messages(req, res) {
+  findMessages(req, res) {
 <span class="cstat-no" title="statement not covered" >    models.Messages</span>
       .findAll({
         where: { to_group: [req.params.id] },
@@ -433,7 +454,7 @@ export default <span class="fstat-no" title="function not covered" ><span class=
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Aug 10 2017 14:12:03 GMT+0100 (WAT)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Aug 11 2017 14:26:15 GMT+0100 (WAT)
 </div>
 </div>
 <script src="../../prettify.js"></script>
