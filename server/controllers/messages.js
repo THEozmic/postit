@@ -60,7 +60,7 @@ function fetchMembersEmail(groupId) {
 }
 
 export default {
-  create(req, res) {
+  createMessage(req, res) {
     return models.Messages
       .create({
         message: req.body.message,
