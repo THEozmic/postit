@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for components/presentational/search.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">All files</a> / <a href="index.html">components/presentational</a> search.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/59</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/21</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/21</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/56</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
+import Form from '../presentational/form';
+import api from '../helpers/api';
+&nbsp;
+class Search extends React.Component {
+<span class="fstat-no" title="function not covered" >  co</span>nstructor(props) {
+<span class="cstat-no" title="statement not covered" >    super(props);</span>
+<span class="cstat-no" title="statement not covered" >    this.onSearchChange = this.onSearchChange.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >    this.onFinishClick = this.onFinishClick.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >    this.onPageChange = this.onPageChange.bind(this);</span>
+<span class="cstat-no" title="statement not covered" >    this.state = {</span>
+      foundUsers: [],
+      selectedUsers: [],
+      nextPage: 2,
+      prevPage: 0,
+      selectedGroup: {}
+    };
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  co</span>mponentWillMount() {
+    const id = <span class="cstat-no" title="statement not covered" >location.href.split('/')[location.href.split('/').length - 2];</span>
+<span class="cstat-no" title="statement not covered" >    api(null, `/api/groups/${id}`, 'GET')</span>
+    .then(<span class="fstat-no" title="function not covered" >(r</span>esult) =&gt; {
+<span class="cstat-no" title="statement not covered" >      this.setState({ selectedGroup: result });</span>
+    });
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  on</span>PageChange(page) {
+<span class="cstat-no" title="statement not covered" >    if (this.term.value.trim() !== '') {</span>
+<span class="cstat-no" title="statement not covered" >      if (page === 'prev') {</span>
+<span class="cstat-no" title="statement not covered" >        if (this.state.prevPage &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >          this.onSearchChange(this.state.prevPage);</span>
+<span class="cstat-no" title="statement not covered" >          this.setState({ nextPage: this.state.nextPage - 1 });</span>
+<span class="cstat-no" title="statement not covered" >          this.setState({ prevPage: this.state.prevPage - 1 });</span>
+        }
+      } else {
+<span class="cstat-no" title="statement not covered" >        this.onSearchChange(this.state.nextPage);</span>
+<span class="cstat-no" title="statement not covered" >        this.setState({ nextPage: this.state.nextPage + 1 });</span>
+<span class="cstat-no" title="statement not covered" >        this.setState({ prevPage: this.state.prevPage + 1 });</span>
+      }
+    }
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  on</span>FinishClick(e) {
+<span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >    api(`users=${JSON.stringify(this.state.selectedUsers)}`, `/api/groups/${this.state.selectedGroup.id}/user/`, 'POST')</span>
+    .then(<span class="fstat-no" title="function not covered" >(r</span>esult) =&gt; {
+<span class="cstat-no" title="statement not covered" >      if (result.data.message === 'members updated') {</span>
+<span class="cstat-no" title="statement not covered" >        history.back();</span>
+      }
+    });
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  on</span>SearchChange(page = <span class="branch-0 cbranch-no" title="branch not covered" >this.state.prevPage + 1)</span> {
+<span class="cstat-no" title="statement not covered" >    this.setState({ foundUsers: [] });</span>
+<span class="cstat-no" title="statement not covered" >    if (this.term.value.trim() !== '') {</span>
+<span class="cstat-no" title="statement not covered" >      api(null, `/api/search/${this.state.selectedGroup.id}/${this.term.value.trim()}/${page - 1}`, 'GET').then(</span>
+<span class="fstat-no" title="function not covered" >        (u</span>sers) =&gt; {
+<span class="cstat-no" title="statement not covered" >          console.log(users);</span>
+          const nUsers = <span class="cstat-no" title="statement not covered" >users.data.map(<span class="fstat-no" title="function not covered" >(u</span>ser) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            this.state.selectedUsers.map(<span class="fstat-no" title="function not covered" >(s</span>User) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >              if (sUser.id === user.id) {</span>
+<span class="cstat-no" title="statement not covered" >                user.ingroup = true;</span>
+              }
+<span class="cstat-no" title="statement not covered" >              return users;</span>
+            });
+<span class="cstat-no" title="statement not covered" >            console.log('USER:::&gt;&gt;&gt;&gt;', user);</span>
+<span class="cstat-no" title="statement not covered" >            return user;</span>
+          });
+<span class="cstat-no" title="statement not covered" >          this.setState({ foundUsers: nUsers });</span>
+        }
+      );
+    }
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  on</span>SelectUser(user) {
+    let alreadySelected = <span class="cstat-no" title="statement not covered" >false;</span>
+<span class="cstat-no" title="statement not covered" >    this.state.selectedUsers.map(<span class="fstat-no" title="function not covered" >(s</span>User) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (sUser.id === user.id) {</span>
+<span class="cstat-no" title="statement not covered" >        alreadySelected = true;</span>
+<span class="cstat-no" title="statement not covered" >        return sUser;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      return false;</span>
+    });
+<span class="cstat-no" title="statement not covered" >    if (!alreadySelected) {</span>
+      const selectedUsers = <span class="cstat-no" title="statement not covered" >this.state.selectedUsers.concat(user);</span>
+<span class="cstat-no" title="statement not covered" >      this.setState({ selectedUsers });</span>
+    } else {
+      const users = <span class="cstat-no" title="statement not covered" >this.state.selectedUsers.filter(<span class="fstat-no" title="function not covered" >sU</span>ser =&gt; <span class="cstat-no" title="statement not covered" >sUser.id !== user.id)</span>;</span>
+<span class="cstat-no" title="statement not covered" >      this.setState({ selectedUsers: users });</span>
+    }
+&nbsp;
+    // flip the ingroup value
+    let foundUsers = <span class="cstat-no" title="statement not covered" >Object.assign([], this.state.foundUsers);</span>
+<span class="cstat-no" title="statement not covered" >    foundUsers = foundUsers.map(<span class="fstat-no" title="function not covered" >(f</span>User) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (fUser.id === user.id) {</span>
+<span class="cstat-no" title="statement not covered" >        fUser.ingroup = !fUser.ingroup;</span>
+      }
+<span class="cstat-no" title="statement not covered" >      return fUser;</span>
+    });
+<span class="cstat-no" title="statement not covered" >    this.setState({ foundUsers });</span>
+  }
+&nbsp;
+<span class="fstat-no" title="function not covered" >  re</span>nder() {
+    // if (this.selectedGroup.name === '' || this.selectedGroup.name === undefined) {
+    //   location.hash = '#dashboard';
+    //   return null;
+    // }
+&nbsp;
+    const title = <span class="cstat-no" title="statement not covered" >['Add users to ',</span>
+      &lt;span style={{ color: '#0275d8' }}&gt;{ this.state.selectedGroup.name }&lt;/span&gt;,
+      ' group'];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return (</span>
+      &lt;Form title={ title } active='search' showSideMenu={true}&gt;
+        &lt;div className='input-field'&gt;
+          &lt;input type='text' id='search' onChange={ <span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.onSearchChange() </span>} ref={<span class="fstat-no" title="function not covered" >(i</span>nput) =&gt; { <span class="cstat-no" title="statement not covered" >this.term = input; </span>}}/&gt;
+          &lt;label for='search'&gt;Search by username&lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div className='search-results'&gt;
+          {this.state.foundUsers.map(<span class="fstat-no" title="function not covered" >fU</span>ser =&gt;
+<span class="cstat-no" title="statement not covered" >            &lt;span key={fUser.id}</span>
+            onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.onSelectUser(fUser)}</span>
+            className={fUser.ingroup ? 'ingroup' : ''}&gt;@{fUser.username}&lt;/span&gt;
+          )}
+          &lt;div class="search-pages"&gt;
+            &lt;span onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.onPageChange('prev')}</span> className="search-prev"&gt;Prev&lt;/span&gt;&lt;span&gt;{this.state.prevPage + 1}&lt;/span&gt;&lt;span onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >this.onPageChange('next')}</span> className="search-next"&gt;Next&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;button className='waves-effect waves-light btn action-btn'
+          onClick={this.onFinishClick}&gt;Finish&lt;/button&gt;
+        &lt;a className='right waves-effect waves-teal btn-flat action-btn'
+        href='#dashboard'&gt;Cancel&lt;/a&gt;
+      &lt;/Form&gt;);
+  }
+}
+&nbsp;
+export default Search;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Aug 14 2017 15:44:38 GMT+0100 (WAT)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

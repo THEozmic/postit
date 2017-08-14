@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './form';
 import api from '../helpers/api';
 
+
 class NewGroup extends React.Component {
   constructor(props) {
     super(props);
@@ -31,14 +32,14 @@ class NewGroup extends React.Component {
 
   render() {
     return (
-      <Form title='Create a new group' active='create-group'>
+      <Form title='Create a new group' active='create-group' showSideMenu={true} showSearchLink={true}>
         <div className='input-field'>
           <input type='text' id='name' ref={ (input) => { this.name = input; } }/>
           <label for='name'>Name</label>
         </div>
         <div className='input-field'>
           <input type='text' id='desc' ref={ (input) => { this.desc = input; } }/>
-          <label for='name'>Description</label>
+          <label for='desc'>Description</label>
         </div>
         <button className='waves-effect waves-light btn action-btn'
         onClick={this.onCreateGroup}>Create</button>

@@ -1,29 +1,55 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Footer, Header, SideMenu } from './';
+import logoutUser from '../../actions/logoutUser';
+import loginUser from '../../actions/loginUser';
 
-const Form = ({ title, children, active, ingroup, sidemenu = true }) =>
-<div>
-  <Header/>
-    <section className="page-container container-fluid">
-      <div className="container">
-        <div className="row">
-          { sidemenu ? <SideMenu active={ active } ingroup={ingroup}/> : '' }
-          <div className="section page-content align-top pl-0 col m7 l8">
-            <section>
-              <h5>{ title }</h5>
-              <div className='row'>
-                <div className='col s12 m8'>
-                  <form className='form'>
-                    { children }
-                  </form>
+class Form extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        <Header/>
+          <section className="page-container container-fluid">
+            <div className="container">
+              <div className="row">
+                { this.props.showSideMenu ? <SideMenu active={ this.props.active } user={this.props.user} onLogout={this.props.onLogout} onLoginUser={this.props.onLoginUser}/> : '' }
+                <div className="section page-content align-top pl-0 col m7 l8">
+                  <section>
+                    <h5>{ this.props.title }</h5>
+                    <div className='row'>
+                      <div className='col s12 m8'>
+                        <form className='form'>
+                          { this.props.children }
+                        </form>
+                      </div>
+                    </div>
+                  </section>
                 </div>
               </div>
-            </section>
-          </div>
-        </div>
+            </div>
+          </section>
+        <Footer/>
       </div>
-    </section>
-  <Footer/>
-</div>;
+    );
+  }
+}
 
-export default Form;
+const mapStateToProps = (state) => {
+  return {
+    messages: state.messages,
+    user: state.userData
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onLogout: () => dispatch(logoutUser()),
+    onLoginUser: user => dispatch(loginUser(user))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

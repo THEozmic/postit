@@ -1,8 +1,8 @@
-import Dashboard from './dashboard';
-import Groups from './groups';
 import Group from './group';
 import Messages from './messages';
-import Search from './search';
-// import MessageBoard from './messageboard';
+import Dashboard from './dashboard';
+import Register from './register';
+import Login from './login';
+import Header from './header';
 
-export { Dashboard, Groups, Group, Messages, Search };
+export { Register, Login, Dashboard, Header, Group, Messages };
