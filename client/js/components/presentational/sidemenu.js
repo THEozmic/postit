@@ -25,7 +25,7 @@ class SideMenu extends React.Component {
   }
 
   render() {
-    const { active = 'dashboard', user, showSearchLink = false, onLogout, onLoginUser } = this.props;
+    const { active = 'dashboard', user = '{}', showSearchLink = false, onLogout, onLoginUser } = this.props;
 
     if (sessionStorage.getItem('user') !== null && location.hash !== '#/register') {
       if (user.token === undefined) {
