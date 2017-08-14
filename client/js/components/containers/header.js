@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const Header = ({ user }) => {
+const Header = ({ user = '{}' }) => {
   user = JSON.parse(user);
   return (<header className="page-header">
       <div className='container'>
