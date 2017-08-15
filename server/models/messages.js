@@ -5,21 +5,27 @@ export default (sequelize, DataTypes) => {
       allowNull: false
     },
     to_group: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     message: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notEmpty: true
+      }
+    },
+    readBy: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true,
+      defaultValue: ''
     },
     priority: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
+      defaultValue: 'Normal',
+      allowNull: true,
+      validate: {
+        isIn: [['Normal', 'Urgent', 'Critical']]
       }
     }
   });

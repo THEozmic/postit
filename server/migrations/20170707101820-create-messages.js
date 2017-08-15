@@ -12,16 +12,28 @@ module.exports = {
         allowNull: false
       },
       to_group: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false
       },
       message: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.TEXT,
+        allowNull: false,
+        validate: {
+          notEmpty: true
+        }
       },
       priority: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true,
+        defaultValue: 'Normal',
+        validate: {
+          isIn: [['Normal', 'Urgent', 'Critical']]
+        }
+      },
+      readBy: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: ''
       },
       createdAt: {
         allowNull: false,
@@ -33,7 +45,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface /* , Sequelize */) => {
     queryInterface.dropTable('Messages');
   }
 };

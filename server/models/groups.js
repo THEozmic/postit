@@ -1,25 +1,24 @@
 export default (sequelize, DataTypes) => {
   const Groups = sequelize.define('Groups', {
     name: {
+      allowNull: false,
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    type: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-        // Groups.hasMany(models.GroupUsers, {
-        //   foreignKey: {
-        //     name: 'group_id',
-        //     onDelete: 'CASCADE'
-        //   }
-        // });
+      validate: {
+        notEmpty: true
       }
+    },
+    desc: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      defaultValue: 'no description',
     }
   });
+  Groups.associate = (models) => {
+    Groups.belongsToMany(models.Users, {
+      through: 'GroupUsers',
+      as: 'users',
+      foreignKey: 'groupId'
+    });
+  };
   return Groups;
 };

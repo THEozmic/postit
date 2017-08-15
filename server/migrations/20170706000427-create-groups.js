@@ -9,11 +9,15 @@ module.exports = {
       },
       name: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        validate: {
+          notEmpty: true
+        }
       },
-      type: {
+      desc: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'no description',
       },
       createdAt: {
         allowNull: false,
@@ -25,7 +29,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface /* , Sequelize */) => {
     queryInterface.dropTable('Groups');
   }
 };

@@ -1,30 +1,46 @@
 export default (sequelize, DataTypes) => {
   const Users = sequelize.define('Users', {
     username: {
+      allowNull: false,
       type: DataTypes.STRING,
-      allowNull: false
+      unique: true,
+      validate: {
+        notEmpty: true
+      }
+    },
+    phone: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      validate: {
+        not: ['[a-z]', 'i']
+      }
     },
     email: {
-      type: DataTypes.STRING,
       allowNull: false,
-      unqiue: true
+      type: DataTypes.STRING,
+      unique: true,
+      validate: {
+        isEmail: true
+      }
     },
     password: {
+      allowNull: false,
       type: DataTypes.STRING,
-      allowNull: false
-    },
-  }, {
-    classMethods: {
-      associate: (models) => {
-        // associations can be defined here
-        // Users.hasMany(models.GroupUsers, {
-        //   foreignKey: {
-        //     name: 'user_id',
-        //     onDelete: 'CASCADE'
-        //   }
-        // });
+      validate: {
+        notEmpty: true
       }
+    },
+    lastSeenTrigger: {
+      allowNull: true,
+      type: DataTypes.STRING
     }
   });
+  Users.associate = (models) => {
+    Users.belongsToMany(models.Groups, {
+      through: 'GroupUsers',
+      as: 'groups',
+      foreignKey: 'userId'
+    });
+  };
   return Users;
 };

@@ -1,24 +1,63 @@
 import models from '../models';
 
 export default {
-  addUser(req, res) {
-    if (!req.body.user_id) {
-      res.status(400).send({ message: 'Param: "user_id" is required' });
+  create(req, res) {
+    if (!req.body.userId) {
+      res.status(400)
+      .send({ error: { message: 'Param: "user_id" is required' } });
       return;
     }
 
-    if (!req.body.group_id) {
-      res.status(400).send({ message: 'Param: "group_id" is required' });
+    if (!req.params.id) {
+      res.status(400)
+      .send({ error: { message: 'Param: "group_id" is required' } });
       return;
     }
 
-    return models.GroupUsers
-      .create({
-        user_id: req.body.user_id,
-        group_id: req.params.id
+    models.GroupUsers
+    .find({
+      where: {
+        userId: req.body.userId,
+        groupId: req.params.id
+      } }).then((data) => {
+        if (data) {
+          return res.status(400)
+          .send({ error: { message: 'user already in group' } });
+        }
+        return models.GroupUsers
+          .create({
+            userId: req.body.userId,
+            groupId: req.params.id
+          })
+          .then(result => res.status(201).send(result))
+          .catch(error => res.status(400).send(error));
+      });
+  },
+  upsert(req, res) {
+    if (!req.body.users) {
+      res.status(400)
+      .send({ error: { message: 'Param: "users" is required' } });
+      return;
+    }
+
+    if (!req.params.id) {
+      res.status(400)
+      .send({ error: { message: 'Param: "group_id" is required' } });
+      return;
+    }
+
+    JSON.parse(req.body.users).map(user =>
+      models.GroupUsers
+      .findOne({ where: { userId: user.id, groupId: req.params.id } })
+      .then((result) => {
+        if (result !== null) {
+          models.GroupUsers.destroy({ where: { userId: user.id, groupId: req.params.id } });
+        } else {
+          models.GroupUsers.create({ userId: user.id, groupId: req.params.id });
+        }
       })
-      .then(result => res.status(201).send(result))
-      .catch(error => res.status(400).send(error));
+    );
+    res.status(200).send({ data: { message: 'members updated' } });
   },
   update(req, res) {
     return models.GroupUsers
@@ -29,8 +68,8 @@ export default {
         group_id: req.body.group_id
       }
       })
-      .then(result => res.statu(202).send(result))
-      .catch(error => res.statu(400).send(error));
+      .then(result => res.status(202).send(result))
+      .catch(error => res.status(400).send(error));
   }
   // @todo updateLastSeen => called when user opens a group.
 };

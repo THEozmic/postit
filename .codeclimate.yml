@@ -1,3 +1,18 @@
 engines:
   duplication:
-    enabled: false
+    enabled: true
+    checks:
+      Similar code:
+        enabled: false
+    config:
+      languages:
+      - javascript
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - "server/*.js"
+  - "server/**/*.js"
+exclude_paths:
+- node_modules/
+- server/tests/

@@ -1,13 +1,11 @@
 **STATUS**
->
-[![Build Status](https://travis-ci.org/THEozmic/postit.svg?branch=master)](https://travis-ci.org/THEozmic/postit)
 
-[![Coverage Status](https://coveralls.io/repos/github/THEozmic/postit/badge.svg)](https://coveralls.io/github/THEozmic/postit)
-
-[![Code Climate](https://codeclimate.com/github/THEozmic/postit/badges/gpa.svg)](https://codeclimate.com/github/THEozmic/postit)
+[![Build Status](https://travis-ci.org/THEozmic/postit.svg?branch=master)](https://travis-ci.org/THEozmic/postit) [![Coverage Status](https://coveralls.io/repos/github/THEozmic/postit/badge.svg)](https://coveralls.io/github/THEozmic/postit) [![Code Climate](https://codeclimate.com/github/THEozmic/postit/badges/gpa.svg)](https://codeclimate.com/github/THEozmic/postit)
 
 **POSTIT**
 > - A simple web application that lets users send messages as broadcast to friends and colleagues
+> - https://postit-michael.herokuapp.com/
+> - Template: https://theozmic.github.io/Postit-template/index.html
 
 **TECH STACK**
 > - Front-end: React/Redux + SASS
@@ -26,3 +24,6 @@
 > - setup your db according to settings in `server/config/config.json`
 > - then run `$ sequelize db:migrate`
 > - Run `npm run exec` to start server
+
+**API DOCS**
+> - http://docs.postitmichael.apiary.io

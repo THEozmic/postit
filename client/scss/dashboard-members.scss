@@ -1,0 +1,43 @@
+.search-results .ingroup {
+  background-color: #252830;
+}
+
+.search-pages {
+  margin: 10px 0px;
+  background-color: $primary-color;
+  padding: 5px;
+  border-radius: 2px;
+  text-align: center;
+  span {
+    padding: 3px 15px;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+
+.search-results > span {
+  color: #ffffff;
+  padding: 5px 12px;
+  background-color: #8e9095;
+  margin: 5px;
+  border-radius: 2px;
+  display: inline-block;
+  min-width: 70px;
+  cursor: pointer;
+}
+
+.search-results {
+  margin: 15px 0px;
+}
+
+.search-prev {
+  float: left;
+  border-right: 1px solid white;
+}
+
+.search-next {
+  float: right;
+  border-left: 1px solid white;
+}
