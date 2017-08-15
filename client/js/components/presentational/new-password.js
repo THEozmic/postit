@@ -2,6 +2,7 @@ import React from 'react';
 import Form from './form';
 import api from '../helpers/api';
 
+
 class NewPassword extends React.Component {
 
   constructor(props) {

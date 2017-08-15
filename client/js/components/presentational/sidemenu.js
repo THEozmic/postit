@@ -1,7 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import logoutUser from '../../actions/logoutUser';
-import loginUser from '../../actions/loginUser';
 import api from '../helpers/api';
 
 const logout = (completeLogout) => {
@@ -28,7 +25,7 @@ class SideMenu extends React.Component {
   }
 
   render() {
-    const { active = 'dashboard', user, ingroup = false, onLogout, onLoginUser } = this.props;
+    const { active = 'dashboard', user, showSearchLink = false, onLogout, onLoginUser } = this.props;
 
     if (sessionStorage.getItem('user') !== null && location.hash !== '#/register') {
       if (user.token === undefined) {
@@ -49,7 +46,7 @@ class SideMenu extends React.Component {
             <a href="#new-group" className={ active === 'create-group' ? 'active' : ''}
             data-toggle="modal" data-target="#createGroupModal">Create Group</a>
           </li>
-          { ingroup ?
+          { showSearchLink ?
           <li>
             <a href={`#/group/${this.state.selectedGroup.id}/search`} className={ active === 'search' ? 'active' : ''}>
             Update Members</a>
@@ -63,17 +60,4 @@ class SideMenu extends React.Component {
   }
 }
 
-
-const mapStateToProps = (state) => {
-  return {
-    user: state.userData
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onLogout: () => dispatch(logoutUser()),
-    onLoginUser: user => dispatch(loginUser(user))
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);
+export default SideMenu;

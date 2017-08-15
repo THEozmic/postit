@@ -7,8 +7,8 @@ import 'materialize-css';
 import 'materialize-css/dist/css/materialize.min.css';
 import '../scss/index.scss';
 import configureStore from './stores/configureStore';
-import { Home, Register, Login, NewGroup, Recover, NewPassword } from './components/presentational';
-import { Dashboard, Group, Search } from './components/containers';
+import { Search, Home, NewGroup, Recover, NewPassword } from './components/presentational';
+import { Group, Register, Login, Dashboard } from './components/containers';
 
 const store = configureStore();
 

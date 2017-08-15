@@ -4,6 +4,8 @@ import { Footer, Header, SideMenu } from '../presentational';
 import { Messages } from './';
 import changeSelectedGroupAction from '../../actions/changeSelectedGroup';
 import loadMessages from '../../actions/loadMessages';
+import logoutUser from '../../actions/logoutUser';
+import loginUser from '../../actions/loginUser';
 import api from '../helpers/api';
 
 class Group extends React.Component {
@@ -87,7 +89,7 @@ class Group extends React.Component {
           <section className="page-container container-fluid">
             <div className="container">
               <div className="row">
-                <SideMenu ingroup={true}/>
+                <SideMenu showSearchLink={true} user={this.props.user} onLogout={this.props.onLogout} onLoginUser={this.props.onLoginUser}/>
                 <div className="section page-content align-top pl-0 col m7 l8">
                   <div className='group-header-container'>
                     <span className='group-header'>
@@ -118,12 +120,15 @@ class Group extends React.Component {
 const mapStateToProps = (state) => {
   return {
     messages: state.messages,
+    user: state.userData
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadMessages: allMessages => dispatch(loadMessages(allMessages))
+    loadMessages: allMessages => dispatch(loadMessages(allMessages)),
+    onLogout: () => dispatch(logoutUser()),
+    onLoginUser: user => dispatch(loginUser(user))
   };
 };
 
