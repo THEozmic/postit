@@ -59,26 +59,27 @@ class Register extends React.Component {
           <input onFocus={this.onFocus}
           type='text' id='username'
           ref = {(input) => { this.username = input; }} />
-          <label for='username'>Username</label>
+          <label htmlFor='username'>Username</label>
         </div>
         <div className='input-field'>
           <input onFocus={this.onFocus}
           type='email' id='email' ref={(input) => { this.email = input; }}/>
-          <label for='email'>Email</label>
+          <label htmlFor='email'>Email</label>
         </div>
         <div className='input-field'>
           <input onFocus={this.onFocus}
           type='text' id='phone' ref={(input) => { this.phone = input; }}/>
-          <label for='phone'>Phone</label>
+          <label htmlFor='phone'>Phone</label>
         </div>
         <div className='input-field'>
           <input onFocus={this.onFocus}
           type='password' id='password' ref={(input) => { this.password = input; }}/>
-          <label for='password'>Password</label>
+          <label htmlFor='password'>Password</label>
         </div>
         { this.state.error_message === '' ? '' :
         <div className='red card' style={{ padding: '5px 10px' }}>{this.state.error_message}</div>}
         <button
+        id='register'
         onClick= { this.onRegisterUser }
         className='waves-effect waves-light btn action-btn'>
         Register</button>

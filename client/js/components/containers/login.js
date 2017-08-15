@@ -53,12 +53,12 @@ class Login extends React.Component {
           <input onFocus={this.onFocus}
           type='text' id='username'
           ref = {(input) => { this.username = input; }} />
-          <label for='username'>Username</label>
+          <label htmlFor='username'>Username</label>
         </div>
         <div className='input-field'>
           <input onFocus={this.onFocus}
           type='password' id='password' ref={(input) => { this.password = input; }}/>
-          <label for='password'>Password</label>
+          <label htmlFor='password'>Password</label>
         </div>
         { this.state.error_message === '' ? '' :
         <div className='red card' style={{ padding: '5px 10px' }}>{this.state.error_message}</div>}
@@ -66,6 +66,7 @@ class Login extends React.Component {
           <a href='#recover-password'>Forgot Password?</a>
         </div>
         <button
+        id='login'
         onClick= { this.onLoginUser }
         className='waves-effect waves-light btn action-btn'>
         Login</button>

@@ -19,6 +19,7 @@ class Group extends React.Component {
       originalMessages: this.props.messages
     };
     this.filterMessages = this.filterMessages.bind(this);
+    this.loadMessages = this.loadMessages.bind(this);
   }
 
   componentWillMount() {
@@ -34,6 +35,10 @@ class Group extends React.Component {
     });
   }
 
+  loadMessages(messages) {
+    this.props.loadMessages(messages);
+    this.setState({ messages });
+  }
   filterMessages(e) {
     console.log('OLD MESSAGES>>>>', this.state.messages);
     console.log('FILTER>>>', e.target.value);
@@ -106,7 +111,7 @@ class Group extends React.Component {
                     </span>
                   </div>
                    { this.state.loading !== '' ? this.state.loading :
-                   <Messages messages={ this.props.messages } loadMessages={ this.props.loadMessages }/> }
+                   <Messages messages={ this.state.messages } loadMessages={ this.loadMessages }/> }
                 </div>
               </div>
             </div>
