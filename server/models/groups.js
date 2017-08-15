@@ -6,6 +6,11 @@ export default (sequelize, DataTypes) => {
       validate: {
         notEmpty: true
       }
+    },
+    desc: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      defaultValue: 'no description',
     }
   });
   Groups.associate = (models) => {

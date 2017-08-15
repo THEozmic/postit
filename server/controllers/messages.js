@@ -51,8 +51,7 @@ function fetchMembersEmail(groupId) {
       attributes: ['id']
     }).then((groups) => {
       // Here, I am getting all the groups and leveraging my associations
-      // to 'getUsers' in that groups, including their emails, which is what
-      // I need
+      // to 'getUsers' in that groups, including their emails, which is what I need
       groups.getUsers({ attributes: ['email'] }).then((users) => {
         resolve(users);
       });
@@ -61,7 +60,7 @@ function fetchMembersEmail(groupId) {
 }
 
 export default {
-  create(req, res) {
+  createMessage(req, res) {
     return models.Messages
       .create({
         message: req.body.message,
@@ -87,7 +86,6 @@ export default {
               // send email
               sendEmail(user.dataValues.email,
                 `${req.body.from_user}: ${req.body.message}`, 'critical');
-              
               // and sms
               // you want to substitute the second parameter with the actual phone number of
               // the recipient

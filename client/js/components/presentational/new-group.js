@@ -21,7 +21,7 @@ class NewGroup extends React.Component {
       location.hash = '#login';
       return;
     }
-    api(`name=${this.name.value}`, '/api/groups', 'POST').then(
+    api(`name=${this.name.value}&desc=${this.desc.value}`, '/api/groups', 'POST').then(
       (response) => {
         console.log(response);
         location.hash = '#dashboard';
@@ -35,6 +35,10 @@ class NewGroup extends React.Component {
         <div className='input-field'>
           <input type='text' id='name' ref={ (input) => { this.name = input; } }/>
           <label for='name'>Name</label>
+        </div>
+        <div className='input-field'>
+          <input type='text' id='desc' ref={ (input) => { this.desc = input; } }/>
+          <label for='name'>Description</label>
         </div>
         <button className='waves-effect waves-light btn action-btn'
         onClick={this.onCreateGroup}>Create</button>

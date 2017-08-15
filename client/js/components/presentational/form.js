@@ -8,7 +8,7 @@ const Form = ({ title, children, active, ingroup, sidemenu = true }) =>
       <div className="container">
         <div className="row">
           { sidemenu ? <SideMenu active={ active } ingroup={ingroup}/> : '' }
-          <div className="section page-content align-top pl-0 col m7 l8 xl9">
+          <div className="section page-content align-top pl-0 col m7 l8">
             <section>
               <h5>{ title }</h5>
               <div className='row'>

@@ -2,15 +2,22 @@ import models from '../models';
 
 export default {
   create(req, res) {
+    console.log('DESCRIPTION::::::::;', req.body.desc);
     if (!req.body.name) {
-      res.status(400).send({ message: 'Params: "name" and "type" are required' });
+      res.status(400).send({ message: 'Params: "name" is required' });
       return;
+    }
+    let desc = req.body.desc;
+    if (desc === '') {
+      desc = 'no description';
     }
     return models.Groups
       .create({
         name: req.body.name,
+        desc
       })
       .then((group) => {
+        console.log('DESCRIPTION::::::::;', req.body.desc);
         const userId = req.decoded.data.id;
         models.GroupUsers
         .create({ userId, groupId: group.id })
@@ -18,7 +25,7 @@ export default {
       })
       .catch(error => res.status(400).send(error));
   },
-  fetch(req, res) {
+  fetchGroups(req, res) {
     if (req.params.id === undefined) {
       return models.Groups
       .findAll({ include: [{
@@ -36,7 +43,7 @@ export default {
     return models.Groups
     .findOne({
       where: { id: req.params.id },
-      attributes: ['id', 'name'],
+      attributes: ['id', 'name', 'desc'],
       include: [{
         model: models.Users,
         through: {
@@ -67,7 +74,7 @@ export default {
       .then(message => res.status(200).send(message))
       .catch(error => res.status(404).send(error));
   },
-  messages(req, res) {
+  findMessages(req, res) {
     models.Messages
       .findAll({
         where: { to_group: [req.params.id] },
