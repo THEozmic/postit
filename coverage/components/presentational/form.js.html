@@ -20,9 +20,9 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">60% </span>
+        <span class="strong">53.85% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>3/5</span>
+        <span class='fraction'>7/13</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/1</span>
+        <span class='fraction'>0/5</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">53.85% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>3/3</span>
+        <span class='fraction'>7/13</span>
       </div>
     </div>
   </div>
@@ -72,71 +72,149 @@
 27
 28
 29
-30</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
+import { connect } from 'react-redux';
 import { Footer, Header, SideMenu } from './';
+import logoutUser from '../../actions/logoutUser';
+import loginUser from '../../actions/loginUser';
 &nbsp;
-const <span class="fstat-no" title="function not covered" >Form = <span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ></span>(</span>{ title, children, active, ingroup, sidemenu = true }) =&gt;</span>
-&lt;div&gt;
-  &lt;Header/&gt;
-    &lt;section className="page-container container-fluid"&gt;
-      &lt;div className="container"&gt;
-        &lt;div className="row"&gt;
-          { sidemenu ? &lt;SideMenu active={ active } ingroup={ingroup}/&gt; : '' }
-          &lt;div className="section page-content align-top pl-0 col m7 l8"&gt;
-            &lt;section&gt;
-              &lt;h5&gt;{ title }&lt;/h5&gt;
-              &lt;div className='row'&gt;
-                &lt;div className='col s12 m8'&gt;
-                  &lt;form className='form'&gt;
-                    { children }
-                  &lt;/form&gt;
+class Form extends React.Component {
+<span class="fstat-no" title="function not covered" >  constructor(</span>props) <span class="cstat-no" title="statement not covered" >{</span>
+    super(props);
+  }
+&nbsp;
+  render() {
+<span class="cstat-no" title="statement not covered" >    return (</span>
+      &lt;div&gt;
+        &lt;Header/&gt;
+          &lt;section className="page-container container-fluid"&gt;
+            &lt;div className="container"&gt;
+              &lt;div className="row"&gt;
+                { this.props.showSideMenu ? &lt;SideMenu active={ this.props.active } user={this.props.user} onLogout={this.props.onLogout} onLoginUser={this.props.onLoginUser}/&gt; : '' }
+                &lt;div className="section page-content align-top pl-0 col m7 l8"&gt;
+                  &lt;section&gt;
+                    &lt;h5&gt;{ this.props.title }&lt;/h5&gt;
+                    &lt;div className='row'&gt;
+                      &lt;div className='col s12 m8'&gt;
+                        &lt;form className='form'&gt;
+                          { this.props.children }
+                        &lt;/form&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/section&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
-            &lt;/section&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/section&gt;
+        &lt;Footer/&gt;
       &lt;/div&gt;
-    &lt;/section&gt;
-  &lt;Footer/&gt;
-&lt;/div&gt;;
+    );
+  }
+}
 &nbsp;
-export default Form;
+const <span class="fstat-no" title="function not covered" >mapStateToProps = (</span>state) =&gt; {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    messages: state.messages,
+    user: state.userData
+  };
+};
+&nbsp;
+const <span class="fstat-no" title="function not covered" >mapDispatchToProps = (</span>dispatch) =&gt; {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    onLogout: <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; dispatch(logoutUser()),</span></span>
+    onLoginUser: <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >user =&gt; dispatch(loginUser(user))</span></span>
+  };
+};
+&nbsp;
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Mon Aug 14 2017 09:37:35 GMT+0100 (WAT)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Aug 15 2017 13:01:51 GMT+0100 (WAT)
 </div>
 </div>
 <script src="../../prettify.js"></script>

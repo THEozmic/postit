@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for components/presentational/footer.js</title>
+    <title>Code coverage report for components/presentational/groups.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -16,32 +16,32 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../index.html">All files</a> / <a href="index.html">components/presentational</a> footer.js
+      <a href="../../index.html">All files</a> / <a href="index.html">components/presentational</a> groups.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">66.67% </span>
+        <span class="strong">42.86% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>2/3</span>
+        <span class='fraction'>3/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>0/0</span>
+        <span class='fraction'>0/6</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>0/1</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">42.86% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>2/2</span>
+        <span class='fraction'>3/7</span>
       </div>
     </div>
   </div>
-  <div class='status-line medium'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -70,15 +70,27 @@
 25
 26
 27
-28</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+28
+29
+30
+31
+32
+33
+34</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -98,32 +110,38 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
+import { connect } from 'react-redux';
+import changeSelectedGroup from '../../actions/changeSelectedGroup';
 &nbsp;
-const <span class="fstat-no" title="function not covered" >Footer = <span class="cstat-no" title="statement not covered" >(</span>) =&gt;</span>
-  &lt;footer className="container col s12"&gt;
-    &lt;div
-    className="col s12"&gt;
-        &lt;section&gt;
-            &lt;h5&gt;About&lt;/h5&gt;
-            &lt;p&gt;
-                &lt;strong&gt;PostIt &lt;/strong&gt;
-                is an open source web application.
-            &lt;/p&gt;
-        &lt;/section&gt;
+class Groups extends React.Component {
+<span class="fstat-no" title="function not covered" >  constructor(</span>props) <span class="cstat-no" title="statement not covered" >{</span>
+    super(props);
+  }
 &nbsp;
-        &lt;section&gt;
-            &lt;h5&gt;Made with love by&lt;/h5&gt;
-            &lt;div&gt;&lt;img src="dist/images/Landscape-white.png"/&gt;&lt;/div&gt;
-        &lt;/section&gt;
+  render() {
+    const { groups } = <span class="cstat-no" title="statement not covered" >this.props;</span>
+<span class="cstat-no" title="statement not covered" >    return (</span>
+    &lt;div&gt;
+      { groups.length !== 0 ?
+        groups.map(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >group =&gt;</span></span>
+          &lt;a className="group-card" href={`#group/${group.id}`}
+          key={group.id}&gt;
+            &lt;div className="group-name"&gt;
+               { group.count === 0 ? '' :
+              &lt;span className="right group-unread-count badge-danger"&gt;{group.count}&lt;/span&gt;
+              }
+              &lt;span&gt;{group.name}&lt;/span&gt;
+              &lt;small className="group-desc"&gt;{group.desc}&lt;/small&gt;
+            &lt;/div&gt;
+          &lt;/a&gt;
+        ) :
+        'You don\'t belong to any group'
+      }
+    &lt;/div&gt;);
+  }
+}
 &nbsp;
-        &lt;section&gt;
-            &lt;h5&gt;Help and support&lt;/h5&gt;
-            &lt;a href="#/userguide"&gt;User Guide&lt;/a&gt;
-        &lt;/section&gt;
-    &lt;/div&gt;
-&lt;/footer&gt;;
-&nbsp;
-export default Footer;
+export default Groups;
 &nbsp;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
