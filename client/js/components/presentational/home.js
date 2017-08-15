@@ -12,13 +12,15 @@ const Home = () =>
                     messages to people you care about.
                 </p>
             </h5>
-            <div class="action-buttons">
+            <div className="action-buttons">
                 <a
+                id='create-account'
                 href='#register'
                 className="waves-effect waves-light btn action-btn">
                 Create an account
                 </a>
                 <a
+                id='login'
                 href='#login'
                 className="waves-effect waves-light btn action-btn">
                 Login
