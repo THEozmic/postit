@@ -2,7 +2,6 @@ import models from '../models';
 
 export default {
   create(req, res) {
-    console.log('DESCRIPTION::::::::;', req.body.desc);
     if (!req.body.name) {
       res.status(400).send({ message: 'Params: "name" is required' });
       return;

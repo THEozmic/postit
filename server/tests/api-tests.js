@@ -412,7 +412,27 @@ describe('API Tests: ', () => {
 
   });
 
-  describe('View current registered user', () => {
-
+  describe('View current logged user', () => {
+    it('gets current logged in user data', (done) => {
+      chai.request(app)
+      .post('/api/signin/')
+      .type('form')
+      .send({
+        password: 'testpassword',
+        username: 'testusername'
+      })
+      .end((err, res) => {
+        const token = res.token;
+        chai.request(app)
+        .post('/api/users/me/')
+        .set('x-access-token', token)
+        .type('form')
+        .send()
+        .end((err, res) => {
+          res.should.have.status(202);
+          done();
+        });
+      });
+    });
   });
 });
