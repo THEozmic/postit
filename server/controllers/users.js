@@ -254,7 +254,6 @@ export default {
           } else {
             newUsers[key].ingroup = false;
           }
-          return newUsers;
         });
       });
       let n = 0;
@@ -281,7 +280,7 @@ export default {
       newRes.message = error.message;
       newRes.code = 400;
       newRes.success = false;
-      res.status(newRes.code).send(newRes);
+      res.status(newRes.code).send();
     });
   },
   updatePassword(req, res) {

@@ -47,17 +47,23 @@ export default {
     }
 
     JSON.parse(req.body.users).map(user =>
-      models.GroupUsers
-      .findOne({ where: { userId: user.id, groupId: req.params.id } })
-      .then((result) => {
-        if (result !== null) {
-          models.GroupUsers.destroy({ where: { userId: user.id, groupId: req.params.id } });
+      models.Users.findAll({ where: { id: user.id } })
+      .then((existingUser) => {
+        if (existingUser.length === 0) {
+          res.status(404).send({ message: 'User does not exist' });
         } else {
-          models.GroupUsers.create({ userId: user.id, groupId: req.params.id });
+          models.GroupUsers
+          .findOne({ where: { userId: user.id, groupId: req.params.id } })
+          .then((result) => {
+            if (result !== null) {
+              models.GroupUsers.destroy({ where: { userId: user.id, groupId: req.params.id } });
+            } else {
+              models.GroupUsers.create({ userId: user.id, groupId: req.params.id });
+            }
+          });
         }
       })
     );
-    res.status(200).send({ data: { message: 'members updated' } });
   },
   update(req, res) {
     return models.GroupUsers
