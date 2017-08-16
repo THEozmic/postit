@@ -6,7 +6,6 @@ import models from '../models';
 process.env.NODE_ENV = 'test';
 const should = chai.should();
 chai.use(chaiHttp);
-
 let token;
 models.Users.destroy({
   cascade: true,
@@ -387,17 +386,39 @@ describe('API Tests: ', () => {
         })
         .end((err, res) => {
           res.should.have.status(202);
+          token = res.body.token;
           done();
         });
     });
   });
 
   describe('Create a new group', () => {
-
+    it('returns 201 response', () => {
+      chai.request(app)
+      .post('/api/groups/')
+      .set('x-access-token', token)
+      .type('form')
+      .send({ name: 'Test Group', desc: 'A simple test group' })
+      .end((err, res) => {
+        res.should.have.status(201);
+      });
+    });
   });
 
   describe('Add user to a new group', () => {
-
+    it('should return 200 to add a user to a group', (done) => {
+      chai.request(app)
+      .post('/api/groups/1/user/')
+      .type('form')
+      .set('x-access-token', token)
+      .send({
+        users: '[2]',
+      })
+      .end((err, res) => {
+        res.should.have.status(521);
+        done();
+      });
+    });
   });
 
   describe('Send message to a group', () => {
@@ -405,7 +426,15 @@ describe('API Tests: ', () => {
   });
 
   describe('View all messages in a group', () => {
-
+    it('returns 200 response', () => {
+      chai.request(app)
+      .get('/api/groups/1/messages/')
+      .type('form')
+      .send()
+      .end((err, res) => {
+        res.should.have.status(200);
+      });
+    });
   });
 
   describe('View all registered users', () => {
@@ -415,21 +444,22 @@ describe('API Tests: ', () => {
   describe('View current logged user', () => {
     it('gets current logged in user data', (done) => {
       chai.request(app)
-      .post('/api/signin/')
+      .post('/api/signin')
       .type('form')
       .send({
         password: 'testpassword',
         username: 'testusername'
       })
       .end((err, res) => {
-        const token = res.token;
+        const token = res.body.token;
         chai.request(app)
-        .post('/api/users/me/')
+        .get('/api/users/me/')
         .set('x-access-token', token)
         .type('form')
         .send()
         .end((err, res) => {
-          res.should.have.status(202);
+          res.should.have.status(200);
+          res.body.data.username.should.equal('testusername');
           done();
         });
       });
