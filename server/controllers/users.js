@@ -2,6 +2,7 @@ import crypto from 'crypto';
 import models from '../models';
 import { sendMail, validateNewUser, generateToken } from '../helpers';
 
+require('dotenv').config();
 
 const newRes = {};
 export default {
