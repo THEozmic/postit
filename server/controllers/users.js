@@ -37,11 +37,13 @@ export default {
                   savedUser = savedUser.filterUserDetails(savedUser);
                   return res.status(201).send({ message: 'Signup success', user: savedUser, token });
                 }).catch((error) => {
-                  res.status(500).send({ error });
+                  console.log(error.message, 'this is the error');
+                  res.status(500).send({ error: error.message });
                 });
             })
             .catch((error) => {
-              res.status(500).send({ error });
+              console.log(error.message, 'this is the error');
+              res.status(500).send({ error: error.message });
             });
         });
     });
