@@ -15,7 +15,7 @@ cache:
 before_script:
   - createuser ifeanyi -s -U postgres
   - createdb postit_test --username=ifeanyi
-  - sequelize db:migrate
+  - NODE_ENV=test sequelize db:migrate
 after_success:
 - npm run coveralls
 - nyc npm test && nyc report --reporter=text-lcov | coveralls
