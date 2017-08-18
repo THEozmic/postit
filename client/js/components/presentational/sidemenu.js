@@ -18,8 +18,8 @@ class SideMenu extends React.Component {
     const id = location.href.split('/')[location.href.split('/').length - 1];
     if (!isNaN(id)) {
       api(null, `/api/groups/${id}`, 'GET')
-      .then((result) => {
-        this.setState({ selectedGroup: result });
+      .then((group) => {
+        this.setState({ selectedGroup: group });
       });
     }
   }

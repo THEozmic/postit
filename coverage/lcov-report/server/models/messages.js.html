@@ -121,7 +121,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">export default (sequelize, DataTypes) =&gt; {
   const Messages = sequelize.define('Messages', {
-    from_user: {
+    fromUser: {
       type: DataTypes.INTEGER,
       allowNull: false,
       refrences: {
@@ -129,7 +129,7 @@
         key: 'id'
       }
     },
-    to_group: {
+    toGroup: {
       type: DataTypes.INTEGER,
       allowNull: false,
       refrences: {

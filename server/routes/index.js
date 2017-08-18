@@ -4,7 +4,7 @@ import controllers from '../controllers';
 export default (app) => {
   // API routes for users to create accounts and login to the application
   app.post('/api/users/', controllers.users.createUser);
-  app.post('/api/signin/', controllers.users.authenticateUser);
+  app.post('/api/users/signin/', controllers.users.authenticateUser);
   // API route to request for new password
   app.post('/api/users/request-password', controllers.users.passwordRequest);
   // API route to reset password
@@ -25,15 +25,11 @@ export default (app) => {
     });
   });
 
-  app.all('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the PostIT API',
-  }));
-
   // API route to get list of all users
   app.get('/api/users/', controllers.users.fetchAllUsers);
 
   // API route that allow users create broadcast groups
-  app.post('/api/groups/', controllers.groups.create);
+  app.post('/api/groups/', controllers.groups.createGroup);
 
   // API route to get list of all groups
   app.get('/api/groups/', controllers.groups.fetchGroups);
@@ -45,7 +41,7 @@ export default (app) => {
   app.get('/api/groups/:id/users', controllers.groups.fetchMembers);
 
   // API route that allow users add/remove other users to/from groups
-  app.post('/api/groups/:id/user/', controllers.groupUsers.upsert);
+  app.post('/api/groups/:id/user/', controllers.groupUsers.addOrRemoveUser);
 
   // API route that allows a logged in user post messages to created groups
   app.post('/api/groups/:id/message/', controllers.messages.createMessage);
@@ -61,4 +57,10 @@ export default (app) => {
 
   // API route for search
   app.get('/api/search/:group/:term/:page', controllers.users.searchUsers);
+
+  // This should always go last
+  app.all('/*', (req, res) => res.status(404).send({
+    error: 'Route not found',
+    status: 404
+  }));
 };

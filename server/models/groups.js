@@ -19,6 +19,11 @@ export default (sequelize, DataTypes) => {
       as: 'users',
       foreignKey: 'groupId'
     });
+
+    Groups.hasMany(models.Messages, {
+      foreignKey: 'toGroup',
+      as: 'messages'
+    });
   };
   return Groups;
 };

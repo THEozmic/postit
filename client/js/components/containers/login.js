@@ -26,14 +26,14 @@ class Login extends React.Component {
     password = password.value;
     if (username !== '' || password !== '') {
       const userString = `username=${username}&password=${password}`;
-      api(userString, '/api/signin', 'POST').then(
+      api(userString, '/api/users/signin', 'POST').then(
         (_loginRes) => {
           if (_loginRes.error === undefined) {
             this.props.onLoginUser(JSON.stringify(_loginRes));
             sessionStorage.setItem('user', JSON.stringify(_loginRes));
             location.hash = '#dashboard';
           } else {
-            this.setState({ error_message: _loginRes.error.message });
+            this.setState({ error_message: _loginRes.error });
           }
         }
       );

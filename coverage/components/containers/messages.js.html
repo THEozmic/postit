@@ -374,7 +374,7 @@ class Messages extends React.Component {
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    this.setState({ sendStatus: 'SEND...' });</span>
     c</span>onst <span class="cstat-no" title="statement not covered" >newMessageBody =
-    `message=${content}&amp;priority=${priority}&amp;to_group=${this.state.selectedGroup.id}`;
+    `message=${content}&amp;priority=${priority}&amp;toGroup=${this.state.selectedGroup.id}`;
 <span class="cstat-no" title="statement not covered" >    api(newMessageBody, `/api/groups/${this.state.selectedGroup.id}/message`,</span>
     'POST').then(
 <span class="fstat-no" title="function not covered" >      (</span>response) =&gt; {
@@ -382,7 +382,7 @@ class Messages extends React.Component {
         c</span>onst newMessage = <span class="cstat-no" title="statement not covered" >{
           id: response.id,
           message: content,
-          from_user: JSON.parse(this.props.user).data.username,
+          fromUser: JSON.parse(this.props.user).data.username,
           priority: priority.toLowerCase(),
           readBy
         };
@@ -412,7 +412,7 @@ class Messages extends React.Component {
               &lt;div className={`message-container${secondClass}`} key={message.id}&gt;
                 &lt;div className="message"&gt;
                   &lt;div className="message-details"&gt;
-                    &lt;span className="messenger"&gt;@{message.from_user}&lt;/span&gt;
+                    &lt;span className="messenger"&gt;@{message.fromUser}&lt;/span&gt;
                     &lt;span className={`message-type ${message.priority.toLowerCase()}`}&gt;
                       {message.priority.toLowerCase()}&lt;/span&gt;
                   &lt;/div&gt;

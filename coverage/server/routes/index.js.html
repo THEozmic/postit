@@ -20,14 +20,14 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">96.43% </span>
+        <span class="strong">89.29% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>27/28</span>
+        <span class='fraction'>25/28</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">50% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>2/2</span>
+        <span class='fraction'>1/2</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">66.67% </span>
@@ -35,9 +35,9 @@
         <span class='fraction'>2/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">92.59% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>27/27</span>
+        <span class='fraction'>25/27</span>
       </div>
     </div>
   </div>
@@ -107,7 +107,9 @@
 62
 63
 64
-65</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+65
+66
+67</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -120,26 +122,19 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -170,6 +165,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import jwt from 'jsonwebtoken';
 import controllers from '../controllers';
@@ -177,7 +181,7 @@ import controllers from '../controllers';
 export default (app) =&gt; {
   // API routes for users to create accounts and login to the application
   app.post('/api/users/', controllers.users.createUser);
-  app.post('/api/signin/', controllers.users.authenticateUser);
+  app.post('/api/users/signin/', controllers.users.authenticateUser);
   // API route to request for new password
   app.post('/api/users/request-password', controllers.users.passwordRequest);
   // API route to reset password
@@ -186,11 +190,11 @@ export default (app) =&gt; {
   app.use((req, res, next) =&gt; {
     token = req.headers['x-access-token'];
     jwt.verify(token, 'Armageddon', (err, decoded) =&gt; {
-      if (err) {
-        res.status(401).send({
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
+<span class="cstat-no" title="statement not covered" >        res.status(401).send({</span>
           error: { message: 'user not authenticated, invalid access token' }
         });
-        return;
+<span class="cstat-no" title="statement not covered" >        return;</span>
       }
       // if everything is good, save to request for use in other routes
       req.decoded = decoded;
@@ -198,15 +202,11 @@ export default (app) =&gt; {
     });
   });
 &nbsp;
-  app.all('/api', <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>req, res) =&gt; res.status(200).send({</span>
-    message: 'Welcome to the PostIT API',
-  }));
-&nbsp;
   // API route to get list of all users
   app.get('/api/users/', controllers.users.fetchAllUsers);
 &nbsp;
   // API route that allow users create broadcast groups
-  app.post('/api/groups/', controllers.groups.create);
+  app.post('/api/groups/', controllers.groups.createGroup);
 &nbsp;
   // API route to get list of all groups
   app.get('/api/groups/', controllers.groups.fetchGroups);
@@ -218,7 +218,7 @@ export default (app) =&gt; {
   app.get('/api/groups/:id/users', controllers.groups.fetchMembers);
 &nbsp;
   // API route that allow users add/remove other users to/from groups
-  app.post('/api/groups/:id/user/', controllers.groupUsers.upsert);
+  app.post('/api/groups/:id/user/', controllers.groupUsers.addOrRemoveUser);
 &nbsp;
   // API route that allows a logged in user post messages to created groups
   app.post('/api/groups/:id/message/', controllers.messages.createMessage);
@@ -234,6 +234,12 @@ export default (app) =&gt; {
 &nbsp;
   // API route for search
   app.get('/api/search/:group/:term/:page', controllers.users.searchUsers);
+&nbsp;
+  // This should always go last
+  app.all('/*', <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>req, res) =&gt; res.status(404).send({</span>
+    error: 'Route not found',
+    status: 404
+  }));
 };
 &nbsp;</pre></td></tr>
 </table></pre>
@@ -241,7 +247,7 @@ export default (app) =&gt; {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Aug 16 2017 11:59:53 GMT+0100 (WAT)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Fri Aug 18 2017 13:16:54 GMT+0100 (WAT)
 </div>
 </div>
 <script src="../../prettify.js"></script>
