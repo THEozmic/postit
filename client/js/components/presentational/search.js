@@ -43,9 +43,9 @@ class Search extends React.Component {
 
   onFinishClick(e) {
     e.preventDefault();
-    api(`users=${JSON.stringify(this.state.selectedUsers)}`, `/api/groups/${this.state.selectedGroup.id}/user/`, 'POST')
+    api(`usersIds=${JSON.stringify(this.state.selectedUsers)}`, `/api/groups/${this.state.selectedGroup.id}/user/`, 'POST')
     .then((result) => {
-      if (result.data.message === 'members updated') {
+      if (result.status < 400 && result.status > 199) {
         history.back();
       }
     });
@@ -54,17 +54,18 @@ class Search extends React.Component {
   onSearchChange(page = this.state.prevPage + 1) {
     this.setState({ foundUsers: [] });
     if (this.term.value.trim() !== '') {
-      api(null, `/api/search/${this.state.selectedGroup.id}/${this.term.value.trim()}/${page - 1}`, 'GET').then(
-        (users) => {
-          console.log(users);
-          const nUsers = users.data.map((user) => {
+      api(null,
+        `/api/search/${this.state.selectedGroup.id}/${this.term.value.trim()}/${page - 1}`,
+        'GET')
+        .then(
+        (searchData) => {
+          const nUsers = searchData.users.map((user) => {
             this.state.selectedUsers.map((sUser) => {
               if (sUser.id === user.id) {
                 user.ingroup = true;
               }
-              return users;
+              return searchData;
             });
-            console.log('USER:::>>>>', user);
             return user;
           });
           this.setState({ foundUsers: nUsers });
@@ -73,6 +74,9 @@ class Search extends React.Component {
     }
   }
 
+  /**
+   *
+   */
   onSelectUser(user) {
     let alreadySelected = false;
     this.state.selectedUsers.map((sUser) => {
@@ -101,6 +105,9 @@ class Search extends React.Component {
     this.setState({ foundUsers });
   }
 
+  /**
+   *
+   */
   render() {
     // if (this.selectedGroup.name === '' || this.selectedGroup.name === undefined) {
     //   location.hash = '#dashboard';

@@ -983,8 +983,8 @@ describe('PostIt Tests: ', () =&gt; {
         .set('x-access-token', token)
         .type('form')
         .send({
-          from_user: '1',
-          to_group: '1',
+          fromUser: '1',
+          toGroup: '1',
           message: 'Test message to group',
           priority: 'Normal'
         })
@@ -1066,8 +1066,8 @@ describe('PostIt Tests: ', () =&gt; {
         .post('/api/groups/1/message/')
         .type('form')
         .send({
-          from_user: '1',
-          to_group: '1',
+          fromUser: '1',
+          toGroup: '1',
           message: 'Test message to group',
           priority: 'Normal'
         })
@@ -1156,7 +1156,7 @@ describe('PostIt Tests: ', () =&gt; {
         .set('x-access-token', token)
         .type('form')
         .send({
-          to_group: '1',
+          toGroup: '1',
           message: 'Test message to group',
           priority: 'Normal'
         })
@@ -1172,7 +1172,7 @@ describe('PostIt Tests: ', () =&gt; {
         .set('x-access-token', token)
         .type('form')
         .send({
-          from_user: '1',
+          fromUser: '1',
           message: 'Test message to group',
           priority: 'Normal'
         })
@@ -1189,8 +1189,8 @@ describe('PostIt Tests: ', () =&gt; {
         .type('form')
         .send({
           message: 'Test message to group',
-          from_user: '1',
-          to_group: '1'
+          fromUser: '1',
+          toGroup: '1'
         })
         .end((err, res) =&gt; {
           res.status.should.equal(400);

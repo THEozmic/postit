@@ -38,6 +38,7 @@
       "requireParamDescription": false,
       "requireReturnDescription": true
     }],
+    "array-callback-return": 0,
     "require-jsdoc": ["error", {
         "require": {
             "FunctionDeclaration": true,

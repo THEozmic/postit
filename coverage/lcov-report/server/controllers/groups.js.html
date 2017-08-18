@@ -192,8 +192,8 @@ export default <span class="fstat-no" title="function not covered" ><span class=
   message(req, res) {
 <span class="cstat-no" title="statement not covered" >    return models.Messages</span>
       .create({
-        from_user: req.body.from_user,
-        to_group: req.body.to_group,
+        fromUser: req.body.fromUser,
+        toGroup: req.body.toGroup,
         message: req.body.message,
         priority: req.body.priority
       })
@@ -203,12 +203,12 @@ export default <span class="fstat-no" title="function not covered" ><span class=
   messages(req, res) {
     models.Messages
       .findAll({
-        where: { to_group: [req.params.id] },
+        where: { toGroup: [req.params.id] },
         attributes: [
           'id',
           'message',
-          'from_user',
-          'to_group',
+          'fromUser',
+          'toGroup',
           'priority',
           'createdAt'
         ],

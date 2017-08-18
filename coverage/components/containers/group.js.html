@@ -373,7 +373,7 @@ class Group extends React.Component {
 <span class="cstat-no" title="statement not covered" >        if (!message.readBy.split(',')</span>
           .includes(JSON.parse(sessionStorage.getItem('user'))
             .data.username)) {
-<span class="cstat-no" title="statement not covered" >          if (message.from_user !== JSON.parse(sessionStorage.getItem('user'))</span>
+<span class="cstat-no" title="statement not covered" >          if (message.fromUser !== JSON.parse(sessionStorage.getItem('user'))</span>
             .data.username) {
 <span class="cstat-no" title="statement not covered" >            return true;</span>
           }

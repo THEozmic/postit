@@ -3,7 +3,7 @@ export default (sequelize, DataTypes) => {
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      refrences: {
+      references: {
         model: 'Users',
         key: 'id'
       }
@@ -11,7 +11,7 @@ export default (sequelize, DataTypes) => {
     groupId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      refrences: {
+      references: {
         model: 'Groups',
         key: 'id'
       }

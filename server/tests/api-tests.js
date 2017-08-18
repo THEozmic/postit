@@ -35,13 +35,13 @@ describe('API Tests: ', () => {
   describe('Register a new user', () => {
     it('works with complete parameters', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/users')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername',
-          email: 'test@user.com',
-          phone: '07010346915'
+          email: 'testuser@email.com',
+          username: 'testuser',
+          password: 'testuser',
+          phone: '09004839432'
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -104,33 +104,33 @@ describe('API Tests: ', () => {
           done();
         });
     });
-    it('returns 400 error with duplicate email', (done) => {
+    it('returns 409 error with duplicate email', (done) => {
       chai.request(app)
         .post('/api/users/')
         .type('form')
         .send({
           password: 'testpassword',
           username: 'testusername3',
-          email: 'test@user.com',
+          email: 'testuser@email.com',
           phone: '07010346915'
         })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(409);
           done();
         });
     });
-    it('returns 400 error with duplicate username', (done) => {
+    it('returns 409 error with duplicate username', (done) => {
       chai.request(app)
         .post('/api/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername',
+          password: 'testuser',
+          username: 'testuser',
           email: 'test@user3.com',
           phone: '07010346915'
         })
         .end((err, res) => {
-          res.should.have.status(400);
+          res.should.have.status(409);
           done();
         });
     });
@@ -222,7 +222,7 @@ describe('API Tests: ', () => {
           phone: '07010346915'
         })
         .end((err, res) => {
-          res.body.error.message.should.equal('password cannot be empty');
+          res.body.error.should.equal('Password cannot be empty');
           done();
         });
     });
@@ -236,7 +236,7 @@ describe('API Tests: ', () => {
           phone: '07010346915'
         })
         .end((err, res) => {
-          res.body.error.message.should.equal('username cannot be empty');
+          res.body.error.should.equal('Username cannot be empty');
           done();
         });
     });
@@ -250,7 +250,7 @@ describe('API Tests: ', () => {
           phone: '07010346915'
         })
         .end((err, res) => {
-          res.body.error.message.should.equal('email cannot be empty');
+          res.body.error.should.equal('Invalid email');
           done();
         });
     });
@@ -264,37 +264,37 @@ describe('API Tests: ', () => {
           email: 'test@user2.com'
         })
         .end((err, res) => {
-          res.body.error.message.should.equal('phone cannot be empty');
+          res.body.error.should.equal('Phone cannot be empty');
           done();
         });
     });
-    it('(400 error) with duplicate email', (done) => {
+    it('(409 error) with duplicate email', (done) => {
       chai.request(app)
         .post('/api/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername3',
-          email: 'test@user.com',
+          password: 'testuser2',
+          username: 'testuser2',
+          email: 'testuser@email.com',
           phone: '07010346915'
         })
         .end((err, res) => {
-          res.body.error.message.should.equal('email already exists');
+          res.body.error.should.equal('Email already exists');
           done();
         });
     });
-    it('(400 error) with duplicate username', (done) => {
+    it('(409 error) with duplicate username', (done) => {
       chai.request(app)
         .post('/api/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername',
+          password: 'testuser',
+          username: 'testuser',
           email: 'test@user3.com',
           phone: '07010346915'
         })
         .end((err, res) => {
-          res.body.error.message.should.equal('username already exists');
+          res.body.error.should.equal('Username already taken');
           done();
         });
     });
@@ -309,7 +309,7 @@ describe('API Tests: ', () => {
           phone: '07010346915'
         })
         .end((err, res) => {
-          res.body.error.message.should.equal('not an email');
+          res.body.error.should.equal('Invalid email');
           done();
         });
     });
@@ -324,7 +324,7 @@ describe('API Tests: ', () => {
           phone: '07010346915'
         })
         .end((err, res) => {
-          res.body.error.message.should.equal('password cannot be empty');
+          res.body.error.should.equal('Password cannot be empty');
           done();
         });
     });
@@ -354,7 +354,7 @@ describe('API Tests: ', () => {
           phone: '07010346915'
         })
         .end((err, res) => {
-          res.body.error.message.should.equal('email cannot be empty');
+          res.body.error.should.equal('Invalid email');
           done();
         });
     });
@@ -369,7 +369,73 @@ describe('API Tests: ', () => {
           phone: '     '
         })
         .end((err, res) => {
-          res.body.error.message.should.equal('phone cannot be empty');
+          res.body.error.should.equal('Phone cannot be empty');
+          done();
+        });
+    });
+  });
+
+  describe('Make a password reset request', () => {
+    it('should return 200', (done) => {
+      chai.request(app)
+        .post('/api/users/request-password')
+        .type('form')
+        .send({
+          email: 'testuser@email.com'
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+
+    it('should return 200 when request is remade', (done) => {
+      chai.request(app)
+        .post('/api/users/request-password')
+        .type('form')
+        .send({
+          email: 'testuser@email.com'
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+
+    it('should return 404 when request is made with not existent email', (done) => {
+      chai.request(app)
+        .post('/api/users/request-password')
+        .type('form')
+        .send({
+          email: 'testuserr@email.com'
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
+
+    it('should return 400 error with invalid email', (done) => {
+      chai.request(app)
+        .post('/api/users/request-password')
+        .type('form')
+        .send({
+          email: 'mail@.com'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+
+    it('should return 400 error with empty email', (done) => {
+      chai.request(app)
+        .post('/api/users/request-password')
+        .type('form')
+        .send({
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
           done();
         });
     });
@@ -378,11 +444,11 @@ describe('API Tests: ', () => {
   describe('Login a user', () => {
     it('works with complete parameters', (done) => {
       chai.request(app)
-        .post('/api/signin/')
+        .post('/api/users/signin/')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername'
+          password: 'testuser',
+          username: 'testuser'
         })
         .end((err, res) => {
           res.should.have.status(202);
@@ -412,56 +478,112 @@ describe('API Tests: ', () => {
       .type('form')
       .set('x-access-token', token)
       .send({
-        users: '[2]',
+        usersIds: '[2]',
       })
       .end((err, res) => {
-        res.should.have.status(521);
+        res.should.have.status(200);
         done();
       });
     });
   });
 
   describe('Send message to a group', () => {
-
-  });
-
-  describe('View all messages in a group', () => {
-    it('returns 200 response', () => {
+    it('returns 200 response', (done) => {
       chai.request(app)
-      .get('/api/groups/1/messages/')
+      .post('/api/groups/1/message/')
+      .set('x-access-token', token)
       .type('form')
-      .send()
+      .send({
+        message: 'test message'
+      })
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(201);
+        done();
+      });
+    });
+    it('should work with priority level critical', (done) => {
+      chai.request(app)
+      .post('/api/groups/1/message/')
+      .set('x-access-token', token)
+      .type('form')
+      .send({
+        message: 'test message',
+        priority: 'critical'
+      })
+      .end((err, res) => {
+        res.should.have.status(201);
+        done();
+      });
+    });
+    it('should work with priority level urgent', (done) => {
+      chai.request(app)
+      .post('/api/groups/1/message/')
+      .set('x-access-token', token)
+      .type('form')
+      .send({
+        message: 'test message',
+        priority: 'urgent'
+      })
+      .end((err, res) => {
+        res.should.have.status(201);
+        done();
+      });
+    });
+    it('should not with priority level dope', (done) => {
+      chai.request(app)
+      .post('/api/groups/1/message/')
+      .set('x-access-token', token)
+      .type('form')
+      .send({
+        message: 'test message',
+        priority: 'dope'
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
       });
     });
   });
 
-  describe('View all registered users', () => {
+  describe('View all messages in a group', () => {
+    it('returns 200 response', (done) => {
+      chai.request(app)
+      .get('/api/groups/1/messages/')
+      .set('x-access-token', token)
+      .type('form')
+      .send()
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+    });
+  });
 
+  describe('Read all messages in a group', () => {
+    it('returns 200 response', (done) => {
+      chai.request(app)
+      .post('/api/groups/1/read/')
+      .set('x-access-token', token)
+      .type('form')
+      .send()
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+    });
   });
 
   describe('View current logged user', () => {
     it('gets current logged in user data', (done) => {
       chai.request(app)
-      .post('/api/signin')
+      .get('/api/users/me/')
+      .set('x-access-token', token)
       .type('form')
-      .send({
-        password: 'testpassword',
-        username: 'testusername'
-      })
+      .send()
       .end((err, res) => {
-        const token = res.body.token;
-        chai.request(app)
-        .get('/api/users/me/')
-        .set('x-access-token', token)
-        .type('form')
-        .send()
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.data.username.should.equal('testusername');
-          done();
-        });
+        res.should.have.status(200);
+        res.body.user.username.should.equal('testuser');
+        done();
       });
     });
   });
