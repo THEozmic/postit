@@ -15,6 +15,7 @@ cache:
 before_script:
   - createuser ifeanyi -s -U postgres
   - createdb postit_test --username=ifeanyi
+  - NODE_ENV=test sequelize db:migrate:undo:all
   - NODE_ENV=test sequelize db:migrate
 after_success:
 - npm run coveralls

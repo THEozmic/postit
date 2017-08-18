@@ -41,6 +41,7 @@ export default {
                 });
             })
             .catch((error) => {
+              console.log(error.message, 'this is the error');
               res.status(500).send({ error: error.message });
             });
         });
