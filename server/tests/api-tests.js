@@ -3,6 +3,8 @@ import chai from 'chai';
 import app from '../app';
 import models from '../models';
 
+require('dotenv').config();
+
 process.env.NODE_ENV = 'test';
 const should = chai.should();
 chai.use(chaiHttp);
