@@ -47,6 +47,8 @@ describe('API Tests: ', () => {
         })
         .end((err, res) => {
           res.should.have.status(201);
+          token = res.body.token;
+          console.log('token eh', token);
           done();
         });
     });
@@ -443,23 +445,6 @@ describe('API Tests: ', () => {
     });
   });
 
-  describe('Login a user', () => {
-    it('works with complete parameters', (done) => {
-      chai.request(app)
-        .post('/api/users/signin/')
-        .type('form')
-        .send({
-          password: 'testuser',
-          username: 'testuser'
-        })
-        .end((err, res) => {
-          res.should.have.status(202);
-          token = res.body.token;
-          done();
-        });
-    });
-  });
-
   describe('Create a new group', () => {
     it('returns 201 response', () => {
       chai.request(app)
@@ -583,10 +568,28 @@ describe('API Tests: ', () => {
       .type('form')
       .send()
       .end((err, res) => {
+        console.log(token, 'token value');
         res.should.have.status(200);
         res.body.user.username.should.equal('testuser');
         done();
       });
+    });
+  });
+
+  describe('Login a user', () => {
+    it('works with complete parameters', (done) => {
+      chai.request(app)
+        .post('/api/users/signin/')
+        .type('form')
+        .send({
+          password: 'testuser',
+          username: 'testuser'
+        })
+        .end((err, res) => {
+          res.should.have.status(202);
+          // token = res.body.token;
+          done();
+        });
     });
   });
 });

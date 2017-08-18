@@ -73,7 +73,7 @@ export default {
 
           // I'm now going to send the sms and emails depending on the level of priority
           if (req.body.priority && req.body.priority.toLowerCase() === 'critical') {
-            fetchMembersDetails(req.body.toGroup).then((users) => {
+            return fetchMembersDetails(req.body.toGroup).then((users) => {
               users.map((user) => {
                 // send email
                 const subject = 'POSTIT: You have a message marked as critical';
@@ -94,7 +94,7 @@ export default {
           }
 
           if (req.body.priority && req.body.priority.toLowerCase() === 'urgent') {
-            fetchMembersDetails(req.body.toGroup).then((users) => {
+            return fetchMembersDetails(req.body.toGroup).then((users) => {
               users.map((user) => {
                 const subject = 'POSTIT: You have a message marked as urgent';
                 sendMail(user.email, { subject, message });
@@ -104,7 +104,10 @@ export default {
           }
           res.status(201).send({ message });
         })
-        .catch(error => res.status(500).send({ error }));
+        .catch((error) => {
+          console.log(error.message, '500 error here');
+          res.status(500).send({ error: error.message });
+        });
       });
     });
   }
