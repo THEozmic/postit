@@ -6,7 +6,7 @@ import sendMail from '../helpers/sendMail';
  * @return {promise} array of users and their emails
  * @param {*} groupId
  */
-function fetchMembersDetails(groupId) {
+function fetchMembersDetails(groupId, userId) {
   return new Promise((resolve, reject) => {
     models.Groups
     .findOne({
@@ -15,12 +15,15 @@ function fetchMembersDetails(groupId) {
       },
       attributes: ['id']
     }).then((groups) => {
-      // Here, I am getting all the groups and leveraging my associations
-      // to 'getUsers' in that groups, including their emails, which is what I need
-      groups.getUsers({ attributes: ['email', 'phone'] }).then((users) => {
-        resolve(users);
-      })
-      .catch(error => reject(error));
+      if (groups !== null) {
+         // Here, I am getting all the groups and leveraging my associations
+        // to 'getUsers' in that groups, including their emails, which is what I need
+        groups.getUsers({ attributes: ['email', 'phone'], where: { id: { $ne: userId } } }).then((users) => {
+          console.log('here is the usas', users);
+          resolve(users);
+        })
+        .catch(error => reject(error));
+      }
     })
     .catch(error => reject(error));
   });
@@ -65,46 +68,51 @@ export default {
           priority: req.body.priority
         })
         .then((message) => {
+          res.status(201).send({ message });
           // Nexmo credentials
           const nexmo = new Nexmo({
-            apiKey: process.env.NEXMO_API_KEY,
-            apiSecret: process.env.NEXMO_API_SECRET
+            apiKey: process.env.NEXMO_API_KEY || 'jhkn',
+            apiSecret: process.env.NEXMO_API_SECRET || 'khnjn'
           });
 
           // I'm now going to send the sms and emails depending on the level of priority
           if (req.body.priority && req.body.priority.toLowerCase() === 'critical') {
-            fetchMembersDetails(req.body.toGroup).then((users) => {
-              users.map((user) => {
-                // send email
-                const subject = 'POSTIT: You have a message marked as critical';
-                sendMail(user.email, { subject, message: req.body.message });
-
-                // and sms
-                // you want to substitute the second parameter with the actual phone number of
-                // the recipient
-                nexmo.message.sendSms(
-                  '2347010346915',
-                  user.phone,
-                  `POSTIT: You have a message marked\
-  as ${req.body.priority.toUpperCase()}\n${req.body.fromUser}: ${req.body.message}
-                  `);
-                return user;
-              });
+            return fetchMembersDetails(req.params.id, req.decoded.data.id).then((users) => {
+              if (users.length !== 0) {
+                users.map((user) => {
+                  // send email
+                  const subject = 'POSTIT: You have a message marked as critical';
+                  sendMail(user.email, { subject, message: req.body.message });
+                  // and sms
+                  nexmo.message.sendSms(
+                    '2347010346915',
+                    user.phone,
+                    `POSTIT: You have a message marked\
+    as ${req.body.priority.toUpperCase()}\n${req.body.fromUser}: ${req.body.message}
+                    `);
+                  return user;
+                });
+              }
             });
           }
 
           if (req.body.priority && req.body.priority.toLowerCase() === 'urgent') {
-            fetchMembersDetails(req.body.toGroup).then((users) => {
-              users.map((user) => {
-                const subject = 'POSTIT: You have a message marked as urgent';
-                sendMail(user.email, { subject, message });
-                return user;
-              });
+            return fetchMembersDetails(req.params.id, req.decoded.data.id).then((users) => {
+              console.log('other usas', users);
+              if (users.length !== 0) {
+                users.map((user) => {
+                  const subject = 'POSTIT: You have a message marked as urgent';
+                  sendMail(user.email, { subject, message });
+                  return user;
+                });
+              }
             });
           }
-          res.status(201).send({ message });
         })
-        .catch(error => res.status(500).send({ error }));
+        .catch((error) => {
+          console.log(error, '500 error here');
+          res.status(500).send({ error: error.message });
+        });
       });
     });
   }
