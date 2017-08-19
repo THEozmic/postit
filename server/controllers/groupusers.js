@@ -2,13 +2,13 @@ import models from '../models';
 
 export default {
   addOrRemoveUser(req, res) {
-    // if (!req.body.usersIds) {
-    //   return res.status(400).send({ error: 'Param: "users" is required', status: 400 });
-    // }
+    if (!req.body.usersIds) {
+      return res.status(400).send({ error: 'Param: "users" is required', status: 400 });
+    }
 
-    // if (!req.params.id) {
-    //   return res.status(400).send({ error: 'Param: "group_id" is required', status: 400 });
-    // }
+    if (!req.params.id) {
+      return res.status(400).send({ error: 'Param: "group_id" is required', status: 400 });
+    }
 
     models.Groups
     .findOne({ where: { id: req.params.id } })
