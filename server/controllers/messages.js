@@ -77,25 +77,6 @@ export default {
 
           // I'm now going to send the sms and emails depending on the level of priority
           if (req.body.priority && req.body.priority.toLowerCase() === 'critical') {
-<<<<<<< HEAD
-            return fetchMembersDetails(req.body.toGroup).then((users) => {
-              users.map((user) => {
-                // send email
-                const subject = 'POSTIT: You have a message marked as critical';
-                sendMail(user.email, { subject, message: req.body.message });
-
-                // and sms
-                // you want to substitute the second parameter with the actual phone number of
-                // the recipient
-                nexmo.message.sendSms(
-                  '2347010346915',
-                  user.phone,
-                  `POSTIT: You have a message marked\
-  as ${req.body.priority.toUpperCase()}\n${req.body.fromUser}: ${req.body.message}
-                  `);
-                return user;
-              });
-=======
             return fetchMembersDetails(req.params.id, req.decoded.data.id).then((users) => {
               if (users.length !== 0) {
                 users.map((user) => {
@@ -112,19 +93,10 @@ export default {
                   return user;
                 });
               }
->>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
             });
           }
 
           if (req.body.priority && req.body.priority.toLowerCase() === 'urgent') {
-<<<<<<< HEAD
-            return fetchMembersDetails(req.body.toGroup).then((users) => {
-              users.map((user) => {
-                const subject = 'POSTIT: You have a message marked as urgent';
-                sendMail(user.email, { subject, message });
-                return user;
-              });
-=======
             return fetchMembersDetails(req.params.id, req.decoded.data.id).then((users) => {
               console.log('other usas', users);
               if (users.length !== 0) {
@@ -134,16 +106,11 @@ export default {
                   return user;
                 });
               }
->>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
             });
           }
         })
         .catch((error) => {
-<<<<<<< HEAD
-          console.log(error.message, '500 error here');
-=======
           console.log(error, '500 error here');
->>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
           res.status(500).send({ error: error.message });
         });
       });

@@ -388,10 +388,6 @@ describe('API Tests: ', () => {
           email: 'testuser@email.com'
         })
         .end((err, res) => {
-<<<<<<< HEAD
-          res.should.have.status(202);
-          token = res.body.token;
-=======
           res.should.have.status(200);
           done();
         });
@@ -444,10 +440,6 @@ describe('API Tests: ', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
-<<<<<<< HEAD
->>>>>>> b1ace67e1b07e666bbdd8ad156e8bfd1e6a20a55
-=======
->>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
           done();
         });
     });
@@ -473,17 +465,10 @@ describe('API Tests: ', () => {
       .type('form')
       .set('x-access-token', token)
       .send({
-<<<<<<< HEAD
-        users: '[2]',
-      })
-      .end((err, res) => {
-        res.should.have.status(521);
-=======
         usersIds: '[2]',
       })
       .end((err, res) => {
         res.should.have.status(200);
->>>>>>> b1ace67e1b07e666bbdd8ad156e8bfd1e6a20a55
         done();
       });
     });
@@ -548,24 +533,15 @@ describe('API Tests: ', () => {
   });
 
   describe('View all messages in a group', () => {
-<<<<<<< HEAD
-    it('returns 200 response', () => {
-      chai.request(app)
-      .get('/api/groups/1/messages/')
-=======
     it('returns 200 response', (done) => {
       chai.request(app)
       .get('/api/groups/1/messages/')
       .set('x-access-token', token)
->>>>>>> b1ace67e1b07e666bbdd8ad156e8bfd1e6a20a55
       .type('form')
       .send()
       .end((err, res) => {
         res.should.have.status(200);
-<<<<<<< HEAD
-=======
         done();
->>>>>>> b1ace67e1b07e666bbdd8ad156e8bfd1e6a20a55
       });
     });
   });
@@ -587,24 +563,11 @@ describe('API Tests: ', () => {
   describe('View current logged user', () => {
     it('gets current logged in user data', (done) => {
       chai.request(app)
-<<<<<<< HEAD
-      .post('/api/signin')
-=======
       .get('/api/users/me/')
       .set('x-access-token', token)
->>>>>>> b1ace67e1b07e666bbdd8ad156e8bfd1e6a20a55
       .type('form')
       .send()
       .end((err, res) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        const token = res.body.token;
-        chai.request(app)
-        .get('/api/users/me/')
-        .set('x-access-token', token)
-=======
-=======
->>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
         console.log(token, 'token value');
         res.should.have.status(200);
         res.body.user.username.should.equal('testuser');
@@ -617,28 +580,13 @@ describe('API Tests: ', () => {
     it('works with complete parameters', (done) => {
       chai.request(app)
         .post('/api/users/signin/')
-<<<<<<< HEAD
->>>>>>> b1ace67e1b07e666bbdd8ad156e8bfd1e6a20a55
-=======
->>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
         .type('form')
         .send({
           password: 'testuser',
           username: 'testuser'
         })
         .end((err, res) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-          res.should.have.status(200);
-          res.body.data.username.should.equal('testusername');
-=======
           res.should.have.status(202);
-          // token = res.body.token;
->>>>>>> b1ace67e1b07e666bbdd8ad156e8bfd1e6a20a55
-=======
-          res.should.have.status(202);
-          // token = res.body.token;
->>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
           done();
         });
     });
