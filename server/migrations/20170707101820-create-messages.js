@@ -7,11 +7,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      from_user: {
+      fromUser: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      to_group: {
+      toGroup: {
         type: Sequelize.INTEGER,
         allowNull: false
       },

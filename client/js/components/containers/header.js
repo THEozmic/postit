@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 const Header = ({ user = '{}' }) => {
   user = JSON.parse(user);
+  console.log(user, 'this is user');
   return (<header className="page-header">
       <div className='container'>
         <a
@@ -11,8 +12,8 @@ const Header = ({ user = '{}' }) => {
         Post
         <span>It</span>
         </a>
-        { user.data === undefined ? '' :
-        <span className="user-greeting">Hi, { user.data.username }</span>
+        { !user.userData ? '' :
+        <span className="user-greeting">Hi, { user.userData.username }</span>
         }
       </div>
   </header>);

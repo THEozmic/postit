@@ -16,8 +16,8 @@ class Groups extends React.Component {
           <a className="group-card" href={`#group/${group.id}`}
           key={group.id}>
             <div className="group-name">
-               { group.count === 0 ? '' :
-              <span className="right group-unread-count badge-danger">{group.count}</span>
+               { group.unreadMessagesCount === 0 ? '' :
+              <span className="right group-unread-count badge-danger">{group.unreadMessagesCount}</span>
               }
               <span>{group.name}</span>
               <small className="group-desc">{group.desc}</small>

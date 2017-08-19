@@ -1,10 +1,10 @@
 export default (sequelize, DataTypes) => {
   const Messages = sequelize.define('Messages', {
-    from_user: {
+    fromUser: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    to_group: {
+    toGroup: {
       type: DataTypes.INTEGER,
       allowNull: false
     },
