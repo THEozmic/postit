@@ -23,6 +23,9 @@ export default {
       .catch(error => res.status(400).send(error));
   },
   fetchGroups(req, res) {
+    if (isNaN(req.params.id)) {
+      return res.status(404).send({ error: 'Route not found', status: 404 });
+    }
     if (!req.params.id) {
       return models.Groups
       .findAll({ include: [{

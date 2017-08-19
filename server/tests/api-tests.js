@@ -444,7 +444,10 @@ describe('API Tests: ', () => {
         })
         .end((err, res) => {
           res.should.have.status(400);
+<<<<<<< HEAD
 >>>>>>> b1ace67e1b07e666bbdd8ad156e8bfd1e6a20a55
+=======
+>>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
           done();
         });
     });
@@ -594,11 +597,14 @@ describe('API Tests: ', () => {
       .send()
       .end((err, res) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
         const token = res.body.token;
         chai.request(app)
         .get('/api/users/me/')
         .set('x-access-token', token)
 =======
+=======
+>>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
         console.log(token, 'token value');
         res.should.have.status(200);
         res.body.user.username.should.equal('testuser');
@@ -611,7 +617,10 @@ describe('API Tests: ', () => {
     it('works with complete parameters', (done) => {
       chai.request(app)
         .post('/api/users/signin/')
+<<<<<<< HEAD
 >>>>>>> b1ace67e1b07e666bbdd8ad156e8bfd1e6a20a55
+=======
+>>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
         .type('form')
         .send({
           password: 'testuser',
@@ -619,12 +628,17 @@ describe('API Tests: ', () => {
         })
         .end((err, res) => {
 <<<<<<< HEAD
+<<<<<<< HEAD
           res.should.have.status(200);
           res.body.data.username.should.equal('testusername');
 =======
           res.should.have.status(202);
           // token = res.body.token;
 >>>>>>> b1ace67e1b07e666bbdd8ad156e8bfd1e6a20a55
+=======
+          res.should.have.status(202);
+          // token = res.body.token;
+>>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
           done();
         });
     });

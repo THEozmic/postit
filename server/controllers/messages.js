@@ -6,7 +6,7 @@ import sendMail from '../helpers/sendMail';
  * @return {promise} array of users and their emails
  * @param {*} groupId
  */
-function fetchMembersDetails(groupId) {
+function fetchMembersDetails(groupId, userId) {
   return new Promise((resolve, reject) => {
     models.Groups
     .findOne({
@@ -15,12 +15,15 @@ function fetchMembersDetails(groupId) {
       },
       attributes: ['id']
     }).then((groups) => {
-      // Here, I am getting all the groups and leveraging my associations
-      // to 'getUsers' in that groups, including their emails, which is what I need
-      groups.getUsers({ attributes: ['email', 'phone'] }).then((users) => {
-        resolve(users);
-      })
-      .catch(error => reject(error));
+      if (groups !== null) {
+         // Here, I am getting all the groups and leveraging my associations
+        // to 'getUsers' in that groups, including their emails, which is what I need
+        groups.getUsers({ attributes: ['email', 'phone'], where: { id: { $ne: userId } } }).then((users) => {
+          console.log('here is the usas', users);
+          resolve(users);
+        })
+        .catch(error => reject(error));
+      }
     })
     .catch(error => reject(error));
   });
@@ -65,14 +68,16 @@ export default {
           priority: req.body.priority
         })
         .then((message) => {
+          res.status(201).send({ message });
           // Nexmo credentials
           const nexmo = new Nexmo({
-            apiKey: process.env.NEXMO_API_KEY,
-            apiSecret: process.env.NEXMO_API_SECRET
+            apiKey: process.env.NEXMO_API_KEY || 'jhkn',
+            apiSecret: process.env.NEXMO_API_SECRET || 'khnjn'
           });
 
           // I'm now going to send the sms and emails depending on the level of priority
           if (req.body.priority && req.body.priority.toLowerCase() === 'critical') {
+<<<<<<< HEAD
             return fetchMembersDetails(req.body.toGroup).then((users) => {
               users.map((user) => {
                 // send email
@@ -90,22 +95,55 @@ export default {
                   `);
                 return user;
               });
+=======
+            return fetchMembersDetails(req.params.id, req.decoded.data.id).then((users) => {
+              if (users.length !== 0) {
+                users.map((user) => {
+                  // send email
+                  const subject = 'POSTIT: You have a message marked as critical';
+                  sendMail(user.email, { subject, message: req.body.message });
+                  // and sms
+                  nexmo.message.sendSms(
+                    '2347010346915',
+                    user.phone,
+                    `POSTIT: You have a message marked\
+    as ${req.body.priority.toUpperCase()}\n${req.body.fromUser}: ${req.body.message}
+                    `);
+                  return user;
+                });
+              }
+>>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
             });
           }
 
           if (req.body.priority && req.body.priority.toLowerCase() === 'urgent') {
+<<<<<<< HEAD
             return fetchMembersDetails(req.body.toGroup).then((users) => {
               users.map((user) => {
                 const subject = 'POSTIT: You have a message marked as urgent';
                 sendMail(user.email, { subject, message });
                 return user;
               });
+=======
+            return fetchMembersDetails(req.params.id, req.decoded.data.id).then((users) => {
+              console.log('other usas', users);
+              if (users.length !== 0) {
+                users.map((user) => {
+                  const subject = 'POSTIT: You have a message marked as urgent';
+                  sendMail(user.email, { subject, message });
+                  return user;
+                });
+              }
+>>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
             });
           }
-          res.status(201).send({ message });
         })
         .catch((error) => {
+<<<<<<< HEAD
           console.log(error.message, '500 error here');
+=======
+          console.log(error, '500 error here');
+>>>>>>> 7f3b23e5040d2bd0856256b4f4f0391502caab78
           res.status(500).send({ error: error.message });
         });
       });
