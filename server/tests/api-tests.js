@@ -48,7 +48,6 @@ describe('API Tests: ', () => {
         .end((err, res) => {
           res.should.have.status(201);
           token = res.body.token;
-          console.log('token eh', token);
           done();
         });
     });
@@ -568,7 +567,6 @@ describe('API Tests: ', () => {
       .type('form')
       .send()
       .end((err, res) => {
-        console.log(token, 'token value');
         res.should.have.status(200);
         res.body.user.username.should.equal('testuser');
         done();
