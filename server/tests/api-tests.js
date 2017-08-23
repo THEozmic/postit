@@ -589,4 +589,70 @@ describe('API Tests: ', () => {
         });
     });
   });
+
+  describe('Read messages in a group', () => {
+    it('returns 200', (done) => {
+      chai.request(app)
+      .post('/api/users/')
+      .type('form')
+      .send({
+        username: 'newuser',
+        email: 'newuser@user.com',
+        phone: '07010346914',
+        password: 'newuserpass'
+      })
+      .end((err, res) => {
+        console.log(res.body);
+        chai.request(app)
+        .post('/api/groups/1/read')
+        .type('form')
+        .set('x-access-token', res.body.token)
+        .send()
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+      });
+    });
+  });
+
+  describe('Read messages in a group', () => {
+    it('returns 500', (done) => {
+      chai.request(app)
+      .post('/api/users/')
+      .type('form')
+      .send({
+        username: 'newuser2',
+        email: 'newuser2@user.com',
+        phone: '07010346914',
+        password: 'newuser2pass'
+      })
+      .end((err, res) => {
+        console.log(res.body);
+        chai.request(app)
+        .post('/api/groups/a/read')
+        .type('form')
+        .set('x-access-token', res.body.token)
+        .send()
+        .end((err, res) => {
+          res.should.have.status(500);
+          done();
+        });
+      });
+    });
+  });
+
+  describe('Get messages in a group', () => {
+    it('returns 404', (done) => {
+      chai.request(app)
+      .post('/api/groups/a/messages/')
+      .type('form')
+      .set('x-access-token', token)
+      .send()
+      .end((err, res) => {
+        res.should.have.status(404);
+        done();
+      });
+    });
+  });
 });
