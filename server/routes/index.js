@@ -31,15 +31,6 @@ export default (app) => {
   // API route that allow users create broadcast groups
   app.post('/api/groups/', controllers.groups.createGroup);
 
-  // API route to get list of all groups
-  app.get('/api/groups/', controllers.groups.fetchGroups);
-
-   // API route to get list of all groups
-  app.get('/api/groups/:id', controllers.groups.fetchGroups);
-
-  // API route to get list of all users in a group
-  app.get('/api/groups/:id/users', controllers.groups.fetchMembers);
-
   // API route that allow users add/remove other users to/from groups
   app.post('/api/groups/:id/user/', controllers.groupUsers.addOrRemoveUser);
 
