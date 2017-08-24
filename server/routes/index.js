@@ -34,6 +34,9 @@ export default (app) => {
   // API route that allow users add/remove other users to/from groups
   app.post('/api/groups/:id/user/', controllers.groupUsers.addOrRemoveUser);
 
+  // API route to get list of all groups
+  app.get('/api/groups/:id', controllers.groups.fetchGroups);
+
   // API route that allows a logged in user post messages to created groups
   app.post('/api/groups/:id/message/', controllers.messages.createMessage);
 
