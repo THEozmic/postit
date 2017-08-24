@@ -24,7 +24,6 @@ class NewGroup extends React.Component {
     }
     api(`name=${this.name.value}&desc=${this.desc.value}`, '/api/groups', 'POST').then(
       (response) => {
-        console.log(response);
         location.hash = '#dashboard';
       }
     );

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 const Header = ({ user = '{}' }) => {
   user = JSON.parse(user);
-  console.log(user, 'this is user');
   return (<header className="page-header">
       <div className='container'>
         <a

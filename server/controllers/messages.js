@@ -19,7 +19,6 @@ function fetchMembersDetails(groupId, userId) {
          // Here, I am getting all the groups and leveraging my associations
         // to 'getUsers' in that groups, including their emails, which is what I need
         groups.getUsers({ attributes: ['email', 'phone'], where: { id: { $ne: userId } } }).then((users) => {
-          console.log('here is the usas', users);
           resolve(users);
         })
         .catch(error => reject(error));
@@ -98,7 +97,6 @@ export default {
 
           if (req.body.priority && req.body.priority.toLowerCase() === 'urgent') {
             return fetchMembersDetails(req.params.id, req.decoded.data.id).then((users) => {
-              console.log('other usas', users);
               if (users.length !== 0) {
                 users.map((user) => {
                   const subject = 'POSTIT: You have a message marked as urgent';
@@ -110,7 +108,6 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error, '500 error here');
           res.status(500).send({ error: error.message });
         });
       });
