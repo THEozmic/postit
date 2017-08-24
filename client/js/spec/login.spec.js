@@ -2,8 +2,6 @@ import { shallow, mount } from 'enzyme';
 
 jest.dontMock('../components/presentational/form');
 
-/* global jest */
-
 /* eslint-disable import/first */
 /* eslint-disable global-require */
 import React from 'react';

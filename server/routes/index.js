@@ -4,7 +4,7 @@ import controllers from '../controllers';
 export default (app) => {
   // API routes for users to create accounts and login to the application
   app.post('/api/users/', controllers.users.createUser);
-  app.post('/api/signin/', controllers.users.authenticateUser);
+  app.post('/api/users/signin/', controllers.users.authenticateUser);
   // API route to request for new password
   app.post('/api/users/request-password', controllers.users.passwordRequest);
   // API route to reset password
@@ -12,7 +12,7 @@ export default (app) => {
   let token;
   app.use((req, res, next) => {
     token = req.headers['x-access-token'];
-    jwt.verify(token, 'Armageddon', (err, decoded) => {
+    jwt.verify(token, process.env.JWT_TOKEN || 'SECRET', (err, decoded) => {
       if (err) {
         res.status(401).send({
           error: { message: 'user not authenticated, invalid access token' }
@@ -25,27 +25,14 @@ export default (app) => {
     });
   });
 
-  app.all('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the PostIT API',
-  }));
-
   // API route to get list of all users
   app.get('/api/users/', controllers.users.fetchAllUsers);
 
   // API route that allow users create broadcast groups
-  app.post('/api/groups/', controllers.groups.create);
-
-  // API route to get list of all groups
-  app.get('/api/groups/', controllers.groups.fetchGroups);
-
-   // API route to get list of all groups
-  app.get('/api/groups/:id', controllers.groups.fetchGroups);
-
-  // API route to get list of all users in a group
-  app.get('/api/groups/:id/users', controllers.groups.fetchMembers);
+  app.post('/api/groups/', controllers.groups.createGroup);
 
   // API route that allow users add/remove other users to/from groups
-  app.post('/api/groups/:id/user/', controllers.groupUsers.upsert);
+  app.post('/api/groups/:id/user/', controllers.groupUsers.addOrRemoveUser);
 
   // API route that allows a logged in user post messages to created groups
   app.post('/api/groups/:id/message/', controllers.messages.createMessage);
@@ -61,4 +48,10 @@ export default (app) => {
 
   // API route for search
   app.get('/api/search/:group/:term/:page', controllers.users.searchUsers);
+
+  // This should always go last
+  app.all('/*', (req, res) => res.status(404).send({
+    error: 'Route not found',
+    status: 404
+  }));
 };

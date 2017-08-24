@@ -1,7 +1,5 @@
 import { shallow, mount } from 'enzyme';
 
-/* global jest */
-
 /* eslint-disable import/first */
 /* eslint-disable global-require */
 import React from 'react';

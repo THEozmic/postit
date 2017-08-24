@@ -11,6 +11,8 @@
 .env.production.local
 .vscode
 .env
+coverage
+.nyc_output
 
 npm-debug.log*
 yarn-debug.log*

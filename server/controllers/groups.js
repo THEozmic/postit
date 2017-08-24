@@ -1,23 +1,20 @@
 import models from '../models';
 
 export default {
-  create(req, res) {
-    console.log('DESCRIPTION::::::::;', req.body.desc);
+  createGroup(req, res) {
     if (!req.body.name) {
-      res.status(400).send({ message: 'Params: "name" is required' });
+      res.status(400).send({ error: 'Param name is required', status: 400 });
       return;
     }
-    let desc = req.body.desc;
-    if (desc === '') {
-      desc = 'no description';
+    if (req.body.desc === '') {
+      req.body.desc = 'no description';
     }
     return models.Groups
       .create({
         name: req.body.name,
-        desc
+        desc: req.body.desc
       })
       .then((group) => {
-        console.log('DESCRIPTION::::::::;', req.body.desc);
         const userId = req.decoded.data.id;
         models.GroupUsers
         .create({ userId, groupId: group.id })
@@ -25,64 +22,15 @@ export default {
       })
       .catch(error => res.status(400).send(error));
   },
-  fetchGroups(req, res) {
-    if (req.params.id === undefined) {
-      return models.Groups
-      .findAll({ include: [{
-        model: models.Users,
-        through: {
-          attributes: ['id', 'username'],
-        },
-        as: 'users'
-      }]
-      })
-      .then(groups => res.status(200).send(groups))
-      .catch(error => res.status(400).send(error));
-    }
-
-    return models.Groups
-    .findOne({
-      where: { id: req.params.id },
-      attributes: ['id', 'name', 'desc'],
-      include: [{
-        model: models.Users,
-        through: {
-          attributes: ['id', 'username'],
-        },
-        as: 'users'
-      }]
-    })
-    .then(groups => res.status(200).send(groups))
-    .catch(error => res.status(400).send(error));
-  },
-  fetchMembers(req, res) {
-    return models.GroupUsers
-      .findAll({ where: { group_id: req.params.id } })
-      .then(groups => res.status(200).send(groups))
-      .catch((error) => {
-        res.status(400).send(error);
-      });
-  },
-  message(req, res) {
-    return models.Messages
-      .create({
-        from_user: req.body.from_user,
-        to_group: req.body.to_group,
-        message: req.body.message,
-        priority: req.body.priority
-      })
-      .then(message => res.status(200).send(message))
-      .catch(error => res.status(404).send(error));
-  },
   findMessages(req, res) {
     models.Messages
       .findAll({
-        where: { to_group: [req.params.id] },
+        where: { toGroup: [req.params.id] },
         attributes: [
           'id',
           'message',
-          'from_user',
-          'to_group',
+          'fromUser',
+          'toGroup',
           'priority',
           'readBy'
         ],
@@ -90,46 +38,40 @@ export default {
           ['id', 'ASC']
         ]
       })
-      .then(messages => res.status(200).send(messages))
-      .catch(error => res.status(404).send(error));
+      .then(messages => res.status(200).send({ messages, group: req.params.id }))
+      .catch(error => res.status(500).send({ error }));
   },
   readMessage(req, res) {
+    // for peformance issues, I have something different that "reads" the message
     models.Messages
     .findAll({
-      where: { to_group: [req.params.id] },
+      where: { toGroup: [req.params.id] },
       attributes: [
         'id',
-        'from_user',
+        'fromUser',
         'readBy'
       ],
     })
     .then((results) => {
       results.map((result) => {
-        if (result.dataValues.from_user !== req.decoded.data.username) {
-          console.log(':::RESULT:::', result);
-          console.log(':::FROM USER:::', result.dataValues.from_user);
-          console.log(':::LOGGED USER:::', req.decoded.data.username);
-          console.log(':::EQUAL??:::', result.dataValues.from_user === req.decoded.data.username);
-          let readList = result.dataValues.readBy.split(',');
+        if (result.fromUser !== req.decoded.data.username) {
+          let readList = result.readBy.split(',');
           readList = readList.filter(username =>
             username !== req.decoded.data.username
           );
-          console.log(':::NEW READ LIST:::', readList);
           readList.push(req.decoded.data.username);
           if (result.dataValues.readBy !== '') {
             return result.updateAttributes({
               readBy: readList.join(',')
             });
           }
-
           return result.updateAttributes({
             readBy: req.decoded.data.username
           });
         }
-        return false;
       });
-      res.status(200).send({ data: { message: 'message read' } });
+      res.status(200).send({ message: 'message read' });
     })
-    .catch(error => res.status(404).send(error));
+    .catch(error => res.status(500).send({ error }));
   }
 };

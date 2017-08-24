@@ -4,7 +4,14 @@ import scrollToElement from 'scroll-to-element';
 import sendMessage from '../../actions/sendMessage';
 import api from '../helpers/api';
 
+/**
+ *
+ */
 class Messages extends React.Component {
+  /**
+   *
+   * @param {*} props
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -16,6 +23,9 @@ class Messages extends React.Component {
     this.send = this.send.bind(this);
   }
 
+  /**
+   *
+   */
   scrollPane() {
     scrollToElement('.second', {
       offset: -60,
@@ -24,20 +34,30 @@ class Messages extends React.Component {
     });
   }
 
+  /**
+   *
+   */
   componentWillMount() {
     const id = location.href.split('/')[location.href.split('/').length - 1];
     this.setState({ messages: this.props.messages });
     api(null, `/api/groups/${id}`, 'GET')
-    .then((result) => {
-      this.setState({ selectedGroup: result });
+    .then((group) => {
+      this.setState({ selectedGroup: group });
     });
     api('', `/api/groups/${id}/read`, 'POST');
   }
 
+  /**
+   *
+   */
   componentDidMount() {
     this.scrollPane();
   }
 
+  /**
+   *
+   * @param {*} e
+   */
   send(e) {
     e.preventDefault();
     let { content, priority } = this;
@@ -51,7 +71,7 @@ class Messages extends React.Component {
 
     this.setState({ sendStatus: 'SEND...' });
     const newMessageBody =
-    `message=${content}&priority=${priority}&to_group=${this.state.selectedGroup.id}`;
+    `message=${content}&priority=${priority}&toGroup=${this.state.selectedGroup.id}`;
     api(newMessageBody, `/api/groups/${this.state.selectedGroup.id}/message`,
     'POST').then(
       (response) => {
@@ -59,19 +79,21 @@ class Messages extends React.Component {
         const newMessage = {
           id: response.id,
           message: content,
-          from_user: JSON.parse(this.props.user).data.username,
+          fromUser: JSON.parse(this.props.user).userData.username,
           priority: priority.toLowerCase(),
           readBy
         };
         const newMessages = this.props.messages.concat([newMessage]);
         this.props.loadMessages(newMessages);
-        // this.setState({ messages: newMessages });
       }
     );
     this.content.value = '';
     this.scrollPane();
   }
 
+  /**
+   *
+   */
   render() {
     let n = 0;
     return (
@@ -89,7 +111,7 @@ class Messages extends React.Component {
               <div className={`message-container${secondClass}`} key={message.id}>
                 <div className="message">
                   <div className="message-details">
-                    <span className="messenger">@{message.from_user}</span>
+                    <span className="messenger">@{message.fromUser}</span>
                     <span className={`message-type ${message.priority.toLowerCase()}`}>
                       {message.priority.toLowerCase()}</span>
                   </div>
@@ -116,7 +138,10 @@ class Messages extends React.Component {
                   <option value="Critical">Critical</option>
                 </select>
               </div>
-              <div className="right"><button disabled={this.state.sendStatus === 'SEND...'} className="btn btn-primary" onClick={this.send}>{this.state.sendStatus}</button></div>
+              <div className="right">
+                <button disabled={this.state.sendStatus === 'SEND...'}
+                className="btn btn-primary" onClick={this.send}>
+                {this.state.sendStatus}</button></div>
             </div>
           </div>
       </div>
@@ -124,16 +149,12 @@ class Messages extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.userData
-  };
-};
+const mapStateToProps = state => ({
+  user: state.userData
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    send: newMessage => dispatch(sendMessage(newMessage)),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  send: newMessage => dispatch(sendMessage(newMessage)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages);
