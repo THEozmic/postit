@@ -22,6 +22,42 @@ export default {
       })
       .catch(error => res.status(400).send(error));
   },
+  fetchGroups(req, res) {
+    if (isNaN(req.params.id)) {
+      return res.status(404).send({ error: 'Route not found', status: 404 });
+    }
+    if (!req.params.id) {
+      return models.Groups
+      .findAll({ include: [{
+        model: models.Users,
+        through: {
+          attributes: ['id', 'username'],
+        },
+        as: 'users'
+      }]
+      })
+      .then(groups => res.status(200).send({ groups }))
+      .catch(error => res.status(400).send(error));
+    }
+
+    return models.Groups
+    .findOne({
+      where: { id: req.params.id },
+      attributes: ['id', 'name', 'desc'],
+      include: [{
+        model: models.Messages,
+        attributes: ['id', 'fromUser', 'message', 'createdAt', 'priority', 'readBy'],
+        as: 'messages'
+      }]
+    })
+    .then((group) => {
+      if (!group) {
+        return res.status(404).send({ error: 'Group does not exist', status: 404 });
+      }
+      res.status(200).send(group);
+    })
+    .catch(error => res.status(500).send({ error: error.message, status: 500 }));
+  },
   findMessages(req, res) {
     models.Messages
       .findAll({
