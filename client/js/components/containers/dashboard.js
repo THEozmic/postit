@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
   }
 
   /**
-   *
+   * @return {undefined} Returns Nothing
   */
   componentWillMount() {
     if (sessionStorage.getItem('user') === null) {
@@ -35,7 +35,7 @@ class Dashboard extends React.Component {
   }
 
   /**
-   *
+   * @return {JSX} Returns Dashboard JSX
   */
   render() {
     return (
