@@ -34,8 +34,8 @@ models.GroupUsers.destroy({
 });
 
 describe('API Tests: ', () => {
-  describe('Register a new user', () => {
-    it('works with complete parameters', (done) => {
+  describe('Given the user hits the route POST /api/users/', () => {
+    it('It returns a 201 status when given correct parameters', (done) => {
       chai.request(app)
         .post('/api/users')
         .type('form')
@@ -51,7 +51,7 @@ describe('API Tests: ', () => {
           done();
         });
     });
-    it('returns 400 error without password parameter', (done) => {
+    it('It returns 400 error when password parameter is not given', (done) => {
       chai.request(app)
         .post('/api/users/')
         .type('form')
