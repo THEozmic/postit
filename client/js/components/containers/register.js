@@ -34,19 +34,11 @@ class Register extends React.Component {
     api(userString, '/api/users', 'POST', null).then(
       (_registerRes) => {
         if (_registerRes.error === undefined) {
-          api(userString, '/api/signin', 'POST', null).then(
-            (_loginRes) => {
-              if (_loginRes.error === undefined) {
-                this.props.onLoginUser(JSON.stringify(_loginRes));
-                sessionStorage.setItem('user', JSON.stringify(_loginRes));
-                location.hash = '#dashboard';
-              } else {
-                this.setState({ error_message: _loginRes.error.message });
-              }
-            }
-          );
+          this.props.onLoginUser(JSON.stringify(_registerRes));
+          sessionStorage.setItem('user', JSON.stringify(_registerRes));
+          location.hash = '#dashboard';
         } else {
-          this.setState({ error_message: _registerRes.error.message });
+          this.setState({ error_message: _registerRes.error });
         }
       }
     );
