@@ -29,7 +29,7 @@ class Group extends React.Component {
   }
 
   /**
-   *
+   * @return {undefined} Returns Nothing
    */
   componentWillMount() {
     const id = location.href.split('/')[location.href.split('/').length - 1];
