@@ -35,7 +35,6 @@ class Group extends React.Component {
     const id = location.href.split('/')[location.href.split('/').length - 1];
     api(null, `/api/groups/${id}`, 'GET')
     .then((group) => {
-      console.log(group.messages, 'Here is group');
       this.setState({
         loading: '',
         messages: group.messages,

@@ -602,7 +602,6 @@ describe('API Tests: ', () => {
         password: 'newuserpass'
       })
       .end((err, res) => {
-        console.log(res.body);
         chai.request(app)
         .post('/api/groups/1/read')
         .type('form')
@@ -628,7 +627,6 @@ describe('API Tests: ', () => {
         password: 'newuser2pass'
       })
       .end((err, res) => {
-        console.log(res.body);
         chai.request(app)
         .post('/api/groups/a/read')
         .type('form')

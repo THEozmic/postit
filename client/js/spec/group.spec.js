@@ -32,7 +32,6 @@ describe('Home Component', () => {
       // };
       group.setState({ messages: [] });
       group.update();
-      console.log(group.find('.messages').length, ' >>>>>>>>>  >>>>> >>>');
     });
   });
 });
