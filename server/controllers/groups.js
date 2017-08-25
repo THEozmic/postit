@@ -9,6 +9,12 @@ export default {
     if (req.body.desc === '') {
       req.body.desc = 'no description';
     }
+    if (req.body.name.length > 30) {
+      return res.status(400).send({ error: 'Group name too long', status: 400 });
+    }
+    if (req.body.desc.length > 40) {
+      return res.status(400).send({ error: 'Group description too long', status: 400 });
+    }
     return models.Groups
       .create({
         name: req.body.name,
