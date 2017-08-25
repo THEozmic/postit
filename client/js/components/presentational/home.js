@@ -12,6 +12,12 @@ const Home = () =>
                     messages to people you care about.
                 </p>
             </h5>
+            <div className="steps">
+                <div> 1. Create an account</div>
+                <div> 2. Create a message board</div>
+                <div> 3. Add friends to board</div>
+                <div> 4. Post away!</div>
+            </div>
             <div className="action-buttons">
                 <a
                 id='create-account'
@@ -26,12 +32,6 @@ const Home = () =>
                 Login
                 </a>
 
-            </div>
-            <div className="steps">
-                <div> 1. Create an account</div>
-                <div> 2. Create a message board</div>
-                <div> 3. Add friends to board</div>
-                <div> 4. Post away!</div>
             </div>
         </div>
     </section>
