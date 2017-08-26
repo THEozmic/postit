@@ -13,7 +13,8 @@ class Search extends React.Component {
       selectedUsers: [],
       nextPage: 2,
       prevPage: 0,
-      selectedGroup: {}
+      selectedGroup: {},
+      groupMembers: []
     };
   }
 
@@ -21,7 +22,7 @@ class Search extends React.Component {
     const id = location.href.split('/')[location.href.split('/').length - 2];
     api(null, `/api/groups/${id}`, 'GET')
     .then((result) => {
-      this.setState({ selectedGroup: result });
+      this.setState({ selectedGroup: result, groupMembers: result.users });
     });
   }
 
@@ -113,10 +114,21 @@ class Search extends React.Component {
     //   location.hash = '#dashboard';
     //   return null;
     // }
-
-    const title = ['Add users to ',
+    let action = 'Add users to ';
+    console.log(this.state.selectedGroup);
+    if (this.state.selectedGroup.admin === JSON.parse(sessionStorage.getItem('user')).userData.id) {
+      action = 'Add or Remove users from ';
+    }
+    const title = [`${action}`,
       <span style={{ color: '#0275d8' }}>{ this.state.selectedGroup.name }</span>,
       ' group'];
+
+    const members = [];
+    this.state.groupMembers.map((member) => {
+      console.log(member.username);
+      members.push(member.username);
+    });
+    console.log(members);
 
     return (
       <Form title={ title } active='search' showSideMenu={true}>
@@ -124,6 +136,9 @@ class Search extends React.Component {
           <input type='text' id='search' onChange={ () => this.onSearchChange() } ref={(input) => { this.term = input; }}/>
           <label for='search'>Search by username</label>
         </div>
+        {/* <div style={{ color: '#252830' }}>
+          Group Members: @{ members.join(', @') }
+        </div> */}
         <div className='search-results'>
           {this.state.foundUsers.map(fUser =>
             <span key={fUser.id}

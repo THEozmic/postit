@@ -50,11 +50,17 @@ export default {
     return models.Groups
     .findOne({
       where: { id: req.params.id },
-      attributes: ['id', 'name', 'desc'],
+      attributes: ['id', 'name', 'desc', 'admin'],
       include: [{
         model: models.Messages,
         attributes: ['id', 'fromUser', 'message', 'createdAt', 'priority', 'readBy'],
         as: 'messages'
+      },
+      { model: models.Users,
+        through: {
+          attributes: ['id', 'username'],
+        },
+        as: 'users'
       }]
     })
     .then((group) => {

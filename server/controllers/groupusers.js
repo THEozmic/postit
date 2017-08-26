@@ -27,7 +27,13 @@ export default {
           .findOne({ where: { userId: id, groupId: req.params.id } })
           .then((foundUser) => {
             if (foundUser !== null) {
-              models.GroupUsers.destroy({ where: { userId: id, groupId: req.params.id } });
+              models.Groups
+              .findOne({ where: { admin: req.decoded.data.id } })
+              .then((foundGroup) => {
+                if (foundGroup.id === req.params.id) {
+                  models.GroupUsers.destroy({ where: { userId: id, groupId: req.params.id } });
+                }
+              });
             } else {
               models.GroupUsers.create({ userId: id, groupId: req.params.id });
             }

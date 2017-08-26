@@ -6727,7 +6727,8 @@ footer section {
   cursor: pointer; }
 
 .search-results {
-  margin: 15px 0px; }
+  margin: 15px 0px;
+  color: #252830; }
 
 .search-prev {
   float: left;
