@@ -18,7 +18,8 @@ export default {
     return models.Groups
       .create({
         name: req.body.name,
-        desc: req.body.desc
+        desc: req.body.desc,
+        admin: req.decoded.data.id
       })
       .then((group) => {
         const userId = req.decoded.data.id;
