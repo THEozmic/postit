@@ -14,12 +14,7 @@ const Footer = () =>
 
         <section>
             <h5>Made with love by</h5>
-            <div><img src="dist/images/Landscape-white.png"/></div>
-        </section>
-
-        <section>
-            <h5>Help and support</h5>
-            <a href="#/userguide">User Guide</a>
+            <div><a target="_blank" href="https://twitter.com/THEozmic">@THEozmic</a></div>
         </section>
     </div>
 </footer>;
