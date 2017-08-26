@@ -6779,7 +6779,8 @@ footer section {
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
-  width: 100%; }
+  width: 100%;
+  z-index: 1; }
 
 .group-header {
   display: inline-block; }
