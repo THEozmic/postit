@@ -151,7 +151,7 @@ class Search extends React.Component {
         <button className='waves-effect waves-light btn action-btn'
           onClick={this.onFinishClick}>Finish</button>
         <a className='right waves-effect waves-teal btn-flat action-btn'
-        href='#dashboard'>Cancel</a>
+        href={`#/group/${this.state.selectedGroup.id}`}>Cancel</a>
       </Form>);
   }
 }
