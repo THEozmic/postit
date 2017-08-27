@@ -1,5 +1,5 @@
 import React from 'react';
-import Form from '../presentational/form';
+import Form from './Form.jsx';
 import api from '../helpers/api';
 
 class Search extends React.Component {

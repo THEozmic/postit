@@ -1,12 +1,12 @@
-import Home from './home';
-import Groups from './groups';
-import Header from '../containers/header';
-import Footer from './footer';
-import NewGroup from './new-group';
-import Search from './search';
-import Recover from './recover-password';
-import NewPassword from './new-password';
-import SideMenu from './sidemenu';
-import Form from './form';
+import Home from './Home.jsx';
+import Groups from './Groups.jsx';
+import Header from '../containers/Header.jsx';
+import Footer from './Footer.jsx';
+import NewGroup from './NewGroup.jsx';
+import Search from './Search.jsx';
+import Recover from './RecoverPassword.jsx';
+import NewPassword from './NewPassword.jsx';
+import SideMenu from './Sidemenu.jsx';
+import Form from './Form.jsx';
 
 export { Home, Header, Groups, Footer, Search, NewGroup, Recover, NewPassword, SideMenu, Form };
