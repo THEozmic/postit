@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import scrollToElement from 'scroll-to-element';
+import MessageBox from './MessageBox.jsx';
+
 import sendMessage from '../../actions/sendMessage';
 import api from '../helpers/api';
 
@@ -21,6 +23,7 @@ class Messages extends React.Component {
       messages: []
     };
     this.send = this.send.bind(this);
+    this.acceptMessageDetails = this.acceptMessageDetails.bind(this);
   }
 
   /**
@@ -58,9 +61,7 @@ class Messages extends React.Component {
    *
    * @param {*} e
    */
-  send(e) {
-    e.preventDefault();
-    let { content, priority } = this;
+  send(priority, content) {
     content = content.value.trim();
     priority = priority.value.trim();
     const readBy = '';
@@ -87,28 +88,22 @@ class Messages extends React.Component {
         this.props.loadMessages(newMessages);
       }
     );
-    this.content.value = '';
     this.scrollPane();
+  }
+
+  acceptMessageDetails(priority, content) {
+    this.send(priority, content);
   }
 
   /**
    *
    */
   render() {
-    let n = 0;
     return (
       <div className="page-content align-top pl-0 col-md-7 col-lg-9">
         <div className="messages">
-          { this.props.messages.map((message) => {
-            n += 1;
-            let secondClass = '';
-            if (this.props.messages.length - 1 === n) {
-              secondClass = ' second';
-            } else {
-              secondClass = '';
-            }
-            return (
-              <div className={`message-container${secondClass}`} key={message.id}>
+          { this.props.messages.map(message =>
+            <div className='message-container' key={message.id}>
                 <div className="message">
                   <div className="message-details">
                     <span className="messenger">@{message.fromUser}</span>
@@ -121,29 +116,11 @@ class Messages extends React.Component {
                   {message.readBy.split(',').join(', @')}</span></div>
                   }
                 </div>
-              </div>);
-          })
+              </div>)
           }
         </div>
-        <div className="new-message">
-            <div className="col-12 pl-0 pr-0 pb-2">
-              <textarea className="message-box" placeholder="Type your message..."
-              ref={(input) => { this.content = input; }}></textarea>
-            </div>
-            <div className="col-12 pl-0 pr-0">
-              <div className="priority-level">
-                <select className="browser-default" ref={(input) => { this.priority = input; }}>
-                  <option value="Normal">Normal</option>
-                  <option value="Urgent">Urgent</option>
-                  <option value="Critical">Critical</option>
-                </select>
-              </div>
-              <div className="right">
-                <button disabled={this.state.sendStatus === 'SEND...'}
-                className="btn btn-primary" onClick={this.send}>
-                {this.state.sendStatus}</button></div>
-            </div>
-          </div>
+        <MessageBox
+         sendMessageDetails={this.send} sendStatus={this.state.sendStatus}/>
       </div>
     );
   }
