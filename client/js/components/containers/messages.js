@@ -30,8 +30,7 @@ class Messages extends React.Component {
    *
    */
   scrollPane() {
-    scrollToElement('.second', {
-      offset: -60,
+    scrollToElement('.scroll-to', {
       ease: 'in-expo',
       duration: 900
     });
@@ -118,6 +117,7 @@ class Messages extends React.Component {
                 </div>
               </div>)
           }
+          <div className="scroll-to"></div>
         </div>
         <MessageBox
          sendMessageDetails={this.send} sendStatus={this.state.sendStatus}/>
