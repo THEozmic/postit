@@ -40,7 +40,7 @@ class Messages extends React.Component {
    *
    */
   componentWillMount() {
-    const id = location.href.split('/')[location.href.split('/').length - 1];
+    const id = this.props.match.params.id;
     this.setState({ messages: this.props.messages });
     api(null, `/api/groups/${id}`, 'GET')
     .then((group) => {

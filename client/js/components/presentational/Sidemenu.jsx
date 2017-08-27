@@ -15,7 +15,7 @@ class SideMenu extends React.Component {
   }
 
   componentWillMount() {
-    const id = location.href.split('/')[location.href.split('/').length - 1];
+    const id = this.props.match.params.id;
     if (!isNaN(id)) {
       api(null, `/api/groups/${id}`, 'GET')
       .then((group) => {

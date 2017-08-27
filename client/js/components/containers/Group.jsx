@@ -32,7 +32,7 @@ class Group extends React.Component {
    * @return {undefined} Returns Nothing
    */
   componentWillMount() {
-    const id = location.href.split('/')[location.href.split('/').length - 1];
+    const id = this.props.match.params.id;
     api(null, `/api/groups/${id}`, 'GET')
     .then((group) => {
       this.setState({

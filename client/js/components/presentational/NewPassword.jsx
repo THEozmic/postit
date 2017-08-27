@@ -31,7 +31,7 @@ class NewPassword extends React.Component {
       return;
     }
     if (this.password.value !== '') {
-      const hash = location.href.split('/')[5];
+      const hash = this.props.match.params.hash;
       if (hash === undefined) {
         location.hash = '#login';
         return;

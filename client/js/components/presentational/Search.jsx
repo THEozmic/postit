@@ -19,7 +19,7 @@ class Search extends React.Component {
   }
 
   componentWillMount() {
-    const id = location.href.split('/')[location.href.split('/').length - 2];
+    const id = this.props.match.params.id;
     api(null, `/api/groups/${id}`, 'GET')
     .then((result) => {
       this.setState({ selectedGroup: result, groupMembers: result.users });

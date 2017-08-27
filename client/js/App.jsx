@@ -25,7 +25,7 @@ render(
       <Route path ='/new-group' component={NewGroup}/>
       <Route path ='/group/:id/search' component={Search}/>
       <Route path ='/recover-password' component={Recover}/>
-      <Route path ='/new-password' component={NewPassword}/>
+      <Route path ='/new-password/:hash' component={NewPassword}/>
     </Switch>
   </Router>
 </Provider>
