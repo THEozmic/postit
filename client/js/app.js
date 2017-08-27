@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { render } from 'react-dom';
 import 'jquery/dist/jquery';
 import 'materialize-css';
@@ -16,7 +16,7 @@ const app = document.querySelector('#app');
 render(
 <Provider store={store}>
   <Router>
-    <div>
+    <Switch>
       <Route exact path='/' component={Home}/>
       <Route path='/register' component={Register}/>
       <Route path='/login' component={Login}/>
@@ -26,7 +26,7 @@ render(
       <Route path ='/group/:id/search' component={Search}/>
       <Route path ='/recover-password' component={Recover}/>
       <Route path ='/new-password' component={NewPassword}/>
-    </div>
+    </Switch>
   </Router>
 </Provider>
 ,

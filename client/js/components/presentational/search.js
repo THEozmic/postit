@@ -119,9 +119,9 @@ class Search extends React.Component {
     if (this.state.selectedGroup.admin === JSON.parse(sessionStorage.getItem('user')).userData.id) {
       action = 'Add or Remove users from ';
     }
-    const title = [`${action}`,
-      <span style={{ color: '#0275d8' }}>{ this.state.selectedGroup.name }</span>,
-      ' group'];
+    const title = { action: `${action}`,
+      group: this.state.selectedGroup.name,
+      last: ' group' };
 
     const members = [];
     this.state.groupMembers.map((member) => {

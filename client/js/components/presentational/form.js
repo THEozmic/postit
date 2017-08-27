@@ -19,7 +19,7 @@ class Form extends React.Component {
                 { this.props.showSideMenu ? <SideMenu active={ this.props.active } user={this.props.user} onLogout={this.props.onLogout} onLoginUser={this.props.onLoginUser}/> : '' }
                 <div className="section page-content align-top pl-0 col m7 l8">
                   <section>
-                    <h5>{ this.props.title }</h5>
+                    <h5>{this.props.title.action || this.props.title } <span style={{ color: '#0275d8' }}>{this.props.title.group || ''}</span> {this.props.title.last || ''}</h5>
                     <div className='row'>
                       <div className='col s12 m8'>
                         <form className='form'>
