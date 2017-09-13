@@ -33,3 +33,13 @@ This app uses `Mocha` and `Chai-Http` for testing on the backend and `Jest` for 
 
 **API DOCS**
 > - http://docs.postitmichael.apiary.io
+
+**FAQs**
+> - Is this app open-source?
+  __Ans:__ Yes, you can contribute to the development of this app by raising PRs
+> - What language is used to build this app?
+  __Ans:__ Javascript is used to build both frontend and backend.
+> - Who can contribute?
+  __Ans:__ Anyone willing to contribute to open-source and is interested in this project and is ready to keep to the standard.
+> - Any license?
+  __Ans:__ Yup! This app and all it's content is under the MIT License, which means anyone can use it, for profit or just fun.
