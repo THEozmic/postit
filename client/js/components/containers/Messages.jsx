@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import scrollToElement from 'scroll-to-element';
-import MessageBox from './MessageBox.jsx';
+import MessageBox from '../presentational/MessageBox.jsx';
 import { sendMessage } from '../../actions/message';
 import api from '../helpers/api';
 
