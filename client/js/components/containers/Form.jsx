@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Footer, Header, SideMenu } from './';
+import { Footer, Header, SideMenu } from '../presentational';
 import { logoutUser, loginUser } from '../../actions/user';
 
 class Form extends React.Component {
