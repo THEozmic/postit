@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Form from '../presentational/Form.jsx';
-import loginUser from '../../actions/loginUser';
+import { loginUser } from '../../actions/user';
 import api from '../helpers/api';
 
 class Register extends React.Component {

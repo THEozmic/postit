@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import changeSelectedGroup from '../../actions/changeSelectedGroup';
 
 class Groups extends React.Component {
   constructor(props) {

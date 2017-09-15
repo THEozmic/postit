@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Footer, Header, SideMenu } from '../presentational';
 import { Messages } from './';
-import loadMessages from '../../actions/loadMessages';
-import logoutUser from '../../actions/logoutUser';
-import loginUser from '../../actions/loginUser';
+import { loadMessages } from '../../actions/message';
+import { logoutUser, loginUser } from '../../actions/user';
 import api from '../helpers/api';
 
 /**
