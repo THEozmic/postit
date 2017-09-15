@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import logoutUser from '../../actions/logoutUser';
-import loginUser from '../../actions/loginUser';
+import { logoutUser, loginUser } from '../../actions/user';
 import { Footer, Header, SideMenu, Groups } from '../presentational';
 import api from '../helpers/api';
 
