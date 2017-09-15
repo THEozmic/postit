@@ -7,6 +7,6 @@ import Search from './Search.jsx';
 import Recover from './RecoverPassword.jsx';
 import NewPassword from './NewPassword.jsx';
 import SideMenu from './Sidemenu.jsx';
-import Form from './Form.jsx';
+import Form from '../containers/Form.jsx';
 
 export { Home, Header, Groups, Footer, Search, NewGroup, Recover, NewPassword, SideMenu, Form };
