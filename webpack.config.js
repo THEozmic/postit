@@ -6,6 +6,10 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   devtool: debug ? 'inline-sourcemap' : true,
   entry: './client/js/App.jsx',
+  node: {
+    net: 'empty',
+    dns: 'empty'
+  },
   module: {
     loaders: [
       {
