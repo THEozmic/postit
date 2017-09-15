@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Form from '../presentational/Form.jsx';
+import { Form } from './';
 import { loginUser } from '../../actions/user';
 import api from '../helpers/api';
 
