@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import jwt from 'jsonwebtoken';
+import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { render } from 'react-dom';
 import 'jquery/dist/jquery';
 import 'materialize-css';
@@ -12,6 +13,19 @@ import { Group, Register, Login, Dashboard } from './components/containers';
 
 const store = configureStore();
 
+const isTokenExpired = () => {
+  const token = jwt.decode(JSON.parse(sessionStorage.getItem('user')).token);
+  const date = new Date(0);
+  date.setUTCDate(token.exp);
+  return date < new Date();
+};
+
+
+const isLoggedIn = () => {
+  const status = sessionStorage.getItem('user') !== null && !isTokenExpired();
+  return status;
+};
+
 const app = document.querySelector('#app');
 render(
 <Provider store={store}>
@@ -20,10 +34,14 @@ render(
       <Route exact path='/' component={Home}/>
       <Route path='/register' component={Register}/>
       <Route path='/login' component={Login}/>
-      <Route path='/dashboard' component={Dashboard}/>
-      <Route exact path ='/group/:id' component={Group}/>
-      <Route path ='/new-group' component={NewGroup}/>
-      <Route path ='/group/:id/search' component={Search}/>
+      <Route path='/dashboard' render={props =>
+      (isLoggedIn() ? (<Dashboard {...props}/>) : (<Redirect to={{ pathname: '/login' }}/>))} />
+      <Route exact path ='/group/:id' render={props =>
+      (isLoggedIn() ? (<Group {...props}/>) : (<Redirect to={{ pathname: '/login' }}/>))} />
+      <Route path ='/new-group' render={props =>
+      (isLoggedIn() ? (<NewGroup {...props}/>) : (<Redirect to={{ pathname: '/login' }}/>))} />
+      <Route path ='/group/:id/search' render={props =>
+      (isLoggedIn() ? (<Search {...props}/>) : (<Redirect to={{ pathname: '/login' }}/>))} />
       <Route path ='/recover-password' component={Recover}/>
       <Route path ='/new-password/:hash' component={NewPassword}/>
     </Switch>
