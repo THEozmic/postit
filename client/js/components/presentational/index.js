@@ -8,5 +8,7 @@ import Recover from './RecoverPassword.jsx';
 import NewPassword from './NewPassword.jsx';
 import SideMenu from './Sidemenu.jsx';
 import Form from '../containers/Form.jsx';
+import MessageBox from './MessageBox.jsx';
+import Message from './Message.jsx';
 
-export { Home, Header, Groups, Footer, Search, NewGroup, Recover, NewPassword, SideMenu, Form };
+export { Home, Header, Groups, Footer, Search, NewGroup, Recover, NewPassword, SideMenu, Form, MessageBox, Message };
