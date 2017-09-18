@@ -106,7 +106,7 @@ class Group extends React.Component {
               <div className="row">
                 <SideMenu showSearchLink={true}
                 user={this.props.user} onLogout={this.props.onLogout}
-                onLoginUser={this.props.onLoginUser}/>
+                onLoginUser={this.props.onLoginUser} groupId={this.props.match.params.id}/>
                 <div className="section page-content align-top pl-0 col m7 l8">
                   <div className='group-header-container'>
                     <span className='group-header'>
@@ -124,7 +124,7 @@ class Group extends React.Component {
                     </span>
                   </div>
                    { this.state.loading !== '' ? this.state.loading :
-                   <Messages messages={ this.state.messages } loadMessages={ this.loadMessages }/> }
+                   <Messages messages={ this.state.messages } loadMessages={ this.loadMessages } groupId={this.props.match.params.id}/> }
                 </div>
               </div>
             </div>
