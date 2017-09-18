@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import scrollToElement from 'scroll-to-element';
-import MessageBox from '../presentational/MessageBox.jsx';
+import { MessageBox, Message } from '../presentational/';
 import { sendMessage } from '../../actions/message';
 import api from '../helpers/api';
 
@@ -17,12 +17,10 @@ class Messages extends React.Component {
     super(props);
     this.state = {
       message_error: '',
-      selectedGroup: {},
       sendStatus: 'SEND',
       messages: []
     };
     this.send = this.send.bind(this);
-    this.acceptMessageDetails = this.acceptMessageDetails.bind(this);
   }
 
   /**
@@ -38,59 +36,44 @@ class Messages extends React.Component {
   /**
    *
    */
-  componentWillMount() {
-    const id = this.props.match.params.id;
-    this.setState({ messages: this.props.messages });
-    api(null, `/api/groups/${id}`, 'GET')
-    .then((group) => {
-      this.setState({ selectedGroup: group });
-    });
-    api('', `/api/groups/${id}/read`, 'POST');
-  }
-
-  /**
-   *
-   */
   componentDidMount() {
     this.scrollPane();
   }
 
+  componentWillMount() {
+    this.setState({ messages: this.props.messages });
+  }
+
   /**
    *
-   * @param {*} e
+   *
    */
   send(priority, content) {
     content = content.value.trim();
     priority = priority.value.trim();
     const readBy = '';
     if (content === '' || priority === '') {
-      this.setState({ message_error: 'Error: Message has no priority, sender or content' });
       return;
     }
 
     this.setState({ sendStatus: 'SEND...' });
     const newMessageBody =
-    `message=${content}&priority=${priority}&toGroup=${this.state.selectedGroup.id}`;
-    api(newMessageBody, `/api/groups/${this.state.selectedGroup.id}/message`,
+    `message=${content}&priority=${priority}&toGroup=${this.props.groupId}`;
+    api(newMessageBody, `/api/groups/${this.props.groupId}/message`,
     'POST').then(
       (response) => {
         this.setState({ sendStatus: 'SEND' });
         const newMessage = {
           id: response.id,
           message: content,
-          fromUser: JSON.parse(this.props.user).userData.username,
+          fromUser: JSON.parse(sessionStorage.getItem('user')).user.username,
           priority: priority.toLowerCase(),
           readBy
         };
-        const newMessages = this.props.messages.concat([newMessage]);
-        this.props.loadMessages(newMessages);
+        this.setState({ messages: this.state.messages.concat(newMessage) });
       }
     );
     this.scrollPane();
-  }
-
-  acceptMessageDetails(priority, content) {
-    this.send(priority, content);
   }
 
   /**
@@ -100,21 +83,8 @@ class Messages extends React.Component {
     return (
       <div className="page-content align-top pl-0 col-md-7 col-lg-9">
         <div className="messages">
-          { this.props.messages.map(message =>
-            <div className='message-container' key={message.id}>
-                <div className="message">
-                  <div className="message-details">
-                    <span className="messenger">@{message.fromUser}</span>
-                    <span className={`message-type ${message.priority.toLowerCase()}`}>
-                      {message.priority.toLowerCase()}</span>
-                  </div>
-                  <div className="message-content">{message.message}</div>
-                   { message.readBy === '' && message.readBy.length === 0 ? '' :
-                  <div className="message-read-list">Read by: <span>@
-                  {message.readBy.split(',').join(', @')}</span></div>
-                  }
-                </div>
-              </div>)
+          { this.state.messages.map(message =>
+            <Message message={message}/>)
           }
           <div className="scroll-to"></div>
         </div>
