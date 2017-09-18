@@ -9,32 +9,10 @@ const logout = (completeLogout) => {
 class SideMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedGroup: {}
-    };
-  }
-
-  componentWillMount() {
-    const id = this.props.match.params.id;
-    if (!isNaN(id)) {
-      api(null, `/api/groups/${id}`, 'GET')
-      .then((group) => {
-        this.setState({ selectedGroup: group });
-      });
-    }
   }
 
   render() {
-    const { active = 'dashboard', user = '{}', showSearchLink = false, onLogout, onLoginUser } = this.props;
-
-    if (sessionStorage.getItem('user') !== null && location.hash !== '#/register') {
-      if (user.token === undefined) {
-        onLoginUser(sessionStorage.getItem('user'));
-      }
-    } else {
-      location.hash = '#login';
-      return null;
-    }
+    const { active = 'dashboard', showSearchLink = false, onLogout, groupId } = this.props;
 
     return (
       <aside className="left dashboard-menu pr-3">
@@ -48,7 +26,7 @@ class SideMenu extends React.Component {
           </li>
           { showSearchLink ?
           <li>
-            <a href={`#/group/${this.state.selectedGroup.id}/search`} className={ active === 'search' ? 'active' : ''}>
+            <a href={`#/group/${groupId}/search`} className={ active === 'search' ? 'active' : ''}>
             Update Members</a>
           </li> : ''}
           <li>
