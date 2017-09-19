@@ -1,14 +1,17 @@
 import React from 'react';
 import api from '../helpers/api';
 
-const logout = (completeLogout) => {
-  sessionStorage.removeItem('user');
-  completeLogout();
-};
+
 
 class SideMenu extends React.Component {
   constructor(props) {
     super(props);
+    this.logout = this.logout.bind(this);
+  }
+
+  logout(completeLogout) {
+    sessionStorage.removeItem('user');
+    completeLogout();
   }
 
   render() {
@@ -30,7 +33,7 @@ class SideMenu extends React.Component {
             Update Members</a>
           </li> : ''}
           <li>
-            <a href="#" onClick={ () => logout(onLogout) }>Logout</a>
+            <a href="#" onClick={ () => this.logout(onLogout) }>Logout</a>
           </li>
         </ul>
       </aside>
