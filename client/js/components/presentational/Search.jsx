@@ -72,6 +72,7 @@ class Search extends React.Component {
     .then((result) => {
       if (result.status < 400 && result.status > 199) {
         history.back();
+        Materialize.toast('Group members list updated!', 4000);
       }
     });
   }
