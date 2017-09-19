@@ -1,19 +1,31 @@
 import React from 'react';
-import api from '../helpers/api';
-
-
-
+/**
+ * The component for the side menu
+ */
 class SideMenu extends React.Component {
+
+  /**
+   * @param {*} props
+   */
   constructor(props) {
     super(props);
     this.logout = this.logout.bind(this);
   }
 
+  /**
+   * @param {function} completeLogout
+   * @returns {undefined}
+   * This method removes the user token from sessionStorage
+   * and fires an action to logout the user
+   */
   logout(completeLogout) {
     sessionStorage.removeItem('user');
     completeLogout();
   }
 
+  /**
+   * @returns {JSX} the JSX for the side menu component
+   */
   render() {
     const { active = 'dashboard', showSearchLink = false, onLogout, groupId } = this.props;
 
