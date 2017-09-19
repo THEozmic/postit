@@ -2,7 +2,13 @@ import React from 'react';
 import { Form } from './';
 import api from '../helpers/api';
 
+/**
+ * Recover component
+ */
 class Recover extends React.Component {
+  /**
+   * @param {*} props
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -11,8 +17,13 @@ class Recover extends React.Component {
     };
     this.onSend = this.onSend.bind(this);
   }
-  onSend(e) {
-    e.preventDefault();
+
+  /**
+   * @returns {undefined}
+   * @param {*} event
+   */
+  onSend(event) {
+    event.preventDefault();
     if (this.state.buttonText === 'Okay') {
       location.hash = '#login';
       return;
@@ -29,6 +40,10 @@ class Recover extends React.Component {
       }
     );
   }
+
+  /**
+   * @returns {JSX} for the RecoverPassword component
+   */
   render() {
     return (
       <Form title='Recover your password' sidemenu={false}>

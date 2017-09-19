@@ -7,6 +7,9 @@ import api from '../helpers/api';
  */
 class NewPassword extends React.Component {
 
+  /**
+   * @param {*} props
+   */
   constructor(props) {
     super(props);
     this.onSubmitPassword = this.onSubmitPassword.bind(this);
@@ -18,12 +21,21 @@ class NewPassword extends React.Component {
     };
   }
 
+  /**
+   * @returns {undefined}
+   * This method is called when the user focuses on the input,
+   * if there's an error relating to that input, it clears it.
+   */
   onFocus() {
     this.setState({ error: '' });
   }
 
-  onSubmitPassword(e) {
-    e.preventDefault();
+  /**
+   * @returns {undefined}
+   * @param {*} event
+   */
+  onSubmitPassword(event) {
+    event.preventDefault();
     if (this.state.resetText === 'Okay') {
       location.hash = '#login';
       return;
@@ -39,7 +51,7 @@ class NewPassword extends React.Component {
         return;
       }
       api(`password=${this.password.value}`, `/api/users/reset-password/${hash}`, 'POST')
-      .then((response) => {
+      .then(() => {
         this.setState({
           success: 'Password reset successful',
           resetText: 'Okay'
@@ -48,6 +60,9 @@ class NewPassword extends React.Component {
     }
   }
 
+  /**
+   * @returns {JSX} for NewPassword component
+   */
   render() {
     return (
       <Form title='Reset Password' sidemenu={false}>
