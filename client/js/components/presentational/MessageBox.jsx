@@ -1,14 +1,30 @@
 import React from 'react';
+
+/**
+ * The MessageBox component contains the textarea for typing messages,
+ * the send button and the priority level message selector
+ */
 class MessageBox extends React.Component {
 
+  /**
+   * @param {*} props
+   */
   constructor(props) {
     super(props);
     this.sendMessageDetails = this.sendMessageDetails.bind(this);
   }
+
+  /**
+   * @returns {undefined}
+   */
   sendMessageDetails() {
     this.props.sendMessageDetails(this.priority, this.content);
     this.content.value = '';
   }
+
+  /**
+   * @returns {JSX} for the MessageBox component
+   */
   render() {
     return (
       <div className="new-message">
