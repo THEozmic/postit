@@ -180,20 +180,6 @@ export default {
       if (users.length === 0) {
         res.status(200).send({ users: searchData });
       }
-      users.map((user, key) => {
-        searchData.push(user.dataValues);
-        return models.GroupUsers
-        .find({
-          where: { userId: user.id, groupId: req.params.group },
-          attributes: ['userId']
-        }).then((result) => {
-          if (result !== null) {
-            searchData[key].ingroup = true;
-          } else {
-            searchData[key].ingroup = false;
-          }
-        });
-      });
       let n = 0;
       users.map((user, key) => {
         searchData.push(user.dataValues);
