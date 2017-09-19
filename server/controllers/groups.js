@@ -89,38 +89,5 @@ export default {
       })
       .then(messages => res.status(200).send({ messages, group: req.params.id }))
       .catch(error => res.status(500).send({ error }));
-  },
-  readMessage(req, res) {
-    // for peformance issues, I have something different that "reads" the message
-    models.Messages
-    .findAll({
-      where: { toGroup: [req.params.id] },
-      attributes: [
-        'id',
-        'fromUser',
-        'readBy'
-      ],
-    })
-    .then((results) => {
-      results.map((result) => {
-        if (result.fromUser !== req.decoded.data.username) {
-          let readList = result.readBy.split(',');
-          readList = readList.filter(username =>
-            username !== req.decoded.data.username
-          );
-          readList.push(req.decoded.data.username);
-          if (result.dataValues.readBy !== '') {
-            return result.updateAttributes({
-              readBy: readList.join(',')
-            });
-          }
-          return result.updateAttributes({
-            readBy: req.decoded.data.username
-          });
-        }
-      });
-      res.status(200).send({ message: 'message read' });
-    })
-    .catch(error => res.status(500).send({ error }));
   }
 };
