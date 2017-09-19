@@ -26,7 +26,7 @@ class Group extends React.Component {
   }
 
   /**
-   * @returns {undefined} This method doesn't return anything
+   * @returns {undefined}
    */
   componentWillMount() {
     const id = this.props.match.params.id;
@@ -43,7 +43,7 @@ class Group extends React.Component {
 
   /**
    * @param {*} messages
-   * @returns {undefined} This method doesn't return anything
+   * @returns {undefined}
    * It is called by a child component and it sets the redux store and the state
    * with the new message object
    */
@@ -53,7 +53,7 @@ class Group extends React.Component {
   }
 
   /**
-   * @returns {JSX} This method returns JSX used to form the Group Page's Dom
+   * @returns {JSX} for Group component
    */
   render() {
     return (
