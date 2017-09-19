@@ -8,6 +8,7 @@ class Search extends React.Component {
     this.onSearchChange = this.onSearchChange.bind(this);
     this.onFinishClick = this.onFinishClick.bind(this);
     this.onPageChange = this.onPageChange.bind(this);
+    this.isAdmin = this.isAdmin.bind(this);
     this.state = {
       foundUsers: [],
       selectedUsers: [],
@@ -106,6 +107,12 @@ class Search extends React.Component {
     this.setState({ foundUsers });
   }
 
+  isAdmin() {
+    if (this.state.selectedGroup.admin === JSON.parse(sessionStorage.getItem('user')).userData.id) {
+      return true;
+    }
+    return false;
+  }
   /**
    *
    */
@@ -116,7 +123,7 @@ class Search extends React.Component {
     // }
     let action = 'Add users to ';
     console.log(this.state.selectedGroup);
-    if (this.state.selectedGroup.admin === JSON.parse(sessionStorage.getItem('user')).userData.id) {
+    if (this.isAdmin()) {
       action = 'Add or Remove users from ';
     }
     const title = { action: `${action}`,
@@ -136,9 +143,6 @@ class Search extends React.Component {
           <input type='text' id='search' onChange={ () => this.onSearchChange() } ref={(input) => { this.term = input; }}/>
           <label for='search'>Search by username</label>
         </div>
-        {/* <div style={{ color: '#252830' }}>
-          Group Members: @{ members.join(', @') }
-        </div> */}
         <div className='search-results'>
           {this.state.foundUsers.map(fUser =>
             <span key={fUser.id}
