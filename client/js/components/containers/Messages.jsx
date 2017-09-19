@@ -66,7 +66,7 @@ class Messages extends React.Component {
         const newMessage = {
           id: response.message.id,
           message: content,
-          fromUser: JSON.parse(sessionStorage.getItem('user')).user.username,
+          fromUser: JSON.parse(sessionStorage.getItem('user')).userData.username,
           priority: priority.toLowerCase(),
           readBy
         };
