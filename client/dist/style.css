@@ -6832,13 +6832,6 @@ footer section {
   display: inline-block;
   width: 100px; }
 
-.views-link {
-  border-top: 1px solid #e6e6e6;
-  border-radius: 0px !important; }
-
-.views-link a {
-  cursor: pointer; }
-
 .group-card {
   color: #252830;
   background-color: #fff;
