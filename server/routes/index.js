@@ -43,9 +43,6 @@ export default (app) => {
   // API route that allows a logged in user retrieve messages from group
   app.get('/api/groups/:id/messages/', controllers.groups.findMessages);
 
-  // API route that allows a logged in user retrieve messages from group
-  app.post('/api/groups/:id/read/', controllers.groups.readMessage);
-
   // API route that returns current logged in user and their group(s)
   app.get('/api/users/me/', controllers.users.fetchCurrentUser);
 
