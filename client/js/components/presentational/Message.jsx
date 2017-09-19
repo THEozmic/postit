@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * Message component
+ * @param {*} props
+ * @returns {JSX} for Message component
+ */
 const Message = ({ message }) => {
   return (
     <div className='message-container' key={message.id}>

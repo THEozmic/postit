@@ -4,8 +4,14 @@ import { Form } from './';
 import { loginUser } from '../../actions/user';
 import api from '../helpers/api';
 
+/**
+ * Register component
+ */
 class Register extends React.Component {
 
+  /**
+   * @param {*} props
+   */
   constructor(props) {
     super(props);
     this.onRegisterUser = this.onRegisterUser.bind(this);
@@ -15,12 +21,21 @@ class Register extends React.Component {
     };
   }
 
+  /**
+   * @returns {undefined}
+   * This method is called when the user focuses on the input,
+   * if there's an error relating to that input, it clears it.
+   */
   onFocus() {
     this.setState({ error_message: '' });
   }
 
-  onRegisterUser(e) {
-    e.preventDefault();
+  /**
+   * @returns {undefined}
+   * @param {*} event
+   */
+  onRegisterUser(event) {
+    event.preventDefault();
     let { username, email, phone, password } = this;
     username = username.value.trim();
     email = email.value.trim();
@@ -44,6 +59,9 @@ class Register extends React.Component {
     );
   }
 
+  /**
+   * @returns {JSX} for Register component
+   */
   render() {
     return (
       <Form title='Create a new account' sidemenu={false}>

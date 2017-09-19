@@ -3,11 +3,10 @@ import { Form } from './';
 import api from '../helpers/api';
 
 /**
- * @return {void}
+ * NewGroup component
  */
 class NewGroup extends React.Component {
   /**
-   * @return {void}
    * @param {*} props
    */
   constructor(props) {
@@ -19,11 +18,11 @@ class NewGroup extends React.Component {
     };
   }
   /**
-   * @return {void}
-   * @param {event} e
+   * @returns {undefined}
+   * @param {object} event
    */
-  onCreateGroup(e) {
-    e.preventDefault();
+  onCreateGroup(event) {
+    event.preventDefault();
     if (this.name.value === '') {
       this.setState({ error: 'Error: One or more fields are empty' });
       return;
@@ -39,14 +38,14 @@ class NewGroup extends React.Component {
       return this.setState({ errorMessage: 'Group description too long' });
     }
     api(`name=${this.name.value}&desc=${this.desc.value}`, '/api/groups', 'POST').then(
-      (response) => {
+      () => {
         location.hash = '#dashboard';
       }
     );
   }
 
   /**
-   * @return {JSX} JSX
+   * @return {JSX} for NewGroup component
    */
   render() {
     return (

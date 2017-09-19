@@ -6,11 +6,10 @@ import { sendMessage } from '../../actions/message';
 import api from '../helpers/api';
 
 /**
- *
+ * Messages component
  */
 class Messages extends React.Component {
   /**
-   *
    * @param {*} props
    */
   constructor(props) {
@@ -24,7 +23,10 @@ class Messages extends React.Component {
   }
 
   /**
-   *
+   * @returns {undefined}
+   * This method is called after the component has renders
+   * It scrolls the page to the bottom so that the user can see the newest
+   * messages
    */
   scrollPane() {
     scrollToElement('.scroll-to', {
@@ -34,19 +36,23 @@ class Messages extends React.Component {
   }
 
   /**
-   *
+   * @returns {undefined}
    */
   componentDidMount() {
     this.scrollPane();
   }
 
+  /**
+   * @returns {undefined}
+   */
   componentWillMount() {
     this.setState({ messages: this.props.messages });
   }
 
   /**
-   *
-   *
+   * @returns {undefined}
+   * @param {string} priority
+   * @param {string} content
    */
   send(priority, content) {
     content = content.value.trim();
@@ -77,7 +83,7 @@ class Messages extends React.Component {
   }
 
   /**
-   *
+   * @returns {JSX} for the Messages component
    */
   render() {
     return (

@@ -3,11 +3,20 @@ import { connect } from 'react-redux';
 import { Footer, Header, SideMenu } from '../presentational';
 import { logoutUser, loginUser } from '../../actions/user';
 
+/**
+ * Form component
+ */
 class Form extends React.Component {
+  /**
+   * @param {*} props
+   */
   constructor(props) {
     super(props);
   }
 
+  /**
+   * @returns {JSX} for Form component
+   */
   render() {
     return (
       <div>

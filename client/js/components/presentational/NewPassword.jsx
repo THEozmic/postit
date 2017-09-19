@@ -2,7 +2,9 @@ import React from 'react';
 import { Form } from './';
 import api from '../helpers/api';
 
-
+/**
+ * NewPassword component
+ */
 class NewPassword extends React.Component {
 
   constructor(props) {

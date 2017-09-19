@@ -1,6 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+/**
+ * Header component
+ * @param {*} props
+ * @returns {JSX} for Header component
+ */
 const Header = ({ user = '{}' }) => {
   user = JSON.parse(user);
   return (<header className="page-header">

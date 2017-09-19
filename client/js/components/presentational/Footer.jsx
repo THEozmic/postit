@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * @returns {JSX} for Footer component
+ */
 const Footer = () =>
   <footer className="container col s12">
     <div

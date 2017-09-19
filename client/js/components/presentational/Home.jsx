@@ -1,6 +1,10 @@
 import React from 'react';
 import { Footer, Header } from './';
 
+/**
+ * Home component
+ * @returns {JSX} for the Home component
+ */
 const Home = () =>
 <div>
   <Header/>

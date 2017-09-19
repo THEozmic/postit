@@ -5,11 +5,10 @@ import { Footer, Header, SideMenu, Groups } from '../presentational';
 import api from '../helpers/api';
 
 /**
- *
+ * Dashboard component
 */
 class Dashboard extends React.Component {
   /**
-   *
    * @param {*} props
   */
   constructor(props) {
@@ -21,7 +20,7 @@ class Dashboard extends React.Component {
   }
 
   /**
-   * @return {undefined} Returns Nothing
+   * @return {undefined}
   */
   componentWillMount() {
     if (sessionStorage.getItem('user') === null) {

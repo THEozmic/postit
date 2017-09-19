@@ -1,14 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-class Groups extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { groups } = this.props;
-    return (
+/**
+ * Groups component
+ * @returns {JSX} for Groups component
+ * @param {*} props
+ */
+const Groups = ({ groups }) => {
+  return (
     <div>
       { groups.length !== 0 ?
         groups.map(group =>
@@ -23,7 +21,6 @@ class Groups extends React.Component {
         'You don\'t belong to any group'
       }
     </div>);
-  }
-}
+};
 
 export default Groups;

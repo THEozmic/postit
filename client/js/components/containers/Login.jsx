@@ -4,8 +4,13 @@ import { Form } from './';
 import { loginUser } from '../../actions/user';
 import api from '../helpers/api';
 
+/**
+ * Login component
+ */
 class Login extends React.Component {
-
+  /**
+   * @param {*} props
+   */
   constructor(props) {
     super(props);
     this.onLoginUser = this.onLoginUser.bind(this);
@@ -15,12 +20,23 @@ class Login extends React.Component {
     };
   }
 
+  /**
+   * @returns {undefined}
+   * This method is called when the user focuses on the input,
+   * if there's an error relating to that input, it clears it.
+   */
   onFocus() {
     this.setState({ error_message: '' });
   }
 
-  onLoginUser(e) {
-    e.preventDefault();
+  /**
+   * @param {*} event
+   * @returns {undefined}
+   * This method is called when the user clicks on "Login"
+   * It gets the form values and makes an api call
+   */
+  onLoginUser(event) {
+    event.preventDefault();
     let { username, password } = this;
     username = username.value.trim();
     password = password.value;
@@ -42,6 +58,9 @@ class Login extends React.Component {
     }
   }
 
+  /**
+   * @returns {JSX} for Login component
+   */
   render() {
     if (sessionStorage.getItem('user') !== null) {
       location.hash = '#dashboard';
