@@ -84,10 +84,10 @@ class Messages extends React.Component {
       <div className="page-content align-top pl-0 col-md-7 col-lg-9">
         <div className="messages">
           { this.state.messages.map(message =>
-            <Message message={message}/>)
+            <Message key={message.id} message={message} groupId={this.props.groupId}/>)
           }
-          <div className="scroll-to"></div>
         </div>
+        <div className="scroll-to"></div>
         <MessageBox
          sendMessageDetails={this.send} sendStatus={this.state.sendStatus}/>
       </div>
