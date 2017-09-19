@@ -10,6 +10,10 @@ module.exports = {
     net: 'empty',
     dns: 'empty'
   },
+  externals: {
+    Materialize: 'Materialize',
+    materialize: 'materialize'
+  },
   module: {
     loaders: [
       {
