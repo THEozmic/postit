@@ -28,10 +28,11 @@ export default {
           .then((foundUser) => {
             if (foundUser !== null) {
               models.Groups
-              .findOne({ where: { admin: req.decoded.data.id } })
+              .findOne({ where: { id: req.params.id } })
               .then((foundGroup) => {
-                if (foundGroup.id === req.params.id) {
-                  models.GroupUsers.destroy({ where: { userId: id, groupId: req.params.id } });
+                console.log(id, 'Got here');
+                if (foundGroup.admin === req.decoded.data.id) {
+                  return models.GroupUsers.destroy({ where: { userId: id, groupId: req.params.id } });
                 }
               });
             } else {
