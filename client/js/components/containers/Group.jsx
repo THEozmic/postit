@@ -7,11 +7,10 @@ import { logoutUser, loginUser } from '../../actions/user';
 import api from '../helpers/api';
 
 /**
- *
+ * The Group page component
  */
 class Group extends React.Component {
   /**
-   *
    * @param {*} props
    */
   constructor(props) {
@@ -23,12 +22,11 @@ class Group extends React.Component {
       filter: '',
       originalMessages: this.props.messages
     };
-    this.filterMessages = this.filterMessages.bind(this);
     this.loadMessages = this.loadMessages.bind(this);
   }
 
   /**
-   * @return {undefined} Returns Nothing
+   * @returns {undefined} This method doesn't return anything
    */
   componentWillMount() {
     const id = this.props.match.params.id;
@@ -44,8 +42,10 @@ class Group extends React.Component {
   }
 
   /**
-   *
    * @param {*} messages
+   * @returns {undefined} This method doesn't return anything
+   * It is called by a child component and it sets the redux store and the state
+   * with the new message object
    */
   loadMessages(messages) {
     this.props.loadMessages(messages);
@@ -53,49 +53,7 @@ class Group extends React.Component {
   }
 
   /**
-   *
-   * @param {*} e
-   */
-  filterMessages(e) {
-    if (e.target.value === 'Unread') {
-      const editable = this.state.originalMessages;
-      const newMessages = editable.filter((message) => {
-        if (!message.readBy.split(',')
-          .includes(JSON.parse(sessionStorage.getItem('user'))
-            .userData.username)) {
-          if (message.fromUser !== JSON.parse(sessionStorage.getItem('user'))
-            .userData.username) {
-            return true;
-          }
-        }
-        return false;
-      });
-      this.setState({ messages: newMessages });
-      this.props.loadMessages(newMessages);
-    }
-    if (e.target.value === 'Read') {
-      const editable = this.state.originalMessages;
-      const newMessages = editable.filter((message) => {
-        if (message.readBy.split(',')
-          .includes(JSON.parse(sessionStorage.getItem('user'))
-            .userData.username)) {
-          return true;
-        }
-        return false;
-      });
-      this.setState({ messages: newMessages });
-      this.props.loadMessages(newMessages);
-    }
-    if (e.target.value === 'All') {
-      this.setState({ messages: this.state.originalMessages });
-      this.props.loadMessages(this.state.originalMessages);
-      this.props.loadMessages(this.state.originalMessages);
-    }
-    this.setState({ filter: e.target.value });
-  }
-
-  /**
-   *
+   * @returns {JSX} This method returns JSX used to form the Group Page's Dom
    */
   render() {
     return (
@@ -112,15 +70,6 @@ class Group extends React.Component {
                     <span className='group-header'>
                       <h5 title={this.state.selectedGroup.desc}>
                         { this.state.selectedGroup.name }</h5>
-                    </span>
-                    <span className='message-filter-container'>
-                      <select className="browser-default left"
-                      value={this.state.filter}
-                      onChange={this.filterMessages}>
-                        <option value='All'>All</option>
-                        <option value='Read'>Read</option>
-                        <option value='Unread'>Unread</option>
-                      </select>
                     </span>
                   </div>
                    { this.state.loading !== '' ? this.state.loading :
