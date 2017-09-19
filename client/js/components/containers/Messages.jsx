@@ -64,7 +64,7 @@ class Messages extends React.Component {
       (response) => {
         this.setState({ sendStatus: 'SEND' });
         const newMessage = {
-          id: response.id,
+          id: response.message.id,
           message: content,
           fromUser: JSON.parse(sessionStorage.getItem('user')).user.username,
           priority: priority.toLowerCase(),
@@ -84,7 +84,7 @@ class Messages extends React.Component {
       <div className="page-content align-top pl-0 col-md-7 col-lg-9">
         <div className="messages">
           { this.state.messages.map(message =>
-            <Message key={message.id} message={message} groupId={this.props.groupId}/>)
+            <Message key={message.id} message={message}/>)
           }
         </div>
         <div className="scroll-to"></div>
