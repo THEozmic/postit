@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Footer, Header, SideMenu } from '../presentational';
 import { Messages } from './';
-import { loadMessages } from '../../actions/message';
+import { fetchMessages } from '../../actions/message';
 import { logoutUser, loginUser } from '../../actions/user';
 import api from '../helpers/api';
 
@@ -29,15 +29,9 @@ class Group extends React.Component {
    * @returns {undefined}
    */
   componentWillMount() {
-    const id = this.props.match.params.id;
-    api(null, `/api/groups/${id}`, 'GET')
-    .then((group) => {
-      this.setState({
-        loading: '',
-        messages: group.messages,
-        originalMessages: group.messages,
-        selectedGroup: group });
-      this.props.loadMessages(group.messages);
+    const groupId = this.props.match.params.id;
+    this.props.fetchMessages(groupId).then((data) => {
+       console.log(data);
     });
   }
 
@@ -48,7 +42,8 @@ class Group extends React.Component {
    * with the new message object
    */
   loadMessages(messages) {
-    this.props.loadMessages(messages);
+    // const groupId = this.props.match.params.id;
+    // this.props.loadMessages(messages);
     this.setState({ messages });
   }
 
@@ -72,8 +67,8 @@ class Group extends React.Component {
                         { this.state.selectedGroup.name }</h5>
                     </span>
                   </div>
-                   { this.state.loading !== '' ? this.state.loading :
-                   <Messages messages={ this.state.messages } loadMessages={ this.loadMessages } groupId={this.props.match.params.id}/> }
+                   { this.state.loading !== '' ? this.state.loading : ''}
+                   {/* <Messages messages={ this.props.messages } loadMessages={ this.loadMessages } groupId={this.props.match.params.id}/> } */}
                 </div>
               </div>
             </div>
@@ -89,10 +84,10 @@ const mapStateToProps = state => ({
   user: state.userData
 });
 
-const mapDispatchToProps = dispatch => ({
-  loadMessages: allMessages => dispatch(loadMessages(allMessages)),
-  onLogout: () => dispatch(logoutUser()),
-  onLoginUser: user => dispatch(loginUser(user))
-});
+// const mapDispatchToProps = dispatch => ({
+//   fetchMessages: groupId => dispatch(fetchMessages(groupId)),
+//   onLogout: () => dispatch(logoutUser()),
+//   onLoginUser: user => dispatch(loginUser(user))
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Group);
+export default connect(mapStateToProps, { fetchMessages })(Group);
