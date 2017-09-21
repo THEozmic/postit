@@ -123,12 +123,13 @@ class Search extends React.Component {
       return false;
     });
     if (!alreadySelected) {
-      const selectedUsers = this.state.selectedUsers.concat(user);
-      this.setState({ selectedUsers });
       if (!this.isAdmin()) {
-        alert('Only an Admin can do that');
+        alreadySelected = false;
+        Materialize.toast('Only an Admin can do that', 4000);
         return;
       }
+      const selectedUsers = this.state.selectedUsers.concat(user);
+      this.setState({ selectedUsers });
     } else {
       const users = this.state.selectedUsers.filter(sUser => sUser.id !== user.id);
       this.setState({ selectedUsers: users });
@@ -185,7 +186,7 @@ class Search extends React.Component {
           {this.state.foundUsers.map(fUser =>
             <span key={fUser.id}
             onClick={() => this.onSelectUser(fUser)}
-            className={fUser.ingroup ? 'ingroup' : ''}>@{fUser.username}</span>
+            className={fUser.ingroup ? 'ingroup' : ''}>{fUser.ingroup ? <span>&#10004;</span> : ''} @{fUser.username}</span>
           )}
           <div class="search-pages">
             <span onClick={() => this.onPageChange('prev')} className="search-prev">Prev</span><span>{this.state.prevPage + 1}</span><span onClick={() => this.onPageChange('next')} className="search-next">Next</span></div>
