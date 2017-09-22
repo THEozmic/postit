@@ -8,24 +8,27 @@
   padding: 5px;
   border-radius: 2px;
   text-align: center;
-  span {
-    padding: 3px 15px;
+  button {
+    background-color: transparent;
+    border: none;
     color: #fff;
-    text-decoration: none;
-    display: inline-block;
     cursor: pointer;
+    padding: 0px 10px;
+  }
+
+  span {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer
   }
 }
 
-.search-results > span {
-  color: #ffffff;
-  padding: 5px 12px;
-  background-color: #8e9095;
+.search-results > button {
+  color: #fff;
+  border: 1px;
   margin: 5px;
-  border-radius: 2px;
-  display: inline-block;
-  min-width: 70px;
-  cursor: pointer;
+  border-radius: 3px;
 }
 
 .search-results {
@@ -35,10 +38,10 @@
 
 .search-prev {
   float: left;
-  border-right: 1px solid white;
+  border-right: 1px solid white !important;
 }
 
 .search-next {
   float: right;
-  border-left: 1px solid white;
+  border-left: 1px solid white !important;
 }

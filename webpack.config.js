@@ -6,6 +6,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 module.exports = {
   devtool: debug ? 'inline-sourcemap' : true,
   entry: './client/js/App.jsx',
+  node: {
+    net: 'empty',
+    dns: 'empty'
+  },
+  externals: {
+    Materialize: 'Materialize',
+    materialize: 'materialize'
+  },
   module: {
     loaders: [
       {
@@ -34,6 +42,10 @@ module.exports = {
     path: `${__dirname}/client/dist/`,
     filename: 'bundle.min.js',
     publicPath: '/dist/'
+  },
+  resolve: {
+    modules: ['node_modules', 'client/js'],
+    extensions: ['.js', '.jsx', '.json', '.css', '.scss']
   },
   plugins: [
     new webpack.ProvidePlugin({

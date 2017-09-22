@@ -1,58 +1,61 @@
 import React from 'react';
-import api from '../helpers/api';
-
-const logout = (completeLogout) => {
-  sessionStorage.removeItem('user');
-  completeLogout();
-};
-
+/**
+ * The component for the side menu
+ */
 class SideMenu extends React.Component {
+
+  /**
+   * @param {*} props
+   */
   constructor(props) {
     super(props);
-    this.state = {
-      selectedGroup: {}
-    };
+    this.logout = this.logout.bind(this);
   }
 
-  componentWillMount() {
-    const id = this.props.match.params.id;
-    if (!isNaN(id)) {
-      api(null, `/api/groups/${id}`, 'GET')
-      .then((group) => {
-        this.setState({ selectedGroup: group });
-      });
-    }
+  /**
+   * @param {object} event
+   * @param {function} completeLogout
+   * @returns {undefined}
+   * This method removes the user token from sessionStorage
+   * and fires an action to logout the user
+   */
+  logout(completeLogout) {
+    sessionStorage.removeItem('user');
+    completeLogout();
   }
 
+  /**
+   * @returns {JSX} the JSX for the side menu component
+   */
   render() {
-    const { active = 'dashboard', user = '{}', showSearchLink = false, onLogout, onLoginUser } = this.props;
-
-    if (sessionStorage.getItem('user') !== null && location.hash !== '#/register') {
-      if (user.token === undefined) {
-        onLoginUser(sessionStorage.getItem('user'));
-      }
-    } else {
-      location.hash = '#login';
-      return null;
-    }
+    const {
+      active = 'dashboard',
+      showSearchLink = false,
+      onLogout,
+      groupId } = this.props;
 
     return (
       <aside className="left dashboard-menu pr-3">
         <ul>
           <li>
-            <a href="#dashboard" className={ active === 'dashboard' ? 'active' : ''}>My Groups</a>
+            <a
+              href="#dashboard"
+              className={active === 'dashboard' ? 'active' : ''}
+            >My Groups</a>
           </li>
           <li>
-            <a href="#new-group" className={ active === 'create-group' ? 'active' : ''}
-            data-toggle="modal" data-target="#createGroupModal">Create Group</a>
+            <a href="#new-group" className={active === 'create-group' ? 'active' : ''}>Create Group</a>
           </li>
           { showSearchLink ?
+            <li>
+              <a
+                href={`#/group/${groupId}/search`}
+                className={active === 'search' ? 'active' : ''}
+              >
+              Update Members</a>
+            </li> : ''}
           <li>
-            <a href={`#/group/${this.state.selectedGroup.id}/search`} className={ active === 'search' ? 'active' : ''}>
-            Update Members</a>
-          </li> : ''}
-          <li>
-            <a href="#" onClick={ () => logout(onLogout) }>Logout</a>
+            <a href="/#/login" onClick={() => this.logout(onLogout)}>Logout</a>
           </li>
         </ul>
       </aside>

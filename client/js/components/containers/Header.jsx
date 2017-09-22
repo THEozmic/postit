@@ -1,27 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const Header = ({ user = '{}' }) => {
-  user = JSON.parse(user);
-  return (<header className="page-header">
-      <div className='container'>
+/**
+ * Header component
+ * @param {*} props
+ * @returns {JSX} for Header component
+ */
+const Header = () => {
+  let username = '';
+  if (JSON.parse(sessionStorage.getItem('user')) !== null) {
+    username = JSON.parse(sessionStorage.getItem('user')).userData.username;
+  }
+  return (
+    <header className="page-header">
+      <div className="container">
         <a
-        className='page-title justify-content-center align-items-center'
-        href="#">
+          className="page-title justify-content-center align-items-center"
+          href="/#/"
+        >
         Post
         <span>It</span>
         </a>
-        { !user.userData ? '' :
-        <span className="user-greeting">Hi, { user.userData.username }</span>
-        }
+        { username !== '' ?
+          <span className="user-greeting">Hi, { username }</span>
+        : ''}
       </div>
-  </header>);
+    </header>);
 };
 
-const mapStateToProps = (state) => {
-  return {
+const mapStateToProps = state =>
+  ({
     user: state.userData
-  };
-};
+  });
+
 export default connect(mapStateToProps, null)(Header);
 
