@@ -4,7 +4,6 @@ import { Footer, Header, SideMenu } from '../presentational';
 import { Messages } from './';
 import { fetchMessages } from '../../actions/message';
 import { logoutUser, loginUser } from '../../actions/user';
-import api from '../helpers/api';
 
 /**
  * The Group page component
@@ -18,11 +17,8 @@ class Group extends React.Component {
     this.state = {
       loading: 'Loading Messages...',
       selectedGroup: { name: 'Loading...' },
-      messages: this.props.messages,
-      filter: '',
-      originalMessages: this.props.messages
+      messages: this.props.messages
     };
-    this.loadMessages = this.loadMessages.bind(this);
   }
 
   /**
@@ -30,21 +26,9 @@ class Group extends React.Component {
    */
   componentWillMount() {
     const groupId = this.props.match.params.id;
-    this.props.fetchMessages(groupId).then((data) => {
-       console.log(data);
+    this.props.fetchMessages(groupId).then(() => {
+      this.setState({ loading: '', selectedGroup: this.props.selectedGroup });
     });
-  }
-
-  /**
-   * @param {*} messages
-   * @returns {undefined}
-   * It is called by a child component and it sets the redux store and the state
-   * with the new message object
-   */
-  loadMessages(messages) {
-    // const groupId = this.props.match.params.id;
-    // this.props.loadMessages(messages);
-    this.setState({ messages });
   }
 
   /**
@@ -53,27 +37,35 @@ class Group extends React.Component {
   render() {
     return (
       <div>
-        <Header/>
-          <section className="page-container container-fluid">
-            <div className="container">
-              <div className="row">
-                <SideMenu showSearchLink={true}
-                user={this.props.user} onLogout={this.props.onLogout}
-                onLoginUser={this.props.onLoginUser} groupId={this.props.match.params.id}/>
-                <div className="section page-content align-top pl-0 col m7 l8">
-                  <div className='group-header-container'>
-                    <span className='group-header'>
-                      <h5 title={this.state.selectedGroup.desc}>
-                        { this.state.selectedGroup.name }</h5>
-                    </span>
-                  </div>
-                   { this.state.loading !== '' ? this.state.loading : ''}
-                   {/* <Messages messages={ this.props.messages } loadMessages={ this.loadMessages } groupId={this.props.match.params.id}/> } */}
+        <Header />
+        <section className="page-container container-fluid">
+          <div className="container">
+            <div className="row">
+              <SideMenu
+                showSearchLink
+                user={this.props.user}
+                onLogout={this.props.onLogout}
+                onLoginUser={this.props.onLoginUser}
+                groupId={this.props.match.params.id}
+              />
+              <div className="section page-content align-top pl-0 col m7 l8">
+                <div className="group-header-container">
+                  <span className="group-header">
+                    <h5 title={this.state.selectedGroup.desc}>
+                      { this.state.selectedGroup.name }</h5>
+                  </span>
                 </div>
+                { this.state.loading !== '' ? this.state.loading :
+                <Messages
+                  messages={this.props.messages}
+                  loadMessages={this.props.loadMessages}
+                  groupId={this.props.match.params.id}
+                /> }
               </div>
             </div>
-          </section>
-        <Footer/>
+          </div>
+        </section>
+        <Footer />
       </div>
     );
   }
@@ -81,13 +73,14 @@ class Group extends React.Component {
 
 const mapStateToProps = state => ({
   messages: state.messages,
-  user: state.userData
+  user: state.userData,
+  selectedGroup: state.selectedGroup
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   fetchMessages: groupId => dispatch(fetchMessages(groupId)),
-//   onLogout: () => dispatch(logoutUser()),
-//   onLoginUser: user => dispatch(loginUser(user))
-// });
+const mapDispatchToProps = dispatch => ({
+  fetchMessages: groupId => dispatch(fetchMessages(groupId)),
+  onLogout: () => dispatch(logoutUser()),
+  onLoginUser: user => dispatch(loginUser(user))
+});
 
-export default connect(mapStateToProps, { fetchMessages })(Group);
+export default connect(mapStateToProps, mapDispatchToProps)(Group);

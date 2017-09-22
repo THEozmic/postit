@@ -50,7 +50,8 @@ class NewPassword extends React.Component {
         location.hash = '#login';
         return;
       }
-      api(`password=${this.password.value}`, `/api/users/reset-password/${hash}`, 'POST')
+      api(`password=${this.password.value}`,
+      `/api/v1/users/reset-password/${hash}`, 'POST')
       .then(() => {
         this.setState({
           success: 'Password reset successful',
@@ -65,32 +66,45 @@ class NewPassword extends React.Component {
    */
   render() {
     return (
-      <Form title='Reset Password' sidemenu={false}>
+      <Form title="Reset Password" sidemenu={false}>
         { this.state.success === '' ?
-        <div>
-          <div className='input-field'>
-            <input onFocus={this.onFocus}
-            type='password' id='password' ref={(input) => { this.password = input; }}/>
-            <label for='password'>Password</label>
+          <div>
+            <div className="input-field">
+              <input
+                onFocus={this.onFocus}
+                type="password"
+                id="password"
+                ref={(input) => { this.password = input; }}
+              />
+              <label htmlFor="password">Password</label>
+            </div>
+            <div className="input-field">
+              <input
+                onFocus={this.onFocus}
+                type="password"
+                id="cpassword"
+                ref={(input) => { this.confirmPassword = input; }} 
+              />
+              <label htmlFor="cpassword">Password Again</label>
+            </div>
+          </div> :
+          <div className="section" style={{ color: '#0275d8' }}>
+            {this.state.success}
           </div>
-          <div className='input-field'>
-            <input onFocus={this.onFocus}
-            type='password' id='cpassword' ref={(input) => { this.confirmPassword = input; }}/>
-            <label for='cpassword'>Password Again</label>
-          </div>
-        </div> :
-        <div className='section' style={{ color: '#0275d8' }}>
-          {this.state.success}
-        </div>
         }
         { this.state.error === '' ? '' :
-        <div className='red card' style={{ padding: '5px 10px' }}>{this.state.error}</div>}
+        <div
+          className="red card"
+          style={{ padding: '5px 10px' }}
+        >{this.state.error}</div>}
         <button
-        onClick= { this.onSubmitPassword }
-        className='waves-effect waves-light btn action-btn'>
-        {this.state.resetText}</button>
-        <a className='right waves-effect waves-teal btn-flat action-btn'
-          href='#login'>Login</a>
+          onClick={this.onSubmitPassword}
+          className="waves-effect waves-light btn action-btn"
+        >{this.state.resetText}</button>
+        <a
+          className="right waves-effect waves-teal btn-flat action-btn"
+          href="#login"
+        >Login</a>
       </Form>
     );
   }

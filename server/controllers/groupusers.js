@@ -30,7 +30,6 @@ export default {
               models.Groups
               .findOne({ where: { id: req.params.id } })
               .then((foundGroup) => {
-                console.log(id, 'Got here');
                 if (foundGroup.admin === req.decoded.data.id) {
                   return models.GroupUsers.destroy({ where: { userId: id, groupId: req.params.id } });
                 }

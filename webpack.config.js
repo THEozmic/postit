@@ -43,6 +43,10 @@ module.exports = {
     filename: 'bundle.min.js',
     publicPath: '/dist/'
   },
+  resolve: {
+    modules: ['node_modules', 'client/js'],
+    extensions: ['.js', '.jsx', '.json', '.css', '.scss']
+  },
   plugins: [
     new webpack.ProvidePlugin({
       $: 'jquery',

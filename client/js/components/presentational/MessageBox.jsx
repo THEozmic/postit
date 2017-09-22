@@ -29,21 +29,31 @@ class MessageBox extends React.Component {
     return (
       <div className="new-message">
         <div className="col-12 pl-0 pr-0 pb-2">
-          <textarea className="message-box" placeholder="Type your message..."
-          ref={(input) => { this.content = input; }}></textarea>
+          <textarea
+            className="message-box"
+            placeholder="Type your message..."
+            ref={(input) => { this.content = input; }}
+          />
         </div>
         <div className="col-12 pl-0 pr-0">
           <div className="priority-level">
-            <select className="browser-default" ref={(input) => { this.priority = input; }}>
+            <select
+              className="browser-default"
+              ref={(input) => { this.priority = input; }}
+            >
               <option value="Normal">Normal</option>
               <option value="Urgent">Urgent</option>
               <option value="Critical">Critical</option>
             </select>
           </div>
           <div className="right">
-            <button disabled={this.props.sendStatus === 'SEND...'}
-            className="btn btn-primary" onClick={this.sendMessageDetails}>
-            {this.props.sendStatus}</button></div>
+            <button
+              disabled={this.props.sendStatus === 'SEND...'}
+              className="btn btn-primary"
+              onClick={this.sendMessageDetails}
+            >
+              {this.props.sendStatus}</button>
+          </div>
         </div>
       </div>
     );

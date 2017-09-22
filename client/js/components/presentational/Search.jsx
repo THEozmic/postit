@@ -31,7 +31,7 @@ class Search extends React.Component {
    */
   componentWillMount() {
     const id = this.props.match.params.id;
-    api(null, `/api/groups/${id}`, 'GET')
+    api(null, `/api/v1/groups/${id}`, 'GET')
     .then((result) => {
       this.setState({ selectedGroup: result, groupMembers: result.users });
     });
@@ -68,7 +68,7 @@ class Search extends React.Component {
    */
   onFinishClick(event) {
     event.preventDefault();
-    api(`usersIds=${JSON.stringify(this.state.selectedUsers)}`, `/api/groups/${this.state.selectedGroup.id}/user/`, 'POST')
+    api(`usersIds=${JSON.stringify(this.state.selectedUsers)}`, `/api/v1/groups/${this.state.selectedGroup.id}/user/`, 'POST')
     .then((result) => {
       if (result.status < 400 && result.status > 199) {
         history.back();
@@ -87,7 +87,7 @@ class Search extends React.Component {
     this.setState({ foundUsers: [] });
     if (this.term.value.trim() !== '') {
       api(null,
-        `/api/search/${this.state.selectedGroup.id}/${this.term.value.trim()}/${page - 1}`,
+        `/api/v1/search/${this.state.selectedGroup.id}/${this.term.value.trim()}/${page - 1}`,
         'GET')
         .then(
         (searchData) => {
@@ -113,7 +113,8 @@ class Search extends React.Component {
    *
    * @param {object} user
    */
-  onSelectUser(user) {
+  onSelectUser(event, user) {
+    event.preventDefault();
     let alreadySelected = false;
     this.state.selectedUsers.map((sUser) => {
       if (sUser.id === user.id) {
@@ -131,7 +132,8 @@ class Search extends React.Component {
       const selectedUsers = this.state.selectedUsers.concat(user);
       this.setState({ selectedUsers });
     } else {
-      const users = this.state.selectedUsers.filter(sUser => sUser.id !== user.id);
+      const users = this.state.selectedUsers
+      .filter(sUser => sUser.id !== user.id);
       this.setState({ selectedUsers: users });
     }
 
@@ -151,7 +153,8 @@ class Search extends React.Component {
    * the admin of the selected group
    */
   isAdmin() {
-    if (this.state.selectedGroup.admin === JSON.parse(sessionStorage.getItem('user')).userData.id) {
+    if (this.state.selectedGroup.admin ===
+      JSON.parse(sessionStorage.getItem('user')).userData.id) {
       return true;
     }
     return false;
@@ -177,24 +180,46 @@ class Search extends React.Component {
     });
 
     return (
-      <Form title={ title } active='search' showSideMenu={true}>
-        <div className='input-field'>
-          <input type='text' id='search' onChange={ () => this.onSearchChange() } ref={(input) => { this.term = input; }}/>
-          <label for='search'>Search by username</label>
+      <Form title={title} active="search" showSideMenu>
+        <div className="input-field">
+          <input
+            type="text"
+            id="search"
+            onChange={() => this.onSearchChange()}
+            ref={(input) => { this.term = input; }}
+          />
+          <label htmlFor="search">Search by username</label>
         </div>
-        <div className='search-results'>
+        <div className="search-results">
           {this.state.foundUsers.map(fUser =>
-            <span key={fUser.id}
-            onClick={() => this.onSelectUser(fUser)}
-            className={fUser.ingroup ? 'ingroup' : ''}>{fUser.ingroup ? <span>&#10004;</span> : ''} @{fUser.username}</span>
+            (
+              <button
+                key={fUser.id}
+                onClick={event => this.onSelectUser(event, fUser)}
+                className={fUser.ingroup ? 'ingroup' : ''}
+              >{fUser.ingroup ? <span>&#10004; </span> : ''}
+              @{fUser.username}</button>)
           )}
-          <div class="search-pages">
-            <span onClick={() => this.onPageChange('prev')} className="search-prev">Prev</span><span>{this.state.prevPage + 1}</span><span onClick={() => this.onPageChange('next')} className="search-next">Next</span></div>
+          <div className="search-pages">
+            <button
+              onClick={() => this.onPageChange('prev')}
+              className="search-prev"
+            >Prev</button>
+            <span>{this.state.prevPage + 1}</span>
+            <button
+              onClick={() => this.onPageChange('next')}
+              className="search-next"
+            >Next</button>
+          </div>
         </div>
-        <button className='waves-effect waves-light btn action-btn'
-          onClick={this.onFinishClick}>Finish</button>
-        <a className='right waves-effect waves-teal btn-flat action-btn'
-        href={`#/group/${this.state.selectedGroup.id}`}>Cancel</a>
+        <button
+          className="waves-effect waves-light btn action-btn"
+          onClick={this.onFinishClick}
+        >Finish</button>
+        <a
+          className="right waves-effect waves-teal btn-flat action-btn"
+          href={`#/group/${this.state.selectedGroup.id}`}
+        >Cancel</a>
       </Form>);
   }
 }

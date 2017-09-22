@@ -5,59 +5,57 @@ import { logoutUser, loginUser } from '../../actions/user';
 
 /**
  * Form component
+ * @returns {JSX} for Form component
  */
-class Form extends React.Component {
-  /**
-   * @param {*} props
-   */
-  constructor(props) {
-    super(props);
-  }
-
-  /**
-   * @returns {JSX} for Form component
-   */
-  render() {
-    return (
-      <div>
-        <Header/>
-          <section className="page-container container-fluid">
-            <div className="container">
-              <div className="row">
-                { this.props.showSideMenu ? <SideMenu active={ this.props.active } user={this.props.user} onLogout={this.props.onLogout} onLoginUser={this.props.onLoginUser}/> : '' }
-                <div className="section page-content align-top pl-0 col m7 l8">
-                  <section>
-                    <h5>{this.props.title.action || this.props.title } <span style={{ color: '#0275d8' }}>{this.props.title.group || ''}</span> {this.props.title.last || ''}</h5>
-                    <div className='row'>
-                      <div className='col s12 m8'>
-                        <form className='form'>
-                          { this.props.children }
-                        </form>
-                      </div>
-                    </div>
-                  </section>
+const Form = ({ showSideMenu, active, user, onLogout, onLoginUser, children, title }) =>
+  (
+    <div>
+      <Header />
+      <section className="page-container container-fluid">
+        <div className="container">
+          <div className="row">
+            { showSideMenu ?
+              <SideMenu
+                active={active}
+                user={user}
+                onLogout={onLogout}
+                onLoginUser={onLoginUser}
+              /> : '' }
+            <div className="section page-content align-top pl-0 col m7 l8">
+              <section>
+                <h5>
+                  {title.action || title }
+                  <span style={{ color: '#0275d8' }}>
+                    {title.group || ''}
+                  </span> {title.last || ''}
+                </h5>
+                <div className="row">
+                  <div className="col s12 m8">
+                    <form className="form">
+                      { children }
+                    </form>
+                  </div>
                 </div>
-              </div>
+              </section>
             </div>
-          </section>
-        <Footer/>
-      </div>
-    );
-  }
-}
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </div>
+  );
 
-const mapStateToProps = (state) => {
-  return {
+const mapStateToProps = state =>
+  ({
     messages: state.messages,
     user: state.userData
-  };
-};
+  });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = dispatch =>
+  ({
     onLogout: () => dispatch(logoutUser()),
     onLoginUser: user => dispatch(loginUser(user))
-  };
-};
+  });
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

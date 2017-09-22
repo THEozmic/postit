@@ -34,10 +34,10 @@ models.GroupUsers.destroy({
 });
 
 describe('API Tests: ', () => {
-  describe('Given the user hits the route POST /api/users/', () => {
+  describe('Given the user hits the route POST /api/v1/users/', () => {
     it('It returns a 201 status when given correct parameters', (done) => {
       chai.request(app)
-        .post('/api/users')
+        .post('/api/v1/users')
         .type('form')
         .send({
           email: 'testuser@email.com',
@@ -53,7 +53,7 @@ describe('API Tests: ', () => {
     });
     it('It returns 400 error when password parameter is not given', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           username: 'testusername',
@@ -67,7 +67,7 @@ describe('API Tests: ', () => {
     });
     it('returns 400 error without username parameter', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpassword',
@@ -81,7 +81,7 @@ describe('API Tests: ', () => {
     });
     it('returns 400 error without email parameter', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpassword',
@@ -95,7 +95,7 @@ describe('API Tests: ', () => {
     });
     it('returns 400 error without phone parameter', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpassword',
@@ -109,7 +109,7 @@ describe('API Tests: ', () => {
     });
     it('returns 409 error with duplicate email', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpassword',
@@ -124,7 +124,7 @@ describe('API Tests: ', () => {
     });
     it('returns 409 error with duplicate username', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testuser',
@@ -139,7 +139,7 @@ describe('API Tests: ', () => {
     });
     it('returns 400 error with invalid email', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpassword',
@@ -154,7 +154,7 @@ describe('API Tests: ', () => {
     });
     it('returns 400 error with empty password', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: '       ',
@@ -169,7 +169,7 @@ describe('API Tests: ', () => {
     });
     it('returns 400 error with empty username', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpass',
@@ -184,7 +184,7 @@ describe('API Tests: ', () => {
     });
     it('returns 400 error with empty email', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpass',
@@ -199,7 +199,7 @@ describe('API Tests: ', () => {
     });
     it('returns 400 error with empty phone', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpass',
@@ -217,7 +217,7 @@ describe('API Tests: ', () => {
   describe('Register a new user returns correct error message', () => {
     it('(400 error) without password parameter', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           username: 'testusername',
@@ -231,7 +231,7 @@ describe('API Tests: ', () => {
     });
     it('(400 error) without username parameter', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpassword',
@@ -245,7 +245,7 @@ describe('API Tests: ', () => {
     });
     it('(400 error) without email parameter', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpassword',
@@ -259,7 +259,7 @@ describe('API Tests: ', () => {
     });
     it('(400 error) without phone parameter', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpassword',
@@ -273,7 +273,7 @@ describe('API Tests: ', () => {
     });
     it('(409 error) with duplicate email', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testuser2',
@@ -288,7 +288,7 @@ describe('API Tests: ', () => {
     });
     it('(409 error) with duplicate username', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testuser',
@@ -303,7 +303,7 @@ describe('API Tests: ', () => {
     });
     it('(400 error) with invalid email', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpassword',
@@ -318,7 +318,7 @@ describe('API Tests: ', () => {
     });
     it('(400 error) with empty password', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: '     ',
@@ -333,7 +333,7 @@ describe('API Tests: ', () => {
     });
     it('(400 error) with empty username', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpass',
@@ -348,7 +348,7 @@ describe('API Tests: ', () => {
     });
     it('(400 error) with empty email', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpass',
@@ -363,7 +363,7 @@ describe('API Tests: ', () => {
     });
     it('(400 error) with empty phone', (done) => {
       chai.request(app)
-        .post('/api/users/')
+        .post('/api/v1/users/')
         .type('form')
         .send({
           password: 'testpass',
@@ -381,7 +381,7 @@ describe('API Tests: ', () => {
   describe('Make a password reset request', () => {
     it('should return 200', (done) => {
       chai.request(app)
-        .post('/api/users/request-password')
+        .post('/api/v1/users/request-password')
         .type('form')
         .send({
           email: 'testuser@email.com'
@@ -394,7 +394,7 @@ describe('API Tests: ', () => {
 
     it('should return 200 when request is remade', (done) => {
       chai.request(app)
-        .post('/api/users/request-password')
+        .post('/api/v1/users/request-password')
         .type('form')
         .send({
           email: 'testuser@email.com'
@@ -407,7 +407,7 @@ describe('API Tests: ', () => {
 
     it('should return 404 when request is made with not existent email', (done) => {
       chai.request(app)
-        .post('/api/users/request-password')
+        .post('/api/v1/users/request-password')
         .type('form')
         .send({
           email: 'testuserr@email.com'
@@ -420,7 +420,7 @@ describe('API Tests: ', () => {
 
     it('should return 400 error with invalid email', (done) => {
       chai.request(app)
-        .post('/api/users/request-password')
+        .post('/api/v1/users/request-password')
         .type('form')
         .send({
           email: 'mail@.com'
@@ -433,7 +433,7 @@ describe('API Tests: ', () => {
 
     it('should return 400 error with empty email', (done) => {
       chai.request(app)
-        .post('/api/users/request-password')
+        .post('/api/v1/users/request-password')
         .type('form')
         .send({
         })
@@ -447,7 +447,7 @@ describe('API Tests: ', () => {
   describe('Create a new group', () => {
     it('returns 201 response', () => {
       chai.request(app)
-      .post('/api/groups/')
+      .post('/api/v1/groups/')
       .set('x-access-token', token)
       .type('form')
       .send({ name: 'Test Group', desc: 'A simple test group' })
@@ -460,7 +460,7 @@ describe('API Tests: ', () => {
   describe('Add user to a new group', () => {
     it('should return 200 to add a user to a group', (done) => {
       chai.request(app)
-      .post('/api/groups/1/user/')
+      .post('/api/v1/groups/1/user/')
       .type('form')
       .set('x-access-token', token)
       .send({
@@ -476,7 +476,7 @@ describe('API Tests: ', () => {
   describe('Send message to a group', () => {
     it('returns 200 response', (done) => {
       chai.request(app)
-      .post('/api/groups/1/message/')
+      .post('/api/v1/groups/1/message/')
       .set('x-access-token', token)
       .type('form')
       .send({
@@ -489,7 +489,7 @@ describe('API Tests: ', () => {
     });
     it('should work with priority level critical', (done) => {
       chai.request(app)
-      .post('/api/groups/1/message/')
+      .post('/api/v1/groups/1/message/')
       .set('x-access-token', token)
       .type('form')
       .send({
@@ -503,7 +503,7 @@ describe('API Tests: ', () => {
     });
     it('should work with priority level urgent', (done) => {
       chai.request(app)
-      .post('/api/groups/1/message/')
+      .post('/api/v1/groups/1/message/')
       .set('x-access-token', token)
       .type('form')
       .send({
@@ -517,7 +517,7 @@ describe('API Tests: ', () => {
     });
     it('should not with priority level dope', (done) => {
       chai.request(app)
-      .post('/api/groups/1/message/')
+      .post('/api/v1/groups/1/message/')
       .set('x-access-token', token)
       .type('form')
       .send({
@@ -534,7 +534,7 @@ describe('API Tests: ', () => {
   describe('View all messages in a group', () => {
     it('returns 200 response', (done) => {
       chai.request(app)
-      .get('/api/groups/1/messages/')
+      .get('/api/v1/groups/1/messages/')
       .set('x-access-token', token)
       .type('form')
       .send()
@@ -548,7 +548,7 @@ describe('API Tests: ', () => {
   describe('Read all messages in a group', () => {
     it('returns 200 response', (done) => {
       chai.request(app)
-      .post('/api/groups/1/read/')
+      .post('/api/v1/groups/1/read/')
       .set('x-access-token', token)
       .type('form')
       .send()
@@ -562,7 +562,7 @@ describe('API Tests: ', () => {
   describe('View current logged user', () => {
     it('gets current logged in user data', (done) => {
       chai.request(app)
-      .get('/api/users/me/')
+      .get('/api/v1/users/me/')
       .set('x-access-token', token)
       .type('form')
       .send()
@@ -577,7 +577,7 @@ describe('API Tests: ', () => {
   describe('Login a user', () => {
     it('works with complete parameters', (done) => {
       chai.request(app)
-        .post('/api/users/signin/')
+        .post('/api/v1/users/signin/')
         .type('form')
         .send({
           password: 'testuser',
@@ -593,7 +593,7 @@ describe('API Tests: ', () => {
   describe('Read messages in a group', () => {
     it('returns 200', (done) => {
       chai.request(app)
-      .post('/api/users/')
+      .post('/api/v1/users/')
       .type('form')
       .send({
         username: 'newuser',
@@ -603,7 +603,7 @@ describe('API Tests: ', () => {
       })
       .end((err, res) => {
         chai.request(app)
-        .post('/api/groups/1/read')
+        .post('/api/v1/groups/1/read')
         .type('form')
         .set('x-access-token', res.body.token)
         .send()
@@ -618,7 +618,7 @@ describe('API Tests: ', () => {
   describe('Read messages in a group', () => {
     it('returns 500', (done) => {
       chai.request(app)
-      .post('/api/users/')
+      .post('/api/v1/users/')
       .type('form')
       .send({
         username: 'newuser2',
@@ -628,7 +628,7 @@ describe('API Tests: ', () => {
       })
       .end((err, res) => {
         chai.request(app)
-        .post('/api/groups/a/read')
+        .post('/api/v1/groups/a/read')
         .type('form')
         .set('x-access-token', res.body.token)
         .send()
@@ -643,7 +643,7 @@ describe('API Tests: ', () => {
   describe('Get messages in a group', () => {
     it('returns 404', (done) => {
       chai.request(app)
-      .post('/api/groups/a/messages/')
+      .post('/api/v1/groups/a/messages/')
       .type('form')
       .set('x-access-token', token)
       .send()

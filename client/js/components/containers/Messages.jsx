@@ -20,19 +20,19 @@ class Messages extends React.Component {
       messages: []
     };
     this.send = this.send.bind(this);
+    this.scrollPane = this.scrollPane.bind(this);
+
+    this.scrollOptions = {
+      ease: 'in-expo',
+      duration: 900
+    };
   }
 
   /**
    * @returns {undefined}
-   * This method is called after the component has renders
-   * It scrolls the page to the bottom so that the user can see the newest
-   * messages
    */
-  scrollPane() {
-    scrollToElement('.scroll-to', {
-      ease: 'in-expo',
-      duration: 900
-    });
+  componentWillMount() {
+    this.setState({ messages: this.props.messages });
   }
 
   /**
@@ -44,9 +44,12 @@ class Messages extends React.Component {
 
   /**
    * @returns {undefined}
+   * This method is called after the component has renders
+   * It scrolls the page to the bottom so that the user can see the newest
+   * messages
    */
-  componentWillMount() {
-    this.setState({ messages: this.props.messages });
+  scrollPane() {
+    scrollToElement('.scroll-to', this.scrollOptions);
   }
 
   /**
@@ -65,14 +68,15 @@ class Messages extends React.Component {
     this.setState({ sendStatus: 'SEND...' });
     const newMessageBody =
     `message=${content}&priority=${priority}&toGroup=${this.props.groupId}`;
-    api(newMessageBody, `/api/groups/${this.props.groupId}/message`,
+    api(newMessageBody, `/api/v1/groups/${this.props.groupId}/message`,
     'POST').then(
       (response) => {
         this.setState({ sendStatus: 'SEND' });
         const newMessage = {
           id: response.message.id,
           message: content,
-          fromUser: JSON.parse(sessionStorage.getItem('user')).userData.username,
+          fromUser: JSON.parse(sessionStorage.getItem('user'))
+          .userData.username,
           priority: priority.toLowerCase(),
           readBy
         };
@@ -90,12 +94,14 @@ class Messages extends React.Component {
       <div className="page-content align-top pl-0 col-md-7 col-lg-9">
         <div className="messages">
           { this.state.messages.map(message =>
-            <Message key={message.id} message={message}/>)
+            <Message key={message.id} message={message} />)
           }
         </div>
-        <div className="scroll-to"></div>
+        <div className="scroll-to" />
         <MessageBox
-         sendMessageDetails={this.send} sendStatus={this.state.sendStatus}/>
+          sendMessageDetails={this.send}
+          sendStatus={this.state.sendStatus}
+        />
       </div>
     );
   }

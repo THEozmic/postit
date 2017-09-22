@@ -26,10 +26,10 @@ app.get('/dist/*', (req, res) => {
   res.sendFile(path.join(__dirname, `../client/${req.originalUrl}`));
 });
 
-app.get('api/*', (req, res) => res.status(404).send({
+app.get('api/v1/*', (req, res) => res.status(404).send({
   message: 'Route not found',
 }));
-app.post('api/*', (req, res) => res.status(404).send({
+app.post('api/v1/*', (req, res) => res.status(404).send({
   message: 'Route not found',
 }));
 

@@ -5,9 +5,9 @@ import React from 'react';
  * @param {*} props
  * @returns {JSX} for Message component
  */
-const Message = ({ message }) => {
-  return (
-    <div className='message-container' key={message.id}>
+const Message = ({ message }) =>
+  (
+    <div className="message-container" key={message.id}>
       <div className="message" key={message.id}>
         <div className="message-details">
           <span className="messenger">@{message.fromUser}</span>
@@ -18,6 +18,5 @@ const Message = ({ message }) => {
       </div>
     </div>
   );
-};
 
 export default Message;

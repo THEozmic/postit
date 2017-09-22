@@ -3,4 +3,4 @@ const changeSelectedGroup = group => ({
   group
 });
 
-export default { changeSelectedGroup };
+export default changeSelectedGroup;

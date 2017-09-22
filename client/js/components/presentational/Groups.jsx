@@ -5,22 +5,24 @@ import React from 'react';
  * @returns {JSX} for Groups component
  * @param {*} props
  */
-const Groups = ({ groups }) => {
-  return (
+const Groups = ({ groups }) =>
+  (
     <div>
       { groups.length !== 0 ?
         groups.map(group =>
-          <a className="group-card" href={`#group/${group.id}`}
-          key={group.id}>
+          (<a
+            className="group-card"
+            href={`#group/${group.id}`}
+            key={group.id}
+          >
             <div className="group-name">
               <span>{group.name}</span>
               <small className="group-desc">{group.desc}</small>
             </div>
-          </a>
+          </a>)
         ) :
         'You don\'t belong to any group'
       }
     </div>);
-};
 
 export default Groups;

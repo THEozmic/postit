@@ -1,9 +1,9 @@
-import Group from './Group.jsx';
-import Messages from './Messages.jsx';
-import Dashboard from './Dashboard.jsx';
-import Register from './Register.jsx';
-import Login from './Login.jsx';
-import Header from './Header.jsx';
-import Form from './Form.jsx';
+import Group from './Group';
+import Messages from './Messages';
+import Dashboard from './Dashboard';
+import Register from './Register';
+import Login from './Login';
+import Header from './Header';
+import Form from './Form';
 
 export { Register, Login, Dashboard, Header, Group, Messages, Form };
