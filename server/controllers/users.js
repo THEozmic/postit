@@ -36,7 +36,8 @@ export default {
                 .then((savedUser) => {
                   const token = generateToken(savedUser);
                   savedUser = savedUser.filterUserDetails(savedUser);
-                  return res.status(201).send({ message: 'Signup success', user: savedUser, token });
+                  return res.status(201)
+                  .send({ message: 'Signup success', user: savedUser, token });
                 }).catch((error) => {
                   res.status(500).send({ error: error.message });
                 });
@@ -72,7 +73,8 @@ export default {
     })
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ error: 'User does not exist', status: 404 });
+        return res.status(404)
+        .send({ error: 'User does not exist', status: 404 });
       }
       const groups = user.groups;
       if (!groups) {
@@ -143,11 +145,13 @@ export default {
   },
   authenticateUser(req, res) {
     if (!req.body.username) {
-      return res.status(400).send({ error: 'Username is required', status: 400 });
+      return res.status(400)
+      .send({ error: 'Username is required', status: 400 });
     }
 
     if (!req.body.password) {
-      return res.status(400).send({ error: 'Password is required', status: 400 });
+      return res.status(400)
+      .send({ error: 'Password is required', status: 400 });
     }
 
     models.Users
@@ -158,21 +162,26 @@ export default {
             const token = generateToken(user);
             return res.status(202).send({
               token,
-              userData: { id: user.id, email: user.email, username: user.username }
+              userData:
+              { id: user.id, email: user.email, username: user.username }
             });
           }
-          return res.status(401).send({ error: 'Invalid password and username', status: 401 });
+          return res.status(401)
+          .send({ error: 'Invalid password and username', status: 401 });
         }
-        res.status(404).send({ error: 'User does not exist', status: 404 });
+        res.status(404)
+        .send({ error: 'User does not exist', status: 404 });
       })
-      .catch(error => res.status(500).send({ error: error.message, status: 500 }));
+      .catch(error => res.status(500)
+      .send({ error: error.message, status: 500 }));
   },
   searchUsers(req, res) {
     return models.Users
     .findAll({
       limit: 10,
       offset: req.params.page * 10,
-      where: { username: { $iLike: `%${req.params.term}%`, $ne: req.decoded.data.username } },
+      where: { username:
+        { $iLike: `%${req.params.term}%`, $ne: req.decoded.data.username } },
       attributes: ['id', 'username']
     })
     .then((users) => {
@@ -214,7 +223,8 @@ export default {
     }).then((result) => {
       const email = result.dataValues.email;
       const date = new Date();
-      const now = `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
+      const now =
+      `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
       if (now > result.dataValues.expiresIn) {
         res.status(400).send({ message: 'Link has expired', status: 400 });
         return;
@@ -224,7 +234,8 @@ export default {
           { password: req.body.password },
           { where: { email } }
         ).then(() =>
-          res.status(200).send({ message: 'Password Reset Successful', status: 200 })
+          res.status(200)
+          .send({ message: 'Password Reset Successful', status: 200 })
         );
     });
   },
@@ -236,21 +247,24 @@ export default {
     .digest('hex');
     const date = new Date();
     date.setHours(date.getHours() + 1);
-    const expiresIn = `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
+    const expiresIn
+    = `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(req.body.email)) {
       return res.status(400)
       .send({ error: 'Invalid email', status: 400 });
     }
     const message = `Hello ${email},\
  if you have requested for a new password, please follow \
- <a href='http://localhost:3000/#/new-password/${hash}'>this link</a> to reset your password`;
+ <a href='http://localhost:3000/#/new-password/${hash}'> \
+ this link</a> to reset your password`;
 
     models.Users
     .findOne({
       where: { email }
     }).then((foundUser) => {
       if (!foundUser) {
-        return res.status(404).send({ error: 'Email does not have an account', status: 404 });
+        return res.status(404)
+        .send({ error: 'Email does not have an account', status: 404 });
       }
       models.PasswordRequests
       .findOne({

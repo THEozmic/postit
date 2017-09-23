@@ -8,7 +8,8 @@ export default (app) => {
   // API route to request for new password
   app.post('/api/v1/users/request-password', controllers.users.passwordRequest);
   // API route to reset password
-  app.post('/api/v1/users/reset-password/:hash', controllers.users.updatePassword);
+  app.post('/api/v1/users/reset-password/:hash',
+  controllers.users.updatePassword);
   let token;
   app.use((req, res, next) => {
     token = req.headers['x-access-token'];

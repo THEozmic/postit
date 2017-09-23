@@ -10,10 +10,12 @@ export default {
       req.body.desc = 'no description';
     }
     if (req.body.name.length > 30) {
-      return res.status(400).send({ error: 'Group name too long', status: 400 });
+      return res.status(400)
+      .send({ error: 'Group name too long', status: 400 });
     }
     if (req.body.desc.length > 40) {
-      return res.status(400).send({ error: 'Group description too long', status: 400 });
+      return res.status(400)
+      .send({ error: 'Group description too long', status: 400 });
     }
     return models.Groups
       .create({
@@ -53,23 +55,34 @@ export default {
       attributes: ['id', 'name', 'desc', 'admin'],
       include: [{
         model: models.Messages,
-        attributes: ['id', 'fromUser', 'message', 'createdAt', 'priority', 'readBy'],
+        attributes:
+        [
+          'id',
+          'fromUser',
+          'message',
+          'createdAt',
+          'priority',
+          'readBy'
+        ],
         as: 'messages'
       },
       { model: models.Users,
+        attributes: ['id', 'username', 'createdAt'],
         through: {
-          attributes: ['id', 'username'],
+          attributes: []
         },
         as: 'users'
       }]
     })
     .then((group) => {
       if (!group) {
-        return res.status(404).send({ error: 'Group does not exist', status: 404 });
+        return res.status(404)
+        .send({ error: 'Group does not exist', status: 404 });
       }
       res.status(200).send(group);
     })
-    .catch(error => res.status(500).send({ error: error.message, status: 500 }));
+    .catch(error => res.status(500)
+    .send({ error: error.message, status: 500 }));
   },
   findMessages(req, res) {
     models.Messages
@@ -87,7 +100,8 @@ export default {
           ['id', 'ASC']
         ]
       })
-      .then(messages => res.status(200).send({ messages, group: req.params.id }))
+      .then(messages => res.status(200)
+      .send({ messages, group: req.params.id }))
       .catch(error => res.status(500).send({ error }));
   }
 };

@@ -4,7 +4,8 @@ import sendMail from '../helpers/sendMail';
 
 /**
  * @return {promise} array of users and their emails
- * @param {*} groupId
+ * @param {int} groupId
+ * @param {int} userId
  */
 function fetchMembersDetails(groupId, userId) {
   return new Promise((resolve, reject) => {
@@ -17,10 +18,12 @@ function fetchMembersDetails(groupId, userId) {
     }).then((groups) => {
       if (groups !== null) {
          // Here, I am getting all the groups and leveraging my associations
-        // to 'getUsers' in that groups, including their emails, which is what I need
-        groups.getUsers({ attributes: ['email', 'phone'], where: { id: { $ne: userId } } }).then((users) => {
-          resolve(users);
-        })
+        // to 'getUsers' in that groups, including
+        // their emails, which is what I need
+        groups.getUsers({ attributes: ['email', 'phone'],
+          where: { id: { $ne: userId } } }).then((users) => {
+            resolve(users);
+          })
         .catch(error => reject(error));
       }
     })
@@ -31,13 +34,16 @@ function fetchMembersDetails(groupId, userId) {
 export default {
   createMessage(req, res) {
     if (!req.body.message) {
-      return res.status(400).send({ error: 'Param message is required', status: 400 });
+      return res.status(400)
+      .send({ error: 'Param message is required', status: 400 });
     }
 
-    if (req.body.priority !== undefined && req.body.priority.toLowerCase() !== 'urgent'
+    if (req.body.priority !== undefined &&
+      req.body.priority.toLowerCase() !== 'urgent'
       && req.body.priority.toLowerCase() !== 'critical'
       && req.body.priority.toLowerCase() !== 'normal') {
-      return res.status(400).send({ error: 'Invalid priority level', status: 400 });
+      return res.status(400)
+      .send({ error: 'Invalid priority level', status: 400 });
     }
 
     models.GroupUsers
@@ -45,14 +51,16 @@ export default {
       where: { userId: req.decoded.data.id, groupId: req.params.id }
     }).then((foundUserInGroup) => {
       if (!foundUserInGroup) {
-        return res.status(401).send({ error: 'User does not belong to group', status: 401 });
+        return res.status(401)
+        .send({ error: 'User does not belong to group', status: 401 });
       }
       models.Groups
       .findOne({
         where: { id: req.params.id }
       }).then((foundGroup) => {
         if (!foundGroup) {
-          return res.status(404).send({ error: 'Group does not exist', status: 404 });
+          return res.status(404)
+          .send({ error: 'Group does not exist', status: 404 });
         }
         if (req.body.priority) {
           req.body.priority = req.body.priority.split('');
@@ -74,20 +82,25 @@ export default {
             apiSecret: process.env.NEXMO_API_SECRET || 'khnjn'
           });
 
-          // I'm now going to send the sms and emails depending on the level of priority
-          if (req.body.priority && req.body.priority.toLowerCase() === 'critical') {
-            return fetchMembersDetails(req.params.id, req.decoded.data.id).then((users) => {
+          // I'm now going to send the sms and
+          // emails depending on the level of priority
+          if (req.body.priority && req.body.priority
+            .toLowerCase() === 'critical') {
+            return fetchMembersDetails(req.params.id, req.decoded.data.id)
+            .then((users) => {
               if (users.length !== 0) {
                 users.map((user) => {
                   // send email
-                  const subject = 'POSTIT: You have a message marked as critical';
+                  const subject =
+                  'POSTIT: You have a message marked as critical';
                   sendMail(user.email, { subject, message: req.body.message });
                   // and sms
                   nexmo.message.sendSms(
                     '2347010346915',
                     user.phone,
                     `POSTIT: You have a message marked\
-    as ${req.body.priority.toUpperCase()}\n${req.body.fromUser}: ${req.body.message}
+    as ${req.body.priority.toUpperCase()}\n${req.body.fromUser}:\
+     ${req.body.message}
                     `);
                   return user;
                 });
@@ -95,8 +108,10 @@ export default {
             });
           }
 
-          if (req.body.priority && req.body.priority.toLowerCase() === 'urgent') {
-            return fetchMembersDetails(req.params.id, req.decoded.data.id).then((users) => {
+          if (req.body.priority && req.body.priority
+            .toLowerCase() === 'urgent') {
+            return fetchMembersDetails(req.params.id, req.decoded.data.id)
+            .then((users) => {
               if (users.length !== 0) {
                 users.map((user) => {
                   const subject = 'POSTIT: You have a message marked as urgent';
