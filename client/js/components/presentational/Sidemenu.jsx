@@ -7,14 +7,6 @@ import PropTypes from 'prop-types';
 class SideMenu extends React.Component {
 
   /**
-   * @param {*} props
-   */
-  constructor(props) {
-    super(props);
-    this.logout = this.logout.bind(this);
-  }
-
-  /**
    * @param {function} completeLogout
    * @returns {undefined}
    * This method removes the user token from sessionStorage
@@ -45,7 +37,10 @@ class SideMenu extends React.Component {
             >My Groups</a>
           </li>
           <li>
-            <a href="#new-group" className={active === 'create-group' ? 'active' : ''}>Create Group</a>
+            <a
+              href="#new-group"
+              className={active === 'create-group' ? 'active' : ''}
+            >Create Group</a>
           </li>
           { showSearchLink ?
             <li>
