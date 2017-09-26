@@ -61,4 +61,9 @@ class MessageBox extends React.Component {
   }
 }
 
+MessageBox.propTypes = {
+  sendMessageDetails: PropTypes.func.isRequired,
+  sendStatus: PropTypes.string.isRequired
+};
+
 export default MessageBox;

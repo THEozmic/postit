@@ -20,4 +20,7 @@ const Message = ({ message }) =>
     </div>
   );
 
+Message.propTypes = {
+  message: PropTypes.object.isRequired
+};
 export default Message;

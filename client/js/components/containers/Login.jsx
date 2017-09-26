@@ -113,5 +113,8 @@ const mapDispatchToProps = dispatch => ({
   onLoginUser: user => dispatch(loginUser(user))
 });
 
+Login.propTypes = {
+  onLoginUser: PropTypes.func.isRequired
+};
 export default connect(null, mapDispatchToProps)(Login);
 

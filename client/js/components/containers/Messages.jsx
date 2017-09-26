@@ -116,4 +116,9 @@ const mapDispatchToProps = dispatch => ({
   send: newMessage => dispatch(sendMessage(newMessage)),
 });
 
+Messages.propTypes = {
+  messages: PropTypes.array.isRequired,
+  groupId: PropTypes.number.isRequired
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(Messages);

@@ -26,4 +26,8 @@ const Groups = ({ groups }) =>
       }
     </div>);
 
+Groups.propTypes = {
+  groups: PropTypes.array.isRequired
+};
+
 export default Groups;

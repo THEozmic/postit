@@ -111,4 +111,8 @@ class NewPassword extends React.Component {
   }
 }
 
+NewPassword.propTypes = {
+  match: PropTypes.object.isRequired
+};
+
 export default NewPassword;

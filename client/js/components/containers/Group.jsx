@@ -44,7 +44,6 @@ class Group extends React.Component {
             <div className="row">
               <SideMenu
                 showSearchLink
-                user={this.props.user}
                 onLogout={this.props.onLogout}
                 onLoginUser={this.props.onLoginUser}
                 groupId={this.props.match.params.id}
@@ -83,5 +82,15 @@ const mapDispatchToProps = dispatch => ({
   onLogout: () => dispatch(logoutUser()),
   onLoginUser: user => dispatch(loginUser(user))
 });
+
+Group.propTypes = {
+  messages: PropTypes.array.isRequired,
+  match: PropTypes.object.isRequired,
+  fetchMessages: PropTypes.func.isRequired,
+  selectedGroup: PropTypes.object.isRequired,
+  onLogout: PropTypes.funct.isRequired,
+  onLoginUser: PropTypes.func.isRequired,
+  loadMessages: PropTypes.func.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Group);

@@ -112,6 +112,7 @@ class Search extends React.Component {
    * It forms the array of users whose "in-group" status need to
    * be changed
    *
+   * @param {object} event
    * @param {object} user
    */
   onSelectUser(event, user) {
@@ -176,10 +177,7 @@ class Search extends React.Component {
       last: ' group' };
 
     const members = [];
-    this.state.groupMembers.map((member) => {
-      members.push(member.username);
-    });
-
+    this.state.groupMembers.map(member => members.push(member.username));
     return (
       <Form title={title} active="search" showSideMenu>
         <div className="input-field">
@@ -224,5 +222,9 @@ class Search extends React.Component {
       </Form>);
   }
 }
+
+Search.propTypes = {
+  match: PropTypes.object.isRequired
+};
 
 export default Search;

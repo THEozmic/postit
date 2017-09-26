@@ -46,7 +46,8 @@ class Register extends React.Component {
       this.setState({ error_message: 'Error: One or more fields are empty' });
       return;
     }
-    const userString = `username=${username}&email=${email}&password=${password}&phone=${phone}`;
+    const userString =
+    `username=${username}&email=${email}&password=${password}&phone=${phone}`;
     api(userString, '/api/v1/users', 'POST', null).then(
       (_registerRes) => {
         if (_registerRes.error === undefined) {
@@ -103,7 +104,9 @@ class Register extends React.Component {
           <label htmlFor="password">Password</label>
         </div>
         { this.state.error_message === '' ? '' :
-        <div className="red card" style={{ padding: '5px 10px' }}>{this.state.error_message}</div>}
+        <div className="red card" style={{ padding: '5px 10px' }}>
+          {this.state.error_message}
+        </div>}
         <button
           id="register"
           onClick={this.onRegisterUser}
@@ -120,5 +123,9 @@ class Register extends React.Component {
 const mapDispatchToProps = dispatch => ({
   onLoginUser: user => dispatch(loginUser(user))
 });
+
+Register.propTypes = {
+  onLoginUser: PropTypes.func.isRequired
+};
 
 export default connect(null, mapDispatchToProps)(Register);
