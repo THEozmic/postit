@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Footer, Header, SideMenu } from '../presentational';
 import { Messages } from './';

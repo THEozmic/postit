@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 /**
  * The component for the side menu
  */
@@ -13,7 +15,6 @@ class SideMenu extends React.Component {
   }
 
   /**
-   * @param {object} event
    * @param {function} completeLogout
    * @returns {undefined}
    * This method removes the user token from sessionStorage

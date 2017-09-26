@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logoutUser, loginUser } from '../../actions/user';
 import { Footer, Header, SideMenu, Groups } from '../presentational';
@@ -69,5 +70,9 @@ const mapDispatchToProps = dispatch => ({
   onLogout: () => dispatch(logoutUser()),
   onLoginUser: user => dispatch(loginUser(user))
 });
+
+Dashboard.propTypes = {
+  onLogout: PropTypes.func.isRequired
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

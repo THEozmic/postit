@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
 /**
  * Header component
@@ -28,10 +27,5 @@ const Header = () => {
     </header>);
 };
 
-const mapStateToProps = state =>
-  ({
-    user: state.userData
-  });
-
-export default connect(mapStateToProps, null)(Header);
+export default Header;
 
