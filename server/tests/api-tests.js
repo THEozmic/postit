@@ -33,7 +33,7 @@ models.GroupUsers.destroy({
   restartIdentity: true
 });
 
-describe('API Tests: ', () => {
+describe('Backend Tests: ', () => {
   describe('Given the user hits the route POST /api/v1/users/', () => {
     it('It returns a 201 status when given correct parameters', (done) => {
       chai.request(app)
