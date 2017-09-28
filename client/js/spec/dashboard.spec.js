@@ -14,14 +14,16 @@ const mockStore = configureStore();
 Object.defineProperty(window, 'sessionStorage', { value: jest.fn() });
 sessionStorage.getItem = jest.fn();
 sessionStorage.setItem = jest.fn();
+const mockFn = jest.fn();
 
 
 describe('Dashboard Component', () => {
   describe('Rendering', () => {
     it('renders without crashing', () => {
-      mount(
-        <Provider store={mockStore({ runtime: {} })}><Dashboard/></Provider>
-      );
+      const tree = shallow(
+        <Dashboard onLogout={mockFn}/>
+       );
+       expect(tree).toMatchSnapshot();
     });
   });
 });

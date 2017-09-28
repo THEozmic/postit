@@ -43,9 +43,7 @@ class Dashboard extends React.Component {
         <section className="page-container container-fluid">
           <div className="container">
             <div className="row">
-              <SideMenu
-                onLogout={this.props.onLogout}
-              />
+              <SideMenu />
               <div className="section page-content align-top pl-0 col m7 l8">
                 <h5>My Groups</h5>
                 { this.state.loading === '' ?

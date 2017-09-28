@@ -91,6 +91,7 @@
       ".*": "<rootDir>/node_modules/babel-jest"
     },
     "moduleFileExtensions": [
+      "jsx",
       "js"
     ],
     "unmockedModulePathPatterns": [

@@ -28,36 +28,49 @@ const isLoggedIn = () => {
 
 const app = document.querySelector('#app');
 render(
-<Provider store={store}>
-  <Router>
-    <Switch>
-      <Route exact path='/' component={Home}/>
+  <Provider store={store}>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Home} />
 
-      <Route path='/register' component={Register}/>
+        <Route path="/register" component={Register} />
 
-      <Route path='/login' component={Login}/>
+        <Route path="/login" component={Login} />
 
-      <Route path='/dashboard' render={props =>
-      (isLoggedIn() ? (<Dashboard {...props}/>) : (<Redirect to={{ pathname: '/login' }}/>))} />
+        <Route
+          path="/dashboard"
+          render={props =>
+          (isLoggedIn() ? (<Dashboard {...props} />) :
+          (<Redirect to={{ pathname: '/login' }} />))}
+        />
 
-      <Route path='/group/:groupId/message/:messageId/views' render={props =>
-      (isLoggedIn() ? (<MessageViews {...props}/>) : (<Redirect to={{ pathname: '/login' }}/>))} />
+        <Route
+          exact
+          path="/group/:id"
+          render={props =>
+          (isLoggedIn() ? (<Group {...props} />) :
+          (<Redirect to={{ pathname: '/login' }} />))}
+        />
 
-      <Route exact path ='/group/:id' render={props =>
-      (isLoggedIn() ? (<Group {...props}/>) : (<Redirect to={{ pathname: '/login' }}/>))} />
+        <Route
+          path="/new-group"
+          render={props =>
+          (isLoggedIn() ? (<NewGroup {...props} />) :
+          (<Redirect to={{ pathname: '/login' }} />))}
+        />
 
-      <Route path ='/new-group' render={props =>
-      (isLoggedIn() ? (<NewGroup {...props}/>) : (<Redirect to={{ pathname: '/login' }}/>))} />
+        <Route
+          path="/group/:id/search"
+          render={props =>
+          (isLoggedIn() ? (<Search {...props} />) :
+          (<Redirect to={{ pathname: '/login' }} />))}
+        />
 
-      <Route path ='/group/:id/search' render={props =>
-      (isLoggedIn() ? (<Search {...props}/>) : (<Redirect to={{ pathname: '/login' }}/>))} />
+        <Route path="/recover-password" component={Recover} />
 
-      <Route path ='/recover-password' component={Recover}/>
+        <Route path="/new-password/:hash" component={NewPassword} />
 
-      <Route path ='/new-password/:hash' component={NewPassword}/>
-      <Route path ='*' component={NotFoundPage}/>
-    </Switch>
-  </Router>
-</Provider>
-,
-app);
+        <Route path="*" component={NotFoundPage} />
+      </Switch>
+    </Router>
+  </Provider>, app);

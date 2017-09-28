@@ -19,7 +19,7 @@ sessionStorage.setItem = jest.fn();
 describe('Home Component', () => {
   describe('Rendering', () => {
     it('renders without crashing', () => {
-      mount(
+      shallow(
         <Provider store={mockStore({ runtime: {} })}><Home/></Provider>
       );
     });
