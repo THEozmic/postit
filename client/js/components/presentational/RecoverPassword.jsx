@@ -46,28 +46,30 @@ class Recover extends React.Component {
    */
   render() {
     return (
-      <Form title="Recover your password" sidemenu={false}>
-        { this.state.successMessage !== '' ?
-          <div className="section" style={{ color: '#0275d8' }}>
-            { this.state.successMessage }
-          </div> :
-          <div className="input-field">
-            <input
-              type="email"
-              id="email"
-              ref={(input) => { this.email = input; }}
-            />
-            <label htmlFor="email">Email</label>
-          </div>
-        }
-        <button
-          onClick={this.onSend}
-          className="waves-effect waves-light btn action-btn"
-        >{ this.state.buttonText }</button>
-        <a
-          className="right waves-effect waves-teal btn-flat action-btn"
-          href="#login"
-        >Login</a>
+      <Form title="Recover your password" showSideMenu={false}>
+        <div>
+          { this.state.successMessage !== '' ?
+            <div className="section" style={{ color: '#0275d8' }}>
+              { this.state.successMessage }
+            </div> :
+            <div className="input-field">
+              <input
+                type="email"
+                id="email"
+                ref={(input) => { this.email = input; }}
+              />
+              <label htmlFor="email">Email</label>
+            </div>
+          }
+          <button
+            onClick={this.onSend}
+            className="waves-effect waves-light btn action-btn"
+          >{ this.state.buttonText }</button>
+          <a
+            className="right waves-effect waves-teal btn-flat action-btn"
+            href="#login"
+          >Login</a>
+        </div>
       </Form>
     );
   }

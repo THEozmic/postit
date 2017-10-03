@@ -56,35 +56,37 @@ class NewGroup extends React.Component {
         showSideMenu
         showSearchLink
       >
-        <div className="input-field">
-          <input
-            type="text"
-            id="name"
-            ref={(input) => { this.name = input; }}
-          />
-          <label htmlFor="name">Name</label>
+        <div>
+          <div className="input-field">
+            <input
+              type="text"
+              id="name"
+              ref={(input) => { this.name = input; }}
+            />
+            <label htmlFor="name">Name</label>
+          </div>
+          <div className="input-field">
+            <input
+              type="text"
+              id="desc"
+              ref={(input) => { this.desc = input; }}
+            />
+            <label htmlFor="desc">Description</label>
+          </div>
+          { this.state.errorMessage === '' ? '' :
+          <div
+            className="red card"
+            style={{ padding: '5px 10px' }}
+          >{this.state.errorMessage}</div>}
+          <button
+            className="waves-effect waves-light btn action-btn"
+            onClick={this.onCreateGroup}
+          >Create</button>
+          <a
+            className="right waves-effect waves-teal btn-flat action-btn"
+            href="/#/dashboard"
+          >Cancel</a>
         </div>
-        <div className="input-field">
-          <input
-            type="text"
-            id="desc"
-            ref={(input) => { this.desc = input; }}
-          />
-          <label htmlFor="desc">Description</label>
-        </div>
-        { this.state.errorMessage === '' ? '' :
-        <div
-          className="red card"
-          style={{ padding: '5px 10px' }}
-        >{this.state.errorMessage}</div>}
-        <button
-          className="waves-effect waves-light btn action-btn"
-          onClick={this.onCreateGroup}
-        >Create</button>
-        <a
-          className="right waves-effect waves-teal btn-flat action-btn"
-          href="/#/dashboard"
-        >Cancel</a>
       </Form>
     );
   }

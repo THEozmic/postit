@@ -69,7 +69,8 @@ class Search extends React.Component {
    */
   onFinishClick(event) {
     event.preventDefault();
-    api(`usersIds=${JSON.stringify(this.state.selectedUsers)}`, `/api/v1/groups/${this.state.selectedGroup.id}/user/`, 'POST')
+    api(`usersIds=${JSON.stringify(this.state.selectedUsers)}`,
+    `/api/v1/groups/${this.state.selectedGroup.id}/user/`, 'POST')
     .then((result) => {
       if (result.status < 400 && result.status > 199) {
         history.back();
@@ -180,45 +181,47 @@ class Search extends React.Component {
     this.state.groupMembers.map(member => members.push(member.username));
     return (
       <Form title={title} active="search" showSideMenu>
-        <div className="input-field">
-          <input
-            type="text"
-            id="search"
-            onChange={() => this.onSearchChange()}
-            ref={(input) => { this.term = input; }}
-          />
-          <label htmlFor="search">Search by username</label>
-        </div>
-        <div className="search-results">
-          {this.state.foundUsers.map(fUser =>
-            (
-              <button
-                key={fUser.id}
-                onClick={event => this.onSelectUser(event, fUser)}
-                className={fUser.ingroup ? 'ingroup' : ''}
-              >{fUser.ingroup ? <span>&#10004; </span> : ''}
-              @{fUser.username}</button>)
-          )}
-          <div className="search-pages">
-            <button
-              onClick={() => this.onPageChange('prev')}
-              className="search-prev"
-            >Prev</button>
-            <span>{this.state.prevPage + 1}</span>
-            <button
-              onClick={() => this.onPageChange('next')}
-              className="search-next"
-            >Next</button>
+        <div>
+          <div className="input-field">
+            <input
+              type="text"
+              id="search"
+              onChange={() => this.onSearchChange()}
+              ref={(input) => { this.term = input; }}
+            />
+            <label htmlFor="search">Search by username</label>
           </div>
+          <div className="search-results">
+            {this.state.foundUsers.map(fUser =>
+              (
+                <button
+                  key={fUser.id}
+                  onClick={event => this.onSelectUser(event, fUser)}
+                  className={fUser.ingroup ? 'ingroup' : ''}
+                >{fUser.ingroup ? <span>&#10004; </span> : ''}
+                @{fUser.username}</button>)
+            )}
+            <div className="search-pages">
+              <button
+                onClick={() => this.onPageChange('prev')}
+                className="search-prev"
+              >Prev</button>
+              <span>{this.state.prevPage + 1}</span>
+              <button
+                onClick={() => this.onPageChange('next')}
+                className="search-next"
+              >Next</button>
+            </div>
+          </div>
+          <button
+            className="waves-effect waves-light btn action-btn"
+            onClick={this.onFinishClick}
+          >Finish</button>
+          <a
+            className="right waves-effect waves-teal btn-flat action-btn"
+            href={`#/group/${this.state.selectedGroup.id}`}
+          >Cancel</a>
         </div>
-        <button
-          className="waves-effect waves-light btn action-btn"
-          onClick={this.onFinishClick}
-        >Finish</button>
-        <a
-          className="right waves-effect waves-teal btn-flat action-btn"
-          href={`#/group/${this.state.selectedGroup.id}`}
-        >Cancel</a>
       </Form>);
   }
 }

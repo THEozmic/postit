@@ -68,42 +68,44 @@ class Login extends React.Component {
       return null;
     }
     return (
-      <Form title="Login to your account" sidemenu={false}>
-        <div className="input-field">
-          <input
-            onFocus={this.onFocus}
-            type="text"
-            id="username"
-            ref={(input) => { this.username = input; }}
-          />
-          <label htmlFor="username">Username</label>
+      <Form title="Login to your account" showSideMenu={false}>
+        <div>
+          <div className="input-field">
+            <input
+              onFocus={this.onFocus}
+              type="text"
+              id="username"
+              ref={(input) => { this.username = input; }}
+            />
+            <label htmlFor="username">Username</label>
+          </div>
+          <div className="input-field">
+            <input
+              onFocus={this.onFocus}
+              type="password"
+              id="password"
+              ref={(input) => { this.password = input; }}
+            />
+            <label htmlFor="password">Password</label>
+          </div>
+          { this.state.error_message === '' ? '' :
+          <div
+            className="red card"
+            style={{ padding: '5px 10px' }}
+          >{this.state.error_message}</div>}
+          <div className="section">
+            <a href="#recover-password">Forgot Password?</a>
+          </div>
+          <button
+            id="login"
+            onClick={this.onLoginUser}
+            className="waves-effect waves-light btn action-btn"
+          >Login</button>
+          <a
+            className="right waves-effect waves-teal btn-flat action-btn"
+            href="#register"
+          >Register</a>
         </div>
-        <div className="input-field">
-          <input
-            onFocus={this.onFocus}
-            type="password"
-            id="password"
-            ref={(input) => { this.password = input; }}
-          />
-          <label htmlFor="password">Password</label>
-        </div>
-        { this.state.error_message === '' ? '' :
-        <div
-          className="red card"
-          style={{ padding: '5px 10px' }}
-        >{this.state.error_message}</div>}
-        <div className="section">
-          <a href="#recover-password">Forgot Password?</a>
-        </div>
-        <button
-          id="login"
-          onClick={this.onLoginUser}
-          className="waves-effect waves-light btn action-btn"
-        >Login</button>
-        <a
-          className="right waves-effect waves-teal btn-flat action-btn"
-          href="#register"
-        >Register</a>
       </Form>
     );
   }

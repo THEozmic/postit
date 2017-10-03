@@ -24,10 +24,6 @@ class Dashboard extends React.Component {
    * @return {undefined}
   */
   componentWillMount() {
-    if (sessionStorage.getItem('user') === null) {
-      location.hash = '#login';
-      return;
-    }
     api(null, '/api/v1/users/me/', 'GET').then((response) => {
       this.setState({ groups: response.user.groups, loading: '' });
     });
@@ -43,7 +39,7 @@ class Dashboard extends React.Component {
         <section className="page-container container-fluid">
           <div className="container">
             <div className="row">
-              <SideMenu />
+              <SideMenu onLogout={this.props.onLogout} />
               <div className="section page-content align-top pl-0 col m7 l8">
                 <h5>My Groups</h5>
                 { this.state.loading === '' ?

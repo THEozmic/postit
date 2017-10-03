@@ -62,10 +62,11 @@ class SideMenu extends React.Component {
 SideMenu.defaultProps = {
   showSearchLink: false,
   groupId: 0,
+  active: 'dashboard'
 };
 
 SideMenu.propTypes = {
-  active: PropTypes.string.isRequired,
+  active: PropTypes.string,
   showSearchLink: PropTypes.bool,
   onLogout: PropTypes.func.isRequired,
   groupId: PropTypes.number

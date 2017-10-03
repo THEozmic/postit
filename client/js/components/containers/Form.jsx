@@ -8,7 +8,8 @@ import { logoutUser, loginUser } from '../../actions/user';
  * Form component
  * @returns {JSX} for Form component
  */
-const Form = ({ showSideMenu, active, onLogout, onLoginUser, children, title }) =>
+const Form =
+({ showSideMenu, active = 'dashboard', onLogout, onLoginUser, children, title }) =>
   (
     <div>
       <Header />
@@ -57,13 +58,21 @@ const mapDispatchToProps = dispatch =>
     onLoginUser: user => dispatch(loginUser(user))
   });
 
+Form.defaultProps = {
+  title: '',
+  active: 'dashboard'
+};
+
 Form.propTypes = {
   showSideMenu: PropTypes.bool.isRequired,
-  active: PropTypes.string.isRequired,
+  active: PropTypes.string,
   onLogout: PropTypes.func.isRequired,
   onLoginUser: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
-  title: PropTypes.object.isRequired
+  title: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ])
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

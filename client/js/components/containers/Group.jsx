@@ -46,7 +46,7 @@ class Group extends React.Component {
                 showSearchLink
                 onLogout={this.props.onLogout}
                 onLoginUser={this.props.onLoginUser}
-                groupId={this.props.match.params.id}
+                groupId={parseInt(this.props.match.params.id, 10)}
               />
               <div className="section page-content align-top pl-0 col m7 l8">
                 <div className="group-header-container">
@@ -58,8 +58,7 @@ class Group extends React.Component {
                 { this.state.loading !== '' ? this.state.loading :
                 <Messages
                   messages={this.props.messages}
-                  loadMessages={this.props.loadMessages}
-                  groupId={this.props.match.params.id}
+                  groupId={parseInt(this.props.match.params.id, 10)}
                 /> }
               </div>
             </div>
@@ -88,9 +87,8 @@ Group.propTypes = {
   match: PropTypes.object.isRequired,
   fetchMessages: PropTypes.func.isRequired,
   selectedGroup: PropTypes.object.isRequired,
-  onLogout: PropTypes.funct.isRequired,
+  onLogout: PropTypes.func.isRequired,
   onLoginUser: PropTypes.func.isRequired,
-  loadMessages: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Group);
