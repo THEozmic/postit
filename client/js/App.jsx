@@ -1,17 +1,26 @@
+/* global sessionStorage */
 import React from 'react';
 import { Provider } from 'react-redux';
 import jwt from 'jsonwebtoken';
-import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import axios from 'axios';
+import { HashRouter as Router, Route, Switch, Redirect }
+from 'react-router-dom';
 import { render } from 'react-dom';
 import 'jquery/dist/jquery';
 import 'materialize-css';
 import 'materialize-css/dist/css/materialize.min.css';
 import '../scss/index.scss';
 import configureStore from './stores/configureStore';
-import { Search, Home, NewGroup, Recover, NewPassword, NotFoundPage } from './components/presentational';
+import { Search, Home, NewGroup, Recover, NewPassword, NotFoundPage }
+from './components/presentational';
 import { Group, Register, Login, Dashboard } from './components/containers';
 
 const store = configureStore();
+
+if (sessionStorage.user) {
+  axios.defaults.headers.common['x-access-token'] =
+  JSON.parse(sessionStorage.user).token;
+}
 
 const isTokenExpired = () => {
   const token = jwt.decode(JSON.parse(sessionStorage.getItem('user')).token);
