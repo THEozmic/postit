@@ -14,7 +14,10 @@ const sendMessage = newMessage => ({
 const fetchMessages = groupId => function action(dispatch) {
   const request = axios({
     method: 'GET',
-    url: `/api/v1/groups/${groupId}`
+    url: `/api/v1/groups/${groupId}`,
+    headers: [
+      { 'x-access-token': JSON.parse(sessionStorage.getItem('users')).token }
+    ]
   });
   return request.then(
     (response) => {
