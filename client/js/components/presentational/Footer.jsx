@@ -19,7 +19,7 @@ const Footer = () =>
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://twitter.com/THEozmic"
+              href="//twitter.com/THEozmic"
             >@THEozmic</a>
           </div>
         </section>
