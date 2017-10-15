@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import bcrypt from 'bcrypt-nodejs';
 import models from '../models';
 import { sendMail, validateNewUser, generateToken } from '../helpers';
 
@@ -158,17 +159,28 @@ export default {
       .findOne({ where: { username: [req.body.username.toLowerCase()] } })
       .then((user) => {
         if (user) {
+          console.log(user, 'userrr');
+          console.log('gets here');
+          console.log(req.body.password, 'password---here');
           if (user.isValidPassword(req.body.password, user)) {
+            console.log('---------');
             const token = generateToken(user);
+            console.log('gets here 2');
+
             return res.status(202).send({
               token,
               userData:
               { id: user.id, email: user.email, username: user.username }
             });
           }
+          console.log('gets here 3');
+
           return res.status(401)
           .send({ error: 'Invalid password and username', status: 401 });
         }
+
+        console.log('gets here 4');
+
         res.status(404)
         .send({ error: 'User does not exist', status: 404 });
       })
@@ -231,7 +243,9 @@ export default {
       }
       return models.Users
         .update(
-          { password: req.body.password },
+        { password:
+          bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(5))
+        },
           { where: { email } }
         ).then(() =>
           res.status(200)
@@ -287,8 +301,9 @@ export default {
             sendMail(email, { subject: 'Password Reset Request', message });
           });
         }
+        return res.status(200)
+        .send({ message: 'Request made', status: 200 });
       });
-      res.status(200).send({ message: 'Request made', status: 200 });
     });
   }
 };
