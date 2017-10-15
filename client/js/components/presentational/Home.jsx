@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Footer, Header } from './';
 
 /**
@@ -24,16 +25,16 @@ const Home = () =>
           <div> 4. Post away!</div>
         </div>
         <div className="action-buttons">
-          <a
+          <Link
             id="create-account"
-            href="#register"
+            to="register"
             className="waves-effect waves-light btn action-btn"
-          >Create an account</a>
-          <a
+          >Create an account</Link>
+          <Link
             id="login"
-            href="#login"
+            to="login"
             className="waves-effect waves-light btn action-btn"
-          >Login</a>
+          >Login</Link>
         </div>
       </div>
     </section>

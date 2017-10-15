@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 /**
  * NotFoundPage component
@@ -6,7 +7,7 @@ import React from 'react';
  */
 const NotFoundPage = () =>
   (
-    <div><h5>Page not found.</h5> <a href="#/dashboard">Go Back?</a></div>
+    <div><h5>Page not found.</h5> <Link to="/dashboard">Go Back?</Link></div>
   );
 
 export default NotFoundPage;

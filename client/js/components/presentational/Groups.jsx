@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 /**
  * Groups component
@@ -11,16 +12,16 @@ const Groups = ({ groups }) =>
     <div>
       { groups.length !== 0 ?
         groups.map(group =>
-          (<a
+          (<Link
             className="group-card"
-            href={`#group/${group.id}`}
+            to={`group/${group.id}`}
             key={group.id}
           >
             <div className="group-name">
               <span>{group.name}</span>
               <small className="group-desc">{group.desc}</small>
             </div>
-          </a>)
+          </Link>)
         ) :
         'You don\'t belong to any group'
       }

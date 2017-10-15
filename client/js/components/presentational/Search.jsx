@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Form } from './';
-import api from '../helpers/api';
+import { apiFetchGroup, apiSearch, apiUpdateMembers } from '../../actions/';
 
 /**
  * The component for the search page
@@ -28,19 +30,22 @@ class Search extends React.Component {
   }
 
   /**
-   * @returns {undefined}
+   * @returns {void}
    */
   componentWillMount() {
     const id = this.props.match.params.id;
-    api(null, `/api/v1/groups/${id}`, 'GET')
-    .then((result) => {
-      this.setState({ selectedGroup: result, groupMembers: result.users });
+    this.props.apiFetchGroup(id, false)
+    .then(() => {
+      this.setState({
+        selectedGroup: this.props.selectedGroup,
+        groupMembers: this.props.selectedGroup.users
+      });
     });
   }
 
   /**
    * @param {int} page
-   * @returns {undefined}
+   * @returns {void}
    * This method simply updates the state of the "next" and "prev"
    * buttons when they are clicked
    */
@@ -62,54 +67,49 @@ class Search extends React.Component {
 
   /**
    * @param {object} event
-   * @returns {undefined} this returns nothing
+   * @returns {void} this returns nothing
    * It is called when the "Finish" button is clicked
    * It sends the list of users whose "in-group" status of the
    * selected group needs to be changed
    */
   onFinishClick(event) {
     event.preventDefault();
-    api(`usersIds=${JSON.stringify(this.state.selectedUsers)}`,
-    `/api/v1/groups/${this.state.selectedGroup.id}/user/`, 'POST')
-    .then((result) => {
-      if (result.status < 400 && result.status > 199) {
-        history.back();
-        Materialize.toast('Group members list updated!', 4000);
-      }
+    const selectedUsers = JSON.stringify(this.state.selectedUsers);
+    this.props.apiUpdateMembers(selectedUsers, this.props.selectedGroup.id)
+    .then(() => {
+      history.back();
+      Materialize.toast('Group members list updated!', 4000);
     });
   }
 
   /**
    * @param {int} page
-   * @returns {undefined} returns nothing
+   * @returns {void} returns nothing
    * only requests for the search results
    * it's called when the search input value changes
    */
   onSearchChange(page = this.state.prevPage + 1) {
     this.setState({ foundUsers: [] });
     if (this.term.value.trim() !== '') {
-      api(null,
-        `/api/v1/search/${this.state.selectedGroup.id}/${this.term.value.trim()}/${page - 1}`,
-        'GET')
-        .then(
-        (searchData) => {
-          const nUsers = searchData.users.map((user) => {
-            this.state.selectedUsers.map((sUser) => {
-              if (sUser.id === user.id) {
-                user.ingroup = true;
-              }
-              return searchData;
-            });
-            return user;
+      this.props.apiSearch(this.props.selectedGroup.id, this.term.value, page)
+      .then(() => {
+        const searchData = this.props.searchData;
+        const nUsers = searchData.users.map((user) => {
+          this.state.selectedUsers.map((sUser) => {
+            if (sUser.id === user.id) {
+              user.ingroup = true;
+            }
+            return searchData;
           });
-          this.setState({ foundUsers: nUsers });
-        }
-      );
+          return user;
+        });
+        this.setState({ foundUsers: nUsers });
+      });
     }
   }
 
   /**
-   * @returns {undefined} this method doesn't return anything
+   * @returns {void} this method doesn't return anything
    * It forms the array of users whose "in-group" status need to
    * be changed
    *
@@ -157,7 +157,7 @@ class Search extends React.Component {
    */
   isAdmin() {
     if (this.state.selectedGroup.admin ===
-      JSON.parse(sessionStorage.getItem('user')).userData.id) {
+      JSON.parse(sessionStorage.getItem('user')).id) {
       return true;
     }
     return false;
@@ -217,17 +217,36 @@ class Search extends React.Component {
             className="waves-effect waves-light btn action-btn"
             onClick={this.onFinishClick}
           >Finish</button>
-          <a
+          <Link
             className="right waves-effect waves-teal btn-flat action-btn"
-            href={`#/group/${this.state.selectedGroup.id}`}
-          >Cancel</a>
+            to={`group/${this.state.selectedGroup.id}`}
+          >Cancel</Link>
         </div>
       </Form>);
   }
 }
 
 Search.propTypes = {
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  apiFetchGroup: PropTypes.func.isRequired,
+  selectedGroup: PropTypes.object.isRequired,
+  apiSearch: PropTypes.func.isRequired,
+  searchData: PropTypes.object.isRequired,
+  apiUpdateMembers: PropTypes.func.isRequired
 };
 
-export default Search;
+const mapStateToProps = state => ({
+  selectedGroup: state.selectedGroup,
+  searchData: state.search
+});
+
+const mapDispatchToProps = dispatch => ({
+  apiFetchGroup: (groupId, withMessages) =>
+  dispatch(apiFetchGroup(groupId, withMessages)),
+  apiSearch: (groupId, searchTerm, page) =>
+  dispatch(apiSearch(groupId, searchTerm, page)),
+  apiUpdateMembers: (selectedUsers, groupId) =>
+  dispatch(apiUpdateMembers(selectedUsers, groupId))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
