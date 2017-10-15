@@ -16,7 +16,7 @@ class MessageBox extends React.Component {
   }
 
   /**
-   * @returns {undefined}
+   * @returns {void}
    */
   sendMessageDetails() {
     this.props.sendMessageDetails(this.priority, this.content);
@@ -49,7 +49,7 @@ class MessageBox extends React.Component {
           </div>
           <div className="right">
             <button
-              disabled={this.props.sendStatus === 'SEND...'}
+              disabled={this.props.sendStatus === 'SENDING'}
               className="btn btn-primary"
               onClick={this.sendMessageDetails}
             >
