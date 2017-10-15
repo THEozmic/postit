@@ -12,7 +12,7 @@ import {
   registerUser
 } from '../actions';
 
-import changeSelectedGroup from '../actions/group';
+import { changeSelectedGroup } from '../actions/group';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

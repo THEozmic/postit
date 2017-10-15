@@ -1,6 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Form } from './';
-import api from '../helpers/api';
+import { apiRequestPassword } from '../../actions/user';
+
 
 /**
  * Recover component
@@ -19,26 +23,25 @@ class Recover extends React.Component {
   }
 
   /**
-   * @returns {undefined}
+   * @returns {void}
    * @param {*} event
    */
   onSend(event) {
     event.preventDefault();
     if (this.state.buttonText === 'Okay') {
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
       location.hash = '#login';
       return;
     }
-    api(`email=${this.email.value}`,
-    '/api/v1/users/request-password/', 'POST').then(
-      (response) => {
-        if (response.data.error === undefined) {
-          this.setState({
-            successMessage: 'A password reset link has been sent to that email',
-            buttonText: 'Okay'
-          });
-        }
-      }
-    );
+
+    this.props.apiRequestPassword(this.email.value)
+    .then(() => {
+      this.setState({
+        successMessage: 'A password reset link has been sent to that email',
+        buttonText: 'Okay'
+      });
+    });
   }
 
   /**
@@ -65,14 +68,23 @@ class Recover extends React.Component {
             onClick={this.onSend}
             className="waves-effect waves-light btn action-btn"
           >{ this.state.buttonText }</button>
-          <a
+          <Link
             className="right waves-effect waves-teal btn-flat action-btn"
-            href="#login"
-          >Login</a>
+            to="/login"
+          >Login</Link>
         </div>
       </Form>
     );
   }
 }
 
-export default Recover;
+Recover.propTypes = {
+  apiRequestPassword: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => ({
+  apiRequestPassword: email =>
+  dispatch(apiRequestPassword(email))
+});
+
+export default connect(null, mapDispatchToProps)(Recover);

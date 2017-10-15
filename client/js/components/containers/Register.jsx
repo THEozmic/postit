@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form } from './';
-import { loginUser } from '../../actions/user';
-import api from '../helpers/api';
+import { apiRegisterUser } from '../../actions/user';
 
 /**
  * Register component
@@ -23,7 +23,7 @@ class Register extends React.Component {
   }
 
   /**
-   * @returns {undefined}
+   * @returns {void}
    * This method is called when the user focuses on the input,
    * if there's an error relating to that input, it clears it.
    */
@@ -32,7 +32,7 @@ class Register extends React.Component {
   }
 
   /**
-   * @returns {undefined}
+   * @returns {void}
    * @param {*} event
    */
   onRegisterUser(event) {
@@ -46,19 +46,7 @@ class Register extends React.Component {
       this.setState({ error_message: 'Error: One or more fields are empty' });
       return;
     }
-    const userString =
-    `username=${username}&email=${email}&password=${password}&phone=${phone}`;
-    api(userString, '/api/v1/users', 'POST', null).then(
-      (_registerRes) => {
-        if (_registerRes.error === undefined) {
-          this.props.onLoginUser(JSON.stringify(_registerRes));
-          sessionStorage.setItem('user', JSON.stringify(_registerRes));
-          location.hash = '#dashboard';
-        } else {
-          this.setState({ error_message: _registerRes.error });
-        }
-      }
-    );
+    this.props.apiRegisterUser({ username, email, password, phone });
   }
 
   /**
@@ -113,21 +101,23 @@ class Register extends React.Component {
             onClick={this.onRegisterUser}
             className="waves-effect waves-light btn action-btn"
           >Register</button>
-          <a
+          <Link
             className="right waves-effect waves-teal btn-flat action-btn"
-            href="#login"
-          >Login</a>
+            to="login"
+          >Login</Link>
         </div>
       </Form>
     );
   }
 }
 const mapDispatchToProps = dispatch => ({
-  onLoginUser: user => dispatch(loginUser(user))
+  apiRegisterUser: ({ username, email, password, phone }) =>
+  dispatch(apiRegisterUser({ username, email, password, phone }))
+
 });
 
 Register.propTypes = {
-  onLoginUser: PropTypes.func.isRequired
+  apiRegisterUser: PropTypes.func.isRequired
 };
 
 export default connect(null, mapDispatchToProps)(Register);

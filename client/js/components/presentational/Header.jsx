@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
 /**
  * Header component
  * @param {*} props
@@ -8,13 +10,13 @@ import PropTypes from 'prop-types';
 const Header = ({ username }) =>
   (<header className="page-header">
     <div className="container">
-      <a
+      <Link
         className="page-title justify-content-center align-items-center"
-        href="/#/"
+        to="/"
       >
       Post
       <span>It</span>
-      </a>
+      </Link>
       { username !== '' ?
         <span className="user-greeting">Hi, { username }</span>
       : ''}

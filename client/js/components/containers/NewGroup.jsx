@@ -1,6 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Form } from './';
-import api from '../helpers/api';
+import { apiCreateGroup } from '../../actions/user';
+
 
 /**
  * NewGroup component
@@ -18,7 +22,7 @@ class NewGroup extends React.Component {
     };
   }
   /**
-   * @returns {undefined}
+   * @returns {void}
    * @param {object} event
    */
   onCreateGroup(event) {
@@ -27,22 +31,14 @@ class NewGroup extends React.Component {
       this.setState({ error: 'Error: One or more fields are empty' });
       return;
     }
-    if (sessionStorage.getItem('user') === null) {
-      location.hash = '#login';
-      return;
-    }
     if (this.name.value.length > 30) {
       return this.setState({ errorMessage: 'Group name too long' });
     }
-    if (this.name.value.length > 40) {
+    if (this.desc.value.length > 50) {
       return this.setState({ errorMessage: 'Group description too long' });
     }
-    api(`name=${this.name.value}&desc=${this.desc.value}`,
-    '/api/v1/groups', 'POST').then(
-      () => {
-        location.hash = '#dashboard';
-      }
-    );
+
+    this.props.apiCreateGroup({ name: this.name.value, desc: this.desc.value });
   }
 
   /**
@@ -82,15 +78,23 @@ class NewGroup extends React.Component {
             className="waves-effect waves-light btn action-btn"
             onClick={this.onCreateGroup}
           >Create</button>
-          <a
+          <Link
             className="right waves-effect waves-teal btn-flat action-btn"
-            href="/#/dashboard"
-          >Cancel</a>
+            to="/dashboard"
+          >Cancel</Link>
         </div>
       </Form>
     );
   }
 }
 
+NewGroup.propTypes = {
+  apiCreateGroup: PropTypes.func.isRequired,
+};
 
-export default NewGroup;
+const mapDispatchToProps = dispatch => ({
+  apiCreateGroup: ({ name, desc }) =>
+  dispatch(apiCreateGroup({ name, desc }))
+});
+
+export default connect(null, mapDispatchToProps)(NewGroup);

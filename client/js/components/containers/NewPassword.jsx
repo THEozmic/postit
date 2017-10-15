@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Form } from './';
-import api from '../helpers/api';
+import { apiResetPassword } from '../../actions/user';
 
 /**
  * NewPassword component
@@ -23,7 +25,7 @@ class NewPassword extends React.Component {
   }
 
   /**
-   * @returns {undefined}
+   * @returns {void}
    * This method is called when the user focuses on the input,
    * if there's an error relating to that input, it clears it.
    */
@@ -32,12 +34,13 @@ class NewPassword extends React.Component {
   }
 
   /**
-   * @returns {undefined}
+   * @returns {void}
    * @param {*} event
    */
   onSubmitPassword(event) {
+    console.log('props user', this.props.user);
     event.preventDefault();
-    if (this.state.resetText === 'Okay') {
+    if (this.props.user.btnText === 'Okay') {
       location.hash = '#login';
       return;
     }
@@ -48,16 +51,15 @@ class NewPassword extends React.Component {
     if (this.password.value !== '') {
       const hash = this.props.match.params.hash;
       if (hash === undefined) {
-        location.hash = '#login';
+        this.setState({ error: 'Invalid hash.' });
         return;
       }
-      api(`password=${this.password.value}`,
-      `/api/v1/users/reset-password/${hash}`, 'POST')
+
+      this.props.apiResetPassword({ password: this.password.value, hash })
       .then(() => {
-        this.setState({
-          success: 'Password reset successful',
-          resetText: 'Okay'
-        });
+        if (this.props.user.message !== 'Password Reset Successful') {
+          this.setState({ error: 'An unexpected error occurred' });
+        }
       });
     }
   }
@@ -69,7 +71,7 @@ class NewPassword extends React.Component {
     return (
       <Form title="Reset Password" showSideMenu={false}>
         <div>
-          { this.state.success === '' ?
+          { this.props.user.message !== 'Password Reset Successful' ?
             <div>
               <div className="input-field">
                 <input
@@ -91,7 +93,7 @@ class NewPassword extends React.Component {
               </div>
             </div> :
             <div className="section" style={{ color: '#0275d8' }}>
-              {this.state.success}
+              {this.props.user.message}
             </div>
           }
           { this.state.error === '' ? '' :
@@ -102,11 +104,11 @@ class NewPassword extends React.Component {
           <button
             onClick={this.onSubmitPassword}
             className="waves-effect waves-light btn action-btn"
-          >{this.state.resetText}</button>
-          <a
+          >{this.props.user.btnText || 'Update Password'}</button>
+          <Link
             className="right waves-effect waves-teal btn-flat action-btn"
-            href="#login"
-          >Login</a>
+            to="/login"
+          >Login</Link>
         </div>
       </Form>
     );
@@ -114,7 +116,18 @@ class NewPassword extends React.Component {
 }
 
 NewPassword.propTypes = {
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  apiResetPassword: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired
 };
 
-export default NewPassword;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+const mapDispatchToProps = dispatch => ({
+  apiResetPassword: ({ password, hash }) =>
+  dispatch(apiResetPassword({ password, hash }))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewPassword);

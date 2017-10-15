@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logoutUser, loginUser } from '../../actions/user';
+import { logoutUser, apiGetCurrentUser } from '../../actions/user';
 import { Footer, Header, SideMenu, Groups } from '../presentational';
-import api from '../helpers/api';
 
 /**
  * Dashboard component
@@ -15,17 +14,19 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      groups: [],
       loading: 'Loading...'
     };
   }
 
   /**
-   * @return {undefined}
+   * @return {void}
   */
   componentWillMount() {
-    api(null, '/api/v1/users/me/', 'GET').then((response) => {
-      this.setState({ groups: response.user.groups, loading: '' });
+    this.props.apiGetCurrentUser(sessionStorage.getItem('token'))
+    .then(() => {
+      this.setState({
+        loading: ''
+      });
     });
   }
 
@@ -42,8 +43,11 @@ class Dashboard extends React.Component {
               <SideMenu onLogout={this.props.onLogout} />
               <div className="section page-content align-top pl-0 col m7 l8">
                 <h5>My Groups</h5>
-                { this.state.loading === '' ?
-                  <Groups groups={this.state.groups} />
+                { this.state.loading === '' &&
+                 this.props.user.groups !== undefined ?
+                   <Groups
+                     groups={this.props.user.groups}
+                   />
                   : this.state.loading
                 }
               </div>
@@ -57,16 +61,18 @@ class Dashboard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.userData
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
   onLogout: () => dispatch(logoutUser()),
-  onLoginUser: user => dispatch(loginUser(user))
+  apiGetCurrentUser: token => dispatch(apiGetCurrentUser(token))
 });
 
 Dashboard.propTypes = {
-  onLogout: PropTypes.func.isRequired
+  onLogout: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  apiGetCurrentUser: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

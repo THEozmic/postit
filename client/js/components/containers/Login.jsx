@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Form } from './';
-import { loginUser } from '../../actions/user';
-import api from '../helpers/api';
+import { apiLoginUser } from '../../actions/user';
 
 /**
  * Login component
@@ -22,7 +22,7 @@ class Login extends React.Component {
   }
 
   /**
-   * @returns {undefined}
+   * @returns {void}
    * This method is called when the user focuses on the input,
    * if there's an error relating to that input, it clears it.
    */
@@ -32,7 +32,7 @@ class Login extends React.Component {
 
   /**
    * @param {*} event
-   * @returns {undefined}
+   * @returns {void}
    * This method is called when the user clicks on "Login"
    * It gets the form values and makes an api call
    */
@@ -42,18 +42,7 @@ class Login extends React.Component {
     username = username.value.trim();
     password = password.value;
     if (username !== '' || password !== '') {
-      const userString = `username=${username}&password=${password}`;
-      api(userString, '/api/v1/users/signin', 'POST').then(
-        (_loginRes) => {
-          if (_loginRes.error === undefined) {
-            this.props.onLoginUser(JSON.stringify(_loginRes));
-            sessionStorage.setItem('user', JSON.stringify(_loginRes));
-            location.hash = '#dashboard';
-          } else {
-            this.setState({ error_message: _loginRes.error });
-          }
-        }
-      );
+      this.props.apiLoginUser({ username, password });
     } else {
       this.setState({ error_message: 'Error: One or more fields are empty' });
     }
@@ -63,10 +52,6 @@ class Login extends React.Component {
    * @returns {JSX} for Login component
    */
   render() {
-    if (sessionStorage.getItem('user') !== null) {
-      location.hash = '#dashboard';
-      return null;
-    }
     return (
       <Form title="Login to your account" showSideMenu={false}>
         <div>
@@ -94,17 +79,17 @@ class Login extends React.Component {
             style={{ padding: '5px 10px' }}
           >{this.state.error_message}</div>}
           <div className="section">
-            <a href="#recover-password">Forgot Password?</a>
+            <Link to="recover-password">Forgot Password?</Link>
           </div>
           <button
             id="login"
             onClick={this.onLoginUser}
             className="waves-effect waves-light btn action-btn"
           >Login</button>
-          <a
+          <Link
             className="right waves-effect waves-teal btn-flat action-btn"
-            href="#register"
-          >Register</a>
+            to="register"
+          >Register</Link>
         </div>
       </Form>
     );
@@ -112,11 +97,12 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onLoginUser: user => dispatch(loginUser(user))
+  apiLoginUser: ({ username, password }) =>
+   dispatch(apiLoginUser({ username, password })),
 });
 
 Login.propTypes = {
-  onLoginUser: PropTypes.func.isRequired
+  apiLoginUser: PropTypes.func.isRequired,
 };
 export default connect(null, mapDispatchToProps)(Login);
 

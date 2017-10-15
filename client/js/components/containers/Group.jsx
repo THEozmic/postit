@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Footer, Header, SideMenu } from '../presentational';
 import { Messages } from './';
-import { fetchMessages } from '../../actions/message';
+import { apiFetchGroup } from '../../actions/message';
 import { logoutUser, loginUser } from '../../actions/user';
 
 /**
@@ -23,11 +23,11 @@ class Group extends React.Component {
   }
 
   /**
-   * @returns {undefined}
+   * @returns {void}
    */
   componentWillMount() {
     const groupId = this.props.match.params.id;
-    this.props.fetchMessages(groupId).then(() => {
+    this.props.apiFetchGroup(groupId).then(() => {
       this.setState({ loading: '', selectedGroup: this.props.selectedGroup });
     });
   }
@@ -72,12 +72,12 @@ class Group extends React.Component {
 
 const mapStateToProps = state => ({
   messages: state.messages,
-  user: state.userData,
+  user: state.user,
   selectedGroup: state.selectedGroup
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchMessages: groupId => dispatch(fetchMessages(groupId)),
+  apiFetchGroup: groupId => dispatch(apiFetchGroup(groupId)),
   onLogout: () => dispatch(logoutUser()),
   onLoginUser: user => dispatch(loginUser(user))
 });
@@ -85,7 +85,7 @@ const mapDispatchToProps = dispatch => ({
 Group.propTypes = {
   messages: PropTypes.array.isRequired,
   match: PropTypes.object.isRequired,
-  fetchMessages: PropTypes.func.isRequired,
+  apiFetchGroup: PropTypes.func.isRequired,
   selectedGroup: PropTypes.object.isRequired,
   onLogout: PropTypes.func.isRequired,
   onLoginUser: PropTypes.func.isRequired,
