@@ -2,7 +2,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import jwt from 'jsonwebtoken';
-import axios from 'axios';
 import { HashRouter as Router, Route, Switch, Redirect }
 from 'react-router-dom';
 import { render } from 'react-dom';
@@ -17,23 +16,16 @@ import { Group, Register, Login, Dashboard } from './components/containers';
 
 const store = configureStore();
 
-if (sessionStorage.user) {
-  axios.defaults.headers.common['x-access-token'] =
-  JSON.parse(sessionStorage.user).token;
-}
-
 const isTokenExpired = () => {
-  const token = jwt.decode(JSON.parse(sessionStorage.getItem('user')).token);
+  const token = jwt.decode(sessionStorage.getItem('token'));
   const date = new Date(0);
   date.setUTCDate(token.exp);
   return date < new Date();
 };
 
 
-const isLoggedIn = () => {
-  const status = sessionStorage.getItem('user') !== null && !isTokenExpired();
-  return status;
-};
+const isLoggedIn = () =>
+  sessionStorage.getItem('token') !== null && !isTokenExpired();
 
 const app = document.querySelector('#app');
 render(
@@ -44,7 +36,12 @@ render(
 
         <Route path="/register" component={Register} />
 
-        <Route path="/login" component={Login} />
+        <Route
+          path="/login"
+          render={props =>
+          (isLoggedIn() ? (<Dashboard {...props} />) :
+          (<Login {...props} />))}
+        />
 
         <Route
           path="/dashboard"
