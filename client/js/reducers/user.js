@@ -1,13 +1,17 @@
-const userData = (state = '{}', action) => {
-  const { type, user } = action;
+const user = (state = {}, action) => {
+  const { type } = action;
   switch (type) {
-    case 'LOGIN_USER':
-      return user;
     case 'LOGOUT_USER':
-      return '{}';
+      return {};
+    case 'GET_CURRENT_USER':
+      return action.user;
+    case 'PASSWORD_RESET':
+      return action.payload;
+    case 'PASSWORD_REQUEST':
+      return action.payload;
     default:
       return state;
   }
 };
 
-export default userData;
+export default user;
