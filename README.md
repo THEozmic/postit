@@ -13,6 +13,10 @@
 > - The Backend is built on top of `Node` with `Express` and uses `Sequelize ORM` to communicate with the `Postgres DB`
 > - Other stuff worth mentioning is the use of `JWT` for authentication, `es6`, `Babel` for transpiling and `Eslint` with `airbnb-base` rules for style checking.
 
+**SYSTEM DEPENDENCIES**
+> - Node
+> - Postgres
+
 **TESTING**
 This app uses `Mocha` and `Chai-Http` for testing on the backend and `Jest` for the frontend
 > - Run `npm i mocha -g` and `npm i nyc -g` before running `npm test` to run the backend tests
