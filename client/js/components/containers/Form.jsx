@@ -49,7 +49,7 @@ const Form =
 const mapStateToProps = state =>
   ({
     messages: state.messages,
-    user: state.userData
+    user: state.user
   });
 
 const mapDispatchToProps = dispatch =>
