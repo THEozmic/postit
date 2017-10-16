@@ -219,7 +219,7 @@ class Search extends React.Component {
           >Finish</button>
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"
-            to={`group/${this.state.selectedGroup.id}`}
+            to={`/group/${this.state.selectedGroup.id}`}
           >Cancel</Link>
         </div>
       </Form>);

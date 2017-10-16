@@ -34,13 +34,13 @@ class SideMenu extends React.Component {
         <ul>
           <li>
             <Link
-              to="dashboard"
+              to="/dashboard"
               className={active === 'dashboard' ? 'active' : ''}
             >My Groups</Link>
           </li>
           <li>
             <Link
-              to="new-group"
+              to="/new-group"
               className={active === 'create-group' ? 'active' : ''}
             >Create Group</Link>
           </li>
