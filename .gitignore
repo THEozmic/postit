@@ -13,7 +13,8 @@
 .env
 coverage
 .nyc_output
-
+build
+client
 
 npm-debug.log*
 yarn-debug.log*

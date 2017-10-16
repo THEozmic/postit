@@ -1,6 +1,5 @@
-const debug = process.env.NODE_ENV === 'production';
+const debug = process.env.NODE_ENV !== 'production';
 const webpack = require('webpack');
-const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
@@ -18,12 +17,7 @@ module.exports = {
     loaders: [
       {
         test: /\.(js|jsx)?$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015', 'stage-0'],
-          plugins: ['react-html-attrs', 'transform-decorators-legacy',
-            'transform-class-properties'],
-        }
+        loader: 'babel-loader'
       },
       {
         test: /\.(scss|css)?$/,
@@ -54,8 +48,8 @@ module.exports = {
       'window.jQuery': 'jquery',
       Hammer: 'hammerjs/hammer'
     }),
-    new ExtractTextPlugin('style.css'),
+    new ExtractTextPlugin({ filename: 'style.css', allChunks: true }),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    // new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: true })
+    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: true })
   ],
 };
