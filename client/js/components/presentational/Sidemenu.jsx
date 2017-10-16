@@ -47,7 +47,7 @@ class SideMenu extends React.Component {
           { showSearchLink ?
             <li>
               <Link
-                to={`group/${groupId}/search`}
+                to={`/group/${groupId}/search`}
                 className={active === 'search' ? 'active' : ''}
               >
               Update Members</Link>
