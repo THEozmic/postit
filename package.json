@@ -110,7 +110,7 @@
     "test_": "nyc mocha --compilers js:babel-core/register --timeout 10000",
     "test-dev": "mocha --compilers js:babel-core/register --timeout 10000",
     "exec": "nodemon ./server/bin/www --exec babel-node ./server/app",
-    "start": "babel -d ./build ./server -s && webpack ./client/js/App.jsx && node ./build/bin/www",
+    "start": "babel -d ./build ./server -s && ./node_modules/.bin/webpack ./client/js/App.jsx && node ./build/bin/www",
     "start-dev": "nodemon ./build/bin/www",
     "coveralls_": "nyc --reporter=lcov --reporter=text-lcov npm run test_",
     "test__": "node_modules/.bin/mocha --compilers js:babel-core/register --reporter spec --slow 50 --timeout 60000",
