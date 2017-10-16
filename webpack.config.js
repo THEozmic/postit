@@ -1,10 +1,9 @@
-const debug = process.env.NODE_ENV !== 'production';
+const debug = process.env.NODE_ENV === 'production';
 const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: debug ? 'inline-sourcemap' : true,
   entry: './client/js/App.jsx',
   node: {
     net: 'empty',
