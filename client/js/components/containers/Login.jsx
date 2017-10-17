@@ -42,7 +42,10 @@ class Login extends React.Component {
     username = username.value.trim();
     password = password.value;
     if (username !== '' || password !== '') {
-      this.props.apiLoginUser({ username, password });
+      this.props.apiLoginUser({ username, password })
+      .then(() => {
+        location.href = '/#/dashboard';
+      });
     } else {
       this.setState({ error_message: 'Error: One or more fields are empty' });
     }
