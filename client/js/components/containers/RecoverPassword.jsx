@@ -29,8 +29,8 @@ class Recover extends React.Component {
   onSend(event) {
     event.preventDefault();
     if (this.state.buttonText === 'Okay') {
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('user');
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
       location.hash = '#login';
       return;
     }

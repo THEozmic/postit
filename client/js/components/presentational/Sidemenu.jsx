@@ -10,12 +10,12 @@ class SideMenu extends React.Component {
   /**
    * @param {function} completeLogout
    * @returns {void}
-   * This method removes the user token from sessionStorage
+   * This method removes the user token from localStorage
    * and fires an action to logout the user
    */
   logout(completeLogout) {
-    sessionStorage.removeItem('user');
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     completeLogout();
   }
 
