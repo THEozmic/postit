@@ -38,7 +38,11 @@ class NewGroup extends React.Component {
       return this.setState({ errorMessage: 'Group description too long' });
     }
 
-    this.props.apiCreateGroup({ name: this.name.value, desc: this.desc.value });
+    this.props.apiCreateGroup({ name: this.name.value, desc: this.desc.value })
+    .then(() => {
+      location.href = '/#/dashboard';
+      Materialize.toast('Group created!', 4000);
+    });
   }
 
   /**
