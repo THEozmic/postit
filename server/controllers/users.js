@@ -164,13 +164,12 @@ export default {
           console.log(req.body.password, 'password---here');
           if (user.isValidPassword(req.body.password, user)) {
             console.log('---------');
-            const token = generateToken(user);
+            const { username, email, id } = user;
+            const token = generateToken({ username, email, id });
             console.log('gets here 2');
 
             return res.status(202).send({
-              token,
-              userData:
-              { id: user.id, email: user.email, username: user.username }
+              token
             });
           }
           console.log('gets here 3');
