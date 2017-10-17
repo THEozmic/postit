@@ -9,7 +9,7 @@ import { logoutUser, loginUser } from '../../actions/user';
 /**
  * The Group page component
  */
-class Group extends React.Component {
+export class Group extends React.Component {
   /**
    * @param {*} props
    */
