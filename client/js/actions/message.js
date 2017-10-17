@@ -6,15 +6,8 @@ const loadMessages = messages => ({
   messages
 });
 
-const sendMessage = newMessage => ({
-  type: 'SEND_MESSAGE',
-  newMessage
-});
-
 const apiFetchGroup = (groupId, withMessages = true) =>
 function action(dispatch) {
-  axios.defaults.headers.common['x-access-token'] =
-  sessionStorage.getItem('token');
   const request = axios({
     method: 'GET',
     url: `/api/v1/groups/${groupId}`
@@ -34,10 +27,7 @@ export const apiSendMessage = ({ message, priority, toGroup }) =>
     const request = axios({
       method: 'POST',
       url: `/api/v1/groups/${toGroup}/message`,
-      data: { message, priority, toGroup },
-      headers: [
-        { 'x-access-token': sessionStorage.getItem('token') }
-      ]
+      data: { message, priority, toGroup }
     });
     return request.then(
       () => {
@@ -46,4 +36,4 @@ export const apiSendMessage = ({ message, priority, toGroup }) =>
     );
   };
 
-export { apiFetchGroup, sendMessage, loadMessages };
+export { apiFetchGroup, loadMessages };

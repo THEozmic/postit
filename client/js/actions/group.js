@@ -12,8 +12,6 @@ const search = result => ({
 
 export const apiSearch = (groupId, searchTerm, page) =>
 function action(dispatch) {
-  axios.defaults.headers.common['x-access-token'] =
-  sessionStorage.getItem('token');
   const request = axios({
     method: 'GET',
     url: `/api/v1/search/${groupId}/${searchTerm}/${page - 1}`
@@ -27,8 +25,6 @@ function action(dispatch) {
 
 export const apiUpdateMembers = (selectedUsers, groupId) =>
 function action(dispatch) {
-  axios.defaults.headers.common['x-access-token'] =
-  sessionStorage.getItem('token');
   const request = axios({
     method: 'POST',
     data: { usersIds: selectedUsers },
@@ -36,7 +32,7 @@ function action(dispatch) {
   });
   return request.then(
     (response) => {
-      dispatch(search(response.data));
+      dispatch({ type: 'UPDATE_GROUP_MEMBERS', selectedUsers });
     }
   );
 };

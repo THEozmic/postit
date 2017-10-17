@@ -1,6 +1,10 @@
 import { changeSelectedGroup, apiSearch, apiUpdateMembers } from './group';
-import { loadMessages, sendMessage, apiFetchGroup } from './message';
-import { loginUser, logoutUser, registerUser } from './user';
+import { loadMessages, sendMessage,
+  apiFetchGroup, apiSendMessage } from './message';
+import { loginUser, logoutUser, registerUser,
+  apiGetCurrentUser, getCurrentUser,
+  apiRequestPassword, apiResetPassword, apiCreateGroup,
+  apiRegisterUser, apiLoginUser } from './user';
 
 export {
   changeSelectedGroup,
@@ -11,4 +15,12 @@ export {
   logoutUser,
   registerUser,
   apiSearch,
-  apiUpdateMembers };
+  apiUpdateMembers,
+  apiGetCurrentUser,
+  getCurrentUser,
+  apiSendMessage,
+  apiRequestPassword,
+  apiResetPassword,
+  apiCreateGroup,
+  apiRegisterUser,
+  apiLoginUser };

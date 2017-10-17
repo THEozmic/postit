@@ -1,4 +1,5 @@
 import axios from 'axios';
+import setToken from '../helpers/setToken';
 
 export const loginUser = user => ({
   type: 'LOGIN_USER',
@@ -15,7 +16,7 @@ export const registerUser = user => ({
   user
 });
 
-const getCurrentUser = user => ({
+export const getCurrentUser = user => ({
   type: 'GET_CURRENT_USER',
   user
 });
@@ -30,17 +31,15 @@ const passwordReset = message => ({
   payload: { message, btnText: 'Okay' }
 });
 
-export const apiGetCurrentUser = token => function action(dispatch) {
-  axios.defaults.headers.common['x-access-token'] = token;
+export const apiGetCurrentUser = () => function action(dispatch) {
   const request = axios({
     method: 'GET',
     url: '/api/v1/users/me/'
   });
   return request.then(
     (response) => {
-      sessionStorage.setItem('user', JSON.stringify(response.data.user));
       dispatch(getCurrentUser(response.data.user));
-      if (location.hash !== '#/dashboard') {
+      if (location.hash === '#/login') {
         location.href = '#/dashboard';
       }
     }
@@ -57,8 +56,8 @@ function action(dispatch) {
   });
   return request.then(
     (response) => {
-      sessionStorage.setItem('token', response.data.token);
-      dispatch(apiGetCurrentUser(response.data.token));
+      setToken(response.data.token);
+      dispatch(apiGetCurrentUser());
     }
   );
 };
@@ -79,8 +78,6 @@ function action(dispatch) {
 
 export const apiCreateGroup = ({ name, desc }) =>
 function action(dispatch) {
-  axios.defaults.headers.common['x-access-token'] =
-  sessionStorage.getItem('token');
   const request = axios({
     method: 'POST',
     data: { name, desc },
@@ -88,15 +85,13 @@ function action(dispatch) {
   });
   return request.then(
     () => {
-      dispatch(apiGetCurrentUser(sessionStorage.getItem('token')));
+      dispatch(apiGetCurrentUser());
     }
   );
 };
 
 export const apiResetPassword = ({ password, hash }) =>
 function action(dispatch) {
-  axios.defaults.headers.common['x-access-token'] =
-  sessionStorage.getItem('token');
   const request = axios({
     method: 'POST',
     data: { password },
@@ -111,8 +106,6 @@ function action(dispatch) {
 
 export const apiRequestPassword = email =>
 function action(dispatch) {
-  axios.defaults.headers.common['x-access-token'] =
-  sessionStorage.getItem('token');
   const request = axios({
     method: 'POST',
     data: { email },
