@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 /**
- * Groups component
- * @returns {JSX} for Groups component
- * @param {*} props
+ * Groups Component
+ * @method Groups
+ * @returns {Object} JSX
+ * @param {Object} props
  */
 const Groups = ({ groups }) =>
   (
-    <div>
+    <div className="groups">
       { groups.length !== 0 ?
         groups.map(group =>
           (<Link

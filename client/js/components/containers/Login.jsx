@@ -2,15 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form } from './';
+import Form from './Form';
 import { apiLoginUser } from '../../actions/user';
 
 /**
- * Login component
+ * Login Page
+ * @class Login
+ * @extends {React.Component}
  */
-class Login extends React.Component {
+export class Login extends React.Component {
   /**
-   * @param {*} props
+   * Creates an instance of Login
+   * @param {any} props -
+   * @memberof Login
    */
   constructor(props) {
     super(props);
@@ -45,6 +49,8 @@ class Login extends React.Component {
       this.props.apiLoginUser({ username, password })
       .then(() => {
         location.href = '/#/dashboard';
+      }).catch((err) => {
+        this.setState({ error_message: `Error: ${err.data.error}` });
       });
     } else {
       this.setState({ error_message: 'Error: One or more fields are empty' });

@@ -2,16 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Footer, Header, SideMenu } from '../presentational';
-import { Messages } from './';
+import Messages from './Messages';
 import { apiFetchGroup } from '../../actions/message';
 import { logoutUser, loginUser } from '../../actions/user';
 
 /**
- * The Group page component
+ * Group Page
+ * @class Grpup
+ * @extends {React.Component}
  */
 export class Group extends React.Component {
   /**
-   * @param {*} props
+   * Creates an instance of Group
+   * @param {any} props -
+   * @memberof Group
    */
   constructor(props) {
     super(props);

@@ -2,16 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Form } from './';
+import { Form } from './Form';
 import { apiRequestPassword } from '../../actions/user';
 
 
 /**
- * Recover component
+ * Recover Password Page
+ * @class RecoverPassword
+ * @extends {React.Component}
  */
-class Recover extends React.Component {
+export class RecoverPassword extends React.Component {
   /**
-   * @param {*} props
+   * Creates an instance of RecoverPassword
+   * @param {any} props -
+   * @memberof RecoverPassword
    */
   constructor(props) {
     super(props);
@@ -28,12 +32,6 @@ class Recover extends React.Component {
    */
   onSend(event) {
     event.preventDefault();
-    if (this.state.buttonText === 'Okay') {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      location.hash = '#login';
-      return;
-    }
 
     this.props.apiRequestPassword(this.email.value)
     .then(() => {
@@ -41,6 +39,9 @@ class Recover extends React.Component {
         successMessage: 'A password reset link has been sent to that email',
         buttonText: 'Okay'
       });
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      location.hash = '#login';
     });
   }
 
@@ -67,6 +68,7 @@ class Recover extends React.Component {
           <button
             onClick={this.onSend}
             className="waves-effect waves-light btn action-btn"
+            id="submitEmail"
           >{ this.state.buttonText }</button>
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"
@@ -78,7 +80,7 @@ class Recover extends React.Component {
   }
 }
 
-Recover.propTypes = {
+RecoverPassword.propTypes = {
   apiRequestPassword: PropTypes.func.isRequired,
 };
 
@@ -87,4 +89,4 @@ const mapDispatchToProps = dispatch => ({
   dispatch(apiRequestPassword(email))
 });
 
-export default connect(null, mapDispatchToProps)(Recover);
+export default connect(null, mapDispatchToProps)(RecoverPassword);

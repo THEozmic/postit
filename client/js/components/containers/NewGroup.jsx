@@ -2,16 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Form } from './';
+import { Form } from './Form';
 import { apiCreateGroup } from '../../actions/user';
 
 
 /**
- * NewGroup component
+ * Create a New Group Page
+ * @class NewGroup
+ * @extends {React.Component}
  */
-class NewGroup extends React.Component {
+export class NewGroup extends React.Component {
   /**
-   * @param {*} props
+   * Creates an instance of NewGroup
+   * @param {any} props -
+   * @memberof NewGroup
    */
   constructor(props) {
     super(props);
@@ -80,6 +84,7 @@ class NewGroup extends React.Component {
           >{this.state.errorMessage}</div>}
           <button
             className="waves-effect waves-light btn action-btn"
+            id="createGroup"
             onClick={this.onCreateGroup}
           >Create</button>
           <Link

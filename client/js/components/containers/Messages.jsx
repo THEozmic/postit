@@ -1,16 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import scrollToElement from 'scroll-to-element';
-import { MessageBox, Message } from '../presentational/';
-import { apiSendMessage } from '../../actions/message';
+import MessageBox from './MessageBox';
+import { Message } from '../presentational/';
 
 /**
- * Messages component
+ * Messages Component
+ * @class Messages
+ * @extends {React.Component}
  */
-class Messages extends React.Component {
+export class Messages extends React.Component {
   /**
-   * @param {*} props
+   * Creates an instance of Messages
+   * @param {any} props -
+   * @memberof Messages
    */
   constructor(props) {
     super(props);
@@ -19,13 +22,6 @@ class Messages extends React.Component {
       sendStatus: 'SEND',
       messages: []
     };
-    this.send = this.send.bind(this);
-    this.scrollPane = this.scrollPane.bind(this);
-
-    this.scrollOptions = {
-      ease: 'in-expo',
-      duration: 900
-    };
   }
 
   /**
@@ -33,45 +29,6 @@ class Messages extends React.Component {
    */
   componentWillMount() {
     this.setState({ messages: this.props.messages });
-  }
-
-  /**
-   * @returns {void}
-   */
-  componentDidMount() {
-    this.scrollPane();
-  }
-
-  /**
-   * @returns {void}
-   * This method is called after the component has renders
-   * It scrolls the page to the bottom so that the user can see the newest
-   * messages
-   */
-  scrollPane() {
-    scrollToElement('.scroll-to', this.scrollOptions);
-  }
-
-  /**
-   * @returns {void}
-   * @param {string} priority
-   * @param {string} message
-   */
-  send(priority, message) {
-    message = message.value.trim();
-    priority = priority.value.trim();
-    if (message === '' || priority === '') {
-      return;
-    }
-    this.setState({ sendStatus: 'SENDING' });
-    this.props.apiSendMessage({
-      message,
-      priority,
-      toGroup: this.props.groupId
-    }).then(() => {
-      this.setState({ sendStatus: 'SEND' });
-    });
-    this.scrollPane();
   }
 
   /**
@@ -86,10 +43,7 @@ class Messages extends React.Component {
           }
         </div>
         <div className="scroll-to" />
-        <MessageBox
-          sendMessageDetails={this.send}
-          sendStatus={this.state.sendStatus}
-        />
+        <MessageBox groupId={this.props.groupId} />
       </div>
     );
   }
@@ -100,14 +54,14 @@ const mapStateToProps = state => ({
   messages: state.messages
 });
 
-const mapDispatchToProps = dispatch => ({
-  apiSendMessage: newMessage => dispatch(apiSendMessage(newMessage)),
-});
-
-Messages.propTypes = {
-  messages: PropTypes.array.isRequired,
-  groupId: PropTypes.number.isRequired,
-  apiSendMessage: PropTypes.func.isRequired
+Messages.defaultProps = {
+  messages: [],
+  groupId: 1
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Messages);
+Messages.propTypes = {
+  messages: PropTypes.array,
+  groupId: PropTypes.number
+};
+
+export default connect(mapStateToProps, null)(Messages);

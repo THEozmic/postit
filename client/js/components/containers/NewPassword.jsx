@@ -2,16 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Form } from './';
+import { Form } from './Form';
 import { apiResetPassword } from '../../actions/user';
 
 /**
- * NewPassword component
+ * New Password Page
+ * @class NewPassword
+ * @extends {React.Component}
  */
-class NewPassword extends React.Component {
+export class NewPassword extends React.Component {
 
   /**
-   * @param {*} props
+   * Creates an instance of NewPassword
+   * @param {any} props -
+   * @memberof NewPassword
    */
   constructor(props) {
     super(props);
@@ -38,7 +42,6 @@ class NewPassword extends React.Component {
    * @param {*} event
    */
   onSubmitPassword(event) {
-    console.log('props user', this.props.user);
     event.preventDefault();
     if (this.props.user.btnText === 'Okay') {
       location.hash = '#login';
@@ -104,6 +107,7 @@ class NewPassword extends React.Component {
           <button
             onClick={this.onSubmitPassword}
             className="waves-effect waves-light btn action-btn"
+            id="submitPassword"
           >{this.props.user.btnText || 'Update Password'}</button>
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"

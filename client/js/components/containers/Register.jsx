@@ -2,16 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Form } from './';
+import { Form } from './Form';
 import { apiRegisterUser } from '../../actions/user';
 
 /**
- * Register component
+ * Registration Page
+ * @class Register
+ * @extends {React.Component}
  */
-class Register extends React.Component {
+export class Register extends React.Component {
 
   /**
-   * @param {*} props
+   * Creates an instance of Register
+   * @param {any} props -
+   * @memberof Register
    */
   constructor(props) {
     super(props);
@@ -97,7 +101,7 @@ class Register extends React.Component {
             {this.state.error_message}
           </div>}
           <button
-            id="register"
+            id="submitDetails"
             onClick={this.onRegisterUser}
             className="waves-effect waves-light btn action-btn"
           >Register</button>
@@ -116,8 +120,12 @@ const mapDispatchToProps = dispatch => ({
 
 });
 
+Register.defaultProps = {
+  apiRegisterUser: () => {}
+};
+
 Register.propTypes = {
-  apiRegisterUser: PropTypes.func.isRequired
+  apiRegisterUser: PropTypes.func
 };
 
 export default connect(null, mapDispatchToProps)(Register);

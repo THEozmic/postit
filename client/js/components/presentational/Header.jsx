@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 /**
- * Header component
- * @param {*} props
- * @returns {JSX} for Header component
+ * Header Component
+ * @method Header
+ * @returns {Object} JSX
+ * @param {Object} props
  */
 const Header = ({ username }) =>
   (<header className="page-header">
