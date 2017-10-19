@@ -1,4 +1,4 @@
-/* global sessionStorage */
+/* global localStorage */
 import React from 'react';
 import { Provider } from 'react-redux';
 import jwt from 'jsonwebtoken';
@@ -10,22 +10,41 @@ import 'materialize-css';
 import 'materialize-css/dist/css/materialize.min.css';
 import '../scss/index.scss';
 import configureStore from './stores/configureStore';
-import { Search, Home, NewGroup, Recover, NewPassword, NotFoundPage }
-from './components/presentational';
-import { Group, Register, Login, Dashboard } from './components/containers';
+
+import { Home, NotFoundPage } from './components/presentational';
+
+import Group from './components/containers/Group';
+import NewPassword from './components/containers/NewPassword';
+import Dashboard from './components/containers/Dashboard';
+import Register from './components/containers/Register';
+import Login from './components/containers/Login';
+import Search from './components/containers/Search';
+import NewGroup from './components/containers/NewGroup';
+import RecoverPassword from './components/containers/RecoverPassword';
+
+import { apiGetCurrentUser } from './actions/';
+import setToken from './helpers/setToken';
 
 const store = configureStore();
 
+if (localStorage.token) {
+  setToken(localStorage.token);
+  store.dispatch(apiGetCurrentUser());
+}
+
 const isTokenExpired = () => {
-  const token = jwt.decode(sessionStorage.getItem('token'));
-  const date = new Date(0);
-  date.setUTCDate(token.exp);
-  return date < new Date();
+  const token = jwt.decode(localStorage.getItem('token'));
+  const exp = token.exp;
+  const isExpired = exp < Date.now() / 1000;
+  if (isExpired) {
+    localStorage.removeItem('token');
+  }
+  return isExpired;
 };
 
 
 const isLoggedIn = () =>
-  sessionStorage.getItem('token') !== null && !isTokenExpired();
+  localStorage.token !== undefined && !isTokenExpired();
 
 const app = document.querySelector('#app');
 render(
@@ -72,7 +91,7 @@ render(
           (<Redirect to={{ pathname: '/login' }} />))}
         />
 
-        <Route path="/recover-password" component={Recover} />
+        <Route path="/recover-password" component={RecoverPassword} />
 
         <Route path="/new-password/:hash" component={NewPassword} />
 
