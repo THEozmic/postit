@@ -5,11 +5,12 @@ import { Footer, Header, SideMenu } from '../presentational';
 import { logoutUser, loginUser } from '../../actions/user';
 
 /**
- * Form component
- * @returns {JSX} for Form component
+ * Form Component
+ * @class Form
+ * @extends {React.Component}
  */
-const Form =
-({ showSideMenu, active = 'dashboard', onLogout, onLoginUser, children, title }) =>
+export const Form =
+({ showSideMenu = false, active, onLogout, onLoginUser, children, title, onSubmit = null }) =>
   (
     <div>
       <Header />
@@ -18,7 +19,7 @@ const Form =
           <div className="row">
             { showSideMenu ?
               <SideMenu
-                active={active}
+                active={active || 'dashboard'}
                 onLogout={onLogout}
                 onLoginUser={onLoginUser}
               /> : '' }
@@ -32,9 +33,13 @@ const Form =
                 </h5>
                 <div className="row">
                   <div className="col s12 m8">
-                    <form className="form">
-                      { children }
-                    </form>
+                    { onSubmit === null ?
+                      <form className="form">
+                        { children }
+                      </form> :
+                      <form className="form" onSubmit={onSubmit}>
+                        { children }
+                      </form>}
                   </div>
                 </div>
               </section>
@@ -60,19 +65,28 @@ const mapDispatchToProps = dispatch =>
 
 Form.defaultProps = {
   title: '',
-  active: 'dashboard'
+  active: 'dashboard',
+  onLoginUser: () => {},
+  onLogout: () => {},
+  showSideMenu: false,
+  children: '',
+  onSubmit: () => {}
 };
 
 Form.propTypes = {
-  showSideMenu: PropTypes.bool.isRequired,
+  showSideMenu: PropTypes.bool,
   active: PropTypes.string,
-  onLogout: PropTypes.func.isRequired,
-  onLoginUser: PropTypes.func.isRequired,
-  children: PropTypes.element.isRequired,
+  onLogout: PropTypes.func,
+  onLoginUser: PropTypes.func,
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
   title: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
-  ])
+  ]),
+  onSubmit: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
