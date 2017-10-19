@@ -38,6 +38,16 @@ This app uses `Mocha` and `Chai-Http` for testing on the backend and `Jest` for 
 **API DOCS**
 > - http://docs.postitmichael.apiary.io
 
+**CONTRIBUTING**
+> - Fork the repo
+> - Make your changes
+> - Create a PR
+> - Create an Issue for feature requests
+
+**LICENSE**
+
+[MIT](https://github.com/THEozmic/postit/blob/master/LICENSE)
+
 **FAQs**
 > - Is this app open-source?
   __Ans:__ Yes, you can contribute to the development of this app by raising PRs
