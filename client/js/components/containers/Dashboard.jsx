@@ -5,12 +5,16 @@ import { logoutUser, apiGetCurrentUser } from '../../actions/user';
 import { Footer, Header, SideMenu, Groups } from '../presentational';
 
 /**
- * Dashboard component
-*/
-class Dashboard extends React.Component {
+ * Dashboard Page
+ * @class Dashboard
+ * @extends {React.Component}
+ */
+export class Dashboard extends React.Component {
   /**
-   * @param {*} props
-  */
+   * Creates an instance of Dashboard
+   * @param {any} props -
+   * @memberof Dashboard
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +26,7 @@ class Dashboard extends React.Component {
    * @return {void}
   */
   componentWillMount() {
-    this.props.apiGetCurrentUser(sessionStorage.getItem('token'))
+    this.props.apiGetCurrentUser(localStorage.getItem('token'))
     .then(() => {
       this.setState({
         loading: ''
@@ -69,9 +73,13 @@ const mapDispatchToProps = dispatch => ({
   apiGetCurrentUser: token => dispatch(apiGetCurrentUser(token))
 });
 
+Dashboard.defaultProps = {
+  user: {}
+};
+
 Dashboard.propTypes = {
   onLogout: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
+  user: PropTypes.object,
   apiGetCurrentUser: PropTypes.func.isRequired,
 };
 
