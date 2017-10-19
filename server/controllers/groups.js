@@ -28,8 +28,7 @@ export default {
         models.GroupUsers
         .create({ userId, groupId: group.id })
         .then(res.status(201).send(group));
-      })
-      .catch(error => res.status(400).send(error));
+      });
   },
   fetchGroups(req, res) {
     if (isNaN(req.params.id)) {
@@ -45,8 +44,7 @@ export default {
         as: 'users'
       }]
       })
-      .then(groups => res.status(200).send({ groups }))
-      .catch(error => res.status(400).send(error));
+      .then(groups => res.status(200).send({ groups }));
     }
 
     return models.Groups
@@ -80,9 +78,7 @@ export default {
         .send({ error: 'Group does not exist', status: 404 });
       }
       res.status(200).send(group);
-    })
-    .catch(error => res.status(500)
-    .send({ error: error.message, status: 500 }));
+    });
   },
   findMessages(req, res) {
     models.Messages
@@ -101,7 +97,6 @@ export default {
         ]
       })
       .then(messages => res.status(200)
-      .send({ messages, group: req.params.id }))
-      .catch(error => res.status(500).send({ error }));
+      .send({ messages, group: req.params.id }));
   }
 };

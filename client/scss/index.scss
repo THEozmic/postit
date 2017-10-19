@@ -1,17 +1,33 @@
+$primary-color: #0275d8;
+$primary-color-hover: #0684f1;
+
 .steps{
   margin-top: 30px;
   * {
-    font-size: 20px;
+    font-size: 15px;
     margin-bottom: 15px;
+  }
+  .title {
+    display: inline-block;
+    border-radius: 3px;
+    font-size: 22px;
   }
 }
 
 .action-buttons {
-    margin-top: 30px
+  margin-top: 30px;
+  a {
+    margin-right: 10px;
+  }
 }
 
-$primary-color: #0275d8;
-$primary-color-hover: #0684f1;
+.intro-text {
+  font-size: 20px;
+  .important {
+    color: $primary-color;
+  }
+}
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import "general";
 @import "dashboard-members";

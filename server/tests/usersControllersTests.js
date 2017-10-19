@@ -9,6 +9,7 @@ process.env.NODE_ENV = 'test';
 const should = chai.should();
 chai.use(chaiHttp);
 let token;
+let hash;
 
 models.Users.destroy({
   cascade: true,
@@ -402,8 +403,23 @@ describe('usersControllersTests ', () => {
         })
         .end((err, res) => {
           res.should.have.status(200);
+          hash = res.body.hash;
           done();
         });
+    });
+    describe('Reset password', () => {
+      it('works with complete parameters', (done) => {
+        chai.request(app)
+          .post(`/api/v1/users/reset-password/${hash}`)
+          .type('form')
+          .send({
+            password: 'testuser'
+          })
+          .end((err, res) => {
+            res.should.have.status(200);
+            done();
+          });
+      });
     });
 
     it('Returns 404 status code when request is made with not existent email',
@@ -446,6 +462,115 @@ describe('usersControllersTests ', () => {
     });
   });
 
+  describe('Login a user', () => {
+    it('should give 400 error if password is not given', (done) => {
+      chai.request(app)
+        .post('/api/v1/users/signin/')
+        .type('form')
+        .send({
+          username: 'testuser'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+    it('should give 400 error if username is not given', (done) => {
+      chai.request(app)
+        .post('/api/v1/users/signin/')
+        .type('form')
+        .send({
+          password: 'testuser'
+        })
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+    it('should give 404 error if username does not exist', (done) => {
+      chai.request(app)
+        .post('/api/v1/users/signin/')
+        .type('form')
+        .send({
+          username: 'testuser4',
+          password: 'testuser4'
+        })
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
+    it('should give 401 error if wrong password is given', (done) => {
+      chai.request(app)
+        .post('/api/v1/users/signin/')
+        .type('form')
+        .send({
+          username: 'testuser',
+          password: 'testsdcs'
+        })
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+    it('works with complete parameters', (done) => {
+      chai.request(app)
+        .post('/api/v1/users/signin/')
+        .type('form')
+        .send({
+          password: 'testuser',
+          username: 'testuser'
+        })
+        .end((err, res) => {
+          res.should.have.status(202);
+          done();
+        });
+    });
+  });
+
+  describe('Search for users', () => {
+    it('should give 200 if all params are given', (done) => {
+      chai.request(app)
+        .post('/api/v1/users')
+        .type('form')
+        .send({
+          email: 'testuser2@email.com',
+          username: 'testuser2',
+          password: 'testuser2',
+          phone: '09004839431'
+        })
+        .end(() => {
+          chai.request(app)
+          .post('/api/v1/groups/')
+          .set('x-access-token', token)
+          .type('form')
+          .send({ name: 'Test Group', desc: 'A simple test group' })
+          .end(() => {
+            chai.request(app)
+            .post('/api/v1/groups/1/user/')
+            .type('form')
+            .set('x-access-token', token)
+            .send({
+              usersIds: '[2]',
+            })
+            .end((err, res) => {
+              console.log(res.body, 'mmmm');
+              chai.request(app)
+              .get('/api/v1/search/2/testuser/0')
+              .set('x-access-token', token)
+              .type('form')
+              .send()
+              .end((err, res) => {
+                console.log(res.body, 'rrrrr');
+                res.should.have.status(200);
+                done();
+              });
+            });
+          });
+        });
+    });
+  });
+
   describe('View current logged user', () => {
     it('gets current logged in user data when request is correctly made',
     (done) => {
@@ -459,22 +584,6 @@ describe('usersControllersTests ', () => {
         res.body.user.username.should.equal('testuser');
         done();
       });
-    });
-  });
-
-  describe('Login a user', () => {
-    it('works with complete parameters', (done) => {
-      chai.request(app)
-        .post('/api/v1/users/signin/')
-        .type('form')
-        .send({
-          password: 'testuser',
-          username: 'testuser'
-        })
-        .end((err, res) => {
-          res.should.have.status(202);
-          done();
-        });
     });
   });
 });

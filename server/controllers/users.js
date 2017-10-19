@@ -42,9 +42,6 @@ export default {
                 }).catch((error) => {
                   res.status(500).send({ error: error.message });
                 });
-            })
-            .catch((error) => {
-              res.status(500).send({ error: error.message });
             });
         });
     });
@@ -53,10 +50,7 @@ export default {
     return models.Users
       .findAll({ attributes:
         ['id', 'username', 'email', 'phone', 'createdAt', 'updatedAt'] })
-      .then(users => res.status(200).send({ users }))
-      .catch((error) => {
-        res.status(500).send({ error });
-      });
+      .then(users => res.status(200).send({ users }));
   },
   fetchCurrentUser(req, res) {
     const username = req.decoded.data.username;
@@ -139,9 +133,6 @@ export default {
       } else {
         res.status(200).send({ user });
       }
-    })
-    .catch((error) => {
-      res.status(500).send({ error: error.message, status: 500 });
     });
   },
   authenticateUser(req, res) {
@@ -159,38 +150,25 @@ export default {
       .findOne({ where: { username: [req.body.username.toLowerCase()] } })
       .then((user) => {
         if (user) {
-          console.log(user, 'userrr');
-          console.log('gets here');
-          console.log(req.body.password, 'password---here');
           if (user.isValidPassword(req.body.password, user)) {
-            console.log('---------');
             const { username, email, id } = user;
             const token = generateToken({ username, email, id });
-            console.log('gets here 2');
-
             return res.status(202).send({
               token
             });
           }
-          console.log('gets here 3');
-
           return res.status(401)
           .send({ error: 'Invalid password and username', status: 401 });
         }
-
-        console.log('gets here 4');
-
         res.status(404)
         .send({ error: 'User does not exist', status: 404 });
-      })
-      .catch(error => res.status(500)
-      .send({ error: error.message, status: 500 }));
+      });
   },
   searchUsers(req, res) {
     return models.Users
     .findAll({
-      limit: 10,
-      offset: req.params.page * 10,
+      limit: 1,
+      offset: req.params.page * 1,
       where: { username:
         { $iLike: `%${req.params.term}%`, $ne: req.decoded.data.username } },
       attributes: ['id', 'username']
@@ -232,24 +210,29 @@ export default {
     .findOne({
       where: { hash: req.params.hash }
     }).then((result) => {
-      const email = result.dataValues.email;
-      const date = new Date();
-      const now =
-      `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
-      if (now > result.dataValues.expiresIn) {
-        res.status(400).send({ message: 'Link has expired', status: 400 });
-        return;
-      }
-      return models.Users
+      if (result) {
+        const email = result.dataValues.email;
+        const date = new Date();
+        const now =
+        `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
+        if (now > result.dataValues.expiresIn) {
+          res.status(400).send({ message: 'Link has expired', status: 400 });
+          return;
+        }
+        return models.Users
         .update(
-        { password:
-          bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(5))
-        },
+          { password:
+            bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(5))
+          },
           { where: { email } }
-        ).then(() =>
+        )
+        .then(() =>
           res.status(200)
           .send({ message: 'Password Reset Successful', status: 200 })
         );
+      }
+      return res.status(400)
+          .send({ message: 'Invalid hash', status: 200 });
     });
   },
   passwordRequest(req, res) {
@@ -283,7 +266,7 @@ export default {
       .findOne({
         where: { email }
       }).then((response) => {
-        if (response === null) {
+        if (!response) {
           models.PasswordRequests
           .create({
             email,
@@ -299,6 +282,10 @@ export default {
           }).then(() => {
             sendMail(email, { subject: 'Password Reset Request', message });
           });
+        }
+        if (process.env.NODE_ENV === 'test') {
+          return res.status(200)
+          .send({ message: 'Request made', hash, status: 200 });
         }
         return res.status(200)
         .send({ message: 'Request made', status: 200 });

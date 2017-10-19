@@ -9,9 +9,10 @@ export const selectedGroup = (state = {}, action) => {
 };
 
 export const search = (state = {}, action) => {
-  switch (action.type) {
+  const { type, result } = action;
+  switch (type) {
     case 'SEARCH':
-      return action.result;
+      return result;
     default:
       return state;
   }
