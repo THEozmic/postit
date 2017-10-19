@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 /**
- * NotFoundPage component
- * @returns {JSX} for NotFoundPage component
+ * NotFoundPage Component
+ * @method NotFoundPage
+ * @returns {Object} JSX
  */
 const NotFoundPage = () =>
   (

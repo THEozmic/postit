@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 /**
- * The component for the side menu
+ * SideMenu Component
+ * @class SideMenu
+ * @extends {React.Component}
  */
 class SideMenu extends React.Component {
 
@@ -24,8 +26,6 @@ class SideMenu extends React.Component {
    */
   render() {
     const {
-      active = 'dashboard',
-      showSearchLink = false,
       onLogout,
       groupId } = this.props;
 
@@ -35,25 +35,26 @@ class SideMenu extends React.Component {
           <li>
             <Link
               to="/dashboard"
-              className={active === 'dashboard' ? 'active' : ''}
+              className={this.props.active === 'dashboard' ? 'active' : ''}
             >My Groups</Link>
           </li>
           <li>
             <Link
               to="/new-group"
-              className={active === 'create-group' ? 'active' : ''}
+              className={this.props.active === 'create-group' ? 'active' : ''}
             >Create Group</Link>
           </li>
-          { showSearchLink ?
+          { this.props.showSearchLink ?
             <li>
               <Link
                 to={`/group/${groupId}/search`}
-                className={active === 'search' ? 'active' : ''}
+                className={this.props.active === 'search' ? 'active' : ''}
               >
               Update Members</Link>
             </li> : ''}
           <li>
             <Link
+              className="logout"
               to="/login"
               onClick={() => this.logout(onLogout)}
             >Logout</Link>

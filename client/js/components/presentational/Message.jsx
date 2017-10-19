@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * Message component
- * @param {*} props
- * @returns {JSX} for Message component
+ * Message Component
+ * @method Message
+ * @returns {Object} JSX
+ * @param {Object} props
  */
 const Message = ({ message }) =>
   (
