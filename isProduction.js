@@ -1,5 +1,5 @@
 require('dotenv').config();
 
 if (process.env.NODE_ENV !== 'production') {
-  process.exit(128);
+  process.exit(1);
 }
