@@ -1,16 +1,29 @@
 import axios from 'axios';
 import setToken from '../helpers/setToken';
 
+/**
+ * Logs in and Sets the logged in user into the store
+ * @param {object} user
+ */
 export const loginUser = user => ({
   type: 'LOGIN_USER',
   user
 });
 
+/**
+ * Remove the user from the store
+ * @param {object} user
+ */
 export const logoutUser = user => ({
   type: 'LOGOUT_USER',
   user
 });
 
+
+/**
+ * Sets the user in the store and fires the register user action
+ * @param {object} user 
+ */
 export const registerUser = user => ({
   type: 'REGISTER_USER',
   user

@@ -1,15 +1,29 @@
 import axios from 'axios';
 
+/**
+ * Change selected group
+ * @param {object} group
+ */
 export const changeSelectedGroup = group => ({
   type: 'CHANGE_SELECTED_GROUP',
   group
 });
 
+/**
+ * Updates the search results
+ * @param {array} result
+ */
 const search = result => ({
   type: 'SEARCH',
   result
 });
 
+/**
+ * Makes API call to search the database
+ * @param {number} groupId 
+ * @param {string} searchTerm 
+ * @param {number} page 
+ */
 export const apiSearch = (groupId, searchTerm, page) =>
 function action(dispatch) {
   const request = axios({
@@ -22,6 +36,12 @@ function action(dispatch) {
     }
   );
 };
+
+/**
+ * Make API call to update group members list
+ * @param {array} selectedUsers 
+ * @param {number} groupId 
+ */
 
 export const apiUpdateMembers = (selectedUsers, groupId) =>
 function action(dispatch) {
