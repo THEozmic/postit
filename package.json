@@ -35,7 +35,7 @@
     "materialize-css": "^0.99.0",
     "morgan": "^1.8.2",
     "nexmo": "^2.0.2",
-    "node-sass": "^4.5.0",
+    "node-sass": "^4.5.3",
     "nodemailer": "^4.0.1",
     "pg": "^6.4.0",
     "pg-hstore": "^2.3.2",
@@ -125,6 +125,6 @@
     "build": "./node_modules/.bin/webpack ./client/js/App.jsx && babel -d ./build ./server -s --copy-files",
     "build-client": "webpack ./client/js/App.jsx -w",
     "build-server": "babel -d ./build ./server -s --copy-files -w",
-    "postinstall": "npm run build"
+    "postinstall": "[ \"$NODE_ENV\" != production ] && exit 0; npm run build"
   }
 }
