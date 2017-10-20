@@ -125,6 +125,6 @@
     "build": "./node_modules/.bin/webpack ./client/js/App.jsx && babel -d ./build ./server -s --copy-files",
     "build-client": "webpack ./client/js/App.jsx -w",
     "build-server": "babel -d ./build ./server -s --copy-files -w",
-    "postinstall": "npm run build"
+    "postinstall": "[ \"$NODE_ENV\" != production ] && exit 0; npm run build"
   }
 }
