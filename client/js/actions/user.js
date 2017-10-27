@@ -118,15 +118,11 @@ function action(dispatch) {
 };
 
 export const apiRequestPassword = email =>
-function action(dispatch) {
+function action() {
   const request = axios({
     method: 'POST',
     data: { email },
     url: '/api/v1/users/request-password'
   });
-  return request.then(
-    () => {
-      dispatch(passwordRequest('A request has been sent to that email'));
-    }
-  );
+  return request;
 };

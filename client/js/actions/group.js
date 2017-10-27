@@ -28,7 +28,7 @@ export const apiSearch = (groupId, searchTerm, page) =>
 function action(dispatch) {
   const request = axios({
     method: 'GET',
-    url: `/api/v1/search/${groupId}/${searchTerm}/${page - 1}`
+    url: `/api/v1/search/${groupId}/${searchTerm}/${page}`
   });
   return request.then(
     (response) => {
