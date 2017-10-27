@@ -554,14 +554,12 @@ describe('usersControllersTests ', () => {
               usersIds: '[2]',
             })
             .end((err, res) => {
-              console.log(res.body, 'mmmm');
               chai.request(app)
               .get('/api/v1/search/2/testuser/0')
               .set('x-access-token', token)
               .type('form')
               .send()
               .end((err, res) => {
-                console.log(res.body, 'rrrrr');
                 res.should.have.status(200);
                 done();
               });
