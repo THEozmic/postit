@@ -167,6 +167,10 @@ exports.default = {
     }
     var message = 'Hello ' + email + ', if you have requested for a new password, please follow  <a href=\'http://localhost:3000/#/new-password/' + hash + '\'>  this link</a> to reset your password';
 
+    if (process.env.NODE_ENV === 'production') {
+      message = 'Hello ' + email + ',      if you have requested for a new password, please follow       <a href=\'https://postit-michael.herokuapp.com/#/new-password/' + hash + '\'>       this link</a> to reset your password';
+    }
+
     _models2.default.Users.findOne({
       where: { email: email }
     }).then(function (foundUser) {

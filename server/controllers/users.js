@@ -185,10 +185,17 @@ export default {
       return res.status(400)
       .send({ error: 'Invalid email', status: 400 });
     }
-    const message = `Hello ${email},\
+    let message = `Hello ${email},\
  if you have requested for a new password, please follow \
  <a href='http://localhost:3000/#/new-password/${hash}'> \
  this link</a> to reset your password`;
+
+    if (process.env.NODE_ENV === 'production') {
+      message = `Hello ${email},\
+      if you have requested for a new password, please follow \
+      <a href='https://postit-michael.herokuapp.com/#/new-password/${hash}'> \
+      this link</a> to reset your password`;
+    }
 
     models.Users
     .findOne({
