@@ -54,7 +54,7 @@ describe('actions', () => {
     });
 
     it('should make api call and create an action to search members', () => {
-      mock.onGet('/api/v1/search/1/term/0')
+      mock.onGet('/api/v1/search/1/term/1')
         .reply(200, { users: [] });
 
       const expectedActions = [ { type: 'SEARCH', result: { users: [] } } ];
@@ -135,10 +135,7 @@ describe('actions', () => {
       mock.onPost('/api/v1/users/request-password')
         .reply(201, { message: [] });
 
-      const expectedActions = [ { type: 'PASSWORD_REQUEST',
-        payload:
-         { message: 'A request has been sent to that email',
-           btnText: 'Okay' } } ];
+      const expectedActions = [];
 
       const store = mockStore({ messages: [] });
 
