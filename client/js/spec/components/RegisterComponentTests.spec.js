@@ -33,7 +33,6 @@ describe('<Register />', () => {
     tree.find('#password').simulate('change', {target: {value: 'David'}});
     tree.find('#phone').simulate('change', {target: {value: 'David'}});
     tree.find('#email').simulate('change', {target: {value: 'David'}});
-    console.log(tree, 'rrrrr');
     tree.find('#submitDetails').simulate('click');
  });
 });
