@@ -166,17 +166,19 @@ export default {
   },
   searchUsers(req, res) {
     return models.Users
-    .findAll({
+    .findAndCountAll({
       limit: 1,
       offset: req.params.page * 1,
       where: { username:
-        { $iLike: `%${req.params.term}%`, $ne: req.decoded.data.username } },
+        { $iLike: `%${req.params.query}%`, $ne: req.decoded.data.username } },
       attributes: ['id', 'username']
     })
     .then((users) => {
+      const pages = Math.ceil(users.count / 1);
+      users = users.rows;
       const searchData = [];
       if (users.length === 0) {
-        res.status(200).send({ users: searchData });
+        res.status(200).send({ users: searchData, pages });
       }
       let n = 0;
       users.map((user, key) => {
@@ -193,7 +195,7 @@ export default {
             searchData[key].ingroup = false;
           }
           if (n === users.length) {
-            res.status(200).send({ users: searchData });
+            res.status(200).send({ users: searchData, pages });
           }
         });
       });
