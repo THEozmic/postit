@@ -6,12 +6,17 @@ import { logoutUser, loginUser } from '../../actions/user';
 
 /**
  * Form Component
- * @class Form
- * @extends {React.Component}
+ * @func Form
+ * @returns {Object} JSX
+ * @param {Object} props
  */
 export const Form =
-({ showSideMenu = false, active, onLogout, onLoginUser, children, title, onSubmit = null }) =>
-  (
+(props) => {
+  const { showSideMenu = false, active,
+    onLogout, onLoginUser, children,
+    title, onSubmit = null, showSearchLink = false } = props;
+
+  return (
     <div>
       <Header />
       <section className="page-container container-fluid">
@@ -22,6 +27,7 @@ export const Form =
                 active={active || 'dashboard'}
                 onLogout={onLogout}
                 onLoginUser={onLoginUser}
+                showSearchLink={showSearchLink}
               /> : '' }
             <div className="section page-content align-top pl-0 col m7 l8">
               <section>
@@ -50,6 +56,7 @@ export const Form =
       <Footer />
     </div>
   );
+};
 
 const mapStateToProps = state =>
   ({
@@ -70,7 +77,8 @@ Form.defaultProps = {
   onLogout: () => {},
   showSideMenu: false,
   children: '',
-  onSubmit: () => {}
+  onSubmit: () => {},
+  showSearchLink: false
 };
 
 Form.propTypes = {
@@ -86,7 +94,8 @@ Form.propTypes = {
     PropTypes.string,
     PropTypes.object,
   ]),
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  showSearchLink: PropTypes.bool
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
