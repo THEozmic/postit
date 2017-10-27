@@ -53,11 +53,6 @@ exports.default = {
       });
     });
   },
-  fetchAllUsers: function fetchAllUsers(req, res) {
-    return _models2.default.Users.findAll({ attributes: ['id', 'username', 'email', 'phone', 'createdAt', 'updatedAt'] }).then(function (users) {
-      return res.status(200).send({ users: users });
-    });
-  },
   fetchCurrentUser: function fetchCurrentUser(req, res) {
     var username = req.decoded.data.username;
     _models2.default.Users.find({
@@ -74,65 +69,7 @@ exports.default = {
       if (!user) {
         return res.status(404).send({ error: 'User does not exist', status: 404 });
       }
-      var groups = user.groups;
-      if (!groups) {
-        return res.status(200).send({ data: user });
-      }
-      if (user.groups.length !== 0) {
-        var n = 1;
-        groups.map(function (group) {
-          _models2.default.Messages.findAll({
-            where: { toGroup: group.id },
-            attributes: ['fromUser', 'readBy']
-          }).then(function (messages) {
-            if (group) {
-              var m = 0;
-              group.dataValues.unreadMessagesCount = 0;
-              if (messages.length === 0) {
-                if (n === groups.length) {
-                  res.status(200).send({ user: user });
-                }
-              } else {
-                messages.map(function (message) {
-                  m += 1;
-                  var readBy = message.readBy.split(',');
-                  var count = 0;
-                  var hasRead = false;
-                  readBy.map(function (readByUsername) {
-                    if (readByUsername === req.decoded.data.username) {
-                      hasRead = true;
-                    }
-                    if (message.fromUser === req.decoded.data.username) {
-                      hasRead = true;
-                    }
-                    return readByUsername;
-                  });
-                  if (!hasRead) {
-                    count += 1;
-                  }
-                  group.dataValues.unreadMessagesCount += count;
-                  if (count === 100) {
-                    groups.length = n;
-                    m = groups.length;
-                    count = '99+';
-                    group.dataValues.unreadMessagesCount = count;
-                  }
-                  if (n === groups.length && m === messages.length) {
-                    return res.status(200).send({ user: user });
-                  }
-                  return message;
-                });
-              }
-              n += 1;
-            } else {
-              res.status(200).send({ user: user });
-            }
-          });
-          return groups;
-        });
-      } else {
-        res.status(200).send({ user: user });
-      }
+      res.status(200).send({ user: user });
     });
   },
   authenticateUser: function authenticateUser(req, res) {
@@ -162,6 +99,9 @@ exports.default = {
     });
   },
   searchUsers: function searchUsers(req, res) {
+    if (req.params.page < 0) {
+      return res.status(403).send({ error: { message: 'Page must be a positive integer' } });
+    }
     return _models2.default.Users.findAndCountAll({
       limit: 1,
       offset: req.params.page * 1,
@@ -192,11 +132,8 @@ exports.default = {
           }
         });
       });
-    }).catch(function (error) {
-      newRes.message = error.message;
-      newRes.code = 400;
-      newRes.success = false;
-      res.status(newRes.code).send();
+    }).catch(function () {
+      res.status(500).send({ error: { message: 'Unkown server error' } });
     });
   },
   updatePassword: function updatePassword(req, res) {

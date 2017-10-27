@@ -26,9 +26,6 @@ export default (app) => {
     });
   });
 
-  // API route to get list of all users
-  app.get('/api/v1/users/', controllers.users.fetchAllUsers);
-
   // API route that allow users create broadcast groups
   app.post('/api/v1/groups/', controllers.groups.createGroup);
 
