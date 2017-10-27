@@ -50,7 +50,7 @@ class SideMenu extends React.Component {
                 to={`/group/${groupId}/search`}
                 className={this.props.active === 'search' ? 'active' : ''}
               >
-              Update Members</Link>
+             Add/Remove Members</Link>
             </li> : ''}
           <li>
             <Link
