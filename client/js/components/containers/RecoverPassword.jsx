@@ -21,7 +21,8 @@ export class RecoverPassword extends React.Component {
     super(props);
     this.state = {
       successMessage: '',
-      buttonText: 'Send'
+      buttonText: 'Send',
+      error_message: ''
     };
     this.onSend = this.onSend.bind(this);
   }
@@ -32,16 +33,26 @@ export class RecoverPassword extends React.Component {
    */
   onSend(event) {
     event.preventDefault();
+    if (this.email.value.trim() === '') {
+      return;
+    }
 
-    this.props.apiRequestPassword(this.email.value)
+    this.setState({
+      buttonText: 'SENDING...'
+    });
+
+    this.props.apiRequestPassword(this.email.value.trim())
     .then(() => {
-      this.setState({
-        successMessage: 'A password reset link has been sent to that email',
-        buttonText: 'Okay'
-      });
+      Materialize.toast('Email sent! Please check your inbox', 4000);
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       location.hash = '#login';
+    })
+    .catch((error) => {
+      this.setState({
+        error_message: error.data.error,
+        buttonText: 'TRY AGAIN'
+      });
     });
   }
 
@@ -65,6 +76,10 @@ export class RecoverPassword extends React.Component {
               <label htmlFor="email">Email</label>
             </div>
           }
+          { this.state.error_message === '' ? '' :
+          <div
+            className="red card"
+          >{this.state.error_message}</div>}
           <button
             onClick={this.onSend}
             className="waves-effect waves-light btn action-btn"
