@@ -58,7 +58,7 @@ export class NewGroup extends React.Component {
         title="Create a new group"
         active="create-group"
         showSideMenu
-        showSearchLink
+        showSearchLink={false}
       >
         <div>
           <div className="input-field">
