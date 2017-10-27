@@ -48,7 +48,7 @@ export default (app) => {
   app.get('/api/v1/users/me/', controllers.users.fetchCurrentUser);
 
   // API route for search
-  app.get('/api/v1/search/:group/:term/:page', controllers.users.searchUsers);
+  app.get('/api/v1/search/:group/:query/:page', controllers.users.searchUsers);
 
   // This should always go last
   app.all('/*', (req, res) => res.status(404).send({
