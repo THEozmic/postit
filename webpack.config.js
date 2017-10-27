@@ -55,6 +55,6 @@ module.exports = {
     }),
     new ExtractTextPlugin({ filename: 'style.css', allChunks: true }),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: true })
+    // new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: true })
   ],
 };

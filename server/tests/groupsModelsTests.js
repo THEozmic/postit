@@ -3,17 +3,16 @@ import models from '../models';
 
 const expect = chai.expect;
 
-describe('Users Model', () => {
-  it('should create new user', (done) => {
-    const newUser = {
-      username: 'theozmic',
-      phone: '0903457883',
-      email: 'theozmic@gmail.com',
-      password: '12345password'
+describe('Groups Model', () => {
+  it('should create new group', (done) => {
+    const newGroup = {
+      name: 'A group',
+      desc: 'Some desc',
+      admin: 1
     };
-    models.Users.create(newUser)
-    .then((user) => {
-      expect(user.email).to.equal(newUser.email);
+    models.Groups.create(newGroup)
+    .then((group) => {
+      expect(group.name).to.equal(newGroup.name);
       done();
     });
   });

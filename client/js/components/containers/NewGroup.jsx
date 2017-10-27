@@ -19,12 +19,36 @@ export class NewGroup extends React.Component {
    */
   constructor(props) {
     super(props);
-    this.onCreateGroup = this.onCreateGroup.bind(this);
     this.state = {
       error: '',
       errorMessage: ''
     };
   }
+
+  /**
+   * @returns {void}
+   * @param {Object} event
+  */
+  onChange(event) {
+    if (event.target.value.length > 20) {
+      this.setState({
+        errorMessage: `Group ${event.target.name} too long`
+      });
+    } else {
+      this.setState({
+        errorMessage: ''
+      });
+    }
+  }
+  /**
+   * @returns {void}
+   * This method is called when the user focuses on the input,
+   * if there's an error relating to that input, it clears it.
+   */
+  onFocus() {
+    this.setState({ errorMessage: '' });
+  }
+
   /**
    * @returns {void}
    * @param {object} event
@@ -35,10 +59,10 @@ export class NewGroup extends React.Component {
       this.setState({ error: 'Error: One or more fields are empty' });
       return;
     }
-    if (this.name.value.length > 30) {
+    if (this.name.value.length > 20) {
       return this.setState({ errorMessage: 'Group name too long' });
     }
-    if (this.desc.value.length > 50) {
+    if (this.desc.value.length > 20) {
       return this.setState({ errorMessage: 'Group description too long' });
     }
 
@@ -63,17 +87,25 @@ export class NewGroup extends React.Component {
         <div>
           <div className="input-field">
             <input
+              name="name"
               type="text"
               id="name"
               ref={(input) => { this.name = input; }}
+              onFocus={() => this.onFocus}
+              onChange={event => this.onChange(event)}
+              maxLength="21"
             />
             <label htmlFor="name">Name</label>
           </div>
           <div className="input-field">
             <input
+              name="description"
               type="text"
               id="desc"
               ref={(input) => { this.desc = input; }}
+              onFocus={() => this.onFocus}
+              onChange={event => this.onChange(event)}
+              maxLength="21"
             />
             <label htmlFor="desc">Description</label>
           </div>
@@ -85,7 +117,7 @@ export class NewGroup extends React.Component {
           <button
             className="waves-effect waves-light btn action-btn"
             id="createGroup"
-            onClick={this.onCreateGroup}
+            onClick={event => this.onCreateGroup(event)}
           >Create</button>
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"

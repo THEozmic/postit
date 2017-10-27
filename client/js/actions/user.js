@@ -34,11 +34,6 @@ export const getCurrentUser = user => ({
   user
 });
 
-const passwordRequest = message => ({
-  type: 'PASSWORD_REQUEST',
-  payload: { message, btnText: 'Okay' }
-});
-
 const passwordReset = message => ({
   type: 'PASSWORD_RESET',
   payload: { message, btnText: 'Okay' }
@@ -52,7 +47,7 @@ export const apiGetCurrentUser = () => function action(dispatch) {
   return request.then(
     (response) => {
       dispatch(getCurrentUser(response.data.user));
-      if (location.hash === '#/login') {
+      if (location.hash === '#/login' || location.hash === '#/register') {
         location.href = '#/dashboard';
       }
     }
