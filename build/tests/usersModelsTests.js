@@ -1,22 +1,29 @@
-// import chai from 'chai';
-// import models from '../models';
+'use strict';
 
-// const expect = chai.expect;
+var _chai = require('chai');
 
-// describe('Users Model', () => {
-//   it('should create new user', (done) => {
-//     const newUser = {
-//       username: 'theozmic',
-//       phone: '0903457883',
-//       email: 'theozmic@gmail.com',
-//       password: '12345password'
-//     };
-//     models.Users.create(newUser)
-//     .then((user) => {
-//       expect(user.email).to.equal(newUser.email);
-//       done();
-//     });
-//   });
-// });
-"use strict";
+var _chai2 = _interopRequireDefault(_chai);
+
+var _models = require('../models');
+
+var _models2 = _interopRequireDefault(_models);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var expect = _chai2.default.expect;
+
+describe('Users Model', function () {
+  it('should create new user', function (done) {
+    var newUser = {
+      username: 'theozmic',
+      phone: '0903457883',
+      email: 'theozmic@gmail.com',
+      password: '12345password'
+    };
+    _models2.default.Users.create(newUser).then(function (user) {
+      expect(user.email).to.equal(newUser.email);
+      done();
+    });
+  });
+});
 //# sourceMappingURL=usersModelsTests.js.map
