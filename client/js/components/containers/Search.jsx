@@ -21,16 +21,19 @@ export class Search extends React.Component {
   constructor(props) {
     super(props);
     this.onSearchChange = this.onSearchChange.bind(this);
+    this.nextPage = this.nextPage.bind(this);
+    this.prevPage = this.prevPage.bind(this);
+    this.makeSearch = this.makeSearch.bind(this);
     this.onFinishClick = this.onFinishClick.bind(this);
-    this.onPageChange = this.onPageChange.bind(this);
     this.isAdmin = this.isAdmin.bind(this);
     this.state = {
       foundUsers: [],
       selectedUsers: [],
-      nextPage: 2,
-      prevPage: 0,
       selectedGroup: {},
-      groupMembers: []
+      groupMembers: [],
+      currentPage: 0,
+      totalPages: 1,
+      prevSearchQuery: ''
     };
   }
 
@@ -42,34 +45,9 @@ export class Search extends React.Component {
     this.props.apiFetchGroup(id, false)
     .then(() => {
       this.setState({
-        selectedGroup: this.props.selectedGroup,
         groupMembers: this.props.selectedGroup.users
       });
     });
-  }
-
-  /**
-   * @param {object} event
-   * @param {int} page
-   * @returns {void}
-   * This method simply updates the state of the "next" and "prev"
-   * buttons when they are clicked
-   */
-  onPageChange(event, page) {
-    if (event) {
-      event.preventDefault();
-    }
-    if (this.term.value.trim() !== '') {
-      if (page === 'prev') {
-        if (this.state.prevPage > 0) {
-          this.setState({ nextPage: this.state.nextPage - 1 });
-          this.setState({ prevPage: this.state.prevPage - 1 });
-        }
-      } else if (this.onSearchChange(this.state.nextPage)) {
-        this.setState({ nextPage: this.state.nextPage + 1 });
-        this.setState({ prevPage: this.state.prevPage + 1 });
-      }
-    }
   }
 
   /**
@@ -84,38 +62,63 @@ export class Search extends React.Component {
     const selectedUsers = JSON.stringify(this.state.selectedUsers);
     this.props.apiUpdateMembers(selectedUsers, this.props.selectedGroup.id)
     .then(() => {
-      history.back();
+      location.href = `/#/group/${this.props.selectedGroup.id}`;
       Materialize.toast('Group members list updated!', 4000);
     });
   }
 
   /**
-   * @param {int} page
    * @param {string} nav
    * @returns {void} returns nothing
    * only requests for the search results
    * it's called when the search input value changes
    */
-  onSearchChange(page = this.state.prevPage + 1, nav) {
-    if (this.term.value.trim() !== '' && page !== 0) {
-      this.props.apiSearch(this.props.selectedGroup.id, this.term.value, page)
-      .then(() => {
-        const searchData = this.props.searchData;
-        if (searchData.users.length !== 0) {
-          if (nav) {
-            this.onPageChange(null, nav);
-          }
-          const nUsers = searchData.users.map((user) => {
-            this.state.selectedUsers.map((sUser) => {
-              if (sUser.id === user.id) {
-                user.ingroup = true;
-              }
-              return searchData;
-            });
-            return user;
-          });
-          this.setState({ foundUsers: nUsers });
+  onSearchChange(nav) {
+    if (this.term.value.trim() !== '') {
+      if (this.state.currentPage === 0) {
+        this.setState({
+          currentPage: 1
+        });
+        this.makeSearch(0);
+        this.setState({
+          prevSearchQuery: this.term.value.trim()
+        });
+        return;
+      }
+
+      if (this.state.prevSearchQuery !== this.term.value.trim()) {
+        this.setState({
+          currentPage: 1
+        });
+        this.makeSearch(0);
+        this.setState({
+          prevSearchQuery: this.term.value.trim()
+        });
+        return;
+      }
+
+      if (nav === 'prev') {
+        if (this.state.currentPage === 1) {
+          return;
         }
+        this.makeSearch(this.state.currentPage - 2);
+        this.setState({
+          currentPage: this.state.currentPage - 1
+        });
+      }
+
+      if (nav === 'next') {
+        if (this.state.totalPages === this.state.currentPage) {
+          return;
+        }
+        this.setState({
+          currentPage: this.state.currentPage + 1
+        });
+        this.makeSearch(this.state.currentPage);
+      }
+
+      this.setState({
+        prevSearchQuery: this.term.value.trim()
       });
     }
     return true;
@@ -165,11 +168,62 @@ export class Search extends React.Component {
   }
 
   /**
+   * @return {void}
+   * @param {int} page
+   */
+  makeSearch(page) {
+    this.props.apiSearch(this.props.selectedGroup.id, this.term.value,
+      page)
+      .then(() => {
+        const searchResults = this.props.searchResults;
+
+        // update the totalPages and currentPage
+        this.setState({
+          totalPages: searchResults.pages
+        });
+
+        // determine who's been selected or not
+        const nUsers = searchResults.users.map((user) => {
+          this.state.selectedUsers.map((sUser) => {
+            if (sUser.id === user.id) {
+              user.ingroup = true;
+            }
+            return searchResults;
+          });
+          return user;
+        });
+        this.setState({ foundUsers: nUsers });
+      });
+  }
+
+  /**
+   * @param {object} event
+   * @returns {void}
+   * This method simply updates the state of the "next"
+   * buttons when they are clicked
+   */
+  nextPage(event) {
+    event.preventDefault();
+    this.onSearchChange('next');
+  }
+
+  /**
+   * @param {object} event
+   * @returns {void}
+   * This method simply updates the state of the "prev"
+   * buttons when they are clicked
+   */
+  prevPage(event) {
+    event.preventDefault();
+    this.onSearchChange('prev');
+  }
+
+  /**
    * @returns {boolean} true or false based on if the "current user" is
    * the admin of the selected group
    */
   isAdmin() {
-    if (this.state.selectedGroup.admin ===
+    if (this.props.selectedGroup.admin ===
       this.props.user.id) {
       return true;
     }
@@ -182,12 +236,12 @@ export class Search extends React.Component {
   render() {
     // Here we are doing to dynamic form title,
     // depending on if the user is an admin
-    let action = 'Add users to ';
+    let action = 'Add members to ';
     if (this.isAdmin()) {
-      action = 'Add or Remove users from ';
+      action = 'Add/Remove members from ';
     }
     const title = { action: `${action}`,
-      group: this.state.selectedGroup.name,
+      group: this.props.selectedGroup.name,
       last: ' group' };
 
     const members = [];
@@ -197,6 +251,7 @@ export class Search extends React.Component {
         title={title}
         active="search"
         showSideMenu
+        showSearchLink
         onSubmit={event => event.preventDefault()}
       >
         <div>
@@ -219,17 +274,21 @@ export class Search extends React.Component {
                 >{fUser.ingroup ? <span>&#10004; </span> : ''}
                 @{fUser.username}</button>)
             )}
-            <div className="search-pages">
-              <button
-                onClick={() => this.onSearchChange(this.state.prevPage, 'prev')}
-                className="search-prev"
-              >Prev</button>
-              <span>{this.state.prevPage + 1}</span>
-              <button
-                onClick={() => this.onSearchChange(this.state.nextPage, 'next')}
-                className="search-next"
-              >Next</button>
-            </div>
+            {this.state.currentPage !== 0 ?
+              <div className="search-pages">
+                <button
+                  onClick={event => this.prevPage(event)}
+                  className="search-prev"
+                >Prev</button>
+                <span>
+                  {this.state.currentPage}/{this.state.totalPages}
+                </span>
+                <button
+                  onClick={event => this.nextPage(event)}
+                  className="search-next"
+                >Next</button>
+              </div> : ''
+            }
           </div>
           <button
             className="waves-effect waves-light btn action-btn"
@@ -237,7 +296,7 @@ export class Search extends React.Component {
           >Finish</button>
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"
-            to={`/group/${this.state.selectedGroup.id}`}
+            to={`/group/${this.props.selectedGroup.id}`}
           >Cancel</Link>
         </div>
       </Form>);
@@ -249,14 +308,14 @@ Search.propTypes = {
   apiFetchGroup: PropTypes.func.isRequired,
   selectedGroup: PropTypes.object.isRequired,
   apiSearch: PropTypes.func.isRequired,
-  searchData: PropTypes.object.isRequired,
+  searchResults: PropTypes.object.isRequired,
   apiUpdateMembers: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   selectedGroup: state.selectedGroup,
-  searchData: state.search,
+  searchResults: state.search,
   user: state.user
 });
 
