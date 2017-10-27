@@ -417,9 +417,7 @@ describe('usersControllersTests ', function () {
           _chai2.default.request(_app2.default).post('/api/v1/groups/1/user/').type('form').set('x-access-token', token).send({
             usersIds: '[2]'
           }).end(function (err, res) {
-            console.log(res.body, 'mmmm');
             _chai2.default.request(_app2.default).get('/api/v1/search/2/testuser/0').set('x-access-token', token).type('form').send().end(function (err, res) {
-              console.log(res.body, 'rrrrr');
               res.should.have.status(200);
               done();
             });

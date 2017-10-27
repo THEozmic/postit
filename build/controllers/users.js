@@ -162,15 +162,17 @@ exports.default = {
     });
   },
   searchUsers: function searchUsers(req, res) {
-    return _models2.default.Users.findAll({
+    return _models2.default.Users.findAndCountAll({
       limit: 1,
       offset: req.params.page * 1,
-      where: { username: { $iLike: '%' + req.params.term + '%', $ne: req.decoded.data.username } },
+      where: { username: { $iLike: '%' + req.params.query + '%', $ne: req.decoded.data.username } },
       attributes: ['id', 'username']
     }).then(function (users) {
+      var pages = Math.ceil(users.count / 1);
+      users = users.rows;
       var searchData = [];
       if (users.length === 0) {
-        res.status(200).send({ users: searchData });
+        res.status(200).send({ users: searchData, pages: pages });
       }
       var n = 0;
       users.map(function (user, key) {
@@ -186,7 +188,7 @@ exports.default = {
             searchData[key].ingroup = false;
           }
           if (n === users.length) {
-            res.status(200).send({ users: searchData });
+            res.status(200).send({ users: searchData, pages: pages });
           }
         });
       });

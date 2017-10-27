@@ -60,7 +60,7 @@ exports.default = function (app) {
   app.get('/api/v1/users/me/', _controllers2.default.users.fetchCurrentUser);
 
   // API route for search
-  app.get('/api/v1/search/:group/:term/:page', _controllers2.default.users.searchUsers);
+  app.get('/api/v1/search/:group/:query/:page', _controllers2.default.users.searchUsers);
 
   // This should always go last
   app.all('/*', function (req, res) {
