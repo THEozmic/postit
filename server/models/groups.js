@@ -11,6 +11,13 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING,
       defaultValue: 'no description',
+    },
+    admin: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      validate: {
+        notEmpty: true
+      }
     }
   });
   Groups.associate = (models) => {

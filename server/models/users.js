@@ -40,7 +40,7 @@ export default (sequelize, DataTypes) => {
       beforeUpdate(user) {
        /* eslint-disable no-underscore-dangle */
         if (user._changed.password) {
-          user.hashPassword();
+          user.hashPassword(user);
         }
       }
     }

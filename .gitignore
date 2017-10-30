@@ -13,6 +13,11 @@
 .env
 coverage
 .nyc_output
+build
+client/dist/*
+client/dist
+webpack.config.js
+
 
 npm-debug.log*
 yarn-debug.log*

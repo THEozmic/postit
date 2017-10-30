@@ -1,12 +1,12 @@
-import Home from './home';
-import Groups from './groups';
-import Header from '../containers/header';
-import Footer from './footer';
-import NewGroup from './new-group';
-import Search from './search';
-import Recover from './recover-password';
-import NewPassword from './new-password';
-import SideMenu from './sidemenu';
-import Form from './form';
+import Home from './Home';
+import Groups from './Groups';
+import Header from './Header';
+import Footer from './Footer';
+import Message from './Message';
+import NotFoundPage from './NotFoundPage';
+import SideMenu from './SideMenu';
 
-export { Home, Header, Groups, Footer, Search, NewGroup, Recover, NewPassword, SideMenu, Form };
+export
+{
+  Home, Header, Groups, Footer, Message, NotFoundPage, SideMenu
+};
