@@ -12,7 +12,7 @@ import { Footer, Header, SideMenu, Groups } from '../presentational';
 export class Dashboard extends React.Component {
   /**
    * Creates an instance of Dashboard
-   * @param {any} props -
+   * @param {any} props
    * @memberof Dashboard
    */
   constructor(props) {
