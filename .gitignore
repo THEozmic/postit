@@ -16,6 +16,7 @@ coverage
 build
 client/dist/*
 client/dist
+webpack.config.js
 
 
 npm-debug.log*
