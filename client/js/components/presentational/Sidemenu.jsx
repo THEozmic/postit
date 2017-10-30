@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
  * @class SideMenu
  * @extends {React.Component}
  */
-class SideMenu extends React.Component {
+export class SideMenu extends React.Component {
 
   /**
    * @param {function} completeLogout
