@@ -1,25 +1,40 @@
 import models from '../models';
 
 export default {
-  create(req, res) {
+  createGroup(req, res) {
     if (!req.body.name) {
-      res.status(400).send({ message: 'Params: "name" and "type" are required' });
+      res.status(400).send({ error: 'Param name is required', status: 400 });
       return;
+    }
+    if (req.body.desc === '') {
+      req.body.desc = 'no description';
+    }
+    if (req.body.name.length > 30) {
+      return res.status(400)
+      .send({ error: 'Group name too long', status: 400 });
+    }
+    if (req.body.desc.length > 40) {
+      return res.status(400)
+      .send({ error: 'Group description too long', status: 400 });
     }
     return models.Groups
       .create({
         name: req.body.name,
+        desc: req.body.desc,
+        admin: req.decoded.data.id
       })
       .then((group) => {
         const userId = req.decoded.data.id;
         models.GroupUsers
         .create({ userId, groupId: group.id })
         .then(res.status(201).send(group));
-      })
-      .catch(error => res.status(400).send(error));
+      });
   },
-  fetch(req, res) {
-    if (req.params.id === undefined) {
+  fetchGroups(req, res) {
+    if (isNaN(req.params.id)) {
+      return res.status(404).send({ error: 'Route not found', status: 404 });
+    }
+    if (!req.params.id) {
       return models.Groups
       .findAll({ include: [{
         model: models.Users,
@@ -29,53 +44,51 @@ export default {
         as: 'users'
       }]
       })
-      .then(groups => res.status(200).send(groups))
-      .catch(error => res.status(400).send(error));
+      .then(groups => res.status(200).send({ groups }));
     }
 
     return models.Groups
     .findOne({
       where: { id: req.params.id },
-      attributes: ['id', 'name'],
+      attributes: ['id', 'name', 'desc', 'admin'],
       include: [{
-        model: models.Users,
+        model: models.Messages,
+        attributes:
+        [
+          'id',
+          'fromUser',
+          'message',
+          'createdAt',
+          'priority',
+          'readBy'
+        ],
+        as: 'messages'
+      },
+      { model: models.Users,
+        attributes: ['id', 'username', 'createdAt'],
         through: {
-          attributes: ['id', 'username'],
+          attributes: []
         },
         as: 'users'
       }]
     })
-    .then(groups => res.status(200).send(groups))
-    .catch(error => res.status(400).send(error));
+    .then((group) => {
+      if (!group) {
+        return res.status(404)
+        .send({ error: 'Group does not exist', status: 404 });
+      }
+      res.status(200).send(group);
+    });
   },
-  fetchMembers(req, res) {
-    return models.GroupUsers
-      .findAll({ where: { group_id: req.params.id } })
-      .then(groups => res.status(200).send(groups))
-      .catch((error) => {
-        res.status(400).send(error);
-      });
-  },
-  message(req, res) {
-    return models.Messages
-      .create({
-        from_user: req.body.from_user,
-        to_group: req.body.to_group,
-        message: req.body.message,
-        priority: req.body.priority
-      })
-      .then(message => res.status(200).send(message))
-      .catch(error => res.status(404).send(error));
-  },
-  messages(req, res) {
+  findMessages(req, res) {
     models.Messages
       .findAll({
-        where: { to_group: [req.params.id] },
+        where: { toGroup: [req.params.id] },
         attributes: [
           'id',
           'message',
-          'from_user',
-          'to_group',
+          'fromUser',
+          'toGroup',
           'priority',
           'readBy'
         ],
@@ -83,46 +96,7 @@ export default {
           ['id', 'ASC']
         ]
       })
-      .then(messages => res.status(200).send(messages))
-      .catch(error => res.status(404).send(error));
-  },
-  readMessage(req, res) {
-    models.Messages
-    .findAll({
-      where: { to_group: [req.params.id] },
-      attributes: [
-        'id',
-        'from_user',
-        'readBy'
-      ],
-    })
-    .then((results) => {
-      results.map((result) => {
-        if (result.dataValues.from_user !== req.decoded.data.username) {
-          console.log(':::RESULT:::', result);
-          console.log(':::FROM USER:::', result.dataValues.from_user);
-          console.log(':::LOGGED USER:::', req.decoded.data.username);
-          console.log(':::EQUAL??:::', result.dataValues.from_user === req.decoded.data.username);
-          let readList = result.dataValues.readBy.split(',');
-          readList = readList.filter(username =>
-            username !== req.decoded.data.username
-          );
-          console.log(':::NEW READ LIST:::', readList);
-          readList.push(req.decoded.data.username);
-          if (result.dataValues.readBy !== '') {
-            return result.updateAttributes({
-              readBy: readList.join(',')
-            });
-          }
-
-          return result.updateAttributes({
-            readBy: req.decoded.data.username
-          });
-        }
-        return false;
-      });
-      res.status(200).send({ data: { message: 'message read' } });
-    })
-    .catch(error => res.status(404).send(error));
+      .then(messages => res.status(200)
+      .send({ messages, group: req.params.id }));
   }
 };

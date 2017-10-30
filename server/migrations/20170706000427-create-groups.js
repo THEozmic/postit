@@ -14,6 +14,18 @@ module.exports = {
           notEmpty: true
         }
       },
+      desc: {
+        allowNull: false,
+        type: Sequelize.STRING,
+        defaultValue: 'no description',
+      },
+      admin: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        validate: {
+          notEmpty: true
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

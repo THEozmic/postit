@@ -13,12 +13,12 @@ services:
 cache: 
   - npm install
 before_script:
-  - createuser Ifeanyi -s -U postgres
-  - createdb postit_dev --username=Ifeanyi
-  - sequelize db:migrate
+  - createuser ifeanyi -s -U postgres
+  - createdb postit_test --username=ifeanyi
+  - NODE_ENV=test sequelize db:migrate:undo:all
+  - NODE_ENV=test sequelize db:migrate
 after_success:
 - npm run coveralls
-after_script: 
-  - nyc npm test && nyc report --reporter=text-lcov | coveralls
+- nyc npm test && nyc report --reporter=text-lcov | coveralls
 notifications:
   webhooks: https://coveralls.io/webhook?repo_token=cG2GU5sfLoIeAbNADg67A6vorgqPKhtfe

@@ -3,16 +3,17 @@ import controllers from '../controllers';
 
 export default (app) => {
   // API routes for users to create accounts and login to the application
-  app.post('/api/users/', controllers.users.create);
-  app.post('/api/signin/', controllers.users.auth);
+  app.post('/api/v1/users/', controllers.users.createUser);
+  app.post('/api/v1/users/signin/', controllers.users.authenticateUser);
   // API route to request for new password
-  app.post('/api/users/request-password', controllers.users.passwordRequest);
+  app.post('/api/v1/users/request-password', controllers.users.passwordRequest);
   // API route to reset password
-  app.post('/api/users/reset-password/:hash', controllers.users.updatePassword);
+  app.post('/api/v1/users/reset-password/:hash',
+  controllers.users.updatePassword);
   let token;
   app.use((req, res, next) => {
     token = req.headers['x-access-token'];
-    jwt.verify(token, 'Armageddon', (err, decoded) => {
+    jwt.verify(token, process.env.JWT_TOKEN || 'SECRET', (err, decoded) => {
       if (err) {
         res.status(401).send({
           error: { message: 'user not authenticated, invalid access token' }
@@ -25,40 +26,30 @@ export default (app) => {
     });
   });
 
-  app.all('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the PostIT API',
-  }));
-
-  // API route to get list of all users
-  app.get('/api/users/', controllers.users.fetch);
-
   // API route that allow users create broadcast groups
-  app.post('/api/groups/', controllers.groups.create);
-
-  // API route to get list of all groups
-  app.get('/api/groups/', controllers.groups.fetch);
-
-   // API route to get list of all groups
-  app.get('/api/groups/:id', controllers.groups.fetch);
-
-  // API route to get list of all users in a group
-  app.get('/api/groups/:id/users', controllers.groups.fetchMembers);
+  app.post('/api/v1/groups/', controllers.groups.createGroup);
 
   // API route that allow users add/remove other users to/from groups
-  app.post('/api/groups/:id/user/', controllers.groupUsers.upsert);
+  app.post('/api/v1/groups/:id/user/', controllers.groupUsers.addOrRemoveUser);
+
+  // API route to get list of all groups
+  app.get('/api/v1/groups/:id', controllers.groups.fetchGroups);
 
   // API route that allows a logged in user post messages to created groups
-  app.post('/api/groups/:id/message/', controllers.messages.create);
+  app.post('/api/v1/groups/:id/message/', controllers.messages.createMessage);
 
   // API route that allows a logged in user retrieve messages from group
-  app.get('/api/groups/:id/messages/', controllers.groups.messages);
-
-  // API route that allows a logged in user retrieve messages from group
-  app.post('/api/groups/:id/read/', controllers.groups.readMessage);
+  app.get('/api/v1/groups/:id/messages/', controllers.groups.findMessages);
 
   // API route that returns current logged in user and their group(s)
-  app.get('/api/users/me/', controllers.users.fetchMe);
+  app.get('/api/v1/users/me/', controllers.users.fetchCurrentUser);
 
   // API route for search
-  app.get('/api/search/:group/:term/:page', controllers.users.search);
+  app.get('/api/v1/search/:group/:query/:page', controllers.users.searchUsers);
+
+  // This should always go last
+  app.all('/*', (req, res) => res.status(404).send({
+    error: 'Route not found',
+    status: 404
+  }));
 };

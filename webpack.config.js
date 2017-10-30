@@ -1,31 +1,32 @@
 const debug = process.env.NODE_ENV !== 'production';
 const webpack = require('webpack');
-const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: debug ? 'inline-sourcemap' : true,
-  entry: './client/js/app.js',
+  devtool: debug ? 'inline-sourcemap' : false,
+  entry: './client/js/App.jsx',
+  node: {
+    net: 'empty',
+    dns: 'empty'
+  },
+  externals: {
+    Materialize: 'Materialize',
+    materialize: 'materialize'
+  },
   module: {
     loaders: [
       {
-        test: /\.js?$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015', 'stage-0'],
-          plugins: ['react-html-attrs', 'transform-decorators-legacy',
-            'transform-class-properties'],
-        }
+        test: /\.(js|jsx)?$/,
+        loader: 'babel-loader'
       },
       {
-        test: /\.scss$/,
-        loader: 'style-loader!css-loader!sass-loader'
+        test: /\.(scss|css)?$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          // resolve-url-loader may be chained before sass-loader if necessary
+          use: ['css-loader', 'sass-loader']
+        })
       },
-      { test: /\.css$/,
-        loaders: [
-          'style-loader',
-          'css-loader?importLoaders=1',
-          'font-loader?format[]=truetype&format[]=woff&format[]=embedded-opentype'
-        ] },
       { test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
         loader: 'file-loader?name=fonts/[name].[ext]'
       }
@@ -36,6 +37,10 @@ module.exports = {
     filename: 'bundle.min.js',
     publicPath: '/dist/'
   },
+  resolve: {
+    modules: ['node_modules', 'client/js'],
+    extensions: ['.js', '.jsx', '.json', '.css', '.scss']
+  },
   plugins: [
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -43,6 +48,12 @@ module.exports = {
       'window.jQuery': 'jquery',
       Hammer: 'hammerjs/hammer'
     }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
+    }),
+    new ExtractTextPlugin({ filename: 'style.css', allChunks: true }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     // new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: true })
   ],
