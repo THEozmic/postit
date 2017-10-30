@@ -13,6 +13,8 @@
 .env
 coverage
 .nyc_output
+build
+client/dist
 
 
 npm-debug.log*
