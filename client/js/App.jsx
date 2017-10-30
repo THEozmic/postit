@@ -5,6 +5,8 @@ import jwt from 'jsonwebtoken';
 import { HashRouter as Router, Route, Switch, Redirect }
 from 'react-router-dom';
 import { render } from 'react-dom';
+import 'jquery/dist/jquery';
+import 'materialize-css';
 import '../scss/index.scss';
 import configureStore from './stores/configureStore';
 
