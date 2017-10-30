@@ -21,7 +21,7 @@ export class Login extends React.Component {
     this.onLoginUser = this.onLoginUser.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.state = {
-      error_message: ''
+      errorMessage: ''
     };
   }
 
@@ -31,7 +31,7 @@ export class Login extends React.Component {
    * if there's an error relating to that input, it clears it.
    */
   onFocus() {
-    this.setState({ error_message: '' });
+    this.setState({ errorMessage: '' });
   }
 
   /**
@@ -50,10 +50,10 @@ export class Login extends React.Component {
       .then(() => {
         location.href = '/#/dashboard';
       }).catch((err) => {
-        this.setState({ error_message: `Error: ${err.data.error}` });
+        this.setState({ errorMessage: `Error: ${err.data.error}` });
       });
     } else {
-      this.setState({ error_message: 'Error: One or more fields are empty' });
+      this.setState({ errorMessage: 'Error: One or more fields are empty' });
     }
   }
 
@@ -82,10 +82,10 @@ export class Login extends React.Component {
             />
             <label htmlFor="password">Password</label>
           </div>
-          { this.state.error_message === '' ? '' :
+          { this.state.errorMessage === '' ? '' :
           <div
             className="red card"
-          >{this.state.error_message}</div>}
+          >{this.state.errorMessage}</div>}
           <div className="section">
             <Link to="recover-password">Forgot Password?</Link>
           </div>

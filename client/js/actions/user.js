@@ -71,17 +71,13 @@ function action(dispatch) {
 };
 
 export const apiRegisterUser = ({ username, email, password, phone }) =>
-function action(dispatch) {
+function action() {
   const request = axios({
     data: { username, email, password, phone },
     method: 'POST',
     url: '/api/v1/users'
   });
-  return request.then(
-    () => {
-      dispatch(apiLoginUser({ username, password }));
-    }
-  );
+  return request;
 };
 
 export const apiCreateGroup = ({ name, desc }) =>

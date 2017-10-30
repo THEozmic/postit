@@ -22,7 +22,7 @@ export class Register extends React.Component {
     this.onRegisterUser = this.onRegisterUser.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.state = {
-      error_message: ''
+      errorMessage: ''
     };
   }
 
@@ -32,7 +32,7 @@ export class Register extends React.Component {
    * if there's an error relating to that input, it clears it.
    */
   onFocus() {
-    this.setState({ error_message: '' });
+    this.setState({ errorMessage: '' });
   }
 
   /**
@@ -47,10 +47,13 @@ export class Register extends React.Component {
     phone = phone.value.trim();
     password = password.value;
     if (username === '' || email === '' || phone === '' || password === '') {
-      this.setState({ error_message: 'Error: One or more fields are empty' });
+      this.setState({ errorMessage: 'Error: One or more fields are empty' });
       return;
     }
-    this.props.apiRegisterUser({ username, email, password, phone });
+    this.props.apiRegisterUser({ username, email, password, phone })
+    .catch((error) => {
+      this.setState({ errorMessage: error.data.error });
+    });
   }
 
   /**
@@ -96,10 +99,12 @@ export class Register extends React.Component {
             />
             <label htmlFor="password">Password</label>
           </div>
-          { this.state.error_message === '' ? '' :
-          <div className="red card" style={{ padding: '5px 10px' }}>
-            {this.state.error_message}
-          </div>}
+          {
+            this.state.errorMessage === '' ? '' :
+            <div className="red card" >
+              {this.state.errorMessage}
+            </div>
+          }
           <button
             id="submitDetails"
             onClick={this.onRegisterUser}

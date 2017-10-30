@@ -21,7 +21,8 @@ export class NewGroup extends React.Component {
     super(props);
     this.state = {
       error: '',
-      errorMessage: ''
+      errorMessage: '',
+      isButtonDisabled: false
     };
   }
 
@@ -66,6 +67,7 @@ export class NewGroup extends React.Component {
       return this.setState({ errorMessage: 'Group description too long' });
     }
 
+    this.setState({ isButtonDisabled: true });
     this.props.apiCreateGroup({ name: this.name.value, desc: this.desc.value })
     .then(() => {
       location.href = '/#/dashboard';
@@ -112,11 +114,11 @@ export class NewGroup extends React.Component {
           { this.state.errorMessage === '' ? '' :
           <div
             className="red card"
-            style={{ padding: '5px 10px' }}
           >{this.state.errorMessage}</div>}
           <button
             className="waves-effect waves-light btn action-btn"
             id="createGroup"
+            disabled={this.state.isButtonDisabled}
             onClick={event => this.onCreateGroup(event)}
           >Create</button>
           <Link

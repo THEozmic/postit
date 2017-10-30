@@ -102,7 +102,6 @@ export class NewPassword extends React.Component {
           { this.state.error === '' ? '' :
           <div
             className="red card"
-            style={{ padding: '5px 10px' }}
           >{this.state.error}</div>}
           <button
             onClick={this.onSubmitPassword}

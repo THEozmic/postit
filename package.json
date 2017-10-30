@@ -122,8 +122,11 @@
     "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha --compilers js:babel-register",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
-    "build": "./node_modules/.bin/webpack ./client/js/App.jsx && babel -d ./build ./server -s --copy-files",
-    "build-client": "webpack ./client/js/App.jsx -w",
-    "build-server": "babel -d ./build ./server -s --copy-files -w"
+    "build:dev:client": "webpack ./client/js/App.jsx -w",
+    "build:dev:server": "babel -d ./build ./server -s --copy-files -w",
+    "build:client": "webpack",
+    "build:server": "babel -d ./build ./server -s --copy-files --ignore tests",
+    "build": "npm run build:client && npm run build:server",
+    "postinstall": "[ \"$NODE_ENV\" != production ] && exit 0; npm run build"
   }
 }

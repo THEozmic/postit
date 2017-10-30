@@ -22,7 +22,7 @@ export class RecoverPassword extends React.Component {
     this.state = {
       successMessage: '',
       buttonText: 'Send',
-      error_message: ''
+      errorMessage: ''
     };
     this.onSend = this.onSend.bind(this);
   }
@@ -50,7 +50,7 @@ export class RecoverPassword extends React.Component {
     })
     .catch((error) => {
       this.setState({
-        error_message: error.data.error,
+        errorMessage: error.data.error,
         buttonText: 'TRY AGAIN'
       });
     });
@@ -76,10 +76,10 @@ export class RecoverPassword extends React.Component {
               <label htmlFor="email">Email</label>
             </div>
           }
-          { this.state.error_message === '' ? '' :
+          { this.state.errorMessage === '' ? '' :
           <div
             className="red card"
-          >{this.state.error_message}</div>}
+          >{this.state.errorMessage}</div>}
           <button
             onClick={this.onSend}
             className="waves-effect waves-light btn action-btn"
