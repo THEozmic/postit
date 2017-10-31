@@ -20,5 +20,3 @@ before_script:
 after_success:
 - npm run coveralls
 - nyc npm test && nyc report --reporter=text-lcov | coveralls
-notifications:
-  webhooks: https://coveralls.io/webhook?repo_token=TiUWloINVd5RUOx3x5VMlwSjXRSOlVOQS
