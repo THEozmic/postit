@@ -1,7 +1,3 @@
-.search-results .ingroup {
-  background-color: #252830;
-}
-
 .search-pages {
   margin: 10px 0px;
   background-color: $primary-color;
@@ -34,6 +30,13 @@
 .search-results {
   margin: 15px 0px;
   color: #252830;
+  .space {
+    height: 22px;
+    margin: 15px 0px;
+  }
+  .ingroup {
+    background-color: #252830;
+  }
 }
 
 .search-prev {
