@@ -33,7 +33,8 @@ export class Search extends React.Component {
       groupMembers: [],
       currentPage: 0,
       totalPages: 1,
-      prevSearchQuery: ''
+      prevSearchQuery: '',
+      noUsersFound: false
     };
   }
 
@@ -74,6 +75,7 @@ export class Search extends React.Component {
    * it's called when the search input value changes
    */
   onSearchChange(nav) {
+    this.setState({ noUsersFound: false });
     if (this.term.value.trim() !== '') {
       if (this.state.currentPage === 0) {
         this.setState({
@@ -177,7 +179,13 @@ export class Search extends React.Component {
       .then(() => {
         const searchResults = this.props.searchResults;
 
-        // update the totalPages and currentPage
+        // no search results gotten
+        // set the current page to zero
+        if (searchResults.pages === 0) {
+          this.setState({ currentPage: 0, foundUsers: [], noUsersFound: true });
+          return;
+        }
+        // update the totalPages
         this.setState({
           totalPages: searchResults.pages
         });
@@ -265,7 +273,8 @@ export class Search extends React.Component {
             <label htmlFor="search">Search by username</label>
           </div>
           <div className="search-results">
-            {this.state.foundUsers.map(fUser =>
+            {
+              this.state.foundUsers.map(fUser =>
               (
                 <button
                   key={fUser.id}
@@ -273,8 +282,11 @@ export class Search extends React.Component {
                   className={fUser.ingroup ? 'ingroup' : ''}
                 >{fUser.ingroup ? <span>&#10004; </span> : ''}
                 @{fUser.username}</button>)
-            )}
-            {this.state.currentPage !== 0 ?
+            ) }
+            { this.state.noUsersFound ?
+            'No users found' : <div className="space" />
+            }
+            {this.state.foundUsers.length !== 0 ?
               <div className="search-pages">
                 <button
                   onClick={event => this.prevPage(event)}
