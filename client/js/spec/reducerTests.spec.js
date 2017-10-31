@@ -1,9 +1,11 @@
+/* globals expect */
 import { selectedGroup, search } from '../reducers/group';
 import messages from '../reducers/messages';
 import user from '../reducers/user';
 
 describe('Group reducers', () => {
-  describe('When CHANGE_SELECTED_GROUP action type is fired from an action', () => {
+  describe('When CHANGE_SELECTED_GROUP action ' +
+  'type is fired from an action', () => {
     it('should change selected group in the store', () => {
       const state = [];
       const action = {
@@ -71,7 +73,7 @@ describe('Messages reducers', () => {
       const state = [];
       const action = {
         type: 'LOAD_MESSAGES',
-        messages:[]
+        messages: []
       };
       expect(messages(state, action)).toEqual([]);
     });
@@ -102,9 +104,9 @@ describe('User reducers', () => {
       const state = {};
       const action = {
         type: 'GET_CURRENT_USER',
-        user: { name: "something" }
+        user: { name: 'something' }
       };
-      expect(user(state, action)).toEqual({name: 'something'});
+      expect(user(state, action)).toEqual({ name: 'something' });
     });
   });
 
