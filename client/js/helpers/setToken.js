@@ -1,13 +1,8 @@
 import axios from 'axios';
 
 /**
- * setToken - This function sets the authorization token to the
- * header of the browser with the name x-access-token
- *
- * @param  {string} token token generated when a
- * user provides a valid credential
- * for logging in
- * @return {null} description
+ * @param {string} token
+ * @returns {null} description
  */
 export default function setToken(token) {
   localStorage.setItem('token', token);
