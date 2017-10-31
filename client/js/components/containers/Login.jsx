@@ -11,6 +11,7 @@ import { apiLoginUser } from '../../actions/user';
  * @extends {React.Component}
  */
 export class Login extends React.Component {
+
   /**
    * Creates an instance of Login
    * @param {any} props -
@@ -112,5 +113,5 @@ const mapDispatchToProps = dispatch => ({
 Login.propTypes = {
   apiLoginUser: PropTypes.func.isRequired,
 };
-export default connect(null, mapDispatchToProps)(Login);
 
+export default connect(null, mapDispatchToProps)(Login);

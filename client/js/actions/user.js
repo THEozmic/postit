@@ -21,7 +21,6 @@ export const logoutUser = user => ({
   user
 });
 
-
 /**
  * Sets the user in the store and fires the register user action
  * @param {object} user

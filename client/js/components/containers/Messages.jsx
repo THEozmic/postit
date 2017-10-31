@@ -10,6 +10,7 @@ import { Message } from '../presentational/';
  * @extends {React.Component}
  */
 export class Messages extends React.Component {
+
   /**
    * Creates an instance of Messages
    * @param {any} props -

@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import { Form } from './Form';
 import { apiRequestPassword } from '../../actions/user';
 
-
 /**
  * Recover Password Page
  * @class RecoverPassword
  * @extends {React.Component}
  */
 export class RecoverPassword extends React.Component {
+
   /**
    * Creates an instance of RecoverPassword
    * @param {any} props -

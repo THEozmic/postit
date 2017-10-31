@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 import { Form } from './Form';
 import { apiCreateGroup } from '../../actions/user';
 
-
 /**
  * Create a New Group Page
  * @class NewGroup
  * @extends {React.Component}
  */
 export class NewGroup extends React.Component {
+
   /**
    * Creates an instance of NewGroup
    * @param {any} props -
@@ -41,6 +41,7 @@ export class NewGroup extends React.Component {
       });
     }
   }
+
   /**
    * @returns {void}
    * This method is called when the user focuses on the input,
