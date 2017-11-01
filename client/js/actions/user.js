@@ -4,6 +4,7 @@ import setToken from '../helpers/setToken';
 /**
  * Logs in and Sets the logged in user into the store
  * @param {object} user
+ * @returns {object} action
  */
 export const loginUser = user => ({
   type: 'LOGIN_USER',
@@ -13,32 +14,47 @@ export const loginUser = user => ({
 /**
  * Remove the user from the store
  * @param {object} user
+ * @returns {object} action
  */
 export const logoutUser = user => ({
   type: 'LOGOUT_USER',
   user
 });
 
-
 /**
  * Sets the user in the store and fires the register user action
- * @param {object} user 
+ * @param {object} user
+ * @returns {object} action
  */
 export const registerUser = user => ({
   type: 'REGISTER_USER',
   user
 });
 
+/**
+ * Get current user
+ * @param {object} user
+ * @returns {object} action
+ */
 export const getCurrentUser = user => ({
   type: 'GET_CURRENT_USER',
   user
 });
 
+/**
+ * Reset password action
+ * @param {object} message
+ * @returns {object} action
+ */
 const passwordReset = message => ({
   type: 'PASSWORD_RESET',
   payload: { message, btnText: 'Okay' }
 });
 
+/**
+ * Async action for Get current user
+ * @returns {promise} request
+ */
 export const apiGetCurrentUser = () => function action(dispatch) {
   const request = axios({
     method: 'GET',
@@ -54,8 +70,12 @@ export const apiGetCurrentUser = () => function action(dispatch) {
   );
 };
 
+/**
+ * Async action for Login user
+ * @returns {promise} request
+ * @param {object} options
+ */
 export const apiLoginUser = ({ username, password }) =>
-
 function action(dispatch) {
   const request = axios({
     method: 'POST',
@@ -70,6 +90,11 @@ function action(dispatch) {
   );
 };
 
+/**
+ * Async action for Register user
+ * @returns {promise} request
+ * @param {object} options
+ */
 export const apiRegisterUser = ({ username, email, password, phone }) =>
 function action() {
   const request = axios({
@@ -80,6 +105,11 @@ function action() {
   return request;
 };
 
+/**
+ * Async action for Get create group
+ * @returns {promise} request
+ * @param {object} options
+ */
 export const apiCreateGroup = ({ name, desc }) =>
 function action(dispatch) {
   const request = axios({
@@ -94,6 +124,11 @@ function action(dispatch) {
   );
 };
 
+/**
+ * Async action for Get reset password
+ * @returns {promise} request
+ * @param {object} options
+ */
 export const apiResetPassword = ({ password, hash }) =>
 function action(dispatch) {
   const request = axios({
@@ -108,6 +143,11 @@ function action(dispatch) {
   );
 };
 
+/**
+ * Async action for request password
+ * @returns {promise} request
+ * @param {string} email
+ */
 export const apiRequestPassword = email =>
 function action() {
   const request = axios({

@@ -4,6 +4,7 @@
  * PASSWORD_RESET and PASSWORD_REQUEST actions
  * @param {object} state
  * @param {*} action
+ * @return {object} state
  */
 const user = (state = {}, action) => {
   const { type } = action;

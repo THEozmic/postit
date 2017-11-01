@@ -3,7 +3,8 @@ import { changeSelectedGroup } from './group';
 
 /**
  * Loads the messages into the store
- * @param {array} messages 
+ * @param {array} messages
+ * @return {object} action
  */
 const loadMessages = messages => ({
   type: 'LOAD_MESSAGES',
@@ -13,8 +14,9 @@ const loadMessages = messages => ({
 /**
  * Fetches group data including messages, depending the
  * params values
- * @param {number} groupId 
- * @param {boolean} withMessages 
+ * @param {number} groupId
+ * @param {boolean} withMessages
+ * @return {object} action
  */
 const apiFetchGroup = (groupId, withMessages = true) =>
 function action(dispatch) {
@@ -34,9 +36,9 @@ function action(dispatch) {
 
 /**
  * Makes API calls to Send messages
- * @param {object} param0
+ * @param {object} options
+ * @return {object} action
  */
-
 export const apiSendMessage = ({ message, priority, toGroup }) =>
   function action(dispatch) {
     const request = axios({

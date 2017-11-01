@@ -2,6 +2,7 @@
  * Reducer to recieve CHANGE_SELECTED_GROUP action
  * @param {object} state
  * @param {*} action
+ * @return {object} state
  */
 export const selectedGroup = (state = {}, action) => {
   const { type, group } = action;
@@ -17,6 +18,7 @@ export const selectedGroup = (state = {}, action) => {
  * Reducer to recieve SEARCH action
  * @param {object} state
  * @param {*} action
+ * @return {object} state
  */
 export const search = (state = {}, action) => {
   const { type, result } = action;

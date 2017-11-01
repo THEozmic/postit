@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import scrollToElement from 'scroll-to-element';
 import { apiSendMessage } from '../../actions/message';
 
-
 /**
  * MessageBox Component
  * The MessageBox component contains the textarea for typing messages,
@@ -34,14 +33,12 @@ export class MessageBox extends React.Component {
     };
   }
 
-
   /**
    * @returns {void}
    */
   componentDidMount() {
     this.scrollPane();
   }
-
 
   /**
    * @returns {void}

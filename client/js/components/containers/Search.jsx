@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { Form } from './Form';
 import { apiFetchGroup, apiSearch, apiUpdateMembers } from '../../actions/';
 
-
 /**
  * Search Page
  * @class Search
@@ -185,6 +184,7 @@ export class Search extends React.Component {
           this.setState({ currentPage: 0, foundUsers: [], noUsersFound: true });
           return;
         }
+
         // update the totalPages
         this.setState({
           totalPages: searchResults.pages

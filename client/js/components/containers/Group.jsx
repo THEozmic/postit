@@ -12,6 +12,7 @@ import { logoutUser, loginUser } from '../../actions/user';
  * @extends {React.Component}
  */
 export class Group extends React.Component {
+
   /**
    * Creates an instance of Group
    * @param {any} props -

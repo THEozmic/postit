@@ -119,6 +119,7 @@ export class Register extends React.Component {
     );
   }
 }
+
 const mapDispatchToProps = dispatch => ({
   apiRegisterUser: ({ username, email, password, phone }) =>
   dispatch(apiRegisterUser({ username, email, password, phone }))

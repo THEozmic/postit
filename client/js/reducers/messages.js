@@ -2,6 +2,7 @@
  * Reducer to recieve LOAD_MESSAGES action
  * @param {array} state
  * @param {*} action
+ * @return {array} state
  */
 const messages = (state = [], action) => {
   const { type, messages: mesages } = action;

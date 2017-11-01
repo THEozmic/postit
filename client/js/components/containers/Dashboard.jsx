@@ -10,6 +10,7 @@ import { Footer, Header, SideMenu, Groups } from '../presentational';
  * @extends {React.Component}
  */
 export class Dashboard extends React.Component {
+
   /**
    * Creates an instance of Dashboard
    * @param {any} props
