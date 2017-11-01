@@ -30,6 +30,56 @@ export default {
         .then(res.status(201).send(group));
       });
   },
+  fetchGroups(req, res) {
+    if (isNaN(req.params.id)) {
+      return res.status(404).send({ error: 'Route not found', status: 404 });
+    }
+    if (!req.params.id) {
+      return models.Groups
+      .findAll({ include: [{
+        model: models.Users,
+        through: {
+          attributes: ['id', 'username'],
+        },
+        as: 'users'
+      }]
+      })
+      .then(groups => res.status(200).send({ groups }));
+    }
+
+    return models.Groups
+    .findOne({
+      where: { id: req.params.id },
+      attributes: ['id', 'name', 'desc', 'admin'],
+      include: [{
+        model: models.Messages,
+        attributes:
+        [
+          'id',
+          'fromUser',
+          'message',
+          'createdAt',
+          'priority',
+          'readBy'
+        ],
+        as: 'messages'
+      },
+      { model: models.Users,
+        attributes: ['id', 'username', 'createdAt'],
+        through: {
+          attributes: []
+        },
+        as: 'users'
+      }]
+    })
+    .then((group) => {
+      if (!group) {
+        return res.status(404)
+        .send({ error: 'Group does not exist', status: 404 });
+      }
+      res.status(200).send(group);
+    });
+  },
   findMessages(req, res) {
     models.Messages
       .findAll({

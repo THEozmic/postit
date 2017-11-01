@@ -24,6 +24,9 @@ export default (app) => {
 
     controllers.groupUsers.addOrRemoveUser);
 
+  // API route to get list of all groups
+  app.get('/api/v1/groups/:id', verifyToken, controllers.groups.fetchGroups);
+
   // API route that allows a logged in user post messages to created groups
   app.post('/api/v1/groups/:id/message/', verifyToken,
 

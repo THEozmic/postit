@@ -131,7 +131,12 @@ export default {
             searchData[key].ingroup = false;
           }
           if (n === users.length) {
-            res.status(200).send({ users: searchData, pages });
+            res.status(200).send({
+              users: searchData,
+              pages,
+              usersPerPage: 5,
+              currentPage: parseInt(req.params.page + 1, 10)
+            });
           }
         });
       });
