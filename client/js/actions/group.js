@@ -54,8 +54,8 @@ function action(dispatch) {
     url: `/api/v1/groups/${groupId}/user/`
   });
   return request.then(
-    () => {
-      dispatch({ type: 'UPDATE_GROUP_MEMBERS', selectedUsers });
-    }
+      () => {
+        dispatch({ type: 'UPDATE_GROUP_MEMBERS', selectedUsers });
+      }
   );
 };
