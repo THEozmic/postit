@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/THEozmic/postit.svg?branch=master)](https://travis-ci.org/THEozmic/postit) 
 
-[![Coverage Status](https://coveralls.io/repos/github/THEozmic/postit/badge.svg)](https://coveralls.io/github/THEozmic/postit)
+[![Coverage Status](https://coveralls.io/repos/github/THEozmic/postit/badge.svg?branch=ch%2Fupdate-coveralls-branch%2F152436871)](https://coveralls.io/github/THEozmic/postit?branch=ch%2Fupdate-coveralls-branch%2F152436871)
 
 [![Code Climate](https://codeclimate.com/github/THEozmic/postit/badges/gpa.svg)](https://codeclimate.com/github/THEozmic/postit)
 
