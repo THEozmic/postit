@@ -19,7 +19,6 @@ function fetchMembersDetails(groupId, userId) {
       if (groups !== null) {
          // Here, I am getting all the groups and leveraging my associations
         // to 'getUsers' in that groups, including
-        // their emails, which is what I need
         groups.getUsers({ attributes: ['email', 'phone'],
           where: { id: { $ne: userId } } }).then((users) => {
             resolve(users);
