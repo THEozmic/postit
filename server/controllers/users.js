@@ -5,7 +5,6 @@ import { sendMail, validateNewUser, generateToken } from '../helpers';
 
 require('dotenv').config();
 
-const newRes = {};
 export default {
   createUser(req, res) {
     if (validateNewUser(req, res) !== 'valid') {
@@ -99,7 +98,7 @@ export default {
   },
   searchUsers(req, res) {
     if (req.params.page < 0) {
-      return res.status(403)
+      return res.status(401)
       .send({ error: { message: 'Page must be a positive integer' } });
     }
     return models.Users
@@ -168,7 +167,7 @@ export default {
         );
       }
       return res.status(400)
-          .send({ message: 'Invalid hash', status: 200 });
+          .send({ message: 'Invalid hash', status: 400 });
     });
   },
   passwordRequest(req, res) {
