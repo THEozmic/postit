@@ -135,7 +135,7 @@ export default {
               users: searchData,
               pages,
               usersPerPage: 5,
-              currentPage: parseInt(req.params.page + 1, 10)
+              currentPage: parseInt(req.params.page, 10) + 1
             });
           }
         });
