@@ -1,4 +1,4 @@
-/* globals expect jest */
+/* globals expect */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { MessageBox } from '../../components/containers/MessageBox';
+import propsMock from '../__mocks__/propsMock';
 
 const mockStore = configureStore();
 
@@ -15,14 +16,14 @@ describe('<MessageBox />', () => {
     expect(MessageBox).toBeDefined();
   });
   it('should render correctly', () => {
-    const then = jest.fn();
     const props = {
-      sendMessageDetails: jest.fn(),
-      apiSendMessage: jest.fn(() => Promise.resolve()),
-      match: { params: { id: 1 } }
+      sendMessageDetails: propsMock.func,
+      apiSendMessage: propsMock.promiseFunc,
+      match: propsMock.match
     };
     const tree = mount(<MessageBox {...props} />);
-    tree.find('#messageBox').simulate('change', { target: { value: 'stuff' } });
+    tree.find('#messageBox').simulate('change', { target:
+      { value: propsMock.string } });
     tree.find('.sendMessage').simulate('click');
   });
 });

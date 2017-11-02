@@ -1,4 +1,4 @@
-/* globals expect jest */
+/* globals expect */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import Messages from '../../components/containers/Messages';
+import propsMock from '../__mocks__/propsMock';
 
 const mockStore = configureStore();
 
@@ -15,11 +16,8 @@ describe('<Messages />', () => {
     expect(Messages).toBeDefined();
   });
   it('should render correctly', () => {
-    const then = jest.fn();
     const props = {
-      messages: [
-        { id: 1, fromUser: 'stuff', priority: 'stuff', message: 'stuff' }
-      ]
+      messages: [propsMock.messageObject]
     };
     const tree = mount(
       <Provider store={mockStore({ runtime: {} })}>

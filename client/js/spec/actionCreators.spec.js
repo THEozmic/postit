@@ -46,14 +46,14 @@ describe('actions', () => {
       mock.onPost('/api/v1/groups/1/user/')
         .reply(201, { users: [] });
 
-      const expectedActions =
+      const expectedAction =
       [{ type: 'UPDATE_GROUP_MEMBERS', selectedUsers: [] }];
 
       const store = mockStore({ messages: [] });
 
       return store.dispatch(apiUpdateMembers([], 1)).then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
 
@@ -61,12 +61,12 @@ describe('actions', () => {
       mock.onGet('/api/v1/search/1/term/1')
         .reply(200, { users: [] });
 
-      const expectedActions = [{ type: 'SEARCH', result: { users: [] } }];
+      const expectedAction = [{ type: 'SEARCH', result: { users: [] } }];
 
       const store = mockStore({});
       return store.dispatch(apiSearch(1, 'term', 1)).then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
   });
@@ -85,7 +85,7 @@ describe('actions', () => {
       mock.onPost('/api/v1/groups/1/message')
         .reply(201, { message: [] });
 
-      const expectedActions = [];
+      const expectedAction = [];
 
       const store = mockStore({ messages: [] });
 
@@ -93,7 +93,7 @@ describe('actions', () => {
         { message: 'message', priority: 'urgent', toGroup: 1 }
       )).then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
 
@@ -102,7 +102,7 @@ describe('actions', () => {
       mock.onGet('/api/v1/groups/1')
         .reply(200, { messages: [] });
 
-      const expectedActions = [
+      const expectedAction = [
         {
           type: 'LOAD_MESSAGES',
           messages: []
@@ -115,7 +115,7 @@ describe('actions', () => {
 
       return store.dispatch(apiFetchGroup(1)).then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
 
@@ -124,7 +124,7 @@ describe('actions', () => {
       mock.onGet('/api/v1/groups/1')
         .reply(200, { messages: [] });
 
-      const expectedActions = [
+      const expectedAction = [
         { group: { messages: [] },
           type: 'CHANGE_SELECTED_GROUP'
         }];
@@ -133,7 +133,7 @@ describe('actions', () => {
 
       return store.dispatch(apiFetchGroup(1, false)).then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
   });
@@ -144,13 +144,13 @@ describe('actions', () => {
       mock.onPost('/api/v1/users/request-password')
         .reply(201, { message: [] });
 
-      const expectedActions = [];
+      const expectedAction = [];
 
       const store = mockStore({ messages: [] });
 
       return store.dispatch(apiRequestPassword('email')).then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
 
@@ -158,7 +158,7 @@ describe('actions', () => {
       mock.onPost('/api/v1/users/reset-password/hash')
         .reply(201, { message: [] });
 
-      const expectedActions = [{
+      const expectedAction = [{
         type: 'PASSWORD_RESET',
         payload: { message: 'Password Reset Successful', btnText: 'Okay' }
       }];
@@ -169,7 +169,7 @@ describe('actions', () => {
       .dispatch(apiResetPassword({ password: 'password', hash: 'hash' }))
       .then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
 
@@ -177,14 +177,14 @@ describe('actions', () => {
       mock.onPost('/api/v1/groups')
         .reply(201, { message: [] });
 
-      const expectedActions = [];
+      const expectedAction = [];
 
       const store = mockStore({ messages: [] });
 
       return store.dispatch(apiCreateGroup({ name: 'Group name', desc: '' }))
       .then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
 
@@ -192,7 +192,7 @@ describe('actions', () => {
       mock.onPost('/api/v1/users/signin')
         .reply(200, { message: [] });
 
-      const expectedActions = [];
+      const expectedAction = [];
 
       const store = mockStore({ messages: [] });
 
@@ -203,7 +203,7 @@ describe('actions', () => {
         }))
       .then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
 
@@ -211,7 +211,7 @@ describe('actions', () => {
       mock.onPost('/api/v1/users')
         .reply(200, { message: [] });
 
-      const expectedActions = [];
+      const expectedAction = [];
 
       const store = mockStore({ messages: [] });
 
@@ -224,7 +224,7 @@ describe('actions', () => {
         }))
       .then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
 
@@ -233,7 +233,7 @@ describe('actions', () => {
       mock.onGet('/api/v1/users/me/')
         .reply(200, { user: {} });
 
-      const expectedActions = [{ type: 'GET_CURRENT_USER', user: {} }];
+      const expectedAction = [{ type: 'GET_CURRENT_USER', user: {} }];
 
       const store = mockStore({ messages: [] });
       location.hash = '#/login';
@@ -241,7 +241,7 @@ describe('actions', () => {
         apiGetCurrentUser())
       .then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
 
@@ -250,7 +250,7 @@ describe('actions', () => {
       mock.onGet('/api/v1/users/me/')
         .reply(200, { user: {} });
 
-      const expectedActions = [{ type: 'GET_CURRENT_USER', user: {} }];
+      const expectedAction = [{ type: 'GET_CURRENT_USER', user: {} }];
 
       const store = mockStore({ messages: [] });
       location.hash = '#/dashboard';
@@ -258,7 +258,7 @@ describe('actions', () => {
         apiGetCurrentUser())
       .then(() => {
         // return of async actions
-        expect(store.getActions()).toEqual(expectedActions);
+        expect(store.getActions()).toEqual(expectedAction);
       });
     });
     it('should create an action to login user', () => {

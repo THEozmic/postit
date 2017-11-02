@@ -1,4 +1,4 @@
-/* globals expect jest */
+/* globals expect */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import Message from '../../components/presentational/Message';
+import propsMock from '../__mocks__/propsMock';
 
 const mockStore = configureStore();
 
@@ -15,10 +16,9 @@ describe('<Message />', () => {
     expect(Message).toBeDefined();
   });
   it('should render correctly', () => {
-    const then = jest.fn();
     const props = {
-      onLogout: jest.fn(),
-      message: { id: 1, fromUser: 'stuff', priority: 'stuff', message: 'stuff' }
+      onLogout: propsMock.func,
+      message: propsMock.messageObject
     };
     const tree = mount(<Message {...props} />);
   });

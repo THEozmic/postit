@@ -1,4 +1,4 @@
-/* globals expect jest */
+/* globals expect */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -7,18 +7,18 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { NewPassword } from '../../components/containers/NewPassword';
+import propsMock from '../__mocks__/propsMock';
 
 describe('<NewPassword />', () => {
   it('should be defined', () => {
     expect(NewPassword).toBeDefined();
   });
   it('should render correctly', () => {
-    const then = jest.fn();
     const props = {
-      match: { params: { id: 1 } },
-      groupId: 1,
-      apiResetPassword: jest.fn(() => Promise.resolve()),
-      user: { btnText: 'Okay' }
+      match: propsMock.match,
+      groupId: propsMock.number,
+      apiResetPassword: propsMock.promiseFunc,
+      user: { btnText: propsMock.btnText }
     };
     const tree = mount(
       <MemoryRouter>

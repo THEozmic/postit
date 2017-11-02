@@ -1,4 +1,4 @@
-/* globals expect jest */
+/* globals expect */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -7,16 +7,16 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import Groups from '../../components/presentational/Groups';
+import propsMock from '../__mocks__/propsMock';
 
 describe('<Groups />', () => {
   it('should be defined', () => {
     expect(Groups).toBeDefined();
   });
   it('should render correctly', () => {
-    const then = jest.fn();
     const props = {
-      onLogout: jest.fn(),
-      groups: []
+      onLogout: propsMock.func,
+      groups: propsMock.emptyArray
     };
     const tree = mount(
       <MemoryRouter>
@@ -24,10 +24,9 @@ describe('<Groups />', () => {
       </MemoryRouter>);
   });
   it('should render correctly group length not === 0', () => {
-    const then = jest.fn();
     const props = {
-      onLogout: jest.fn(),
-      groups: [{ id: 1, name: 'test', desc: 'stuff' }]
+      onLogout: propsMock.func,
+      groups: propsMock.groupsArray
     };
     const tree = mount(
       <MemoryRouter>

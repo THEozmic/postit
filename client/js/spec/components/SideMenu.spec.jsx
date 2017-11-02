@@ -7,40 +7,39 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import SideMenu from '../../components/presentational/SideMenu';
+import propsMock from '../__mocks__/propsMock';
 
 describe('<SideMenu />', () => {
   it('should be defined', () => {
     expect(SideMenu).toBeDefined();
   });
   it('should render correctly', () => {
-    const then = jest.fn();
     const props = {
-      onLogout: jest.fn(),
+      onLogout: propsMock.func,
     };
     const tree = shallow(<SideMenu {...props} />);
     tree.find('.logout').simulate('click');
   });
   it('should render with active and showSearchLink set', () => {
     const props = {
-      onLogout: jest.fn(),
-      active: 'create-group',
-      showSearchLink: true
+      onLogout: propsMock.func,
+      active: propsMock.createGroupString,
+      showSearchLink: propsMock.boolTrue
     };
     const tree = shallow(<SideMenu {...props} />);
   });
   it('should render with active set to search and showSearchLink set', () => {
     const props = {
-      onLogout: jest.fn(),
-      active: 'search',
-      showSearchLink: true
+      onLogout: propsMock.func,
+      active: propsMock.activeString,
+      showSearchLink: propsMock.boolTrue
     };
     const tree = shallow(<MemoryRouter><SideMenu {...props} /></MemoryRouter>);
   });
   it('should render with active set to search and showSearchLink set', () => {
     const props = {
-      onLogout: jest.fn(),
-      showSearchLink: false,
-      active: ''
+      onLogout: propsMock.func,
+      showSearchLink: propsMock.boolFalse
     };
     const tree = mount(<MemoryRouter><SideMenu {...props} /></MemoryRouter>);
   });

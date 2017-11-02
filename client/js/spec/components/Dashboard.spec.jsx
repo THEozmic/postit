@@ -1,4 +1,4 @@
-/* globals expect jest */
+/* globals expect */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { Dashboard } from '../../components/containers/Dashboard';
+import propsMock from '../__mocks__/propsMock';
 
 describe('<Dashboard />', () => {
   it('should be defined', () => {
@@ -14,9 +15,9 @@ describe('<Dashboard />', () => {
   });
   it('should render correctly', () => {
     const props = {
-      onLogout: jest.fn(),
-      user: { groups: [] },
-      apiGetCurrentUser: jest.fn(() => Promise.resolve())
+      onLogout: propsMock.func,
+      user: propsMock.dashboardUser,
+      apiGetCurrentUser: propsMock.promiseFunc
     };
     const tree = shallow(<Dashboard {...props} />);
   });
