@@ -1,8 +1,13 @@
 import jwt from 'jsonwebtoken';
 
-let token;
+/**
+ * @returns {void}
+ * @param {object} req
+ * @param {object} res
+ * @param {func} next
+ */
 export default ((req, res, next) => {
-  token = req.headers['x-access-token'];
+  const token = req.headers['x-access-token'];
   jwt.verify(token, process.env.JWT_TOKEN || 'SECRET', (err, decoded) => {
     if (err) {
       res.status(401).send({
