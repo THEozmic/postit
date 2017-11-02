@@ -25,6 +25,14 @@ export class RecoverPassword extends React.Component {
       errorMessage: ''
     };
     this.onSend = this.onSend.bind(this);
+    this.onFocus = this.onFocus.bind(this);
+  }
+
+  /**
+   * @returns {void}
+   */
+  onFocus() {
+    this.setState({ errorMessage: '' });
   }
 
   /**
@@ -34,6 +42,13 @@ export class RecoverPassword extends React.Component {
   onSend(event) {
     event.preventDefault();
     if (this.email.value.trim() === '') {
+      this.setState({ errorMessage: 'Please provide an email' });
+      return;
+    }
+
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/
+    .test(this.email.value)) {
+      this.setState({ errorMessage: 'Invalid email' });
       return;
     }
 
@@ -72,6 +87,7 @@ export class RecoverPassword extends React.Component {
                 type="email"
                 id="email"
                 ref={(input) => { this.email = input; }}
+                onFocus={this.onFocus}
               />
               <label htmlFor="email">Email</label>
             </div>

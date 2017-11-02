@@ -22,7 +22,7 @@ export class NewPassword extends React.Component {
     this.onSubmitPassword = this.onSubmitPassword.bind(this);
     this.onFocus = this.onFocus.bind(this);
     this.state = {
-      error: '',
+      errorMessage: '',
       success: '',
       resetText: 'Reset'
     };
@@ -34,7 +34,7 @@ export class NewPassword extends React.Component {
    * if there's an error relating to that input, it clears it.
    */
   onFocus() {
-    this.setState({ error: '' });
+    this.setState({ errorMessage: '' });
   }
 
   /**
@@ -47,24 +47,34 @@ export class NewPassword extends React.Component {
       location.hash = '#login';
       return;
     }
-    if (this.password.value !== this.confirmPassword.value) {
-      this.setState({ error: 'Passwords don\'t match.' });
+
+    if (this.password.value === '') {
+      this.setState({ errorMessage: 'Password field is required' });
       return;
     }
-    if (this.password.value !== '') {
-      const hash = this.props.match.params.hash;
-      if (hash === undefined) {
-        this.setState({ error: 'Invalid hash.' });
-        return;
-      }
 
-      this.props.apiResetPassword({ password: this.password.value, hash })
-      .then(() => {
-        if (this.props.user.message !== 'Password Reset Successful') {
-          this.setState({ error: 'An unexpected error occurred' });
-        }
-      });
+    if (this.confirmPassword.value === '') {
+      this.setState({ errorMessage: 'Password Again field is required' });
+      return;
     }
+
+    if (this.password.value !== this.confirmPassword.value) {
+      this.setState({ errorMessage: 'Passwords don\'t match.' });
+      return;
+    }
+
+    const hash = this.props.match.params.hash;
+    if (hash === undefined) {
+      this.setState({ errorMessage: 'Invalid hash.' });
+      return;
+    }
+
+    this.props.apiResetPassword({ password: this.password.value, hash })
+    .then(() => {
+      if (this.props.user.message !== 'Password Reset Successful') {
+        this.setState({ errorMessage: 'An unexpected error occurred' });
+      }
+    });
   }
 
   /**
@@ -99,10 +109,10 @@ export class NewPassword extends React.Component {
               {this.props.user.message}
             </div>
           }
-          { this.state.error === '' ? '' :
+          { this.state.errorMessage === '' ? '' :
           <div
             className="red card"
-          >{this.state.error}</div>}
+          >{this.state.errorMessage}</div>}
           <button
             onClick={this.onSubmitPassword}
             className="waves-effect waves-light btn action-btn"

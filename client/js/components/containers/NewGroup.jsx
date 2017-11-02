@@ -24,6 +24,7 @@ export class NewGroup extends React.Component {
       errorMessage: '',
       isButtonDisabled: false
     };
+    this.onFocus = this.onFocus.bind(this);
   }
 
   /**
@@ -58,7 +59,7 @@ export class NewGroup extends React.Component {
   onCreateGroup(event) {
     event.preventDefault();
     if (this.name.value === '') {
-      this.setState({ error: 'Error: One or more fields are empty' });
+      this.setState({ errorMessage: 'Group name is required' });
       return;
     }
     if (this.name.value.length > 20) {
@@ -94,7 +95,7 @@ export class NewGroup extends React.Component {
               type="text"
               id="name"
               ref={(input) => { this.name = input; }}
-              onFocus={() => this.onFocus}
+              onFocus={this.onFocus}
               onChange={event => this.onChange(event)}
               maxLength="21"
             />
@@ -106,7 +107,7 @@ export class NewGroup extends React.Component {
               type="text"
               id="desc"
               ref={(input) => { this.desc = input; }}
-              onFocus={() => this.onFocus}
+              onFocus={this.onFocus}
               onChange={event => this.onChange(event)}
               maxLength="21"
             />
