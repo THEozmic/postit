@@ -1,7 +1,7 @@
 import models from '../models';
 
 export default {
-  addOrRemoveUser(req, res) {
+  updateUsersInGroup(req, res) {
     if (!req.body.usersIds) {
       return res.status(400)
       .send({ error: 'Param: "users" is required', status: 400 });
