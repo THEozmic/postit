@@ -103,14 +103,14 @@ export default {
     }
     return models.Users
     .findAndCountAll({
-      limit: 1,
-      offset: req.params.page * 1,
+      limit: 5,
+      offset: req.params.page * 5,
       where: { username:
         { $iLike: `%${req.params.query}%`, $ne: req.decoded.data.username } },
       attributes: ['id', 'username']
     })
     .then((users) => {
-      const pages = Math.ceil(users.count / 1);
+      const pages = Math.ceil(users.count / 5);
       users = users.rows;
       const searchData = [];
       if (users.length === 0) {
