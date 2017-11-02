@@ -1,8 +1,7 @@
 require('dotenv').config();
 
-// This will be our application entry. We'll setup our server here.
 const http = require('http');
-const app = require('../../app'); // The express app we just created
+const app = require('../../app');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 app.set('port', port);

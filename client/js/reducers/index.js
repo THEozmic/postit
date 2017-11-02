@@ -1,12 +1,13 @@
 import { combineReducers } from 'redux';
-import selectedGroup from './selectedGroup';
-import userData from './user';
+import { selectedGroup, search } from './group';
+import user from './user';
 import messages from './messages';
 
 const rootReducer = combineReducers({
   selectedGroup,
-  userData,
-  messages
+  user,
+  messages,
+  search
 });
 
 export default rootReducer;

@@ -1,10 +1,14 @@
+/**
+ * Reducer to recieve LOAD_MESSAGES action
+ * @param {array} state
+ * @param {*} action
+ * @return {array} state
+ */
 const messages = (state = [], action) => {
-  const { type, newMessage } = action;
+  const { type, messages: mesages } = action;
   switch (type) {
-    case 'SEND_MESSAGE':
-      return [...state, newMessage];
     case 'LOAD_MESSAGES':
-      return action.messages;
+      return mesages;
     default:
       return state;
   }

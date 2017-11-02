@@ -1,3 +1,8 @@
+/**
+ * @param {object} req
+ * @param {object} res
+ * @returns {string} token
+ */
 const validateNewUser = (req, res) => {
   /* eslint-disable no-useless-escape */
   if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(req.body.email)) {

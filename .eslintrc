@@ -1,44 +1,30 @@
 {
   "root": true,
-  "extends": "airbnb-base",
+  "extends": "airbnb",
   "env": {
     "node": true,
-    "browser": true,
     "es6": true,
-    "mocha": true
+    "mocha": true,
+    "browser": true
   },
-  "globals": {
-    "describe": true,
-    "expect": true,
-    "should": true,
-    "React" : true
-  },
-  "parserOptions": {
-     "ecmaFeatures" : {
-         "jsx" : true
-      } 
-    },
-  "plugins" : [
-    "react"
-  ],
   "rules": {
+    "import/no-named-as-default": 0,
     "one-var": 0,
-    "max-len": [1, 100, 2],
     "one-var-declaration-per-line": 0,
     "new-cap": 0,
     "consistent-return": 0,
     "no-param-reassign": 0,
+    "max-len": [1, 80, 2],
     "comma-dangle": 0,
     "curly": ["error", "multi-line"],
-    "import/no-unresolved": [2, { "commonjs": true }],
-    "no-shadow": ["error", { "allow": ["req", "res", "err", "store"] }],
+    "no-shadow": ["error", { "allow": ["req", "res", "err"] }],
+    "react/forbid-prop-types": [0, { "forbid": ["object"] }],
     "valid-jsdoc": ["error", {
       "requireReturn": true,
       "requireReturnType": true,
       "requireParamDescription": false,
       "requireReturnDescription": true
     }],
-    "array-callback-return": 0,
     "require-jsdoc": ["error", {
         "require": {
             "FunctionDeclaration": true,

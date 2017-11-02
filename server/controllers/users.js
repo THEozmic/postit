@@ -1,10 +1,10 @@
 import crypto from 'crypto';
+import bcrypt from 'bcrypt-nodejs';
 import models from '../models';
 import { sendMail, validateNewUser, generateToken } from '../helpers';
 
 require('dotenv').config();
 
-const newRes = {};
 export default {
   createUser(req, res) {
     if (validateNewUser(req, res) !== 'valid') {
@@ -36,25 +36,14 @@ export default {
                 .then((savedUser) => {
                   const token = generateToken(savedUser);
                   savedUser = savedUser.filterUserDetails(savedUser);
-                  return res.status(201).send({ message: 'Signup success', user: savedUser, token });
+                  return res.status(201)
+                  .send({ message: 'Signup success', user: savedUser, token });
                 }).catch((error) => {
                   res.status(500).send({ error: error.message });
                 });
-            })
-            .catch((error) => {
-              res.status(500).send({ error: error.message });
             });
         });
     });
-  },
-  fetchAllUsers(req, res) {
-    return models.Users
-      .findAll({ attributes:
-        ['id', 'username', 'email', 'phone', 'createdAt', 'updatedAt'] })
-      .then(users => res.status(200).send({ users }))
-      .catch((error) => {
-        res.status(500).send({ error });
-      });
   },
   fetchCurrentUser(req, res) {
     const username = req.decoded.data.username;
@@ -72,82 +61,21 @@ export default {
     })
     .then((user) => {
       if (!user) {
-        return res.status(404).send({ error: 'User does not exist', status: 404 });
+        return res.status(404)
+        .send({ error: 'User does not exist', status: 404 });
       }
-      const groups = user.groups;
-      if (!groups) {
-        return res.status(200).send({ data: user });
-      }
-      if (user.groups.length !== 0) {
-        let n = 1;
-        groups.map((group) => {
-          models.Messages
-          .findAll({
-            where: { toGroup: group.id },
-            attributes: ['fromUser', 'readBy']
-          }).then(
-            (messages) => {
-              if (group) {
-                let m = 0;
-                group.dataValues.unreadMessagesCount = 0;
-                if (messages.length === 0) {
-                  if (n === groups.length) {
-                    res.status(200).send({ user });
-                  }
-                } else {
-                  messages.map((message) => {
-                    m += 1;
-                    const readBy = message.readBy.split(',');
-                    let count = 0;
-                    let hasRead = false;
-                    readBy.map((readByUsername) => {
-                      if (readByUsername === req.decoded.data.username) {
-                        hasRead = true;
-                      }
-                      if (message.fromUser === req.decoded.data.username) {
-                        hasRead = true;
-                      }
-                      return readByUsername;
-                    });
-                    if (!hasRead) {
-                      count += 1;
-                    }
-                    group.dataValues.unreadMessagesCount += count;
-                    if (count === 100) {
-                      groups.length = n;
-                      m = groups.length;
-                      count = '99+';
-                      group.dataValues.unreadMessagesCount = count;
-                    }
-                    if (n === groups.length && m === messages.length) {
-                      return res.status(200).send({ user });
-                    }
-                    return message;
-                  });
-                }
-                n += 1;
-              } else {
-                res.status(200).send({ user });
-              }
-            }
-          );
-          return groups;
-        });
-      } else {
-        res.status(200).send({ user });
-      }
-    })
-    .catch((error) => {
-      res.status(500).send({ error: error.message, status: 500 });
+      res.status(200).send({ user });
     });
   },
   authenticateUser(req, res) {
     if (!req.body.username) {
-      return res.status(400).send({ error: 'Username is required', status: 400 });
+      return res.status(400)
+      .send({ error: 'Username is required', status: 400 });
     }
 
     if (!req.body.password) {
-      return res.status(400).send({ error: 'Password is required', status: 400 });
+      return res.status(400)
+      .send({ error: 'Password is required', status: 400 });
     }
 
     models.Users
@@ -155,45 +83,39 @@ export default {
       .then((user) => {
         if (user) {
           if (user.isValidPassword(req.body.password, user)) {
-            const token = generateToken(user);
+            const { username, email, id } = user;
+            const token = generateToken({ username, email, id });
             return res.status(202).send({
-              token,
-              userData: { id: user.id, email: user.email, username: user.username }
+              token
             });
           }
-          return res.status(401).send({ error: 'Invalid password and username', status: 401 });
+          return res.status(401)
+          .send({ error: 'Invalid password and username', status: 401 });
         }
-        res.status(404).send({ error: 'User does not exist', status: 404 });
-      })
-      .catch(error => res.status(500).send({ error: error.message, status: 500 }));
+        res.status(404)
+        .send({ error: 'User does not exist', status: 404 });
+      });
   },
   searchUsers(req, res) {
+    if (req.params.page < 0) {
+      return res.status(401)
+      .send({ error: { message: 'Page must be a positive integer' } });
+    }
     return models.Users
-    .findAll({
-      limit: 10,
-      offset: req.params.page * 10,
-      where: { username: { $iLike: `%${req.params.term}%`, $ne: req.decoded.data.username } },
+    .findAndCountAll({
+      limit: 5,
+      offset: req.params.page * 5,
+      where: { username:
+        { $iLike: `%${req.params.query}%`, $ne: req.decoded.data.username } },
       attributes: ['id', 'username']
     })
     .then((users) => {
+      const pages = Math.ceil(users.count / 5);
+      users = users.rows;
       const searchData = [];
       if (users.length === 0) {
-        res.status(200).send({ users: searchData });
+        res.status(200).send({ users: searchData, pages });
       }
-      users.map((user, key) => {
-        searchData.push(user.dataValues);
-        return models.GroupUsers
-        .find({
-          where: { userId: user.id, groupId: req.params.group },
-          attributes: ['userId']
-        }).then((result) => {
-          if (result !== null) {
-            searchData[key].ingroup = true;
-          } else {
-            searchData[key].ingroup = false;
-          }
-        });
-      });
       let n = 0;
       users.map((user, key) => {
         searchData.push(user.dataValues);
@@ -209,16 +131,18 @@ export default {
             searchData[key].ingroup = false;
           }
           if (n === users.length) {
-            res.status(200).send({ users: searchData });
+            res.status(200).send({
+              users: searchData,
+              pages,
+              usersPerPage: 5,
+              currentPage: parseInt(req.params.page, 10) + 1
+            });
           }
         });
       });
     })
-    .catch((error) => {
-      newRes.message = error.message;
-      newRes.code = 400;
-      newRes.success = false;
-      res.status(newRes.code).send();
+    .catch(() => {
+      res.status(500).send({ error: { message: 'Unkown server error' } });
     });
   },
   updatePassword(req, res) {
@@ -226,20 +150,29 @@ export default {
     .findOne({
       where: { hash: req.params.hash }
     }).then((result) => {
-      const email = result.dataValues.email;
-      const date = new Date();
-      const now = `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
-      if (now > result.dataValues.expiresIn) {
-        res.status(400).send({ message: 'Link has expired', status: 400 });
-        return;
-      }
-      return models.Users
+      if (result) {
+        const email = result.dataValues.email;
+        const date = new Date();
+        const now =
+        `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
+        if (now > result.dataValues.expiresIn) {
+          res.status(400).send({ message: 'Link has expired', status: 400 });
+          return;
+        }
+        return models.Users
         .update(
-          { password: req.body.password },
+          { password:
+            bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(5))
+          },
           { where: { email } }
-        ).then(() =>
-          res.status(200).send({ message: 'Password Reset Successful', status: 200 })
+        )
+        .then(() =>
+          res.status(200)
+          .send({ message: 'Password Reset Successful', status: 200 })
         );
+      }
+      return res.status(400)
+          .send({ message: 'Invalid hash', status: 400 });
     });
   },
   passwordRequest(req, res) {
@@ -250,27 +183,37 @@ export default {
     .digest('hex');
     const date = new Date();
     date.setHours(date.getHours() + 1);
-    const expiresIn = `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
+    const expiresIn
+    = `${date.toString().split(' ')[2]}:${date.toString().split(' ')[4]}`;
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(req.body.email)) {
       return res.status(400)
       .send({ error: 'Invalid email', status: 400 });
     }
-    const message = `Hello ${email},\
+    let message = `Hello ${email},\
  if you have requested for a new password, please follow \
- <a href='http://localhost:3000/#/new-password/${hash}'>this link</a> to reset your password`;
+ <a href='http://localhost:3000/#/new-password/${hash}'> \
+ this link</a> to reset your password`;
+
+    if (process.env.NODE_ENV === 'production') {
+      message = `Hello ${email},\
+      if you have requested for a new password, please follow \
+      <a href='https://postit-michael.herokuapp.com/#/new-password/${hash}'> \
+      this link</a> to reset your password`;
+    }
 
     models.Users
     .findOne({
       where: { email }
     }).then((foundUser) => {
       if (!foundUser) {
-        return res.status(404).send({ error: 'Email does not have an account', status: 404 });
+        return res.status(404)
+        .send({ error: 'Email does not have an account', status: 404 });
       }
       models.PasswordRequests
       .findOne({
         where: { email }
       }).then((response) => {
-        if (response === null) {
+        if (!response) {
           models.PasswordRequests
           .create({
             email,
@@ -287,8 +230,13 @@ export default {
             sendMail(email, { subject: 'Password Reset Request', message });
           });
         }
+        if (process.env.NODE_ENV === 'test') {
+          return res.status(200)
+          .send({ message: 'Request made', hash, status: 200 });
+        }
+        return res.status(200)
+        .send({ message: 'Request made', status: 200 });
       });
-      res.status(200).send({ message: 'Request made', status: 200 });
     });
   }
 };
