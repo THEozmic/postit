@@ -26,12 +26,4 @@ const Header = () =>
     </div>
   </header>);
 
-Header.defaultProps = {
-  username: ''
-};
-
-Header.propTypes = {
-  username: PropTypes.string
-};
-
 export default Header;
