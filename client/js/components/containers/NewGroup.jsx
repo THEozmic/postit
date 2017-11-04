@@ -22,7 +22,9 @@ export class NewGroup extends React.Component {
     this.state = {
       error: '',
       errorMessage: '',
-      isButtonDisabled: false
+      isButtonDisabled: false,
+      name: '',
+      description: ''
     };
   }
 
@@ -33,13 +35,14 @@ export class NewGroup extends React.Component {
   onChange(event) {
     if (event.target.value.length > 20) {
       this.setState({
-        errorMessage: `Group ${event.target.name} too long`
+        errorMessage: `Group ${event.target.name} text limit reached!`
       });
     } else {
       this.setState({
         errorMessage: ''
       });
     }
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
@@ -57,19 +60,22 @@ export class NewGroup extends React.Component {
    */
   onCreateGroup(event) {
     event.preventDefault();
-    if (this.name.value === '') {
+    if (this.state.name === '') {
       this.setState({ error: 'Error: One or more fields are empty' });
       return;
     }
-    if (this.name.value.length > 20) {
+    if (this.state.name.length > 20) {
       return this.setState({ errorMessage: 'Group name too long' });
     }
-    if (this.desc.value.length > 20) {
+    if (this.state.description.length > 20) {
       return this.setState({ errorMessage: 'Group description too long' });
     }
 
     this.setState({ isButtonDisabled: true });
-    this.props.apiCreateGroup({ name: this.name.value, desc: this.desc.value })
+    this.props.apiCreateGroup({
+      name: this.state.name,
+      desc: this.state.description
+    })
     .then(() => {
       location.href = '/#/dashboard';
       Materialize.toast('Group created!', 4000);
@@ -93,7 +99,7 @@ export class NewGroup extends React.Component {
               name="name"
               type="text"
               id="name"
-              ref={(input) => { this.name = input; }}
+              value={this.state.name}
               onFocus={() => this.onFocus}
               onChange={event => this.onChange(event)}
               maxLength="21"
@@ -105,12 +111,12 @@ export class NewGroup extends React.Component {
               name="description"
               type="text"
               id="desc"
-              ref={(input) => { this.desc = input; }}
+              value={this.state.description}
               onFocus={() => this.onFocus}
               onChange={event => this.onChange(event)}
               maxLength="21"
             />
-            <label htmlFor="desc">Description</label>
+            <label htmlFor="description">Description</label>
           </div>
           { this.state.errorMessage === '' ? '' :
           <div

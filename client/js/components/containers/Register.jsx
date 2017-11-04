@@ -21,9 +21,23 @@ export class Register extends React.Component {
     super(props);
     this.onRegisterUser = this.onRegisterUser.bind(this);
     this.onFocus = this.onFocus.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.state = {
-      errorMessage: ''
+      errorMessage: '',
+      username: '',
+      email: '',
+      phone: '',
+      password: ''
     };
+  }
+
+  /**
+   * This function changes intial states based on onChange events
+   * @param {object} event [the events object parameter]
+   * @return {[type]}      [description]
+   */
+  onChange(event) {
+    return this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
@@ -41,11 +55,11 @@ export class Register extends React.Component {
    */
   onRegisterUser(event) {
     event.preventDefault();
-    let { username, email, phone, password } = this;
-    username = username.value.trim();
-    email = email.value.trim();
-    phone = phone.value.trim();
-    password = password.value;
+    let { username, email, phone } = this.state;
+    const password = this.state.password;
+    username = username.trim();
+    email = email.trim();
+    phone = phone.trim();
     if (username === '' || email === '' || phone === '' || password === '') {
       this.setState({ errorMessage: 'Error: One or more fields are empty' });
       return;
@@ -68,7 +82,9 @@ export class Register extends React.Component {
               onFocus={this.onFocus}
               type="text"
               id="username"
-              ref={(input) => { this.username = input; }}
+              name="username"
+              value={this.state.username}
+              onChange={this.onChange}
             />
             <label htmlFor="username">Username</label>
           </div>
@@ -77,7 +93,9 @@ export class Register extends React.Component {
               onFocus={this.onFocus}
               type="email"
               id="email"
-              ref={(input) => { this.email = input; }}
+              name="email"
+              value={this.state.email}
+              onChange={this.onChange}
             />
             <label htmlFor="email">Email</label>
           </div>
@@ -86,7 +104,9 @@ export class Register extends React.Component {
               onFocus={this.onFocus}
               type="text"
               id="phone"
-              ref={(input) => { this.phone = input; }}
+              name="phone"
+              value={this.state.phone}
+              onChange={this.onChange}
             />
             <label htmlFor="phone">Phone</label>
           </div>
@@ -95,7 +115,9 @@ export class Register extends React.Component {
               onFocus={this.onFocus}
               type="password"
               id="password"
-              ref={(input) => { this.password = input; }}
+              name="password"
+              value={this.state.password}
+              onChange={this.onChange}
             />
             <label htmlFor="password">Password</label>
           </div>
@@ -123,7 +145,6 @@ export class Register extends React.Component {
 const mapDispatchToProps = dispatch => ({
   apiRegisterUser: ({ username, email, password, phone }) =>
   dispatch(apiRegisterUser({ username, email, password, phone }))
-
 });
 
 Register.defaultProps = {
