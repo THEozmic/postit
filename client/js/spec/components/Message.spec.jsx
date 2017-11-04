@@ -7,18 +7,15 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import Message from '../../components/presentational/Message';
-import propsMock from '../__mocks__/propsMock';
+import dummy from '../__mocks__/dummy';
 
 const mockStore = configureStore();
 
-describe('<Message />', () => {
-  it('should be defined', () => {
-    expect(Message).toBeDefined();
-  });
-  it('should render correctly', () => {
+describe('Given Message component is mounted', () => {
+  it('should render self and components', () => {
     const props = {
-      onLogout: propsMock.func,
-      message: propsMock.messageObject
+      onLogout: dummy.func,
+      message: dummy.messageObject
     };
     const tree = mount(<Message {...props} />);
   });

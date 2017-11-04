@@ -40,11 +40,25 @@ export class RecoverPassword extends React.Component {
 
   /**
    * @returns {void}
+   */
+  onFocus() {
+    this.setState({ errorMessage: '' });
+  }
+
+  /**
+   * @returns {void}
    * @param {*} event
    */
   onSend(event) {
     event.preventDefault();
     if (this.state.email.trim() === '') {
+      this.setState({ errorMessage: 'Please provide an email' });
+      return;
+    }
+
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/
+    .test(this.email.value)) {
+      this.setState({ errorMessage: 'Invalid email' });
       return;
     }
 
@@ -56,7 +70,6 @@ export class RecoverPassword extends React.Component {
     .then(() => {
       Materialize.toast('Email sent! Please check your inbox', 4000);
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
       location.hash = '#login';
     })
     .catch((error) => {

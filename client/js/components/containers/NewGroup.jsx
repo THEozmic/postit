@@ -26,6 +26,7 @@ export class NewGroup extends React.Component {
       name: '',
       description: ''
     };
+    this.onFocus = this.onFocus.bind(this);
   }
 
   /**

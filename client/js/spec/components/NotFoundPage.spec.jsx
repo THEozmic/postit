@@ -7,16 +7,13 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import NotFoundPage from '../../components/presentational/NotFoundPage';
-import propsMock from '../__mocks__/propsMock';
+import dummy from '../__mocks__/dummy';
 
-describe('<NotFoundPage />', () => {
-  it('should be defined', () => {
-    expect(NotFoundPage).toBeDefined();
-  });
-  it('should render correctly', () => {
+describe('Given NotFoundPage component is mounted', () => {
+  it('should render self and components', () => {
     const props = {
-      onLogout: propsMock.func,
-      groups: propsMock.emptyArray
+      onLogout: dummy.func,
+      groups: dummy.emptyArray
     };
     const tree = mount(
       <MemoryRouter>
@@ -25,8 +22,8 @@ describe('<NotFoundPage />', () => {
   });
   it('should render correctly group length not === 0', () => {
     const props = {
-      onLogout: propsMock.func,
-      username: propsMock.username
+      onLogout: dummy.func,
+      username: dummy.username
     };
     const tree = mount(
       <MemoryRouter>

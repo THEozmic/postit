@@ -7,17 +7,16 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import Footer from '../../components/presentational/Footer';
-import propsMock from '../__mocks__/propsMock';
+import dummy from '../__mocks__/dummy';
 
-describe('<Footer />', () => {
-  it('should be defined', () => {
-    expect(Footer).toBeDefined();
-  });
-  it('should render correctly', () => {
+describe('Given Footer component is mounted', () => {
+  it('should render self and components', () => {
     const props = {
-      onLogout: propsMock.func,
+      onLogout: dummy.func,
     };
     const tree = shallow(<Footer {...props} />);
+    expect(tree.exists()).toBe(true);
+    expect(tree.find('footer').exists()).toBe(true);
   });
 });
 

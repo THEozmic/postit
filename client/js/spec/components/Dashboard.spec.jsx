@@ -1,4 +1,4 @@
-/* globals expect */
+/* globals expect jest */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -7,18 +7,19 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { Dashboard } from '../../components/containers/Dashboard';
-import propsMock from '../__mocks__/propsMock';
+import { dashboardProps } from '../__mocks__/dummy';
 
-describe('<Dashboard />', () => {
-  it('should be defined', () => {
-    expect(Dashboard).toBeDefined();
-  });
-  it('should render correctly', () => {
+jest.mock('react-router-dom');
+
+describe('Given Dashboard component is mounted', () => {
+  it('should render self and components', () => {
     const props = {
-      onLogout: propsMock.func,
-      user: propsMock.dashboardUser,
-      apiGetCurrentUser: propsMock.promiseFunc
+      onLogout: jest.fn,
+      apiGetCurrentUser: () => Promise.resolve()
     };
-    const tree = shallow(<Dashboard {...props} />);
+
+    const tree = mount(<Dashboard {...props} />);
+    expect(tree.exists()).toBe(true);
+    expect(tree.find('div').exists()).toBe(true);
   });
 });

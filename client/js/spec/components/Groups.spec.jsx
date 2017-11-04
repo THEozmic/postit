@@ -7,30 +7,44 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import Groups from '../../components/presentational/Groups';
-import propsMock from '../__mocks__/propsMock';
+import dummy from '../__mocks__/dummy';
 
-describe('<Groups />', () => {
-  it('should be defined', () => {
-    expect(Groups).toBeDefined();
-  });
-  it('should render correctly', () => {
+describe('Given Groups component is mounted', () => {
+  it('should render self and components', () => {
     const props = {
-      onLogout: propsMock.func,
-      groups: propsMock.emptyArray
+      onLogout: dummy.func,
+      groups: dummy.emptyArray
     };
     const tree = mount(
       <MemoryRouter>
         <Groups {...props} />
       </MemoryRouter>);
+    expect(tree.exists()).toBe(true);
+    expect(tree.find('.groups').exists()).toBe(true);
   });
-  it('should render correctly group length not === 0', () => {
+  it('should render "You don' +
+  '\'t belong to any group" given group length === 0', () => {
     const props = {
-      onLogout: propsMock.func,
-      groups: propsMock.groupsArray
+      onLogout: dummy.func,
+      groups: dummy.emptyArray
     };
     const tree = mount(
       <MemoryRouter>
         <Groups {...props} />
       </MemoryRouter>);
+    expect(tree.find('.groups').text())
+    .toBe('You don\'t belong to any group');
+  });
+  it('should render groups given group length !== 0', () => {
+    const props = {
+      onLogout: dummy.func,
+      groups: dummy.groupsArray
+    };
+    const tree = mount(
+      <MemoryRouter>
+        <Groups {...props} />
+      </MemoryRouter>);
+    expect(tree.find('.groups').text())
+    .not.toBe('You don\'t belong to any group');
   });
 });

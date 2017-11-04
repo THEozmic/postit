@@ -1,8 +1,11 @@
 /* globals jest */
+import sinon from 'sinon';
+
 export default {
-  func: jest.fn(),
+  func: sinon.spy(),
   dashboardUser: { groups: [] },
-  promiseFunc: jest.fn(() => Promise.resolve()),
+  promiseFunc: sinon.spy(() => Promise.resolve()),
+  promiseFuncReject: sinon.spy(() => Promise.reject()),
   emptyArray: [],
   emptyObject: {},
   groupsArray: [{ id: 1, name: 'test', desc: 'stuff' }],
@@ -18,5 +21,6 @@ export default {
   createGroupString: 'create-group',
   boolTrue: true,
   boolFalse: false,
-  activeString: 'active'
+  activeString: 'active',
+  user: { message: [] }
 };

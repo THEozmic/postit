@@ -26,6 +26,9 @@ export class Search extends React.Component {
     this.onFinishClick = this.onFinishClick.bind(this);
     this.isAdmin = this.isAdmin.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.showConfirmMessage = this.showConfirmMessage.bind(this);
+    this.onCancelClick = this.onCancelClick.bind(this);
+    this.onFocus = this.onFocus.bind(this);
     this.state = {
       foundUsers: [],
       selectedUsers: [],
@@ -35,7 +38,12 @@ export class Search extends React.Component {
       totalPages: 1,
       prevSearchQuery: '',
       noUsersFound: false,
-      searchTerm: ''
+      searchTerm: '',
+      updateConfirmed: false,
+      confirmMessage: '',
+      btnText: 'Finish',
+      showCancelBtn: false,
+      errorMessage: ''
     };
   }
 
@@ -61,11 +69,40 @@ export class Search extends React.Component {
    */
   onFinishClick(event) {
     event.preventDefault();
-    const selectedUsers = JSON.stringify(this.state.selectedUsers);
-    this.props.apiUpdateMembers(selectedUsers, this.props.selectedGroup.id)
-    .then(() => {
-      location.href = `/#/group/${this.props.selectedGroup.id}`;
-      Materialize.toast('Group members list updated!', 4000);
+    if (this.state.selectedUsers.length !== 0) {
+      if (this.state.confirmMessage !== '') {
+        const selectedUsers = JSON.stringify(this.state.selectedUsers);
+        this.props.apiUpdateMembers(selectedUsers, this.props.selectedGroup.id)
+        .then(() => {
+          location.href = `/#/group/${this.props.selectedGroup.id}`;
+          Materialize.toast('Group members list updated!', 4000);
+        });
+      } else {
+        this.showConfirmMessage();
+      }
+    } else {
+      if (this.state.searchTerm.trim() === ''
+      && this.state.foundUsers.length === 0) {
+        this.setState({
+          errorMessage: 'Please search for a user or click cancel to go back'
+        });
+        return;
+      }
+      this.setState({
+        errorMessage:
+        'Please click on a username to add or remove the user from this group'
+      });
+    }
+  }
+
+  /**
+   * @returns {void}
+   */
+  onCancelClick() {
+    this.setState({
+      confirmMessage: '',
+      btnText: 'Finish',
+      showCancelBtn: false
     });
   }
 
@@ -77,6 +114,15 @@ export class Search extends React.Component {
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value },
       this.onSearchChange);
+  }
+
+  /**
+  *  @return {void}
+   * This method is called when the user focuses on the input,
+   * if there's an error relating to that input, it clears it.
+  */
+  onFocus() {
+    this.setState({ errorMessage: '' });
   }
 
   /**
@@ -147,6 +193,7 @@ export class Search extends React.Component {
    */
   onSelectUser(event, user) {
     event.preventDefault();
+    this.setState({ errorMessage: '' });
     let alreadySelected = false;
     this.state.selectedUsers.map((sUser) => {
       if (sUser.id === user.id) {
@@ -178,6 +225,18 @@ export class Search extends React.Component {
       return fUser;
     });
     this.setState({ foundUsers });
+  }
+
+   /**
+   * @returns {void}
+   */
+  showConfirmMessage() {
+    this.setState({
+      confirmMessage: 'Are you sure you want to update users in this group?',
+      btnText: 'Yes',
+      showCancelBtn: true,
+      errorMessage: ''
+    });
   }
 
   /**
@@ -275,50 +334,68 @@ export class Search extends React.Component {
         onSubmit={event => event.preventDefault()}
       >
         <div>
-          <div className="input-field">
-            <input
-              type="text"
-              id="search"
-              name="searchTerm"
-              onChange={this.onChange}
-              value={this.state.searchTerm}
-            />
-            <label htmlFor="search">Search by username</label>
-          </div>
-          <div className="search-results">
-            {
-              this.state.foundUsers.map(fUser =>
-              (
-                <button
-                  key={fUser.id}
-                  onClick={event => this.onSelectUser(event, fUser)}
-                  className={fUser.ingroup ? 'ingroup' : ''}
-                >{fUser.ingroup ? <span>&#10004; </span> : ''}
-                @{fUser.username}</button>)
-            ) }
-            { this.state.noUsersFound ?
-            'No users found' : <div className="space" />
-            }
-            {this.state.foundUsers.length !== 0 ?
-              <div className="search-pages">
-                <button
-                  onClick={event => this.prevPage(event)}
-                  className="search-prev"
-                >Prev</button>
-                <span>
-                  {this.state.currentPage}/{this.state.totalPages}
-                </span>
-                <button
-                  onClick={event => this.nextPage(event)}
-                  className="search-next"
-                >Next</button>
-              </div> : ''
-            }
-          </div>
+          { this.state.confirmMessage === '' ?
+            <div>
+              <div className="input-field">
+                <input
+                  type="text"
+                  id="search"
+                  name="searchTerm"
+                  onChange={this.onChange}
+                  value={this.state.searchTerm}
+                  onFocus={this.onFocus}
+                />
+                <label htmlFor="search">Search by username</label>
+              </div>
+              <div className="search-results">
+                {
+                  this.state.foundUsers.map(fUser =>
+                  (
+                    <button
+                      key={fUser.id}
+                      onClick={event => this.onSelectUser(event, fUser)}
+                      className={fUser.ingroup ? 'ingroup' : ''}
+                    >{fUser.ingroup ? <span>&#10004; </span> : ''}
+                    @{fUser.username}</button>)
+                ) }
+                { this.state.noUsersFound ?
+                'No users found' : <div className="space" />
+                }
+                {this.state.foundUsers.length !== 0 ?
+                  <div className="search-pages">
+                    <button
+                      onClick={event => this.prevPage(event)}
+                      className="search-prev"
+                    >Prev</button>
+                    <span>
+                      {this.state.currentPage}/{this.state.totalPages}
+                    </span>
+                    <button
+                      onClick={event => this.nextPage(event)}
+                      className="search-next"
+                    >Next</button>
+                  </div> : ''
+                }
+              </div>
+            </div>
+          :
+            <div className="blue-text text-darken-2 section">
+              {this.state.confirmMessage}</div>
+          }
+          { this.state.errorMessage === '' ? '' :
+          <div
+            className="red card"
+          >{this.state.errorMessage}</div>}
           <button
             className="waves-effect waves-light btn action-btn"
             onClick={this.onFinishClick}
-          >Finish</button>
+          >{this.state.btnText}</button>
+          { this.state.showCancelBtn ?
+            <button
+              className="waves-effect waves-teal red btn action-btn"
+              onClick={this.onCancelClick}
+            >No</button>
+          : '' }
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"
             to={`/group/${this.props.selectedGroup.id}`}

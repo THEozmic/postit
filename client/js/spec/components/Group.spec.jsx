@@ -7,22 +7,21 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { Group } from '../../components/containers/Group';
-import propsMock from '../__mocks__/propsMock';
+import dummy from '../__mocks__/dummy';
 
-describe('<Group />', () => {
-  it('should be defined', () => {
-    expect(Group).toBeDefined();
-  });
-  it('should render correctly', () => {
+describe('Given Group component is mounted', () => {
+  it('should render self and componentsn', () => {
     const props = {
-      onLogout: propsMock.func,
-      messages: propsMock.emptyArray,
-      match: propsMock.match,
-      apiFetchGroup: propsMock.promiseFunc,
-      selectedGroup: propsMock.emptyObject,
-      onLoginUser: propsMock.promiseFunc
+      onLogout: dummy.func,
+      messages: dummy.emptyArray,
+      match: dummy.match,
+      apiFetchGroup: dummy.promiseFunc,
+      selectedGroup: dummy.emptyObject,
+      onLoginUser: dummy.promiseFunc
     };
     const tree = shallow(<Group {...props} />);
+    expect(tree.exists()).toBe(true);
+    expect(tree.find('.group-header').exists()).toBe(true);
   });
 });
 

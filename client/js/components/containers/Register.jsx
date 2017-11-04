@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form } from './Form';
-import { apiRegisterUser } from '../../actions/user';
+import { apiRegisterUser, apiGetCurrentUser } from '../../actions/user';
+import setToken from '../../helpers/setToken';
 
 /**
  * Registration Page
@@ -65,6 +66,10 @@ export class Register extends React.Component {
       return;
     }
     this.props.apiRegisterUser({ username, email, password, phone })
+    .then((response) => {
+      setToken(response.data.token);
+      this.props.apiGetCurrentUser();
+    })
     .catch((error) => {
       this.setState({ errorMessage: error.data.error });
     });
@@ -144,15 +149,19 @@ export class Register extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   apiRegisterUser: ({ username, email, password, phone }) =>
-  dispatch(apiRegisterUser({ username, email, password, phone }))
+  dispatch(apiRegisterUser({ username, email, password, phone })),
+  apiGetCurrentUser: () =>
+  dispatch(apiGetCurrentUser())
 });
 
 Register.defaultProps = {
-  apiRegisterUser: () => {}
+  apiRegisterUser: () => {},
+  apiGetCurrentUser: () => {}
 };
 
 Register.propTypes = {
-  apiRegisterUser: PropTypes.func
+  apiRegisterUser: PropTypes.func,
+  apiGetCurrentUser: PropTypes.func
 };
 
 export default connect(null, mapDispatchToProps)(Register);

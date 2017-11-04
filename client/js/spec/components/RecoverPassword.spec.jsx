@@ -7,24 +7,21 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { RecoverPassword } from '../../components/containers/RecoverPassword';
-import propsMock from '../__mocks__/propsMock';
+import dummy from '../__mocks__/dummy';
 
-describe('<RecoverPassword />', () => {
-  it('should be defined', () => {
-    expect(RecoverPassword).toBeDefined();
-  });
-  it('should render correctly', () => {
+describe('Given RecoverPassword component is mounted', () => {
+  it('should render self and components', () => {
     const props = {
-      messages: propsMock.emptyArray,
-      groupId: propsMock.number,
-      apiRequestPassword: propsMock.promiseFunc
+      messages: dummy.emptyArray,
+      groupId: dummy.number,
+      apiRequestPassword: dummy.promiseFunc
     };
     const tree = mount(
       <MemoryRouter>
         <RecoverPassword {...props} />
       </MemoryRouter>
     );
-    tree.setState({ buttonText: propsMock.btnText });
+    tree.setState({ buttonText: dummy.btnText });
     tree.find('#submitEmail').simulate('click');
   });
 });

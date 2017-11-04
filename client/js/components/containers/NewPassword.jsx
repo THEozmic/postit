@@ -60,10 +60,22 @@ export class NewPassword extends React.Component {
       location.hash = '#login';
       return;
     }
+
+    if (this.state.password === '') {
+      this.setState({ errorMessage: 'Password field is required' });
+      return;
+    }
+
+    if (this.state.confirmPassword === '') {
+      this.setState({ errorMessage: 'Password Again field is required' });
+      return;
+    }
+
     if (this.state.password !== this.state.confirmPassword) {
       this.setState({ error: 'Passwords don\'t match.' });
       return;
     }
+
     if (this.state.password !== '') {
       const hash = this.props.match.params.hash;
       if (hash === undefined) {
