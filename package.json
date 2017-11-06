@@ -70,6 +70,7 @@
     "eslint-plugin-import": "^2.6.1",
     "eslint-plugin-jsx-a11y": "~5.1.1",
     "eslint-plugin-react": "^7.1.0",
+    "faker": "^4.1.0",
     "istanbul": "^0.4.5",
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
@@ -79,7 +80,8 @@
     "nodemon": "^1.11.0",
     "nyc": "^11.0.3",
     "react-test-renderer": "^15.6.1",
-    "redux-mock-store": "^1.2.3"
+    "redux-mock-store": "^1.2.3",
+    "sinon": "^4.1.1"
   },
   "nyc": {
     "extension": [
@@ -105,7 +107,7 @@
   "scripts": {
     "start": "node ./build/bin/www",
     "start:dev": "nodemon ./build/bin/www",
-    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha server/tests/index --compilers js:babel-register",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha server/test/index --compilers js:babel-register --timeout 5000",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "build:dev:client": "webpack ./client/js/App.jsx -w",

@@ -1,25 +1,19 @@
-/* globals expect jest */
+/* globals expect */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { shallow, mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
-import configureStore from 'redux-mock-store';
 import Message from '../../components/presentational/Message';
+import dummy from '../__mocks__/dummy';
 
-const mockStore = configureStore();
-
-describe('<Message />', () => {
-  it('should be defined', () => {
-    expect(Message).toBeDefined();
-  });
-  it('should render correctly', () => {
-    const then = jest.fn();
+describe('Given Message component is mounted', () => {
+  it('should render self and components properly', () => {
     const props = {
-      onLogout: jest.fn(),
-      message: { id: 1, fromUser: 'stuff', priority: 'stuff', message: 'stuff' }
+      onLogout: dummy.func,
+      message: dummy.messageObject
     };
     const tree = mount(<Message {...props} />);
+    expect(tree.exists()).toBe(true);
+    expect(tree.find('.message-container').exists()).toEqual(true);
   });
 });

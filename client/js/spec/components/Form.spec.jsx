@@ -7,16 +7,18 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { Form } from '../../components/containers/Form';
+import dummy from '../__mocks__/dummy';
 
-describe('<Form />', () => {
-  it('should be defined', () => {
-    expect(Form).toBeDefined();
-  });
-  it('should render correctly', () => {
-    const then = jest.fn();
+jest.mock('react-router-dom');
+
+
+describe('Given Form component is mounted', () => {
+  it('should render self and components properly', () => {
     const props = {
-      onLogout: jest.fn(),
+      onLogout: dummy.func,
     };
-    const tree = shallow(<Form {...props}>children</Form>);
+    const tree = mount(<Form {...props}>children</Form>);
+    expect(tree.exists()).toBe(true);
+    expect(tree.find('form').exists()).toBe(true);
   });
 });

@@ -22,13 +22,15 @@ export const Form =
       <section className="page-container container-fluid">
         <div className="container">
           <div className="row">
-            { showSideMenu ?
-              <SideMenu
-                active={active || 'dashboard'}
-                onLogout={onLogout}
-                onLoginUser={onLoginUser}
-                showSearchLink={showSearchLink}
-              /> : '' }
+            {
+              showSideMenu ?
+                <SideMenu
+                  active={active || 'dashboard'}
+                  onLogout={onLogout}
+                  onLoginUser={onLoginUser}
+                  showSearchLink={showSearchLink}
+                /> : null
+            }
             <div className="section page-content align-top pl-0 col m7 l8">
               <section>
                 <h5>

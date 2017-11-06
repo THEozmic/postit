@@ -1,60 +1,86 @@
 /* globals expect jest */
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import PropTypes from 'prop-types';
+import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
-import configureStore from 'redux-mock-store';
 import { Login } from '../../components/containers/Login';
+import dummy from '../__mocks__/dummy';
 
-const mockStore = configureStore();
 
-describe('<Login />', () => {
-  it('should be defined', () => {
-    expect(Login).toBeDefined();
-  });
-  it('should render correctly', () => {
-    const then = jest.fn();
-    const props = {
-      onLogout: jest.fn(),
-      messages: [],
-      match: { params: { id: 1 } },
-      apiLoginUser: jest.fn(() => Promise.resolve()),
-      selectedGroup: {},
-      onLoginUser: jest.fn(() => Promise.resolve())
-    };
-    const tree = mount(
-      <Provider store={mockStore({ runtime: {} })}>
-        <MemoryRouter><Login {...props} /></MemoryRouter>
-      </Provider>);
+jest.mock('react-router-dom');
 
-    tree.find('#username').simulate('focus');
-    let input = tree.find('#username');
-    input.node.value = 'Change';
-    input.simulate('change', input);
-    input = tree.find('#password');
-    input.node.value = 'Change';
-    input.simulate('change', input);
-    tree.find('#login').simulate('click');
+describe('Given Login component is mounted', () => {
+  let treeShallow, treeMount;
+  const props = {
+    onLogout: dummy.func,
+    messages: dummy.emptyArray,
+    match: dummy.match,
+    apiLoginUser: dummy.promiseFunc,
+    selectedGroup: dummy.emptyObject,
+  };
+  const onFocus = dummy.func;
+  const onLoginUser = sinon.spy();
+  beforeEach(() => {
+    treeShallow = shallow(<Login {...props} />);
+    treeMount = mount(<Login {...props} />);
   });
 
-  it('should render correctly', () => {
-    const then = jest.fn();
-    const props = {
-      onLogout: jest.fn(),
-      messages: [],
-      match: { params: { id: 1 } },
-      apiLoginUser: jest.fn(() => Promise.resolve()),
-      selectedGroup: {},
-      onLoginUser: jest.fn(() => Promise.resolve())
-    };
-    const tree = mount(
-      <Provider store={mockStore({ runtime: {} })}>
-        <MemoryRouter>
-          <Login {...props} />
-        </MemoryRouter>
-      </Provider>);
-    tree.find('#login').simulate('click');
+  it('should render properly', () => {
+    expect(treeShallow.length).toBe(1);
+  });
+
+  it('should call onFocus when username field gains focus', () => {
+    treeMount.find('#username').simulate('focus', onFocus());
+    expect(onFocus.calledOnce).toBe(true);
+  });
+
+  it('should update state when the onChange method is called',
+  () => {
+    treeMount.find('#username').simulate('change', { target:
+      { value: dummy.string, name: 'username' } });
+    expect(treeMount.state('username')).toEqual(dummy.string);
+  });
+
+  it('should call onLoginUser when login button is clicked', () => {
+    const onLoginUserSpy = sinon.spy(() => new Promise(() => {}));
+    const component = shallow(
+      <Login onLoginUser={onLoginUserSpy} {...props} />);
+    const button = component.find('#login').at(1);
+    button.simulate('click', onLoginUserSpy());
+    component.instance().onLoginUser({ preventDefault: () => {} });
+    expect(onLoginUserSpy.calledOnce).toEqual(true);
+  });
+
+  it('should have error message when login button is clicked with empty fields',
+  () => {
+    const onLoginUserSpy = sinon.spy(() => new Promise(() => {}));
+    const component = shallow(
+      <Login onLoginUser={onLoginUserSpy} {...props} />);
+    const button = component.find('#login').at(1);
+    button.simulate('click', onLoginUserSpy());
+    component.instance().onLoginUser({ preventDefault: () => {} });
+    expect(component.state('errorMessage'))
+    .toEqual('Error: One or more fields are empty');
+  });
+
+  it('should clear error message when input field gain focus', () => {
+    treeMount.find('#username').simulate('focus', onFocus());
+    expect(treeMount.state('errorMessage')).toEqual('');
+  });
+
+  it('should not show any error when form is submitted with filled fields',
+  () => {
+    const onLoginUserSpy = sinon.spy(() => new Promise(() => {}));
+    const component = shallow(
+      <Login onLoginUser={onLoginUserSpy} {...props} />);
+    component.find('#username').simulate('change', { target:
+    { value: dummy.string, name: 'username' } });
+    component.find('#password').simulate('change', { target:
+    { value: dummy.string, name: 'password' } });
+    const button = component.find('#login').at(1);
+    button.simulate('click', onLoginUserSpy());
+    component.instance().onLoginUser({ preventDefault: () => {} });
+    expect(component.state('errorMessage')).not
+    .toEqual('Error: One or more fields are empty');
   });
 });

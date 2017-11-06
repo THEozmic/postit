@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Form from './Form';
+import { Form } from './Form';
 import { apiLoginUser } from '../../actions/user';
 
 /**
@@ -21,9 +21,21 @@ export class Login extends React.Component {
     super(props);
     this.onLoginUser = this.onLoginUser.bind(this);
     this.onFocus = this.onFocus.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.state = {
-      errorMessage: ''
+      errorMessage: '',
+      username: '',
+      password: ''
     };
+  }
+
+  /**
+   * This function changes intial states based on onChange events
+   * @param {object} event [the events object parameter]
+   * @return {[type]}      [description]
+   */
+  onChange(event) {
+    return this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
@@ -43,9 +55,8 @@ export class Login extends React.Component {
    */
   onLoginUser(event) {
     event.preventDefault();
-    let { username, password } = this;
-    username = username.value.trim();
-    password = password.value;
+    const { password } = this.state;
+    const username = this.state.username.trim();
     if (username !== '' || password !== '') {
       this.props.apiLoginUser({ username, password })
       .then(() => {
@@ -70,7 +81,9 @@ export class Login extends React.Component {
               onFocus={this.onFocus}
               type="text"
               id="username"
-              ref={(input) => { this.username = input; }}
+              name="username"
+              onChange={this.onChange}
+              value={this.state.username}
             />
             <label htmlFor="username">Username</label>
           </div>
@@ -79,7 +92,9 @@ export class Login extends React.Component {
               onFocus={this.onFocus}
               type="password"
               id="password"
-              ref={(input) => { this.password = input; }}
+              name="password"
+              onChange={this.onChange}
+              value={this.state.password}
             />
             <label htmlFor="password">Password</label>
           </div>

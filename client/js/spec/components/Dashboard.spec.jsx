@@ -7,17 +7,19 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { Dashboard } from '../../components/containers/Dashboard';
+import { dashboardProps } from '../__mocks__/dummy';
 
-describe('<Dashboard />', () => {
-  it('should be defined', () => {
-    expect(Dashboard).toBeDefined();
-  });
-  it('should render correctly', () => {
+jest.mock('react-router-dom');
+
+describe('Given Dashboard component is mounted', () => {
+  it('should render self and components properly', () => {
     const props = {
-      onLogout: jest.fn(),
-      user: { groups: [] },
-      apiGetCurrentUser: jest.fn(() => Promise.resolve())
+      onLogout: jest.fn,
+      apiGetCurrentUser: () => Promise.resolve()
     };
-    const tree = shallow(<Dashboard {...props} />);
+
+    const tree = mount(<Dashboard {...props} />);
+    expect(tree.exists()).toBe(true);
+    expect(tree.find('div').exists()).toBe(true);
   });
 });

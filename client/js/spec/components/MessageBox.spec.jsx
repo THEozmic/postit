@@ -1,28 +1,28 @@
-/* globals expect jest */
+/* globals expect */
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { shallow, mount } from 'enzyme';
-import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
-import configureStore from 'redux-mock-store';
 import { MessageBox } from '../../components/containers/MessageBox';
+import dummy from '../__mocks__/dummy';
 
-const mockStore = configureStore();
+describe('Given MessageBox component is mounted', () => {
+  const props = {
+    sendMessageDetails: dummy.func,
+    apiSendMessage: dummy.promiseFunc,
+    match: dummy.match
+  };
+  const tree = mount(<MessageBox {...props} />);
 
-describe('<MessageBox />', () => {
-  it('should be defined', () => {
-    expect(MessageBox).toBeDefined();
+  it('should render self and components', () => {
+    expect(tree.exists()).toBe(true);
+    expect(tree.find('#messageBox').exists()).toBe(true);
   });
-  it('should render correctly', () => {
-    const then = jest.fn();
-    const props = {
-      sendMessageDetails: jest.fn(),
-      apiSendMessage: jest.fn(() => Promise.resolve()),
-      match: { params: { id: 1 } }
-    };
-    const tree = mount(<MessageBox {...props} />);
-    tree.find('#messageBox').simulate('change', { target: { value: 'stuff' } });
+
+  it('should change state of send button when it\'s clicked', () => {
+    tree.find('#messageBox').simulate('change', { target:
+      { value: dummy.string, name: 'content' } });
     tree.find('.sendMessage').simulate('click');
+    expect(tree.instance().state.sendStatus).toBe('SENDING');
   });
 });

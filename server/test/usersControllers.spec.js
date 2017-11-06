@@ -2,11 +2,12 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
 import models from '../models';
+import dummy from '../../client/js/spec/__mocks__/dummy';
 
 require('dotenv').config();
 
 process.env.NODE_ENV = 'test';
-const should = chai.should();
+const should = chai.should(); // eslint-disable-line no-unused-vars
 chai.use(chaiHttp);
 let token;
 let hash;
@@ -42,10 +43,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users')
         .type('form')
         .send({
-          email: 'testuser@email.com',
-          username: 'testuser',
-          password: 'testuser',
-          phone: '09004839432'
+          email: dummy.staticEmail,
+          username: dummy.staticUsername,
+          password: dummy.staticPassword,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -58,9 +59,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          username: 'testusername',
-          email: 'test@user.com',
-          phone: '07010346915'
+          username: dummy.username,
+          email: dummy.email,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -72,9 +73,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          email: 'test@user.com',
-          phone: '07010346915'
+          password: dummy.password,
+          email: dummy.email,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -86,9 +87,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername',
-          phone: '07010346915'
+          password: dummy.password,
+          username: dummy.username,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -100,9 +101,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername2',
-          email: 'test@user2.com'
+          password: dummy.password,
+          username: dummy.username,
+          email: dummy.email
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -114,10 +115,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername3',
-          email: 'testuser@email.com',
-          phone: '07010346915'
+          password: dummy.password,
+          username: dummy.username,
+          email: dummy.staticEmail,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(409);
@@ -129,10 +130,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testuser',
-          username: 'testuser',
-          email: 'test@user3.com',
-          phone: '07010346915'
+          password: dummy.password,
+          username: dummy.staticUsername,
+          email: dummy.email,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(409);
@@ -144,10 +145,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername3',
-          email: 'test',
-          phone: '07010346915'
+          password: dummy.password,
+          username: dummy.username,
+          email: dummy.string,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -160,9 +161,9 @@ describe('usersControllersTests ', () => {
         .type('form')
         .send({
           password: '       ',
-          username: 'testusername5',
-          email: 'test@user5.com',
-          phone: '07010346915'
+          username: dummy.username,
+          email: dummy.email,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -174,10 +175,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpass',
+          password: dummy.password,
           username: '     ',
-          email: 'test@user4.com',
-          phone: '07010346915'
+          email: dummy.email,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -189,10 +190,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpass',
-          username: 'testusername3',
+          password: dummy.password,
+          username: dummy.username,
           email: '     ',
-          phone: '07010346915'
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -204,9 +205,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpass',
-          username: 'testusername6',
-          email: 'test@email6.com',
+          password: dummy.password,
+          username: dummy.username,
+          email: dummy.email,
           phone: '        '
         })
         .end((err, res) => {
@@ -217,116 +218,116 @@ describe('usersControllersTests ', () => {
   });
 
   describe('Register a new user returns correct error message', () => {
-    it('It returns 400 error without password parameter', (done) => {
+    it('It returns error without password parameter', (done) => {
       chai.request(app)
         .post('/api/v1/users/')
         .type('form')
         .send({
-          username: 'testusername',
-          email: 'test@user.com',
-          phone: '07010346915'
+          username: dummy.username,
+          email: dummy.email,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Password cannot be empty');
           done();
         });
     });
-    it('It returns 400 error without username parameter', (done) => {
+    it('It returns error without username parameter', (done) => {
       chai.request(app)
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          email: 'test@user.com',
-          phone: '07010346915'
+          password: dummy.password,
+          email: dummy.email,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Username cannot be empty');
           done();
         });
     });
-    it('It returns 400 error without email parameter', (done) => {
+    it('It returns error without email parameter', (done) => {
       chai.request(app)
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername',
-          phone: '07010346915'
+          password: dummy.password,
+          username: dummy.username,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Invalid email');
           done();
         });
     });
-    it('It 400 error without phone parameter', (done) => {
+    it('It returns error without phone parameter', (done) => {
       chai.request(app)
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername2',
-          email: 'test@user2.com'
+          password: dummy.password,
+          username: dummy.username,
+          email: dummy.email
         })
         .end((err, res) => {
           res.body.error.should.equal('Phone cannot be empty');
           done();
         });
     });
-    it('It returns 409 error with duplicate email', (done) => {
+    it('It returns error with duplicate email', (done) => {
       chai.request(app)
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testuser2',
-          username: 'testuser2',
-          email: 'testuser@email.com',
-          phone: '07010346915'
+          password: dummy.password,
+          username: dummy.username,
+          email: dummy.staticEmail,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Email already exists');
           done();
         });
     });
-    it('It returns 409 error with duplicate username', (done) => {
+    it('It returns error with duplicate username', (done) => {
       chai.request(app)
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testuser',
-          username: 'testuser',
-          email: 'test@user3.com',
-          phone: '07010346915'
+          password: dummy.password,
+          username: dummy.staticUsername,
+          email: dummy.email,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Username already taken');
           done();
         });
     });
-    it('It returns 400 error with invalid email', (done) => {
+    it('It returns error with invalid email', (done) => {
       chai.request(app)
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpassword',
-          username: 'testusername3',
-          email: 'test',
-          phone: '07010346915'
+          password: dummy.password,
+          username: dummy.username,
+          email: dummy.string,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Invalid email');
           done();
         });
     });
-    it('It returns 400 error with empty password', (done) => {
+    it('It returns error with empty password', (done) => {
       chai.request(app)
         .post('/api/v1/users/')
         .type('form')
         .send({
           password: '     ',
-          username: 'testusername',
-          email: 'test@user3.com',
-          phone: '07010346915'
+          username: dummy.username,
+          email: dummy.email,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Password cannot be empty');
@@ -338,39 +339,39 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpass',
+          password: dummy.password,
           username: '     ',
-          email: 'test@user3.com',
-          phone: '07010346915'
+          email: dummy.email,
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
           done();
         });
     });
-    it('It returns 400 error with empty email', (done) => {
+    it('It returns error with empty email', (done) => {
       chai.request(app)
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpass',
-          username: 'testusername3',
+          password: dummy.password,
+          username: dummy.email,
           email: '     ',
-          phone: '07010346915'
+          phone: dummy.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Invalid email');
           done();
         });
     });
-    it('It returns 400 error with empty phone', (done) => {
+    it('It returns error with empty phone', (done) => {
       chai.request(app)
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: 'testpass',
-          username: 'testusername3',
-          email: 'test@email3.com',
+          password: dummy.password,
+          username: dummy.username,
+          email: dummy.email,
           phone: '     '
         })
         .end((err, res) => {
@@ -386,7 +387,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/request-password')
         .type('form')
         .send({
-          email: 'testuser@email.com'
+          email: dummy.staticEmail
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -399,7 +400,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/request-password')
         .type('form')
         .send({
-          email: 'testuser@email.com'
+          email: dummy.staticEmail
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -408,12 +409,12 @@ describe('usersControllersTests ', () => {
         });
     });
     describe('Reset password', () => {
-      it('works with complete parameters', (done) => {
+      it('returns 200 with complete parameters', (done) => {
         chai.request(app)
           .post(`/api/v1/users/reset-password/${hash}`)
           .type('form')
           .send({
-            password: 'testuser'
+            password: dummy.staticPassword
           })
           .end((err, res) => {
             res.should.have.status(200);
@@ -428,7 +429,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/request-password')
         .type('form')
         .send({
-          email: 'testuserr@email.com'
+          email: dummy.email
         })
         .end((err, res) => {
           res.should.have.status(404);
@@ -441,7 +442,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/request-password')
         .type('form')
         .send({
-          email: 'mail@.com'
+          email: dummy.string
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -468,7 +469,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/signin/')
         .type('form')
         .send({
-          username: 'testuser'
+          username: dummy.staticUsername
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -480,7 +481,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/signin/')
         .type('form')
         .send({
-          password: 'testuser'
+          password: dummy.staticUsername
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -492,8 +493,8 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/signin/')
         .type('form')
         .send({
-          username: 'testuser4',
-          password: 'testuser4'
+          username: dummy.username,
+          password: dummy.staticPassword
         })
         .end((err, res) => {
           res.should.have.status(404);
@@ -505,21 +506,21 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/signin/')
         .type('form')
         .send({
-          username: 'testuser',
-          password: 'testsdcs'
+          username: dummy.staticUsername,
+          password: dummy.password
         })
         .end((err, res) => {
           res.should.have.status(401);
           done();
         });
     });
-    it('works with complete parameters', (done) => {
+    it('returns 202 with complete parameters', (done) => {
       chai.request(app)
         .post('/api/v1/users/signin/')
         .type('form')
         .send({
-          password: 'testuser',
-          username: 'testuser'
+          password: dummy.staticPassword,
+          username: dummy.staticUsername
         })
         .end((err, res) => {
           res.should.have.status(202);
@@ -534,17 +535,17 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users')
         .type('form')
         .send({
-          email: 'testuser2@email.com',
-          username: 'testuser2',
-          password: 'testuser2',
-          phone: '09004839431'
+          email: dummy.email,
+          username: dummy.username,
+          password: dummy.password,
+          phone: dummy.staticPhone
         })
         .end(() => {
           chai.request(app)
           .post('/api/v1/groups/')
           .set('x-access-token', token)
           .type('form')
-          .send({ name: 'Test Group', desc: 'A simple test group' })
+          .send({ name: dummy.string, desc: dummy.string })
           .end(() => {
             chai.request(app)
             .post('/api/v1/groups/1/user/')
@@ -553,7 +554,7 @@ describe('usersControllersTests ', () => {
             .send({
               usersIds: '[2]',
             })
-            .end((err, res) => {
+            .end(() => {
               chai.request(app)
               .get('/api/v1/search/2/testuser/0')
               .set('x-access-token', token)
@@ -579,7 +580,7 @@ describe('usersControllersTests ', () => {
       .send()
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.user.username.should.equal('testuser');
+        res.body.user.username.should.equal(dummy.staticUsername);
         done();
       });
     });

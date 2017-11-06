@@ -25,6 +25,7 @@ export class Search extends React.Component {
     this.makeSearch = this.makeSearch.bind(this);
     this.onFinishClick = this.onFinishClick.bind(this);
     this.isAdmin = this.isAdmin.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.showConfirmMessage = this.showConfirmMessage.bind(this);
     this.onCancelClick = this.onCancelClick.bind(this);
     this.onFocus = this.onFocus.bind(this);
@@ -37,6 +38,7 @@ export class Search extends React.Component {
       totalPages: 1,
       prevSearchQuery: '',
       noUsersFound: false,
+      searchTerm: '',
       updateConfirmed: false,
       confirmMessage: '',
       btnText: 'Finish',
@@ -79,7 +81,8 @@ export class Search extends React.Component {
         this.showConfirmMessage();
       }
     } else {
-      if (this.term.value.trim() === '' && this.state.foundUsers.length === 0) {
+      if (this.state.searchTerm.trim() === ''
+      && this.state.foundUsers.length === 0) {
         this.setState({
           errorMessage: 'Please search for a user or click cancel to go back'
         });
@@ -104,10 +107,20 @@ export class Search extends React.Component {
   }
 
   /**
-   * @returns {void}
+   * This function changes intial states based on onChange events
+   * @param {object} event [the events object parameter]
+   * @return {[type]}      [description]
+   */
+  onChange(event) {
+    this.setState({ [event.target.name]: event.target.value },
+      this.onSearchChange);
+  }
+
+  /**
+  *  @return {void}
    * This method is called when the user focuses on the input,
    * if there's an error relating to that input, it clears it.
-   */
+  */
   onFocus() {
     this.setState({ errorMessage: '' });
   }
@@ -120,25 +133,25 @@ export class Search extends React.Component {
    */
   onSearchChange(nav) {
     this.setState({ noUsersFound: false });
-    if (this.term.value.trim() !== '') {
+    if (this.state.searchTerm.trim() !== '') {
       if (this.state.currentPage === 0) {
         this.setState({
           currentPage: 1
         });
         this.makeSearch(0);
         this.setState({
-          prevSearchQuery: this.term.value.trim()
+          prevSearchQuery: this.state.searchTerm.trim()
         });
         return;
       }
 
-      if (this.state.prevSearchQuery !== this.term.value.trim()) {
+      if (this.state.prevSearchQuery !== this.state.searchTerm.trim()) {
         this.setState({
           currentPage: 1
         });
         this.makeSearch(0);
         this.setState({
-          prevSearchQuery: this.term.value.trim()
+          prevSearchQuery: this.state.searchTerm.trim()
         });
         return;
       }
@@ -164,7 +177,7 @@ export class Search extends React.Component {
       }
 
       this.setState({
-        prevSearchQuery: this.term.value.trim()
+        prevSearchQuery: this.state.searchTerm.trim()
       });
     }
     return true;
@@ -231,7 +244,7 @@ export class Search extends React.Component {
    * @param {int} page
    */
   makeSearch(page) {
-    this.props.apiSearch(this.props.selectedGroup.id, this.term.value,
+    this.props.apiSearch(this.props.selectedGroup.id, this.state.searchTerm,
       page)
       .then(() => {
         const searchResults = this.props.searchResults;
@@ -327,8 +340,9 @@ export class Search extends React.Component {
                 <input
                   type="text"
                   id="search"
-                  onChange={() => this.onSearchChange()}
-                  ref={(input) => { this.term = input; }}
+                  name="searchTerm"
+                  onChange={this.onChange}
+                  value={this.state.searchTerm}
                   onFocus={this.onFocus}
                 />
                 <label htmlFor="search">Search by username</label>

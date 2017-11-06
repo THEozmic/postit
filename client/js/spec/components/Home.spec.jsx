@@ -7,31 +7,18 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import Home from '../../components/presentational/Home';
+import dummy from '../__mocks__/dummy';
 
-describe('<Home />', () => {
-  it('should be defined', () => {
-    expect(Home).toBeDefined();
-  });
-  it('should render correctly', () => {
-    const then = jest.fn();
+jest.mock('react-router-dom');
+
+describe('Given Home component is mounted', () => {
+  it('should render self and components', () => {
     const props = {
-      onLogout: jest.fn(),
-      groups: []
+      onLogout: dummy.func,
+      groups: dummy.emptyArray
     };
-    const tree = mount(
-      <MemoryRouter>
-        <Home {...props} />
-      </MemoryRouter>);
-  });
-  it('should render correctly group length not === 0', () => {
-    const then = jest.fn();
-    const props = {
-      onLogout: jest.fn(),
-      username: 'stuff'
-    };
-    const tree = mount(
-      <MemoryRouter>
-        <Home {...props} />
-      </MemoryRouter>);
+    const tree = mount(<Home {...props} />);
+    expect(tree.exists()).toBe(true);
+    expect(tree.find('.intro-text').exists()).toBe(true);
   });
 });

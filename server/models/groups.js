@@ -10,7 +10,7 @@ export default (sequelize, DataTypes) => {
     desc: {
       allowNull: false,
       type: DataTypes.STRING,
-      defaultValue: 'no description',
+      defaultValue: 'no description'
     },
     admin: {
       allowNull: false,

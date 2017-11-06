@@ -7,31 +7,18 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import Header from '../../components/presentational/Header';
+import dummy from '../__mocks__/dummy';
 
-describe('<Header />', () => {
-  it('should be defined', () => {
-    expect(Header).toBeDefined();
-  });
-  it('should render correctly', () => {
-    const then = jest.fn();
+jest.mock('react-router-dom');
+
+describe('Given Header component is mounted', () => {
+  it('should render self and components properly', () => {
     const props = {
-      onLogout: jest.fn(),
-      groups: []
+      onLogout: dummy.func,
+      groups: dummy.emptyArray
     };
-    const tree = mount(
-      <MemoryRouter>
-        <Header {...props} />
-      </MemoryRouter>);
-  });
-  it('should render correctly group length not === 0', () => {
-    const then = jest.fn();
-    const props = {
-      onLogout: jest.fn(),
-      username: 'stuff'
-    };
-    const tree = mount(
-      <MemoryRouter>
-        <Header {...props} />
-      </MemoryRouter>);
+    const tree = mount(<Header {...props} />);
+    expect(tree.exists()).toBe(true);
+    expect(tree.find('header').exists()).toBe(true);
   });
 });

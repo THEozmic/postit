@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -22,10 +23,21 @@ export class RecoverPassword extends React.Component {
     this.state = {
       successMessage: '',
       buttonText: 'Send',
-      errorMessage: ''
+      errorMessage: '',
+      email: ''
     };
     this.onSend = this.onSend.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.onFocus = this.onFocus.bind(this);
+  }
+
+  /**
+   * This function changes intial states based on onChange events
+   * @param {object} event [the events object parameter]
+   * @return {[type]}      [description]
+   */
+  onChange(event) {
+    return this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
@@ -41,13 +53,13 @@ export class RecoverPassword extends React.Component {
    */
   onSend(event) {
     event.preventDefault();
-    if (this.email.value.trim() === '') {
+    if (this.state.email.trim() === '') {
       this.setState({ errorMessage: 'Please provide an email' });
       return;
     }
 
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/
-    .test(this.email.value)) {
+    .test(this.state.email)) {
       this.setState({ errorMessage: 'Invalid email' });
       return;
     }
@@ -56,12 +68,11 @@ export class RecoverPassword extends React.Component {
       buttonText: 'SENDING...'
     });
 
-    this.props.apiRequestPassword(this.email.value.trim())
+    this.props.apiRequestPassword(this.state.email.trim())
     .then(() => {
-      Materialize.toast('Email sent! Please check your inbox', 4000);
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
       location.hash = '#login';
+      Materialize.toast('Email sent! Please check your inbox', 4000);
     })
     .catch((error) => {
       this.setState({
@@ -86,8 +97,10 @@ export class RecoverPassword extends React.Component {
               <input
                 type="email"
                 id="email"
-                ref={(input) => { this.email = input; }}
+                name="email"
+                onChange={this.onChange}
                 onFocus={this.onFocus}
+                value={this.state.email}
               />
               <label htmlFor="email">Email</label>
             </div>

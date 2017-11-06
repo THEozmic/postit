@@ -21,12 +21,25 @@ export class NewPassword extends React.Component {
     super(props);
     this.onSubmitPassword = this.onSubmitPassword.bind(this);
     this.onFocus = this.onFocus.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.state = {
       errorMessage: '',
       success: '',
-      resetText: 'Reset'
+      resetText: 'Reset',
+      password: '',
+      confirmPassword: ''
     };
   }
+
+  /**
+   * This function changes intial states based on onChange events
+   * @param {object} event [the events object parameter]
+   * @return {[type]}      [description]
+   */
+  onChange(event) {
+    return this.setState({ [event.target.name]: event.target.value });
+  }
+
 
   /**
    * @returns {void}
@@ -48,33 +61,37 @@ export class NewPassword extends React.Component {
       return;
     }
 
-    if (this.password.value === '') {
+    if (this.state.password === '') {
       this.setState({ errorMessage: 'Password field is required' });
       return;
     }
 
-    if (this.confirmPassword.value === '') {
+    if (this.state.confirmPassword === '') {
       this.setState({ errorMessage: 'Password Again field is required' });
       return;
     }
 
-    if (this.password.value !== this.confirmPassword.value) {
+    if (this.state.password !== this.state.confirmPassword) {
       this.setState({ errorMessage: 'Passwords don\'t match.' });
       return;
     }
 
-    const hash = this.props.match.params.hash;
-    if (hash === undefined) {
-      this.setState({ errorMessage: 'Invalid hash.' });
-      return;
-    }
-
-    this.props.apiResetPassword({ password: this.password.value, hash })
-    .then(() => {
-      if (this.props.user.message !== 'Password Reset Successful') {
-        this.setState({ errorMessage: 'An unexpected error occurred' });
+    if (this.state.password !== '') {
+      const hash = this.props.match.params.hash;
+      if (hash === undefined) {
+        this.setState({ errorMessage: 'Hash not given.' });
+        return;
       }
-    });
+
+      this.props.apiResetPassword({ password: this.state.password, hash })
+      .then(() => {
+        if (this.props.user.message !== 'Password Reset Successful') {
+          this.setState({ errorMessage: 'An unexpected error occurred' });
+        }
+      }).catch((error) => {
+        this.setState({ errorMessage: error.data.message });
+      });
+    }
   }
 
   /**
@@ -91,7 +108,9 @@ export class NewPassword extends React.Component {
                   onFocus={this.onFocus}
                   type="password"
                   id="password"
-                  ref={(input) => { this.password = input; }}
+                  name="password"
+                  onChange={this.onChange}
+                  value={this.state.password}
                 />
                 <label htmlFor="password">Password</label>
               </div>
@@ -99,13 +118,15 @@ export class NewPassword extends React.Component {
                 <input
                   onFocus={this.onFocus}
                   type="password"
-                  id="cpassword"
-                  ref={(input) => { this.confirmPassword = input; }}
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  onChange={this.onChange}
+                  value={this.state.confirmPassword}
                 />
-                <label htmlFor="cpassword">Password Again</label>
+                <label htmlFor="confirmPassword">Password Again</label>
               </div>
             </div> :
-            <div className="section" style={{ color: '#0275d8' }}>
+            <div className="red card section">
               {this.props.user.message}
             </div>
           }
