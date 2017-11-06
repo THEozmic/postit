@@ -7,10 +7,10 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import Footer from '../../components/presentational/Footer';
-import dummy from '../__mocks__/dummy';
+import dummy from '../../../../__mocks__/dummy';
 
 describe('Given Footer component is mounted', () => {
-  it('should render self and components', () => {
+  it('should render self and components properly', () => {
     const props = {
       onLogout: dummy.func,
     };

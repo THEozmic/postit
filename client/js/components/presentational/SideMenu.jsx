@@ -56,7 +56,7 @@ export class SideMenu extends React.Component {
             <Link
               className="logout"
               to="/login"
-              onClick={() => this.logout(onLogout)}
+              onClick={this.logout(onLogout)}
             >Logout</Link>
           </li>
         </ul>

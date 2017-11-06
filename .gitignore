@@ -17,6 +17,7 @@ build
 client/dist/*
 client/dist
 webpack.config.js
+__mocks__
 
 
 npm-debug.log*

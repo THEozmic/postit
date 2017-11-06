@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -27,6 +28,7 @@ export class RecoverPassword extends React.Component {
     };
     this.onSend = this.onSend.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.onFocus = this.onFocus.bind(this);
   }
 
   /**
@@ -57,7 +59,7 @@ export class RecoverPassword extends React.Component {
     }
 
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/
-    .test(this.email.value)) {
+    .test(this.state.email)) {
       this.setState({ errorMessage: 'Invalid email' });
       return;
     }
@@ -68,9 +70,9 @@ export class RecoverPassword extends React.Component {
 
     this.props.apiRequestPassword(this.state.email.trim())
     .then(() => {
-      Materialize.toast('Email sent! Please check your inbox', 4000);
       localStorage.removeItem('token');
       location.hash = '#login';
+      Materialize.toast('Email sent! Please check your inbox', 4000);
     })
     .catch((error) => {
       this.setState({
@@ -97,6 +99,7 @@ export class RecoverPassword extends React.Component {
                 id="email"
                 name="email"
                 onChange={this.onChange}
+                onFocus={this.onFocus}
                 value={this.state.email}
               />
               <label htmlFor="email">Email</label>

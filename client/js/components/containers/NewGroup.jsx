@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -20,13 +21,13 @@ export class NewGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: '',
       errorMessage: '',
       isButtonDisabled: false,
       name: '',
       description: ''
     };
     this.onFocus = this.onFocus.bind(this);
+    this.onCreateGroup = this.onCreateGroup.bind(this);
   }
 
   /**
@@ -78,8 +79,8 @@ export class NewGroup extends React.Component {
       desc: this.state.description
     })
     .then(() => {
-      location.href = '/#/dashboard';
       Materialize.toast('Group created!', 4000);
+      location.href = '/#/dashboard';
     });
   }
 
@@ -101,7 +102,7 @@ export class NewGroup extends React.Component {
               type="text"
               id="name"
               value={this.state.name}
-              onFocus={() => this.onFocus}
+              onFocus={this.onFocus}
               onChange={event => this.onChange(event)}
               maxLength="21"
             />
@@ -113,7 +114,7 @@ export class NewGroup extends React.Component {
               type="text"
               id="desc"
               value={this.state.description}
-              onFocus={() => this.onFocus}
+              onFocus={this.onFocus}
               onChange={event => this.onChange(event)}
               maxLength="21"
             />
@@ -127,7 +128,7 @@ export class NewGroup extends React.Component {
             className="waves-effect waves-light btn action-btn"
             id="createGroup"
             disabled={this.state.isButtonDisabled}
-            onClick={event => this.onCreateGroup(event)}
+            onClick={this.onCreateGroup}
           >Create</button>
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"

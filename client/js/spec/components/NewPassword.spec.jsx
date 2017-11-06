@@ -4,22 +4,25 @@ import React from 'react';
 import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { NewPassword } from '../../components/containers/NewPassword';
-import dummy from '../__mocks__/dummy';
+import dummy from '../../../../__mocks__/dummy';
 
 jest.mock('react-router-dom');
 
-describe('Given Register component is mounted', () => {
+describe('Given NewPassword component is mounted', () => {
   let treeShallow, treeMount;
   const props = {
     onLogout: dummy.func,
     messages: dummy.emptyArray,
     match: dummy.match,
     user: dummy.user,
-    apiResetPassword: dummy.promiseFuncReject,
+    apiResetPassword: sinon.spy(() => Promise
+    .reject({ error: { data: { message: dummy.string } } })),
     selectedGroup: dummy.emptyObject,
   };
   const onFocus = dummy.func;
   const onSubmitPassword = sinon.spy();
+  let onSubmitPasswordSpy = sinon.stub().resolves({});
+
   beforeEach(() => {
     treeShallow = shallow(<NewPassword {...props} />);
     treeMount = mount(<NewPassword {...props} />);
@@ -42,10 +45,10 @@ describe('Given Register component is mounted', () => {
   });
 
   it('should call onSubmitPassword when change button is clicked', () => {
-    const onSubmitPasswordSpy = sinon.spy(() => new Promise(() => {}));
+    onSubmitPasswordSpy = sinon.spy(() => new Promise(() => {}));
     const component = shallow(
       <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
-    const button = component.find('#login').at(1);
+    const button = component.find('#submitPassword').at(1);
     button.simulate('click', onSubmitPasswordSpy());
     component.instance().onSubmitPassword({ preventDefault: () => {} });
     expect(onSubmitPasswordSpy.calledOnce).toEqual(true);
@@ -53,38 +56,115 @@ describe('Given Register component is mounted', () => {
 
   it('should have error message when submit is clicked with empty fields',
   () => {
-    const onSubmitPasswordSpy = sinon.spy(() => new Promise(() => {}));
+    onSubmitPasswordSpy = sinon.spy(() => new Promise(() => {}));
     const component = shallow(
       <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
-    const button = component.find('#login').at(1);
+    const button = component.find('#submitPassword').at(1);
     button.simulate('click', onSubmitPasswordSpy());
     component.instance().onSubmitPassword({ preventDefault: () => {} });
     expect(component.state('errorMessage'))
-    .toEqual('Error: One or more fields are empty');
+    .toEqual('Password field is required');
   });
 
-  it('should clear error message when input field gain focus', () => {
-    treeMount.find('#username').simulate('focus', onFocus());
-    expect(treeMount.state('errorMessage')).toEqual('');
+  it('should clear error message when input field gains focus', () => {
+    treeShallow.find('#password').simulate('focus', onFocus());
+    expect(treeShallow.state('errorMessage'))
+    .toEqual('');
+  });
+
+  it('should display an error if confirm password field is empty', () => {
+    props.match = dummy.matchHash;
+    const component = shallow(
+      <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
+    component.find('#password').simulate('change', { target:
+    { value: 'mike', name: 'password' } });
+    component.find('#confirmPassword').simulate('change', { target:
+    { value: '', name: 'confirmPassword' } });
+    const button = component.find('#submitPassword').at(1);
+    button.simulate('click', onSubmitPasswordSpy());
+    component.instance().onSubmitPassword({ preventDefault: () => {} });
+    expect(component.state('errorMessage'))
+    .toBe('Password Again field is required');
   });
 
   it('should not show any error when form is submitted with filled fields',
   () => {
-    const onSubmitPasswordSpy = sinon.spy(() => new Promise(() => {}));
+    props.match = dummy.matchHash;
     const component = shallow(
       <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
-    component.find('#username').simulate('change', { target:
-    { value: 'zms', name: 'username' } });
     component.find('#password').simulate('change', { target:
-    { value: 'zms', name: 'password' } });
-    component.find('#phone').simulate('change', { target:
-    { value: '09010101010', name: 'phone' } });
-    component.find('#email').simulate('change', { target:
-    { value: 'emailx@email.com', name: 'email' } });
-    const button = component.find('#register').at(1);
+    { value: 'mike', name: 'password' } });
+    component.find('#confirmPassword').simulate('change', { target:
+    { value: 'mike', name: 'confirmPassword' } });
+    const button = component.find('#submitPassword').at(1);
     button.simulate('click', onSubmitPasswordSpy());
     component.instance().onSubmitPassword({ preventDefault: () => {} });
-    expect(component.state('errorMessage')).not
-    .toEqual('Error: One or more fields are empty');
+    expect(component.state('errorMessage'))
+    .toBe('');
+  });
+
+  it('should display error if passwords don\'t match', () => {
+    props.match = dummy.matchHash;
+    const component = shallow(
+      <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
+    component.find('#password').simulate('change', { target:
+    { value: 'mike', name: 'password' } });
+    component.find('#confirmPassword').simulate('change', { target:
+    { value: 'no match', name: 'confirmPassword' } });
+    const button = component.find('#submitPassword').at(1);
+    button.simulate('click', onSubmitPasswordSpy());
+    component.instance().onSubmitPassword({ preventDefault: () => {} });
+    expect(component.state('errorMessage'))
+    .toEqual('Passwords don\'t match.');
+  });
+
+  it('should display error if hash is not in the url', () => {
+    props.match.params.hash = undefined;
+    const component = shallow(
+      <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
+    component.find('#password').simulate('change', { target:
+    { value: 'mike', name: 'password' } });
+    component.find('#confirmPassword').simulate('change', { target:
+    { value: 'mike', name: 'confirmPassword' } });
+    const button = component.find('#submitPassword').at(1);
+    button.simulate('click', onSubmitPasswordSpy());
+    component.instance().onSubmitPassword({ preventDefault: () => {} });
+    expect(component.state('errorMessage'))
+    .toEqual('Hash not given.');
+  });
+
+  it('should not change message props if api call to ' +
+  'reset password is not successful',
+  () => {
+    props.match.params.hash = '';
+    const component = shallow(
+      <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
+    component.find('#password').simulate('change', { target:
+    { value: dummy.string, name: 'password' } });
+    component.find('#confirmPassword').simulate('change', { target:
+    { value: dummy.string, name: 'confirmPassword' } });
+    const button = component.find('#submitPassword').at(1);
+    button.simulate('click', onSubmitPasswordSpy());
+    component.instance().onSubmitPassword({ preventDefault: () => {} });
+    expect(component.instance().props.user.message).not
+    .toEqual('Password Reset Successful');
+  });
+
+  it('should not call reset password if btnText is set to "Okay"',
+  () => {
+    props.apiResetPassword = sinon.spy(() => Promise
+    .reject({ error: { data: { message: dummy.string } } }));
+    props.user.btnText = dummy.btnText;
+    props.match.params.hash = '';
+    const component = shallow(
+      <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
+    component.find('#password').simulate('change', { target:
+    { value: dummy.string, name: 'password' } });
+    component.find('#confirmPassword').simulate('change', { target:
+    { value: dummy.string, name: 'confirmPassword' } });
+    const button = component.find('#submitPassword').at(1);
+    button.simulate('click', onSubmitPasswordSpy());
+    component.instance().onSubmitPassword({ preventDefault: () => {} });
+    expect(component.instance().props.apiResetPassword.called).toEqual(false);
   });
 });

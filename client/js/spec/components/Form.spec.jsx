@@ -7,13 +7,13 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { Form } from '../../components/containers/Form';
-import dummy from '../__mocks__/dummy';
+import dummy from '../../../../__mocks__/dummy';
 
 jest.mock('react-router-dom');
 
 
 describe('Given Form component is mounted', () => {
-  it('should render self and components', () => {
+  it('should render self and components properly', () => {
     const props = {
       onLogout: dummy.func,
     };

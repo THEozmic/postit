@@ -7,12 +7,12 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { Dashboard } from '../../components/containers/Dashboard';
-import { dashboardProps } from '../__mocks__/dummy';
+import { dashboardProps } from '../../../../__mocks__/dummy';
 
 jest.mock('react-router-dom');
 
 describe('Given Dashboard component is mounted', () => {
-  it('should render self and components', () => {
+  it('should render self and components properly', () => {
     const props = {
       onLogout: jest.fn,
       apiGetCurrentUser: () => Promise.resolve()

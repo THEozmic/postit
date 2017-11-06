@@ -4,7 +4,8 @@ import React from 'react';
 import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { Login } from '../../components/containers/Login';
-import dummy from '../__mocks__/dummy';
+import dummy from '../../../../__mocks__/dummy';
+
 
 jest.mock('react-router-dom');
 
@@ -36,8 +37,8 @@ describe('Given Login component is mounted', () => {
   it('should update state when the onChange method is called',
   () => {
     treeMount.find('#username').simulate('change', { target:
-      { value: 'mike', name: 'username' } });
-    expect(treeMount.state('username')).toEqual('mike');
+      { value: dummy.string, name: 'username' } });
+    expect(treeMount.state('username')).toEqual(dummy.string);
   });
 
   it('should call onLoginUser when login button is clicked', () => {
@@ -73,9 +74,9 @@ describe('Given Login component is mounted', () => {
     const component = shallow(
       <Login onLoginUser={onLoginUserSpy} {...props} />);
     component.find('#username').simulate('change', { target:
-    { value: 'mike', name: 'username' } });
+    { value: dummy.string, name: 'username' } });
     component.find('#password').simulate('change', { target:
-    { value: 'mike', name: 'password' } });
+    { value: dummy.string, name: 'password' } });
     const button = component.find('#login').at(1);
     button.simulate('click', onLoginUserSpy());
     component.instance().onLoginUser({ preventDefault: () => {} });

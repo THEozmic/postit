@@ -17,7 +17,7 @@ module.exports = {
       desc: {
         allowNull: false,
         type: Sequelize.STRING,
-        defaultValue: 'no description',
+        defaultValue: 'no description'
       },
       admin: {
         allowNull: false,

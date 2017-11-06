@@ -72,21 +72,21 @@ export class NewPassword extends React.Component {
     }
 
     if (this.state.password !== this.state.confirmPassword) {
-      this.setState({ error: 'Passwords don\'t match.' });
+      this.setState({ errorMessage: 'Passwords don\'t match.' });
       return;
     }
 
     if (this.state.password !== '') {
       const hash = this.props.match.params.hash;
       if (hash === undefined) {
-        this.setState({ error: 'Invalid hash.' });
+        this.setState({ errorMessage: 'Hash not given.' });
         return;
       }
 
       this.props.apiResetPassword({ password: this.state.password, hash })
       .then(() => {
         if (this.props.user.message !== 'Password Reset Successful') {
-          this.setState({ error: 'An unexpected error occurred' });
+          this.setState({ errorMessage: 'An unexpected error occurred' });
         }
       }).catch((error) => {
         this.setState({ errorMessage: error.data.message });

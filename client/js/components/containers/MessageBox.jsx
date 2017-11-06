@@ -22,10 +22,13 @@ export class MessageBox extends React.Component {
     super(props);
     this.state = {
       message_error: '',
-      sendStatus: 'SEND'
+      sendStatus: 'SEND',
+      content: '',
+      priority: 'Normal'
     };
     this.scrollPane = this.scrollPane.bind(this);
     this.send = this.send.bind(this);
+    this.onChange = this.onChange.bind(this);
 
     this.scrollOptions = {
       ease: 'in-expo',
@@ -38,6 +41,15 @@ export class MessageBox extends React.Component {
    */
   componentDidMount() {
     this.scrollPane();
+  }
+
+  /**
+   * This function changes intial states based on onChange events
+   * @param {object} event [the events object parameter]
+   * @return {[type]}      [description]
+   */
+  onChange(event) {
+    return this.setState({ [event.target.name]: event.target.value });
   }
 
   /**
@@ -56,8 +68,8 @@ export class MessageBox extends React.Component {
    * @param {string} message
    */
   send() {
-    const message = this.content.value.trim();
-    const priority = this.priority.value.trim();
+    const message = this.state.content.trim();
+    const priority = this.state.priority.trim();
     if (message !== '') {
       this.setState({ sendStatus: 'SENDING' });
       this.props.apiSendMessage({
@@ -65,8 +77,7 @@ export class MessageBox extends React.Component {
         priority,
         toGroup: this.props.groupId
       }).then(() => {
-        this.setState({ sendStatus: 'SEND' });
-        this.content.value = '';
+        this.setState({ sendStatus: 'SEND', content: '' });
       });
       this.scrollPane();
     }
@@ -83,14 +94,18 @@ export class MessageBox extends React.Component {
             className="message-box"
             id="messageBox"
             placeholder="Type your message..."
-            ref={(input) => { this.content = input; }}
+            value={this.state.content}
+            onChange={this.onChange}
+            name="content"
           />
         </div>
         <div className="col-12 pl-0 pr-0">
           <div className="priority-level">
             <select
               className="browser-default"
-              ref={(input) => { this.priority = input; }}
+              value={this.state.priority}
+              onChange={this.onChange}
+              name="priority"
             >
               <option value="Normal">Normal</option>
               <option value="Urgent">Urgent</option>

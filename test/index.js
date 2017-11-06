@@ -4,4 +4,3 @@ import './sendMail.spec';
 import './usersModels.spec';
 import './groupsModels.spec';
 import './messagesModels.spec';
-
