@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import Groups from '../../components/presentational/Groups';
-import dummy from '../../../../__mocks__/dummy';
+import dummy from '../__mocks__/dummy';
 
 jest.mock('react-router-dom');
 

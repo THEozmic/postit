@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { Group } from '../../components/containers/Group';
-import dummy from '../../../../__mocks__/dummy';
+import dummy from '../__mocks__/dummy';
 
 describe('Given Group component is mounted', () => {
   it('should render self and components properly', () => {

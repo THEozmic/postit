@@ -1,8 +1,8 @@
 import chaiHttp from 'chai-http';
 import chai from 'chai';
-import app from '../server/app';
-import models from '../server/models';
-import dummy from '../__mocks__/dummy';
+import app from '../app';
+import models from '../models';
+import dummy from '../../client/js/spec/__mocks__/dummy';
 
 require('dotenv').config();
 

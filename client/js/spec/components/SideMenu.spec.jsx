@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import PropTypes from 'prop-types';
 import { shallow, mount } from 'enzyme';
 import SideMenu from '../../components/presentational/SideMenu';
-import dummy from '../../../../__mocks__/dummy';
+import dummy from '../__mocks__/dummy';
 
 jest.mock('react-router-dom');
 

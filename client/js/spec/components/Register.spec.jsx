@@ -4,7 +4,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { Register } from '../../components/containers/Register';
-import dummy from '../../../../__mocks__/dummy';
+import dummy from '../__mocks__/dummy';
 
 jest.mock('../../helpers/setToken');
 jest.mock('react-router-dom');

@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { NewGroup } from '../../components/containers/NewGroup';
-import dummy from '../../../../__mocks__/dummy';
+import dummy from '../__mocks__/dummy';
 
 jest.mock('react-router-dom');
 

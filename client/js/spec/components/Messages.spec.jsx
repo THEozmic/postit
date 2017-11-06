@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { Messages } from '../../components/containers/Messages';
-import dummy from '../../../../__mocks__/dummy';
+import dummy from '../__mocks__/dummy';
 
 jest.mock('react-router-dom');
 

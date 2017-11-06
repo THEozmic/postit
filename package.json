@@ -107,7 +107,7 @@
   "scripts": {
     "start": "node ./build/bin/www",
     "start:dev": "nodemon ./build/bin/www",
-    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha test/index --compilers js:babel-register --timeout 5000",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text mocha server/test/index --compilers js:babel-register --timeout 5000",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "build:dev:client": "webpack ./client/js/App.jsx -w",

@@ -1,7 +1,7 @@
 import chaiHttp from 'chai-http';
 import chai from 'chai';
-import app from '../server/app';
-import dummy from '../__mocks__/dummy';
+import app from '../app';
+import dummy from '../../client/js/spec/__mocks__/dummy';
 
 const should = chai.should(); // eslint-disable-line no-unused-vars
 const expect = chai.expect;

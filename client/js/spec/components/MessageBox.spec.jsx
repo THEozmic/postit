@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallow, mount } from 'enzyme';
 import { MessageBox } from '../../components/containers/MessageBox';
-import dummy from '../../../../__mocks__/dummy';
+import dummy from '../__mocks__/dummy';
 
 describe('Given MessageBox component is mounted', () => {
   const props = {

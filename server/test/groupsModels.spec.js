@@ -1,6 +1,6 @@
 import chai from 'chai';
-import models from '../server/models';
-import dummy from '../__mocks__/dummy';
+import models from '../models';
+import dummy from '../../client/js/spec/__mocks__/dummy';
 
 const expect = chai.expect;
 
