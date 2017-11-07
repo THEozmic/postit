@@ -43,7 +43,8 @@ export class Search extends React.Component {
       confirmMessage: '',
       btnText: 'Finish',
       showCancelBtn: false,
-      errorMessage: ''
+      errorMessage: '',
+      disableBtn: false
     };
   }
 
@@ -72,6 +73,7 @@ export class Search extends React.Component {
     if (this.state.selectedUsers.length !== 0) {
       if (this.state.confirmMessage !== '') {
         const selectedUsers = JSON.stringify(this.state.selectedUsers);
+        this.setState({ disableBtn: true });
         this.props.apiUpdateMembers(selectedUsers, this.props.selectedGroup.id)
         .then(() => {
           location.href = `/#/group/${this.props.selectedGroup.id}`;
@@ -389,6 +391,7 @@ export class Search extends React.Component {
           <button
             className="waves-effect waves-light btn action-btn"
             onClick={this.onFinishClick}
+            disabled={this.state.disableBtn}
           >{this.state.btnText}</button>
           { this.state.showCancelBtn ?
             <button
