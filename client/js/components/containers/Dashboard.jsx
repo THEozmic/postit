@@ -26,7 +26,7 @@ export class Dashboard extends React.Component {
   /**
    * @return {void}
   */
-  componentWillMount() {
+  componentDidMount() {
     this.props.apiGetCurrentUser(localStorage.getItem('token'))
     .then(() => {
       this.setState({
