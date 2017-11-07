@@ -1,7 +1,8 @@
 import crypto from 'crypto';
 import bcrypt from 'bcrypt-nodejs';
 import models from '../models';
-import { sendMail, validateNewUser, generateToken, emailTemplate } from '../helpers';
+import { sendMail, validateNewUser, generateToken,
+  emailTemplate } from '../helpers';
 
 require('dotenv').config();
 
