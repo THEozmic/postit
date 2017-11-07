@@ -22,7 +22,7 @@ export default (app) => {
   // API route that allow users add/remove other users to/from groups
   app.post('/api/v1/groups/:id/user/', verifyToken,
 
-    controllers.groupUsers.updateUsersInGroup);
+    controllers.groupUsers.update);
 
   // API route to get list of all groups
   app.get('/api/v1/groups/:id', verifyToken, controllers.groups.fetchGroups);
