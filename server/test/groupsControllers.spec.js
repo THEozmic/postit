@@ -1,7 +1,7 @@
 import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
-import dummy from '../../client/js/spec/__mocks__/dummy';
+import mockData from '../../client/js/spec/__mocks__/mockData';
 
 const should = chai.should(); // eslint-disable-line no-unused-vars
 const expect = chai.expect;
@@ -14,8 +14,8 @@ describe('groupsControllersTests ', () => {
     .post('/api/v1/users/signin/')
     .type('form')
     .send({
-      password: dummy.staticPassword,
-      username: dummy.staticUsername
+      password: mockData.staticPassword,
+      username: mockData.staticUsername
     })
     .end((err, res) => {
       res.should.have.status(202);
@@ -30,10 +30,10 @@ describe('groupsControllersTests ', () => {
       .post('/api/v1/groups/')
       .set('x-access-token', token)
       .type('form')
-      .send({ name: dummy.string, desc: dummy.string })
+      .send({ name: mockData.string, desc: mockData.string })
       .end((err, res) => {
         res.should.have.status(201);
-        expect(res.body.name).to.eql(dummy.string);
+        expect(res.body.name).to.eql(mockData.string);
       });
     });
   });
@@ -62,11 +62,11 @@ describe('groupsControllersTests ', () => {
       .set('x-access-token', token)
       .type('form')
       .send({
-        message: dummy.longString
+        message: mockData.longString
       })
       .end((err, res) => {
         res.should.have.status(201);
-        expect(res.body.message.message).to.eql(dummy.longString);
+        expect(res.body.message.message).to.eql(mockData.longString);
         expect(res.body.message.toGroup).to.eql(1);
         done();
       });
@@ -77,12 +77,12 @@ describe('groupsControllersTests ', () => {
       .set('x-access-token', token)
       .type('form')
       .send({
-        message: dummy.string,
+        message: mockData.string,
         priority: 'critical'
       })
       .end((err, res) => {
         res.should.have.status(201);
-        expect(res.body.message.message).to.eql(dummy.string);
+        expect(res.body.message.message).to.eql(mockData.string);
         expect(res.body.message.toGroup).to.eql(1);
         expect(res.body.message.priority).to.eql('Critical');
         done();
@@ -94,12 +94,12 @@ describe('groupsControllersTests ', () => {
       .set('x-access-token', token)
       .type('form')
       .send({
-        message: dummy.longString,
+        message: mockData.longString,
         priority: 'urgent'
       })
       .end((err, res) => {
         res.should.have.status(201);
-        expect(res.body.message.message).to.eql(dummy.longString);
+        expect(res.body.message.message).to.eql(mockData.longString);
         expect(res.body.message.toGroup).to.eql(1);
         expect(res.body.message.priority).to.eql('Urgent');
         done();
@@ -111,8 +111,8 @@ describe('groupsControllersTests ', () => {
       .set('x-access-token', token)
       .type('form')
       .send({
-        message: dummy.longString,
-        priority: dummy.string
+        message: mockData.longString,
+        priority: mockData.string
       })
       .end((err, res) => {
         res.should.have.status(400);

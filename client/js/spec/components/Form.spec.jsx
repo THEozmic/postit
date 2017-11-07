@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { Form } from '../../components/containers/Form';
-import dummy from '../__mocks__/dummy';
+import mockData from '../__mocks__/mockData';
 
 jest.mock('react-router-dom');
 
@@ -15,7 +15,7 @@ jest.mock('react-router-dom');
 describe('Given Form component is mounted', () => {
   it('should render self and components properly', () => {
     const props = {
-      onLogout: dummy.func,
+      onLogout: mockData.func,
     };
     const tree = mount(<Form {...props}>children</Form>);
     expect(tree.exists()).toBe(true);

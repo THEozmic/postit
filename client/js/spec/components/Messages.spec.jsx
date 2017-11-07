@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { Messages } from '../../components/containers/Messages';
-import dummy from '../__mocks__/dummy';
+import mockData from '../__mocks__/mockData';
 
 jest.mock('react-router-dom');
 
 describe('Given Messages component is mounted', () => {
   it('should render self and components properly', () => {
     const props = {
-      messages: [dummy.messageObject]
+      messages: [mockData.messageObject]
     };
     const tree = shallow(<Messages {...props} />);
     expect(tree.exists()).toBe(true);

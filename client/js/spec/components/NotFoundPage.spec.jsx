@@ -4,14 +4,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallow, mount } from 'enzyme';
 import NotFoundPage from '../../components/presentational/NotFoundPage';
-import dummy from '../__mocks__/dummy';
+import mockData from '../__mocks__/mockData';
 
 jest.mock('react-router-dom');
 
 describe('Given NotFoundPage component is mounted', () => {
   const props = {
-    onLogout: dummy.func,
-    groups: dummy.emptyArray
+    onLogout: mockData.func,
+    groups: mockData.emptyArray
   };
   const tree = mount(<NotFoundPage {...props} />);
 

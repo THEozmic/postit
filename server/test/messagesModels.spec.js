@@ -1,13 +1,13 @@
 import chai from 'chai';
 import models from '../models';
-import dummy from '../../client/js/spec/__mocks__/dummy';
+import mockData from '../../client/js/spec/__mocks__/mockData';
 
 const expect = chai.expect;
 
 describe('Messages Model', () => {
   it('should create new message', (done) => {
     const newMessage = {
-      message: dummy.longString,
+      message: mockData.longString,
       priority: 'Normal',
       fromUser: 1,
       toGroup: 1
@@ -35,7 +35,7 @@ describe('Messages Model', () => {
 
   it('should fail if fromUser is not given', (done) => {
     const newMessage = {
-      message: dummy.longString,
+      message: mockData.longString,
       priority: 'Normal',
       toGroup: 1
     };
@@ -49,7 +49,7 @@ describe('Messages Model', () => {
 
   it('should fail if toGroup is not given', (done) => {
     const newMessage = {
-      message: dummy.longString,
+      message: mockData.longString,
       priority: 'Normal',
       fromUser: 1,
     };
@@ -63,8 +63,8 @@ describe('Messages Model', () => {
 
   it('should fail if wrong priority is given', (done) => {
     const newMessage = {
-      message: dummy.longString,
-      priority: dummy.string,
+      message: mockData.longString,
+      priority: mockData.string,
       fromUser: 1,
       toGroup: 1
     };

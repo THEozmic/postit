@@ -4,7 +4,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { Login } from '../../components/containers/Login';
-import dummy from '../__mocks__/dummy';
+import mockData from '../__mocks__/mockData';
 
 
 jest.mock('react-router-dom');
@@ -12,13 +12,13 @@ jest.mock('react-router-dom');
 describe('Given Login component is mounted', () => {
   let treeShallow, treeMount;
   const props = {
-    onLogout: dummy.func,
-    messages: dummy.emptyArray,
-    match: dummy.match,
-    apiLoginUser: dummy.promiseFunc,
-    selectedGroup: dummy.emptyObject,
+    onLogout: mockData.func,
+    messages: mockData.emptyArray,
+    match: mockData.match,
+    apiLoginUser: mockData.promiseFunc,
+    selectedGroup: mockData.emptyObject,
   };
-  const onFocus = dummy.func;
+  const onFocus = mockData.func;
   const onLoginUser = sinon.spy();
   beforeEach(() => {
     treeShallow = shallow(<Login {...props} />);
@@ -37,8 +37,8 @@ describe('Given Login component is mounted', () => {
   it('should update state when the onChange method is called',
   () => {
     treeMount.find('#username').simulate('change', { target:
-      { value: dummy.string, name: 'username' } });
-    expect(treeMount.state('username')).toEqual(dummy.string);
+      { value: mockData.string, name: 'username' } });
+    expect(treeMount.state('username')).toEqual(mockData.string);
   });
 
   it('should call onLoginUser when login button is clicked', () => {
@@ -74,9 +74,9 @@ describe('Given Login component is mounted', () => {
     const component = shallow(
       <Login onLoginUser={onLoginUserSpy} {...props} />);
     component.find('#username').simulate('change', { target:
-    { value: dummy.string, name: 'username' } });
+    { value: mockData.string, name: 'username' } });
     component.find('#password').simulate('change', { target:
-    { value: dummy.string, name: 'password' } });
+    { value: mockData.string, name: 'password' } });
     const button = component.find('#login').at(1);
     button.simulate('click', onLoginUserSpy());
     component.instance().onLoginUser({ preventDefault: () => {} });

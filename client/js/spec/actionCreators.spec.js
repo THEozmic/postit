@@ -304,7 +304,7 @@ describe('actions', () => {
 
   describe('setToken helper function', () => {
     it('should return truthy value when successfully called', () => {
-      expect(setToken('dummytoken')).toBeTruthy();
+      expect(setToken('mockDatatoken')).toBeTruthy();
     });
   });
 });

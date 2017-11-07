@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { Dashboard } from '../../components/containers/Dashboard';
-import { dashboardProps } from '../__mocks__/dummy';
+import { dashboardProps } from '../__mocks__/mockData';
 
 jest.mock('react-router-dom');
 

@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import PropTypes from 'prop-types';
 import { shallow, mount } from 'enzyme';
 import SideMenu from '../../components/presentational/SideMenu';
-import dummy from '../__mocks__/dummy';
+import mockData from '../__mocks__/mockData';
 
 jest.mock('react-router-dom');
 
@@ -15,7 +15,7 @@ describe('Given SideMenu component is mounted', () => {
     onLogout: sinon.spy(),
     active: 'create-group'
   };
-  const logout = dummy.func;
+  const logout = mockData.func;
   beforeEach(() => {
     treeShallow = shallow(<SideMenu {...props} />);
     treeMount = mount(<SideMenu {...props} />);

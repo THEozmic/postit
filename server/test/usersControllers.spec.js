@@ -2,7 +2,7 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 import app from '../app';
 import models from '../models';
-import dummy from '../../client/js/spec/__mocks__/dummy';
+import mockData from '../../client/js/spec/__mocks__/mockData';
 
 require('dotenv').config();
 
@@ -43,10 +43,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users')
         .type('form')
         .send({
-          email: dummy.staticEmail,
-          username: dummy.staticUsername,
-          password: dummy.staticPassword,
-          phone: dummy.staticPhone
+          email: mockData.staticEmail,
+          username: mockData.staticUsername,
+          password: mockData.staticPassword,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(201);
@@ -59,9 +59,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          username: dummy.username,
-          email: dummy.email,
-          phone: dummy.staticPhone
+          username: mockData.username,
+          email: mockData.dynamicEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -73,9 +73,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          email: dummy.email,
-          phone: dummy.staticPhone
+          password: mockData.dynamicPassword,
+          email: mockData.dynamicEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -87,9 +87,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.username,
-          phone: dummy.staticPhone
+          password: mockData.dynamicPassword,
+          username: mockData.username,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -101,9 +101,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.username,
-          email: dummy.email
+          password: mockData.dynamicPassword,
+          username: mockData.username,
+          email: mockData.dynamicEmail
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -115,10 +115,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.username,
-          email: dummy.staticEmail,
-          phone: dummy.staticPhone
+          password: mockData.dynamicPassword,
+          username: mockData.username,
+          email: mockData.staticEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(409);
@@ -130,10 +130,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.staticUsername,
-          email: dummy.email,
-          phone: dummy.staticPhone
+          password: mockData.dynamicPassword,
+          username: mockData.staticUsername,
+          email: mockData.dynamicEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(409);
@@ -145,10 +145,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.username,
-          email: dummy.string,
-          phone: dummy.staticPhone
+          password: mockData.dynamicPassword,
+          username: mockData.username,
+          email: mockData.string,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -161,9 +161,9 @@ describe('usersControllersTests ', () => {
         .type('form')
         .send({
           password: '       ',
-          username: dummy.username,
-          email: dummy.email,
-          phone: dummy.staticPhone
+          username: mockData.username,
+          email: mockData.dynamicEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -175,10 +175,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
+          password: mockData.dynamicPassword,
           username: '     ',
-          email: dummy.email,
-          phone: dummy.staticPhone
+          email: mockData.dynamicEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -190,10 +190,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.username,
+          password: mockData.dynamicPassword,
+          username: mockData.username,
           email: '     ',
-          phone: dummy.staticPhone
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -205,9 +205,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.username,
-          email: dummy.email,
+          password: mockData.dynamicPassword,
+          username: mockData.username,
+          email: mockData.dynamicEmail,
           phone: '        '
         })
         .end((err, res) => {
@@ -223,9 +223,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          username: dummy.username,
-          email: dummy.email,
-          phone: dummy.staticPhone
+          username: mockData.username,
+          email: mockData.dynamicEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Password cannot be empty');
@@ -237,9 +237,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          email: dummy.email,
-          phone: dummy.staticPhone
+          password: mockData.dynamicPassword,
+          email: mockData.dynamicEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Username cannot be empty');
@@ -251,9 +251,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.username,
-          phone: dummy.staticPhone
+          password: mockData.dynamicPassword,
+          username: mockData.username,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Invalid email');
@@ -265,9 +265,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.username,
-          email: dummy.email
+          password: mockData.dynamicPassword,
+          username: mockData.username,
+          email: mockData.dynamicEmail
         })
         .end((err, res) => {
           res.body.error.should.equal('Phone cannot be empty');
@@ -279,10 +279,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.username,
-          email: dummy.staticEmail,
-          phone: dummy.staticPhone
+          password: mockData.dynamicPassword,
+          username: mockData.username,
+          email: mockData.staticEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Email already exists');
@@ -294,10 +294,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.staticUsername,
-          email: dummy.email,
-          phone: dummy.staticPhone
+          password: mockData.dynamicPassword,
+          username: mockData.staticUsername,
+          email: mockData.dynamicEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Username already taken');
@@ -309,10 +309,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.username,
-          email: dummy.string,
-          phone: dummy.staticPhone
+          password: mockData.dynamicPassword,
+          username: mockData.username,
+          email: mockData.string,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Invalid email');
@@ -325,9 +325,9 @@ describe('usersControllersTests ', () => {
         .type('form')
         .send({
           password: '     ',
-          username: dummy.username,
-          email: dummy.email,
-          phone: dummy.staticPhone
+          username: mockData.username,
+          email: mockData.dynamicEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Password cannot be empty');
@@ -339,10 +339,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
+          password: mockData.dynamicPassword,
           username: '     ',
-          email: dummy.email,
-          phone: dummy.staticPhone
+          email: mockData.dynamicEmail,
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -354,10 +354,10 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.email,
+          password: mockData.dynamicPassword,
+          username: mockData.dynamicEmail,
           email: '     ',
-          phone: dummy.staticPhone
+          phone: mockData.staticPhone
         })
         .end((err, res) => {
           res.body.error.should.equal('Invalid email');
@@ -369,9 +369,9 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/')
         .type('form')
         .send({
-          password: dummy.password,
-          username: dummy.username,
-          email: dummy.email,
+          password: mockData.dynamicPassword,
+          username: mockData.username,
+          email: mockData.dynamicEmail,
           phone: '     '
         })
         .end((err, res) => {
@@ -387,7 +387,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/request-password')
         .type('form')
         .send({
-          email: dummy.staticEmail
+          email: mockData.staticEmail
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -400,7 +400,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/request-password')
         .type('form')
         .send({
-          email: dummy.staticEmail
+          email: mockData.staticEmail
         })
         .end((err, res) => {
           res.should.have.status(200);
@@ -414,7 +414,7 @@ describe('usersControllersTests ', () => {
           .post(`/api/v1/users/reset-password/${hash}`)
           .type('form')
           .send({
-            password: dummy.staticPassword
+            password: mockData.staticPassword
           })
           .end((err, res) => {
             res.should.have.status(200);
@@ -429,7 +429,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/request-password')
         .type('form')
         .send({
-          email: dummy.email
+          email: mockData.dynamicEmail
         })
         .end((err, res) => {
           res.should.have.status(404);
@@ -442,7 +442,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/request-password')
         .type('form')
         .send({
-          email: dummy.string
+          email: mockData.string
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -469,7 +469,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/signin/')
         .type('form')
         .send({
-          username: dummy.staticUsername
+          username: mockData.staticUsername
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -481,7 +481,7 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/signin/')
         .type('form')
         .send({
-          password: dummy.staticUsername
+          password: mockData.staticUsername
         })
         .end((err, res) => {
           res.should.have.status(400);
@@ -493,8 +493,8 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/signin/')
         .type('form')
         .send({
-          username: dummy.username,
-          password: dummy.staticPassword
+          username: mockData.username,
+          password: mockData.staticPassword
         })
         .end((err, res) => {
           res.should.have.status(404);
@@ -506,8 +506,8 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/signin/')
         .type('form')
         .send({
-          username: dummy.staticUsername,
-          password: dummy.password
+          username: mockData.staticUsername,
+          password: mockData.dynamicPassword
         })
         .end((err, res) => {
           res.should.have.status(401);
@@ -519,8 +519,8 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users/signin/')
         .type('form')
         .send({
-          password: dummy.staticPassword,
-          username: dummy.staticUsername
+          password: mockData.staticPassword,
+          username: mockData.staticUsername
         })
         .end((err, res) => {
           res.should.have.status(202);
@@ -535,17 +535,17 @@ describe('usersControllersTests ', () => {
         .post('/api/v1/users')
         .type('form')
         .send({
-          email: dummy.email,
-          username: dummy.username,
-          password: dummy.password,
-          phone: dummy.staticPhone
+          email: mockData.dynamicEmail,
+          username: mockData.username,
+          password: mockData.dynamicPassword,
+          phone: mockData.staticPhone
         })
         .end(() => {
           chai.request(app)
           .post('/api/v1/groups/')
           .set('x-access-token', token)
           .type('form')
-          .send({ name: dummy.string, desc: dummy.string })
+          .send({ name: mockData.string, desc: mockData.string })
           .end(() => {
             chai.request(app)
             .post('/api/v1/groups/1/user/')
@@ -580,7 +580,7 @@ describe('usersControllersTests ', () => {
       .send()
       .end((err, res) => {
         res.should.have.status(200);
-        res.body.user.username.should.equal(dummy.staticUsername);
+        res.body.user.username.should.equal(mockData.staticUsername);
         done();
       });
     });

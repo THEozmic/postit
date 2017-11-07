@@ -1,15 +1,15 @@
 import chai from 'chai';
 import models from '../models';
-import dummy from '../../client/js/spec/__mocks__/dummy';
+import mockData from '../../client/js/spec/__mocks__/mockData';
 
 const expect = chai.expect;
 
 describe('Users Model', () => {
   const createdUser = {
-    username: dummy.username,
-    phone: dummy.staticPhone,
-    email: dummy.email,
-    password: dummy.password
+    username: mockData.username,
+    phone: mockData.staticPhone,
+    email: mockData.dynamicEmail,
+    password: mockData.dynamicPassword
   };
   it('should create new user', (done) => {
     models.Users.create(createdUser)
@@ -21,9 +21,9 @@ describe('Users Model', () => {
 
   it('should fail if username is not provided', (done) => {
     const newUser = {
-      phone: dummy.staticPhone,
-      email: dummy.email,
-      password: dummy.password
+      phone: mockData.staticPhone,
+      email: mockData.dynamicEmail,
+      password: mockData.dynamicPassword
     };
     models.Users.create(newUser)
     .catch((error) => {
@@ -34,9 +34,9 @@ describe('Users Model', () => {
 
   it('should fail if phone is not provided', (done) => {
     const newUser = {
-      username: dummy.username,
-      email: dummy.email,
-      password: dummy.password
+      username: mockData.username,
+      email: mockData.dynamicEmail,
+      password: mockData.dynamicPassword
     };
     models.Users.create(newUser)
     .catch((error) => {
@@ -47,9 +47,9 @@ describe('Users Model', () => {
 
   it('should fail if password is not provided', (done) => {
     const newUser = {
-      username: dummy.username,
-      phone: dummy.staticPhone,
-      email: dummy.email,
+      username: mockData.username,
+      phone: mockData.staticPhone,
+      email: mockData.dynamicEmail,
     };
     models.Users.create(newUser)
     .catch((error) => {
@@ -60,9 +60,9 @@ describe('Users Model', () => {
 
   it('should fail if email is not provided', (done) => {
     const newUser = {
-      username: dummy.username,
-      phone: dummy.staticPhone,
-      password: dummy.staticPhone
+      username: mockData.username,
+      phone: mockData.staticPhone,
+      password: mockData.staticPhone
     };
     models.Users.create(newUser)
     .catch((error) => {
@@ -73,10 +73,10 @@ describe('Users Model', () => {
 
   it('should fail if email is invalid', (done) => {
     const newUser = {
-      username: dummy.username,
-      phone: dummy.staticPhone,
-      password: dummy.password,
-      email: dummy.string
+      username: mockData.username,
+      phone: mockData.staticPhone,
+      password: mockData.dynamicPassword,
+      email: mockData.string
     };
     models.Users.create(newUser)
     .catch((error) => {
@@ -88,10 +88,10 @@ describe('Users Model', () => {
 
   it('should fail if email already exists', (done) => {
     const newUser = {
-      username: dummy.string,
-      phone: dummy.staticPhone,
+      username: mockData.string,
+      phone: mockData.staticPhone,
       email: createdUser.email,
-      password: dummy.password
+      password: mockData.dynamicPassword
     };
     models.Users.create(newUser)
     .catch((error) => {
@@ -104,9 +104,9 @@ describe('Users Model', () => {
   it('should fail if username already exists', (done) => {
     const newUser = {
       username: createdUser.username,
-      phone: dummy.staticPhone,
-      email: dummy.email,
-      password: dummy.password
+      phone: mockData.staticPhone,
+      email: mockData.dynamicEmail,
+      password: mockData.dynamicPassword
     };
     models.Users.create(newUser)
     .catch((error) => {

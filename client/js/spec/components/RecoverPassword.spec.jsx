@@ -4,21 +4,21 @@ import React from 'react';
 import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { RecoverPassword } from '../../components/containers/RecoverPassword';
-import dummy from '../__mocks__/dummy';
+import mockData from '../__mocks__/mockData';
 
 jest.mock('react-router-dom');
 
 describe('Given RecoverPassword component is mounted', () => {
   let treeShallow, treeMount;
   const props = {
-    onLogout: dummy.func,
-    messages: dummy.emptyArray,
-    match: dummy.match,
-    user: dummy.user,
-    apiRequestPassword: dummy.promiseFuncReject,
-    selectedGroup: dummy.emptyObject,
+    onLogout: mockData.func,
+    messages: mockData.emptyArray,
+    match: mockData.match,
+    user: mockData.user,
+    apiRequestPassword: mockData.promiseFuncReject,
+    selectedGroup: mockData.emptyObject,
   };
-  const onFocus = dummy.func;
+  const onFocus = mockData.func;
   const onSubmitPassword = sinon.spy();
   beforeEach(() => {
     treeShallow = shallow(<RecoverPassword {...props} />);
@@ -37,8 +37,8 @@ describe('Given RecoverPassword component is mounted', () => {
   it('should update state when the onChange method is called',
   () => {
     treeMount.find('#email').simulate('change', { target:
-      { value: dummy.email, name: 'email' } });
-    expect(treeMount.state('email')).toEqual(dummy.email);
+      { value: mockData.dynamicEmail, name: 'email' } });
+    expect(treeMount.state('email')).toEqual(mockData.dynamicEmail);
   });
 
   it('should clear error message when input field gain focus', () => {
@@ -49,8 +49,8 @@ describe('Given RecoverPassword component is mounted', () => {
 
   it('should display an error if email field is empty', () => {
     const onSendSpy = sinon.spy(() => new Promise(() => {}));
-    props.apiResetPassword = dummy.promiseFunc;
-    props.match = dummy.matchHash;
+    props.apiResetPassword = mockData.promiseFunc;
+    props.match = mockData.matchHash;
     const component = shallow(
       <RecoverPassword onSend={onSendSpy} {...props} />);
     component.find('#email').simulate('change', { target:
@@ -64,12 +64,12 @@ describe('Given RecoverPassword component is mounted', () => {
 
   it('should display an error if email is invalid', () => {
     const onSendSpy = sinon.spy(() => new Promise(() => {}));
-    props.apiResetPassword = dummy.promiseFunc;
-    props.match = dummy.matchHash;
+    props.apiResetPassword = mockData.promiseFunc;
+    props.match = mockData.matchHash;
     const component = shallow(
       <RecoverPassword onSend={onSendSpy} {...props} />);
     component.find('#email').simulate('change', { target:
-    { value: dummy.string, name: 'email' } });
+    { value: mockData.string, name: 'email' } });
     const button = component.find('#submitEmail').at(1);
     button.simulate('click', onSendSpy());
     component.instance().onSend({ preventDefault: () => {} });
@@ -79,12 +79,12 @@ describe('Given RecoverPassword component is mounted', () => {
 
   it('should call request password of email is valid', () => {
     const onSendSpy = sinon.spy(() => new Promise(() => {}));
-    props.apiRequestPassword = dummy.promiseFunc;
-    props.match = dummy.matchHash;
+    props.apiRequestPassword = mockData.promiseFunc;
+    props.match = mockData.matchHash;
     const component = shallow(
       <RecoverPassword onSend={onSendSpy} {...props} />);
     component.find('#email').simulate('change', { target:
-    { value: dummy.email, name: 'email' } });
+    { value: mockData.dynamicEmail, name: 'email' } });
     const button = component.find('#submitEmail').at(1);
     button.simulate('click', onSendSpy());
     component.instance().onSend({ preventDefault: () => {} });
