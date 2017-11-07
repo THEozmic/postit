@@ -6,17 +6,17 @@ import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { NewGroup } from '../../components/containers/NewGroup';
-import dummy from '../__mocks__/dummy';
+import mockData from '../__mocks__/mockData';
 
 jest.mock('react-router-dom');
 
 describe('Given NewGroup component is mounted', () => {
   const props = {
-    messages: dummy.emptyArray,
-    groupId: dummy.number,
-    apiCreateGroup: dummy.promiseFunc
+    messages: mockData.emptyArray,
+    groupId: mockData.number,
+    apiCreateGroup: mockData.promiseFunc
   };
-  const onFocus = dummy.func;
+  const onFocus = mockData.func;
   const tree = mount(<NewGroup {...props} />);
   it('should render self and components properly', () => {
     expect(tree.exists()).toBe(true);
@@ -46,9 +46,9 @@ describe('Given NewGroup component is mounted', () => {
     const component = shallow(
       <NewGroup onCreateGroup={onCreateGroupSpy} {...props} />);
     component.find('#name').simulate('change', { target:
-    { value: dummy.string, name: 'name' } });
+    { value: mockData.string, name: 'name' } });
     component.find('#desc').simulate('change', { target:
-    { value: dummy.string, name: 'description' } });
+    { value: mockData.string, name: 'description' } });
     const button = component.find('#createGroup').at(1);
     button.simulate('click', onCreateGroupSpy());
     component.instance().onCreateGroup({ preventDefault: () => {} });
@@ -61,9 +61,9 @@ describe('Given NewGroup component is mounted', () => {
     const component = shallow(
       <NewGroup onCreateGroup={onCreateGroupSpy} {...props} />);
     component.find('#name').simulate('change', { target:
-    { value: dummy.longString, name: 'name' } });
+    { value: mockData.longString, name: 'name' } });
     component.find('#desc').simulate('change', { target:
-    { value: dummy.string, name: 'description' } });
+    { value: mockData.string, name: 'description' } });
     const button = component.find('#createGroup').at(1);
     button.simulate('click', onCreateGroupSpy());
     component.instance().onCreateGroup({ preventDefault: () => {} });
@@ -77,9 +77,9 @@ describe('Given NewGroup component is mounted', () => {
     const component = shallow(
       <NewGroup onCreateGroup={onCreateGroupSpy} {...props} />);
     component.find('#name').simulate('change', { target:
-    { value: dummy.string, name: 'name' } });
+    { value: mockData.string, name: 'name' } });
     component.find('#desc').simulate('change', { target:
-    { value: dummy.longString, name: 'description' } });
+    { value: mockData.longString, name: 'description' } });
     const button = component.find('#createGroup').at(1);
     button.simulate('click', onCreateGroupSpy());
     component.instance().onCreateGroup({ preventDefault: () => {} });

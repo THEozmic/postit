@@ -4,22 +4,22 @@ import React from 'react';
 import sinon from 'sinon';
 import { shallow, mount } from 'enzyme';
 import { NewPassword } from '../../components/containers/NewPassword';
-import dummy from '../__mocks__/dummy';
+import mockData from '../__mocks__/mockData';
 
 jest.mock('react-router-dom');
 
 describe('Given NewPassword component is mounted', () => {
   let treeShallow, treeMount;
   const props = {
-    onLogout: dummy.func,
-    messages: dummy.emptyArray,
-    match: dummy.match,
-    user: dummy.user,
+    onLogout: mockData.func,
+    messages: mockData.emptyArray,
+    match: mockData.match,
+    user: mockData.user,
     apiResetPassword: sinon.spy(() => Promise
-    .reject({ error: { data: { message: dummy.string } } })),
-    selectedGroup: dummy.emptyObject,
+    .reject({ error: { data: { message: mockData.string } } })),
+    selectedGroup: mockData.emptyObject,
   };
-  const onFocus = dummy.func;
+  const onFocus = mockData.func;
   const onSubmitPassword = sinon.spy();
   let onSubmitPasswordSpy = sinon.stub().resolves({});
 
@@ -73,7 +73,7 @@ describe('Given NewPassword component is mounted', () => {
   });
 
   it('should display an error if confirm password field is empty', () => {
-    props.match = dummy.matchHash;
+    props.match = mockData.matchHash;
     const component = shallow(
       <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
     component.find('#password').simulate('change', { target:
@@ -89,7 +89,7 @@ describe('Given NewPassword component is mounted', () => {
 
   it('should not show any error when form is submitted with filled fields',
   () => {
-    props.match = dummy.matchHash;
+    props.match = mockData.matchHash;
     const component = shallow(
       <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
     component.find('#password').simulate('change', { target:
@@ -104,7 +104,7 @@ describe('Given NewPassword component is mounted', () => {
   });
 
   it('should display error if passwords don\'t match', () => {
-    props.match = dummy.matchHash;
+    props.match = mockData.matchHash;
     const component = shallow(
       <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
     component.find('#password').simulate('change', { target:
@@ -140,9 +140,9 @@ describe('Given NewPassword component is mounted', () => {
     const component = shallow(
       <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
     component.find('#password').simulate('change', { target:
-    { value: dummy.string, name: 'password' } });
+    { value: mockData.string, name: 'password' } });
     component.find('#confirmPassword').simulate('change', { target:
-    { value: dummy.string, name: 'confirmPassword' } });
+    { value: mockData.string, name: 'confirmPassword' } });
     const button = component.find('#submitPassword').at(1);
     button.simulate('click', onSubmitPasswordSpy());
     component.instance().onSubmitPassword({ preventDefault: () => {} });
@@ -153,15 +153,15 @@ describe('Given NewPassword component is mounted', () => {
   it('should not call reset password if btnText is set to "Okay"',
   () => {
     props.apiResetPassword = sinon.spy(() => Promise
-    .reject({ error: { data: { message: dummy.string } } }));
-    props.user.btnText = dummy.btnText;
+    .reject({ error: { data: { message: mockData.string } } }));
+    props.user.btnText = mockData.btnText;
     props.match.params.hash = '';
     const component = shallow(
       <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);
     component.find('#password').simulate('change', { target:
-    { value: dummy.string, name: 'password' } });
+    { value: mockData.string, name: 'password' } });
     component.find('#confirmPassword').simulate('change', { target:
-    { value: dummy.string, name: 'confirmPassword' } });
+    { value: mockData.string, name: 'confirmPassword' } });
     const button = component.find('#submitPassword').at(1);
     button.simulate('click', onSubmitPasswordSpy());
     component.instance().onSubmitPassword({ preventDefault: () => {} });

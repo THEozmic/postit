@@ -1,14 +1,14 @@
 import chai from 'chai';
 import models from '../models';
-import dummy from '../../client/js/spec/__mocks__/dummy';
+import mockData from '../../client/js/spec/__mocks__/mockData';
 
 const expect = chai.expect;
 
 describe('Groups Model', () => {
   it('should create new group', (done) => {
     const newGroup = {
-      name: dummy.string,
-      desc: dummy.string,
+      name: mockData.string,
+      desc: mockData.string,
       admin: 1
     };
     models.Groups.create(newGroup)
@@ -20,7 +20,7 @@ describe('Groups Model', () => {
 
   it('should fail if name is not given', (done) => {
     const newGroup = {
-      desc: dummy.string,
+      desc: mockData.string,
       admin: 1
     };
     models.Groups.create(newGroup)
@@ -33,8 +33,8 @@ describe('Groups Model', () => {
 
   it('should fail if admin is not given', (done) => {
     const newGroup = {
-      name: dummy.string,
-      desc: dummy.string,
+      name: mockData.string,
+      desc: mockData.string,
     };
     models.Groups.create(newGroup)
     .catch((error) => {

@@ -4,13 +4,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { shallow, mount } from 'enzyme';
 import { MessageBox } from '../../components/containers/MessageBox';
-import dummy from '../__mocks__/dummy';
+import mockData from '../__mocks__/mockData';
 
 describe('Given MessageBox component is mounted', () => {
   const props = {
-    sendMessageDetails: dummy.func,
-    apiSendMessage: dummy.promiseFunc,
-    match: dummy.match
+    sendMessageDetails: mockData.func,
+    apiSendMessage: mockData.promiseFunc,
+    match: mockData.match
   };
   const tree = mount(<MessageBox {...props} />);
 
@@ -21,7 +21,7 @@ describe('Given MessageBox component is mounted', () => {
 
   it('should change state of send button when it\'s clicked', () => {
     tree.find('#messageBox').simulate('change', { target:
-      { value: dummy.string, name: 'content' } });
+      { value: mockData.string, name: 'content' } });
     tree.find('.sendMessage').simulate('click');
     expect(tree.instance().state.sendStatus).toBe('SENDING');
   });
