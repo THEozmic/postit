@@ -63,7 +63,7 @@ export class NewGroup extends React.Component {
   onCreateGroup(event) {
     event.preventDefault();
     if (this.state.name === '') {
-      this.setState({ error: 'Error: One or more fields are empty' });
+      this.setState({ errorMessage: 'Group name is required' });
       return;
     }
     if (this.state.name.length > 20) {
