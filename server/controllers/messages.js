@@ -1,6 +1,7 @@
 import Nexmo from 'nexmo';
 import models from '../models';
-import sendMail from '../helpers/sendMail';
+import { sendMail, emailTemplate } from '../helpers/';
+
 
 /**
  * @return {promise} array of users and their emails
@@ -79,6 +80,8 @@ export default {
             apiSecret: process.env.NEXMO_API_SECRET || 'khnjn'
           });
 
+          const messageEmail = emailTemplate(null, null, message);
+
           // I'm now going to send the sms and
           // emails depending on the level of priority
           if (req.body.priority && req.body.priority
@@ -90,7 +93,7 @@ export default {
                   // send email
                   const subject =
                   'POSTIT: You have a message marked as critical';
-                  sendMail(user.email, { subject, message: req.body.message });
+                  sendMail(user.email, { subject, messageEmail });
                   // and sms
                   nexmo.message.sendSms(
                     '2347010346915',
@@ -112,7 +115,7 @@ export default {
               if (users.length !== 0) {
                 users.map((user) => {
                   const subject = 'POSTIT: You have a message marked as urgent';
-                  sendMail(user.email, { subject, message });
+                  sendMail(user.email, { subject, messageEmail });
                   return user;
                 });
               }

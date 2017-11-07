@@ -1,7 +1,8 @@
 import crypto from 'crypto';
 import bcrypt from 'bcrypt-nodejs';
 import models from '../models';
-import { sendMail, validateNewUser, generateToken } from '../helpers';
+import { sendMail, validateNewUser, generateToken,
+  emailTemplate } from '../helpers';
 
 require('dotenv').config();
 
@@ -189,16 +190,24 @@ export default {
       return res.status(400)
       .send({ error: 'Invalid email', status: 400 });
     }
-    let message = `Hello ${email},\
- if you have requested for a new password, please follow \
- <a href='http://localhost:3000/#/new-password/${hash}'> \
- this link</a> to reset your password`;
+
+    let message =
+      emailTemplate(`http://localhost:3000/#/new-password/${hash}`,
+      'Reset Password',
+      `Hello ${email},
+      if you have requested for a new password, please click on the button below
+      or copy and paste this into your url bar:
+      http://localhost:3000/#/new-password/${hash}`);
 
     if (process.env.NODE_ENV === 'production') {
-      message = `Hello ${email},\
-      if you have requested for a new password, please follow \
-      <a href='https://postit-michael.herokuapp.com/#/new-password/${hash}'> \
-      this link</a> to reset your password`;
+      message =
+        emailTemplate(`http://localhost:3000/#/new-password/${hash}`,
+        'Reset Password',
+        `Hello ${email},\
+        if you have requested for a new password, please
+        click on the button below
+        or copy and paste this into your url bar: \
+        https://postit-michael.herokuapp.com/#/new-password/${hash}`);
     }
 
     models.Users
