@@ -52,7 +52,12 @@ render(
       <Switch>
         <Route exact path="/" component={Home} />
 
-        <Route path="/register" component={Register} />
+        <Route
+          path="/register"
+          render={props =>
+          (isLoggedIn() ? (<Dashboard {...props} />) :
+          (<Register {...props} />))}
+        />
 
         <Route
           path="/login"
