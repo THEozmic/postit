@@ -25,7 +25,8 @@ export class Login extends React.Component {
     this.state = {
       errorMessage: '',
       username: '',
-      password: ''
+      password: '',
+      isButtonDisabled: false
     };
   }
 
@@ -58,10 +59,12 @@ export class Login extends React.Component {
     const { password } = this.state;
     const username = this.state.username.trim();
     if (username !== '' || password !== '') {
+      this.setState({ isButtonDisabled: true });
       this.props.apiLoginUser({ username, password })
       .then(() => {
         location.href = '/#/dashboard';
       }).catch((err) => {
+        this.setState({ isButtonDisabled: false });
         this.setState({ errorMessage: `Error: ${err.data.error}` });
       });
     } else {
@@ -109,6 +112,7 @@ export class Login extends React.Component {
             id="login"
             onClick={this.onLoginUser}
             className="waves-effect waves-light btn action-btn"
+            disabled={this.state.isButtonDisabled}
           >Login</button>
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"

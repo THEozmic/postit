@@ -24,7 +24,8 @@ export class RecoverPassword extends React.Component {
       successMessage: '',
       buttonText: 'Send',
       errorMessage: '',
-      email: ''
+      email: '',
+      isButtonDisabled: false
     };
     this.onSend = this.onSend.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -68,6 +69,7 @@ export class RecoverPassword extends React.Component {
       buttonText: 'SENDING...'
     });
 
+    this.setState({ isButtonDisabled: true });
     this.props.apiRequestPassword(this.state.email.trim())
     .then(() => {
       localStorage.removeItem('token');
@@ -77,7 +79,8 @@ export class RecoverPassword extends React.Component {
     .catch((error) => {
       this.setState({
         errorMessage: error.data.error,
-        buttonText: 'TRY AGAIN'
+        buttonText: 'TRY AGAIN',
+        isButtonDisabled: false
       });
     });
   }
@@ -113,6 +116,7 @@ export class RecoverPassword extends React.Component {
             onClick={this.onSend}
             className="waves-effect waves-light btn action-btn"
             id="submitEmail"
+            disabled={this.state.isButtonDisabled}
           >{ this.state.buttonText }</button>
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"
