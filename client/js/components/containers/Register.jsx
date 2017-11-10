@@ -28,7 +28,8 @@ export class Register extends React.Component {
       username: '',
       email: '',
       phone: '',
-      password: ''
+      password: '',
+      isButtonDisabled: false
     };
   }
 
@@ -65,12 +66,14 @@ export class Register extends React.Component {
       this.setState({ errorMessage: 'Error: One or more fields are empty' });
       return;
     }
+    this.setState({ isButtonDisabled: true });
     this.props.apiRegisterUser({ username, email, password, phone })
     .then((response) => {
       setToken(response.data.token);
       this.props.apiGetCurrentUser();
     })
     .catch((error) => {
+      this.setState({ isButtonDisabled: false });
       this.setState({ errorMessage: error.data.error });
     });
   }
@@ -136,6 +139,7 @@ export class Register extends React.Component {
             id="submitDetails"
             onClick={this.onRegisterUser}
             className="waves-effect waves-light btn action-btn"
+            disabled={this.state.isButtonDisabled}
           >Register</button>
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"

@@ -79,6 +79,7 @@ export class NewGroup extends React.Component {
       desc: this.state.description
     })
     .then(() => {
+      this.setState({ isButtonDisabled: false });
       Materialize.toast('Group created!', 4000);
       location.href = '/#/dashboard';
     });

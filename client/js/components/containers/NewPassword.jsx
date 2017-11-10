@@ -27,7 +27,8 @@ export class NewPassword extends React.Component {
       success: '',
       resetText: 'Reset',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      isButtonDisabled: false
     };
   }
 
@@ -82,13 +83,14 @@ export class NewPassword extends React.Component {
         this.setState({ errorMessage: 'Hash not given.' });
         return;
       }
-
+      this.setState({ isButtonDisabled: true });
       this.props.apiResetPassword({ password: this.state.password, hash })
       .then(() => {
         if (this.props.user.message !== 'Password Reset Successful') {
           this.setState({ errorMessage: 'An unexpected error occurred' });
         }
       }).catch((error) => {
+        this.setState({ isButtonDisabled: false });
         this.setState({ errorMessage: error.data.message });
       });
     }
@@ -138,6 +140,7 @@ export class NewPassword extends React.Component {
             onClick={this.onSubmitPassword}
             className="waves-effect waves-light btn action-btn"
             id="submitPassword"
+            disabled={this.state.isButtonDisabled}
           >{this.props.user.btnText || 'Update Password'}</button>
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"
