@@ -55,14 +55,28 @@ render(
         <Route
           path="/register"
           render={props =>
-          (isLoggedIn() ? (<Dashboard {...props} />) :
+          (isLoggedIn() ? (<Redirect to={{ pathname: '/dashboard' }} />) :
           (<Register {...props} />))}
+        />
+
+        <Route
+          path="/recover-password"
+          render={props =>
+          (isLoggedIn() ? (<Redirect to={{ pathname: '/dashboard' }} />) :
+          (<RecoverPassword {...props} />))}
+        />
+
+        <Route
+          path="/new-password/:hash"
+          render={props =>
+          (isLoggedIn() ? (<Redirect to={{ pathname: '/dashboard' }} />) :
+          (<NewPassword {...props} />))}
         />
 
         <Route
           path="/login"
           render={props =>
-          (isLoggedIn() ? (<Dashboard {...props} />) :
+          (isLoggedIn() ? (<Redirect to={{ pathname: '/dashboard' }} />) :
           (<Login {...props} />))}
         />
 
@@ -95,11 +109,8 @@ render(
           (<Redirect to={{ pathname: '/login' }} />))}
         />
 
-        <Route path="/recover-password" component={RecoverPassword} />
-
-        <Route path="/new-password/:hash" component={NewPassword} />
-
         <Route path="*" component={NotFoundPage} />
+
       </Switch>
     </Router>
   </Provider>, app);
