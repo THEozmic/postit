@@ -7,6 +7,12 @@ import { sendMail, validateNewUser, generateToken,
 require('dotenv').config();
 
 export default {
+  /**
+ * Route: POST: /api/v1/users/
+ * @param  {object} req [request object parameter]
+ * @param  {object} res [response object paramter]
+ * @return {object}    returns a response object
+ */
   createUser(req, res) {
     if (validateNewUser(req, res) !== 'valid') {
       return;
@@ -46,6 +52,13 @@ export default {
         });
     });
   },
+
+  /**
+ * Route: GET: /api/v1/users/me/
+ * @param  {object} req [request object parameter]
+ * @param  {object} res [response object paramter]
+ * @return {object}    returns a response object
+ */
   fetchCurrentUser(req, res) {
     const username = req.decoded.data.username;
     models.Users
@@ -68,6 +81,13 @@ export default {
       res.status(200).send({ user });
     });
   },
+
+  /**
+ * Route: POST: /api/v1/users/signin/
+ * @param  {object} req [request object parameter]
+ * @param  {object} res [response object paramter]
+ * @return {object}    returns a response object
+ */
   authenticateUser(req, res) {
     if (!req.body.username) {
       return res.status(400)
@@ -97,6 +117,13 @@ export default {
         .send({ error: 'User does not exist', status: 404 });
       });
   },
+
+  /**
+ * Route: GET: /api/v1/search/:group/:query/:page
+ * @param  {object} req [request object parameter]
+ * @param  {object} res [response object paramter]
+ * @return {object}    returns a response object
+ */
   searchUsers(req, res) {
     if (req.params.page < 0) {
       return res.status(401)
@@ -146,6 +173,13 @@ export default {
       res.status(500).send({ error: { message: 'Unkown server error' } });
     });
   },
+
+  /**
+ * Route: POST: /api/v1/users/reset-password/:hash
+ * @param  {object} req [request object parameter]
+ * @param  {object} res [response object paramter]
+ * @return {object}    returns a response object
+ */
   updatePassword(req, res) {
     models.PasswordRequests
     .findOne({
@@ -176,6 +210,13 @@ export default {
           .send({ message: 'Invalid hash', status: 400 });
     });
   },
+
+  /**
+ * Route: POST: /api/v1/users/request-password
+ * @param  {object} req [request object parameter]
+ * @param  {object} res [response object paramter]
+ * @return {object}    returns a response object
+ */
   passwordRequest(req, res) {
     const email = req.body.email;
     const hash = crypto
