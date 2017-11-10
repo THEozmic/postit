@@ -30,6 +30,12 @@ function fetchMembersDetails(groupId, userId) {
 }
 
 export default {
+  /**
+ * Route: POST: /api/v1/groups/:id/message/
+ * @param  {object} req [request object parameter]
+ * @param  {object} res [response object paramter]
+ * @return {object}    returns a response object
+ */
   createMessage(req, res) {
     if (!req.body.message) {
       return res.status(400)

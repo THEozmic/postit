@@ -1,6 +1,13 @@
 import models from '../models';
 
 export default {
+
+/**
+ * Route: POST: /api/v1/groups/
+ * @param  {object} req [request object parameter]
+ * @param  {object} res [response object paramter]
+ * @return {object}    returns a response object
+ */
   createGroup(req, res) {
     if (!req.body.name) {
       res.status(400).send({ error: 'Param name is required', status: 400 });
@@ -30,6 +37,13 @@ export default {
         .then(res.status(201).send(group));
       });
   },
+
+/**
+ * Route: GET: /api/v1/groups/:id
+ * @param  {object} req [request object parameter]
+ * @param  {object} res [response object paramter]
+ * @return {object}    returns a response object
+ */
   fetchGroups(req, res) {
     if (isNaN(req.params.id)) {
       return res.status(404).send({ error: 'Route not found', status: 404 });
@@ -80,6 +94,13 @@ export default {
       res.status(200).send(group);
     });
   },
+
+  /**
+ * Route: GET: /api/v1/groups/:id/messages/
+ * @param  {object} req [request object parameter]
+ * @param  {object} res [response object paramter]
+ * @return {object}    returns a response object
+ */
   findMessages(req, res) {
     models.Messages
       .findAll({

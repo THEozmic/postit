@@ -1,6 +1,12 @@
 import models from '../models';
 
 export default {
+  /**
+ * Route: POST: /api/v1/groups/:id/user/
+ * @param  {object} req [request object parameter]
+ * @param  {object} res [response object paramter]
+ * @return {object}    returns a response object
+ */
   update(req, res) {
     if (!req.body.usersIds) {
       return res.status(400)
