@@ -54,6 +54,7 @@ render(
 
         <Route
           path="/register"
+          exact
           render={props =>
           (isLoggedIn() ? (<Redirect to={{ pathname: '/dashboard' }} />) :
           (<Register {...props} />))}
@@ -61,6 +62,7 @@ render(
 
         <Route
           path="/recover-password"
+          exact
           render={props =>
           (isLoggedIn() ? (<Redirect to={{ pathname: '/dashboard' }} />) :
           (<RecoverPassword {...props} />))}
@@ -68,6 +70,7 @@ render(
 
         <Route
           path="/new-password/:hash"
+          exact
           render={props =>
           (isLoggedIn() ? (<Redirect to={{ pathname: '/dashboard' }} />) :
           (<NewPassword {...props} />))}
@@ -82,6 +85,7 @@ render(
 
         <Route
           path="/dashboard"
+          exact
           render={props =>
           (isLoggedIn() ? (<Dashboard {...props} />) :
           (<Redirect to={{ pathname: '/login' }} />))}
@@ -97,6 +101,7 @@ render(
 
         <Route
           path="/new-group"
+          exact
           render={props =>
           (isLoggedIn() ? (<NewGroup {...props} />) :
           (<Redirect to={{ pathname: '/login' }} />))}
@@ -104,12 +109,13 @@ render(
 
         <Route
           path="/group/:id/search"
+          exact
           render={props =>
           (isLoggedIn() ? (<Search {...props} />) :
           (<Redirect to={{ pathname: '/login' }} />))}
         />
 
-        <Route path="*" component={NotFoundPage} />
+        <Route path="/*" component={NotFoundPage} />
 
       </Switch>
     </Router>
