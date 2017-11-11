@@ -1,4 +1,6 @@
-import { changeSelectedGroup, apiSearch, apiUpdateMembers } from './group';
+import { changeSelectedGroup, apiSearch,
+  apiUpdateMembers,
+  stopSearch } from './group';
 import { loadMessages, sendMessage,
   apiFetchGroup, apiSendMessage } from './message';
 import { loginUser, logoutUser, registerUser,
@@ -23,4 +25,5 @@ export {
   apiResetPassword,
   apiCreateGroup,
   apiRegisterUser,
-  apiLoginUser };
+  apiLoginUser,
+  stopSearch };

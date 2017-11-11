@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logoutUser, apiGetCurrentUser } from '../../actions/user';
+import { logoutUser, apiFetchGroups } from '../../actions/user';
 import { Footer, Header, SideMenu, Groups } from '../presentational';
 
 /**
@@ -27,12 +27,19 @@ export class Dashboard extends React.Component {
    * @return {void}
   */
   componentDidMount() {
-    this.props.apiGetCurrentUser(localStorage.getItem('token'))
-    .then(() => {
+    this.props.apiFetchGroups(localStorage.getItem('token'));
+  }
+
+  /**
+   * @return {void}
+   * @param {object} nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.groups !== nextProps.groups) {
       this.setState({
         loading: ''
       });
-    });
+    }
   }
 
   /**
@@ -49,9 +56,9 @@ export class Dashboard extends React.Component {
               <div className="section page-content align-top pl-0 col m7 l8">
                 <h5>My Groups</h5>
                 { this.state.loading === '' &&
-                 this.props.user.groups !== undefined ?
+                 this.props.groups !== undefined ?
                    <Groups
-                     groups={this.props.user.groups}
+                     groups={this.props.groups}
                    />
                   : this.state.loading
                 }
@@ -66,22 +73,23 @@ export class Dashboard extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  groups: state.groups
 });
 
 const mapDispatchToProps = dispatch => ({
   onLogout: () => dispatch(logoutUser()),
-  apiGetCurrentUser: token => dispatch(apiGetCurrentUser(token))
+  apiFetchGroups: token => dispatch(apiFetchGroups(token))
 });
 
 Dashboard.defaultProps = {
-  user: {}
+  groups: [],
+  apiFetchGroups: () => {}
 };
 
 Dashboard.propTypes = {
   onLogout: PropTypes.func.isRequired,
-  user: PropTypes.object,
-  apiGetCurrentUser: PropTypes.func.isRequired,
+  groups: PropTypes.array,
+  apiFetchGroups: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

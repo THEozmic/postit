@@ -16,7 +16,7 @@ const user = (state = {}, action) => {
     case 'PASSWORD_RESET':
       return action.payload;
     case 'PASSWORD_REQUEST':
-      return action.payload;
+      return action.user;
     default:
       return state;
   }

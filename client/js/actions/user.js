@@ -32,6 +32,16 @@ export const registerUser = user => ({
 });
 
 /**
+ * Sets the new group in the store
+ * @param {object} group
+ * @returns {object} action
+ */
+export const createGroup = group => ({
+  type: 'CREATE_GROUP',
+  group
+});
+
+/**
  * Get current user
  * @param {object} user
  * @returns {object} action
@@ -71,12 +81,35 @@ export const apiGetCurrentUser = () => function action(dispatch) {
 };
 
 /**
+ * Async action for Get user groups
+ * @returns {promise} request
+ */
+export const apiFetchGroups = () => function action(dispatch) {
+  const request = axios({
+    method: 'GET',
+    url: '/api/v1/users/me/'
+  });
+  return request.then(
+    (response) => {
+      dispatch({
+        type: 'FETCH_GROUPS_SUCCESS',
+        groups: response.data.user.groups
+      });
+    }
+  );
+};
+
+/**
  * Async action for Login user
  * @returns {promise} request
  * @param {object} options
  */
 export const apiLoginUser = ({ username, password }) =>
 function action(dispatch) {
+  dispatch({
+    type: 'ERROR',
+    message: ''
+  });
   const request = axios({
     method: 'POST',
     data: { username, password },
@@ -87,7 +120,12 @@ function action(dispatch) {
       setToken(response.data.token);
       dispatch(apiGetCurrentUser());
     }
-  );
+  ).catch((error) => {
+    dispatch({
+      type: 'ERROR',
+      message: error.data.error
+    });
+  });
 };
 
 /**
@@ -96,11 +134,24 @@ function action(dispatch) {
  * @param {object} options
  */
 export const apiRegisterUser = ({ username, email, password, phone }) =>
-function action() {
+function action(dispatch) {
+  dispatch({
+    type: 'ERROR',
+    message: ''
+  });
   const request = axios({
     data: { username, email, password, phone },
     method: 'POST',
     url: '/api/v1/users'
+  });
+  request.then((response) => {
+    setToken(response.data.token);
+    dispatch(apiGetCurrentUser());
+  }).catch((error) => {
+    dispatch({
+      type: 'ERROR',
+      message: error.data.error
+    });
   });
   return request;
 };
@@ -118,8 +169,11 @@ function action(dispatch) {
     url: '/api/v1/groups'
   });
   return request.then(
-    () => {
-      dispatch(apiGetCurrentUser());
+    (response) => {
+      if (desc.trim() === '') {
+        desc = 'no description';
+      }
+      dispatch(createGroup({ name, desc, id: response.data.id }));
     }
   );
 };
@@ -131,16 +185,23 @@ function action(dispatch) {
  */
 export const apiResetPassword = ({ password, hash }) =>
 function action(dispatch) {
+  dispatch({
+    type: 'ERROR',
+    message: ''
+  });
   const request = axios({
     method: 'POST',
     data: { password },
     url: `/api/v1/users/reset-password/${hash}`
   });
-  return request.then(
-    () => {
-      dispatch(passwordReset('Password Reset Successful'));
-    }
-  );
+  return request.then(() => {
+    dispatch(passwordReset('Password Reset Successful'));
+  }).catch((error) => {
+    dispatch({
+      type: 'ERROR',
+      message: error.data.error
+    });
+  });
 };
 
 /**
@@ -149,11 +210,27 @@ function action(dispatch) {
  * @param {string} email
  */
 export const apiRequestPassword = email =>
-function action() {
+function action(dispatch) {
+  dispatch({
+    type: 'ERROR',
+    message: ''
+  });
   const request = axios({
     method: 'POST',
     data: { email },
     url: '/api/v1/users/request-password'
   });
-  return request;
+  return request.then(() => {
+    dispatch({
+      type: 'PASSWORD_REQUEST',
+      user: { message: 'Success' }
+    });
+  })
+  .catch((error) => {
+    console.log(error, 'eee');
+    dispatch({
+      type: 'ERROR',
+      message: error.data.error
+    });
+  });
 };

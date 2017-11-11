@@ -10,6 +10,10 @@ export const changeSelectedGroup = group => ({
   group
 });
 
+export const stopSearch = () => ({
+  type: 'SEARCH_STOP'
+});
+
 /**
  * Updates the search results
  * @param {array} result
@@ -33,11 +37,10 @@ function action(dispatch) {
     method: 'GET',
     url: `/api/v1/search/${groupId}/${searchTerm}/${page}`
   });
-  return request.then(
-    (response) => {
-      dispatch(search(response.data));
-    }
-  );
+  return request
+  .then((response) => {
+    dispatch(search(response.data));
+  });
 };
 
 /**
@@ -53,9 +56,50 @@ function action(dispatch) {
     data: { usersIds: selectedUsers },
     url: `/api/v1/groups/${groupId}/user/`
   });
-  return request.then(
-      () => {
-        dispatch({ type: 'UPDATE_GROUP_MEMBERS', selectedUsers });
-      }
-  );
+  return request
+  .then(() => {
+    dispatch({ type: 'SEARCH_COMPLETE', status: 'complete' });
+  });
 };
+
+
+// export const createGroup = ({ name, desc }) => dispatch =>
+// axios({
+//   method: 'POST',
+//   data: { name, desc },
+//   url: '/api/v1/groups'
+// })
+// .then((response) => {
+//   dispatch({
+//     type: types.CREATE_GROUP_SUCCESS,
+//     group: { name, desc, id: response.data.id }
+//   });
+// });
+
+// export const selectGroup = group => ({
+//   type: types.SELECT_GROUP_SUCCESS,
+//   group
+// });
+
+// export const updateMembers = ({ selectedUsers, groupId }) => dispatch =>
+// axios({
+//   method: 'POST',
+//   data: { usersIds: selectedUsers },
+//   url: `/api/v1/groups/${groupId}/user/`
+// }).then((response) => {
+//   dispatch({
+//     type: types.UPDATE_GROUP_MEMBERS_SUCCESS,
+//     result: response.data
+//   });
+// });
+
+// export const searchUsers = search => dispatch =>
+// axios({
+//   method: 'GET',
+//   url: `/api/v1/search/${search.groupId}/${search.term}/${search.page}`
+// }).then((response) => {
+//   dispatch({
+//     type: types.SEARCH_USERS_SUCCESS,
+//     result: response.data
+//   });
+// });

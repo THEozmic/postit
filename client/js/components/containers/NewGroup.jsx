@@ -30,6 +30,18 @@ export class NewGroup extends React.Component {
     this.onCreateGroup = this.onCreateGroup.bind(this);
   }
 
+   /**
+   * @return {void}
+   * @param {object} nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props !== nextProps) {
+      this.setState({ isButtonDisabled: false });
+      Materialize.toast('Group created!', 4000);
+      location.href = '#/dashboard';
+    }
+  }
+
   /**
    * @returns {void}
    * @param {Object} event
@@ -77,11 +89,6 @@ export class NewGroup extends React.Component {
     this.props.apiCreateGroup({
       name: this.state.name,
       desc: this.state.description
-    })
-    .then(() => {
-      this.setState({ isButtonDisabled: false });
-      Materialize.toast('Group created!', 4000);
-      location.href = '/#/dashboard';
     });
   }
 
@@ -145,9 +152,13 @@ NewGroup.propTypes = {
   apiCreateGroup: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = state => ({
+  groups: state.groups
+});
+
 const mapDispatchToProps = dispatch => ({
   apiCreateGroup: ({ name, desc }) =>
   dispatch(apiCreateGroup({ name, desc }))
 });
 
-export default connect(null, mapDispatchToProps)(NewGroup);
+export default connect(mapStateToProps, mapDispatchToProps)(NewGroup);

@@ -32,6 +32,24 @@ export class NewPassword extends React.Component {
     };
   }
 
+    /**
+   * @return {void}
+   * @param {object} nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user !== nextProps.user) {
+      if (nextProps.user.message !== 'Password Reset Successful') {
+        this.setState({ errorMessage: 'An unexpected error occurred' });
+      } else {
+        this.setState({ isButtonDisabled: false });
+      }
+    }
+
+    if (nextProps.error !== '') {
+      this.setState({ isButtonDisabled: false, errorMessage: nextProps.error });
+    }
+  }
+
   /**
    * This function changes intial states based on onChange events
    * @param {object} event [the events object parameter]
@@ -84,15 +102,7 @@ export class NewPassword extends React.Component {
         return;
       }
       this.setState({ isButtonDisabled: true });
-      this.props.apiResetPassword({ password: this.state.password, hash })
-      .then(() => {
-        if (this.props.user.message !== 'Password Reset Successful') {
-          this.setState({ errorMessage: 'An unexpected error occurred' });
-        }
-      }).catch((error) => {
-        this.setState({ isButtonDisabled: false });
-        this.setState({ errorMessage: error.data.message });
-      });
+      this.props.apiResetPassword({ password: this.state.password, hash });
     }
   }
 
@@ -128,13 +138,13 @@ export class NewPassword extends React.Component {
                 <label htmlFor="confirmPassword">Password Again</label>
               </div>
             </div> :
-            <div className="red card section">
+            <div className="blue-text section">
               {this.props.user.message}
             </div>
           }
           { this.state.errorMessage === '' ? '' :
           <div
-            className="red card"
+            className="red card section"
           >{this.state.errorMessage}</div>}
           <button
             onClick={this.onSubmitPassword}
@@ -155,11 +165,18 @@ export class NewPassword extends React.Component {
 NewPassword.propTypes = {
   match: PropTypes.object.isRequired,
   apiResetPassword: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object,
+  error: PropTypes.string
+};
+
+NewPassword.defaultProps = {
+  error: '',
+  user: {}
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  error: state.error
 });
 
 const mapDispatchToProps = dispatch => ({

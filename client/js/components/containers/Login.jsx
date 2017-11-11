@@ -30,6 +30,20 @@ export class Login extends React.Component {
     };
   }
 
+   /**
+   * @return {void}
+   * @param {object} nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user !== nextProps.user) {
+      location.href = '#/dashboard';
+    }
+
+    if (nextProps.error !== '') {
+      this.setState({ isButtonDisabled: false, errorMessage: nextProps.error });
+    }
+  }
+
   /**
    * This function changes intial states based on onChange events
    * @param {object} event [the events object parameter]
@@ -60,13 +74,7 @@ export class Login extends React.Component {
     const username = this.state.username.trim();
     if (username !== '' || password !== '') {
       this.setState({ isButtonDisabled: true });
-      this.props.apiLoginUser({ username, password })
-      .then(() => {
-        location.href = '/#/dashboard';
-      }).catch((err) => {
-        this.setState({ isButtonDisabled: false });
-        this.setState({ errorMessage: `Error: ${err.data.error}` });
-      });
+      this.props.apiLoginUser({ username, password });
     } else {
       this.setState({ errorMessage: 'Error: One or more fields are empty' });
     }
@@ -129,8 +137,20 @@ const mapDispatchToProps = dispatch => ({
    dispatch(apiLoginUser({ username, password })),
 });
 
-Login.propTypes = {
-  apiLoginUser: PropTypes.func.isRequired,
+const mapStateToProps = state => ({
+  error: state.error,
+  user: state.user
+});
+
+Login.defaultProps = {
+  error: '',
+  user: {}
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+Login.propTypes = {
+  apiLoginUser: PropTypes.func.isRequired,
+  user: PropTypes.object,
+  error: PropTypes.string,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -32,6 +32,28 @@ export class RecoverPassword extends React.Component {
     this.onFocus = this.onFocus.bind(this);
   }
 
+   /**
+   * @return {void}
+   * @param {object} nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user !== nextProps.user) {
+      if (nextProps.user.message === 'Success') {
+        localStorage.removeItem('token');
+        location.href = '#/login';
+        Materialize.toast('Email sent! Please check your inbox', 4000);
+      }
+    }
+
+    if (nextProps.error !== '') {
+      this.setState({
+        errorMessage: nextProps.error,
+        buttonText: 'TRY AGAIN',
+        isButtonDisabled: false
+      });
+    }
+  }
+
   /**
    * This function changes intial states based on onChange events
    * @param {object} event [the events object parameter]
@@ -70,19 +92,7 @@ export class RecoverPassword extends React.Component {
     });
 
     this.setState({ isButtonDisabled: true });
-    this.props.apiRequestPassword(this.state.email.trim())
-    .then(() => {
-      localStorage.removeItem('token');
-      location.hash = '#login';
-      Materialize.toast('Email sent! Please check your inbox', 4000);
-    })
-    .catch((error) => {
-      this.setState({
-        errorMessage: error.data.error,
-        buttonText: 'TRY AGAIN',
-        isButtonDisabled: false
-      });
-    });
+    this.props.apiRequestPassword(this.state.email.trim());
   }
 
   /**
@@ -130,6 +140,13 @@ export class RecoverPassword extends React.Component {
 
 RecoverPassword.propTypes = {
   apiRequestPassword: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  user: PropTypes.object
+};
+
+RecoverPassword.defaultProps = {
+  error: '',
+  user: {}
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -137,4 +154,9 @@ const mapDispatchToProps = dispatch => ({
   dispatch(apiRequestPassword(email))
 });
 
-export default connect(null, mapDispatchToProps)(RecoverPassword);
+const mapStateToProps = state => ({
+  user: state.user,
+  error: state.error
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecoverPassword);

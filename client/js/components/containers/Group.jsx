@@ -32,9 +32,17 @@ export class Group extends React.Component {
    */
   componentWillMount() {
     const groupId = this.props.match.params.id;
-    this.props.apiFetchGroup(groupId).then(() => {
-      this.setState({ loading: '', selectedGroup: this.props.selectedGroup });
-    });
+    this.props.apiFetchGroup(groupId);
+  }
+
+  /**
+   * @returns {void}
+   * @param {object} nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    if (nextProps !== this.props) {
+      this.setState({ loading: '', selectedGroup: nextProps.selectedGroup });
+    }
   }
 
   /**
@@ -77,7 +85,6 @@ export class Group extends React.Component {
 
 const mapStateToProps = state => ({
   messages: state.messages,
-  user: state.user,
   selectedGroup: state.selectedGroup
 });
 
