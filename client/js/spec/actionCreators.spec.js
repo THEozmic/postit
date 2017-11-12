@@ -20,7 +20,8 @@ import {
   apiCreateGroup,
   apiRegisterUser,
   apiLoginUser,
-  apiGetCurrentUser
+  apiGetCurrentUser,
+  clearError
 } from '../actions';
 
 const middlewares = [thunk];
@@ -48,7 +49,7 @@ describe('actions', () => {
         .reply(201, { users: [] });
 
       const expectedAction =
-      [{ type: 'UPDATE_GROUP_MEMBERS', selectedUsers: [] }];
+      [{ status: 'complete', type: 'SEARCH_COMPLETE' }];
 
       const store = mockStore({ messages: [] });
 
@@ -143,13 +144,24 @@ describe('actions', () => {
   });
 
   describe('User action', () => {
+    it('should create action to clear error when action of ' +
+    'type ERROR is passed', () => {
+      const expectedAction = {
+        type: 'ERROR',
+        message: ''
+      };
+      expect(clearError()).toEqual(expectedAction);
+    });
+
     it('should make api call and create an ' +
     'action to request password change when request password action is called',
     () => {
       mock.onPost('/api/v1/users/request-password')
         .reply(201, { message: [] });
 
-      const expectedAction = [];
+      const expectedAction = [{
+        type: 'PASSWORD_REQUEST',
+        user: { message: 'Success' } }];
 
       const store = mockStore({ messages: [] });
 
@@ -184,7 +196,13 @@ describe('actions', () => {
       mock.onPost('/api/v1/groups')
         .reply(201, { message: [] });
 
-      const expectedAction = [];
+      const expectedAction = [{
+        group: {
+          desc: 'no description',
+          id: undefined,
+          name: 'Group name'
+        },
+        type: 'CREATE_GROUP' }];
 
       const store = mockStore({ messages: [] });
 

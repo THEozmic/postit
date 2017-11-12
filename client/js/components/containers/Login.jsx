@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from './Form';
 import { apiLoginUser } from '../../actions/user';
+import clearError from '../../actions/common';
 
 /**
  * Login Page
@@ -74,6 +75,7 @@ export class Login extends React.Component {
     const username = this.state.username.trim();
     if (username !== '' || password !== '') {
       this.setState({ isButtonDisabled: true });
+      this.props.clearError();
       this.props.apiLoginUser({ username, password });
     } else {
       this.setState({ errorMessage: 'Error: One or more fields are empty' });
@@ -135,6 +137,8 @@ export class Login extends React.Component {
 const mapDispatchToProps = dispatch => ({
   apiLoginUser: ({ username, password }) =>
    dispatch(apiLoginUser({ username, password })),
+  clearError: () =>
+    dispatch(clearError()),
 });
 
 const mapStateToProps = state => ({
@@ -144,13 +148,15 @@ const mapStateToProps = state => ({
 
 Login.defaultProps = {
   error: '',
-  user: {}
+  user: {},
+  clearError: () => {}
 };
 
 Login.propTypes = {
   apiLoginUser: PropTypes.func.isRequired,
   user: PropTypes.object,
   error: PropTypes.string,
+  clearError: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

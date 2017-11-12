@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form } from './Form';
 import { apiRegisterUser } from '../../actions/user';
+import clearError from '../../actions/common';
 
 /**
  * Registration Page
@@ -80,6 +81,7 @@ export class Register extends React.Component {
       return;
     }
     this.setState({ isButtonDisabled: true });
+    this.props.clearError();
     this.props.apiRegisterUser({ username, email, password, phone });
   }
 
@@ -158,7 +160,9 @@ export class Register extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   apiRegisterUser: ({ username, email, password, phone }) =>
-  dispatch(apiRegisterUser({ username, email, password, phone }))
+  dispatch(apiRegisterUser({ username, email, password, phone })),
+  clearError: () =>
+  dispatch(clearError())
 });
 
 const mapStateToProps = state => ({
@@ -169,13 +173,15 @@ const mapStateToProps = state => ({
 Register.defaultProps = {
   apiRegisterUser: () => {},
   user: {},
-  error: ''
+  error: '',
+  clearError: () => {}
 };
 
 Register.propTypes = {
   apiRegisterUser: PropTypes.func,
   error: PropTypes.string,
-  user: PropTypes.object
+  user: PropTypes.object,
+  clearError: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

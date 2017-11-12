@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form } from './Form';
 import { apiRequestPassword } from '../../actions/user';
+import clearError from '../../actions/common';
 
 /**
  * Recover Password Page
@@ -92,6 +93,7 @@ export class RecoverPassword extends React.Component {
     });
 
     this.setState({ isButtonDisabled: true });
+    this.props.clearError();
     this.props.apiRequestPassword(this.state.email.trim());
   }
 
@@ -146,12 +148,15 @@ RecoverPassword.propTypes = {
 
 RecoverPassword.defaultProps = {
   error: '',
-  user: {}
+  user: {},
+  clearError: () => {}
 };
 
 const mapDispatchToProps = dispatch => ({
   apiRequestPassword: email =>
-  dispatch(apiRequestPassword(email))
+  dispatch(apiRequestPassword(email)),
+  clearError: () =>
+  dispatch(clearError())
 });
 
 const mapStateToProps = state => ({

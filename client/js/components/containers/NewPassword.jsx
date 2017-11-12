@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from './Form';
 import { apiResetPassword } from '../../actions/user';
+import clearError from '../../actions/common';
 
 /**
  * New Password Page
@@ -102,6 +103,7 @@ export class NewPassword extends React.Component {
         return;
       }
       this.setState({ isButtonDisabled: true });
+      this.props.clearError();
       this.props.apiResetPassword({ password: this.state.password, hash });
     }
   }
@@ -166,12 +168,14 @@ NewPassword.propTypes = {
   match: PropTypes.object.isRequired,
   apiResetPassword: PropTypes.func.isRequired,
   user: PropTypes.object,
-  error: PropTypes.string
+  error: PropTypes.string,
+  clearError: PropTypes.func
 };
 
 NewPassword.defaultProps = {
   error: '',
-  user: {}
+  user: {},
+  clearError: () => {}
 };
 
 const mapStateToProps = state => ({
@@ -181,7 +185,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   apiResetPassword: ({ password, hash }) =>
-  dispatch(apiResetPassword({ password, hash }))
+  dispatch(apiResetPassword({ password, hash })),
+  clearError: () =>
+  dispatch(clearError())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewPassword);

@@ -7,6 +7,7 @@ import { loginUser, logoutUser, registerUser,
   apiGetCurrentUser, getCurrentUser,
   apiRequestPassword, apiResetPassword, apiCreateGroup,
   apiRegisterUser, apiLoginUser } from './user';
+import clearError from './common';
 
 export {
   changeSelectedGroup,
@@ -26,4 +27,5 @@ export {
   apiCreateGroup,
   apiRegisterUser,
   apiLoginUser,
-  stopSearch };
+  stopSearch,
+  clearError };

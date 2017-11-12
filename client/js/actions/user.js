@@ -106,10 +106,6 @@ export const apiFetchGroups = () => function action(dispatch) {
  */
 export const apiLoginUser = ({ username, password }) =>
 function action(dispatch) {
-  dispatch({
-    type: 'ERROR',
-    message: ''
-  });
   const request = axios({
     method: 'POST',
     data: { username, password },
@@ -135,10 +131,6 @@ function action(dispatch) {
  */
 export const apiRegisterUser = ({ username, email, password, phone }) =>
 function action(dispatch) {
-  dispatch({
-    type: 'ERROR',
-    message: ''
-  });
   const request = axios({
     data: { username, email, password, phone },
     method: 'POST',
@@ -185,10 +177,6 @@ function action(dispatch) {
  */
 export const apiResetPassword = ({ password, hash }) =>
 function action(dispatch) {
-  dispatch({
-    type: 'ERROR',
-    message: ''
-  });
   const request = axios({
     method: 'POST',
     data: { password },
@@ -211,10 +199,6 @@ function action(dispatch) {
  */
 export const apiRequestPassword = email =>
 function action(dispatch) {
-  dispatch({
-    type: 'ERROR',
-    message: ''
-  });
   const request = axios({
     method: 'POST',
     data: { email },
@@ -227,7 +211,6 @@ function action(dispatch) {
     });
   })
   .catch((error) => {
-    console.log(error, 'eee');
     dispatch({
       type: 'ERROR',
       message: error.data.error
