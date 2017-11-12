@@ -1,3 +1,4 @@
+/* global Materialize */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -196,22 +197,15 @@ export class Search extends React.Component {
   onSelectUser(event, user) {
     event.preventDefault();
     this.setState({ errorMessage: '' });
-    let alreadySelected = false;
-    this.state.selectedUsers.map((sUser) => {
-      if (sUser.id === user.id) {
-        alreadySelected = true;
-        return sUser;
-      }
-      return false;
-    });
-    if (!alreadySelected) {
-      if (!this.isAdmin()) {
-        alreadySelected = false;
-        Materialize.toast('Only an Admin can do that', 4000);
-        return;
-      }
-      const selectedUsers = this.state.selectedUsers.concat(user);
-      this.setState({ selectedUsers });
+    let selectedUsers = this.state.selectedUsers;
+    const isFound = selectedUsers.find(sUser => sUser.id === user.id);
+    if (!this.isAdmin() && user.ingroup === true &&
+    typeof isFound === 'undefined') {
+      Materialize.toast('Only an Admin can do that', 4000);
+      return;
+    }
+    if (typeof isFound !== 'undefined') {
+      selectedUsers = selectedUsers.filter(sUser => sUser.id === user.id);
     } else {
       const users = this.state.selectedUsers
       .filter(sUser => sUser.id !== user.id);
