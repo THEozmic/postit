@@ -1,7 +1,8 @@
 /* globals expect */
-import { selectedGroup, search } from '../reducers/group';
+import { selectedGroup, search, groups } from '../reducers/group';
 import messages from '../reducers/messages';
 import user from '../reducers/user';
+import error from '../reducers/error';
 
 describe('Group reducers', () => {
   describe('When CHANGE_SELECTED_GROUP action ' +
@@ -126,17 +127,60 @@ describe('User reducers', () => {
       const state = {};
       const action = {
         type: 'PASSWORD_REQUEST',
-        payload: { stuff: 'stuff' }
+        user: { message: 'Success' }
       };
-      expect(user(state, action)).toEqual({ stuff: 'stuff' });
+      expect(user(state, action)).toEqual({ message: 'Success' });
     });
   });
 
   describe('When no action type is fired from an action', () => {
-    it('messages reducer should return default state in the store', () => {
+    it('user reducer should return default state in the store', () => {
       let state;
       const action = {};
       expect(user(state, action)).toEqual({});
+    });
+  });
+
+  describe('When ERROR action type is fired from an action', () => {
+    it('clearError reducer should return empty error message', () => {
+      let state;
+      const action = {
+        type: 'ERROR',
+        message: ''
+      };
+      expect(error(state, action)).toEqual('');
+    });
+  });
+
+  describe('When no action type is fired from an action', () => {
+    it('error reducer should return default state in the store', () => {
+      let state;
+      const action = {};
+      expect(error(state, action)).toEqual('');
+    });
+  });
+
+  describe('When FETCH_GROUPS_SUCCESS action type is fired from an action',
+  () => {
+    it('groups reducer should return array of groups', () => {
+      let state;
+      const action = {
+        type: 'FETCH_GROUPS_SUCCESS',
+        groups: []
+      };
+      expect(groups(state, action)).toEqual([]);
+    });
+  });
+
+  describe('When CREATE_GROUP action type is fired from an action',
+  () => {
+    it('groups reducer should return array containing created group', () => {
+      let state;
+      const action = {
+        type: 'CREATE_GROUP',
+        group: {}
+      };
+      expect(groups(state, action)).toEqual([{}]);
     });
   });
 });

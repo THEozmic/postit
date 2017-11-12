@@ -1,9 +1,14 @@
+/* global Materialize */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from './Form';
-import { apiFetchGroup, apiSearch, apiUpdateMembers } from '../../actions/';
+import {
+  apiFetchGroup,
+  apiSearch,
+  apiUpdateMembers,
+  stopSearch } from '../../actions/';
 
 /**
  * Search Page
@@ -53,12 +58,52 @@ export class Search extends React.Component {
    */
   componentWillMount() {
     const id = this.props.match.params.id;
-    this.props.apiFetchGroup(id, false)
-    .then(() => {
+    this.props.apiFetchGroup(id, false);
+  }
+
+  /**
+   * @returns {void}
+   * @param {object} nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedGroup.users !== undefined) {
       this.setState({
-        groupMembers: this.props.selectedGroup.users
+        groupMembers: nextProps.selectedGroup.users
       });
-    });
+    }
+
+    if (nextProps.searchResults.status === 'complete') {
+      this.props.stopSearch();
+      location.href = `/#/group/${nextProps.selectedGroup.id}`;
+      Materialize.toast('Group members list updated!', 4000);
+    }
+
+    if (nextProps.searchResults.pages !== undefined) {
+      const searchResults = nextProps.searchResults;
+      // no search results gotten
+      // set the current page to zero
+      if (searchResults.pages === 0) {
+        this.setState({ currentPage: 0, foundUsers: [], noUsersFound: true });
+        return;
+      }
+
+      // update the totalPages
+      this.setState({
+        totalPages: searchResults.pages
+      });
+
+      // determine who's been selected or not
+      const nUsers = searchResults.users.map((user) => {
+        this.state.selectedUsers.map((sUser) => {
+          if (sUser.id === user.id) {
+            user.ingroup = true;
+          }
+          return searchResults;
+        });
+        return user;
+      });
+      this.setState({ foundUsers: nUsers });
+    }
   }
 
   /**
@@ -74,11 +119,7 @@ export class Search extends React.Component {
       if (this.state.confirmMessage !== '') {
         const selectedUsers = JSON.stringify(this.state.selectedUsers);
         this.setState({ disableBtn: true });
-        this.props.apiUpdateMembers(selectedUsers, this.props.selectedGroup.id)
-        .then(() => {
-          location.href = `/#/group/${this.props.selectedGroup.id}`;
-          Materialize.toast('Group members list updated!', 4000);
-        });
+        this.props.apiUpdateMembers(selectedUsers, this.props.selectedGroup.id);
       } else {
         this.showConfirmMessage();
       }
@@ -196,37 +237,23 @@ export class Search extends React.Component {
   onSelectUser(event, user) {
     event.preventDefault();
     this.setState({ errorMessage: '' });
-    let alreadySelected = false;
-    this.state.selectedUsers.map((sUser) => {
-      if (sUser.id === user.id) {
-        alreadySelected = true;
-        return sUser;
-      }
-      return false;
-    });
-    if (!alreadySelected) {
-      if (!this.isAdmin()) {
-        alreadySelected = false;
-        Materialize.toast('Only an Admin can do that', 4000);
-        return;
-      }
-      const selectedUsers = this.state.selectedUsers.concat(user);
-      this.setState({ selectedUsers });
-    } else {
-      const users = this.state.selectedUsers
-      .filter(sUser => sUser.id !== user.id);
-      this.setState({ selectedUsers: users });
+    if (!this.isAdmin() && user.ingroup === true) {
+      Materialize.toast('Only an Admin can do that', 4000);
+      return;
     }
-
-    // flip the ingroup value
-    let foundUsers = Object.assign([], this.state.foundUsers);
-    foundUsers = foundUsers.map((fUser) => {
-      if (fUser.id === user.id) {
-        fUser.ingroup = !fUser.ingroup;
-      }
-      return fUser;
-    });
+    let selectedUsers = this.state.selectedUsers;
+    const isFound = selectedUsers.find(sUser => sUser.id === user.id);
+    if (isFound !== undefined) {
+      selectedUsers = selectedUsers.filter(sUser => sUser.id === user.id);
+    } else {
+      selectedUsers.push(user);
+    }
+    user.ingroup = !user.ingroup;
+    let foundUsers = this.state.foundUsers;
+    foundUsers = foundUsers.filter(sUser => sUser.id !== user.id);
+    foundUsers.push(user);
     this.setState({ foundUsers });
+    this.setState({ selectedUsers });
   }
 
    /**
@@ -247,34 +274,7 @@ export class Search extends React.Component {
    */
   makeSearch(page) {
     this.props.apiSearch(this.props.selectedGroup.id, this.state.searchTerm,
-      page)
-      .then(() => {
-        const searchResults = this.props.searchResults;
-
-        // no search results gotten
-        // set the current page to zero
-        if (searchResults.pages === 0) {
-          this.setState({ currentPage: 0, foundUsers: [], noUsersFound: true });
-          return;
-        }
-
-        // update the totalPages
-        this.setState({
-          totalPages: searchResults.pages
-        });
-
-        // determine who's been selected or not
-        const nUsers = searchResults.users.map((user) => {
-          this.state.selectedUsers.map((sUser) => {
-            if (sUser.id === user.id) {
-              user.ingroup = true;
-            }
-            return searchResults;
-          });
-          return user;
-        });
-        this.setState({ foundUsers: nUsers });
-      });
+      page);
   }
 
   /**
@@ -415,7 +415,12 @@ Search.propTypes = {
   apiSearch: PropTypes.func.isRequired,
   searchResults: PropTypes.object.isRequired,
   apiUpdateMembers: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  user: PropTypes.object,
+  stopSearch: PropTypes.func.isRequired
+};
+
+Search.defaultProps = {
+  user: {}
 };
 
 const mapStateToProps = state => ({
@@ -430,7 +435,9 @@ const mapDispatchToProps = dispatch => ({
   apiSearch: (groupId, searchTerm, page) =>
   dispatch(apiSearch(groupId, searchTerm, page)),
   apiUpdateMembers: (selectedUsers, groupId) =>
-  dispatch(apiUpdateMembers(selectedUsers, groupId))
+  dispatch(apiUpdateMembers(selectedUsers, groupId)),
+  stopSearch: () =>
+  dispatch(stopSearch())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);
