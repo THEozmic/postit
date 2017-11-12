@@ -237,13 +237,14 @@ export class Search extends React.Component {
   onSelectUser(event, user) {
     event.preventDefault();
     this.setState({ errorMessage: '' });
-    if (!this.isAdmin() && user.ingroup === true) {
+    let selectedUsers = this.state.selectedUsers;
+    const isFound = selectedUsers.find(sUser => sUser.id === user.id);
+    if (!this.isAdmin() && user.ingroup === true &&
+    typeof isFound === 'undefined') {
       Materialize.toast('Only an Admin can do that', 4000);
       return;
     }
-    let selectedUsers = this.state.selectedUsers;
-    const isFound = selectedUsers.find(sUser => sUser.id === user.id);
-    if (isFound !== undefined) {
+    if (typeof isFound !== 'undefined') {
       selectedUsers = selectedUsers.filter(sUser => sUser.id === user.id);
     } else {
       selectedUsers.push(user);
