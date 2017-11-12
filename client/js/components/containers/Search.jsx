@@ -78,7 +78,8 @@ export class Search extends React.Component {
       Materialize.toast('Group members list updated!', 4000);
     }
 
-    if (nextProps.searchResults.pages !== undefined) {
+    if (nextProps.searchResults.pages !== undefined &&
+      this.state.searchTerm !== '') {
       const searchResults = nextProps.searchResults;
       // no search results gotten
       // set the current page to zero
