@@ -207,7 +207,7 @@ export default {
         );
       }
       return res.status(400)
-          .send({ message: 'Invalid hash', status: 400 });
+          .send({ error: 'Invalid hash', status: 400 });
     });
   },
 

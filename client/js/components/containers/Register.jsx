@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form } from './Form';
-import { apiRegisterUser, apiGetCurrentUser } from '../../actions/user';
-import setToken from '../../helpers/setToken';
+import { apiRegisterUser } from '../../actions/user';
+import clearError from '../../actions/common';
 
 /**
  * Registration Page
@@ -31,6 +31,20 @@ export class Register extends React.Component {
       password: '',
       isButtonDisabled: false
     };
+  }
+
+  /**
+   * @return {void}
+   * @param {object} nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user !== nextProps.user) {
+      location.href = '#/dashboard';
+    }
+
+    if (nextProps.error !== '') {
+      this.setState({ isButtonDisabled: false, errorMessage: nextProps.error });
+    }
   }
 
   /**
@@ -67,15 +81,8 @@ export class Register extends React.Component {
       return;
     }
     this.setState({ isButtonDisabled: true });
-    this.props.apiRegisterUser({ username, email, password, phone })
-    .then((response) => {
-      setToken(response.data.token);
-      this.props.apiGetCurrentUser();
-    })
-    .catch((error) => {
-      this.setState({ isButtonDisabled: false });
-      this.setState({ errorMessage: error.data.error });
-    });
+    this.props.clearError();
+    this.props.apiRegisterUser({ username, email, password, phone });
   }
 
   /**
@@ -154,18 +161,27 @@ export class Register extends React.Component {
 const mapDispatchToProps = dispatch => ({
   apiRegisterUser: ({ username, email, password, phone }) =>
   dispatch(apiRegisterUser({ username, email, password, phone })),
-  apiGetCurrentUser: () =>
-  dispatch(apiGetCurrentUser())
+  clearError: () =>
+  dispatch(clearError())
+});
+
+const mapStateToProps = state => ({
+  error: state.error,
+  user: state.user
 });
 
 Register.defaultProps = {
   apiRegisterUser: () => {},
-  apiGetCurrentUser: () => {}
+  user: {},
+  error: '',
+  clearError: () => {}
 };
 
 Register.propTypes = {
   apiRegisterUser: PropTypes.func,
-  apiGetCurrentUser: PropTypes.func
+  error: PropTypes.string,
+  user: PropTypes.object,
+  clearError: PropTypes.func
 };
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

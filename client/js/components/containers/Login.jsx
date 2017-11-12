@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Form } from './Form';
 import { apiLoginUser } from '../../actions/user';
+import clearError from '../../actions/common';
 
 /**
  * Login Page
@@ -28,6 +29,20 @@ export class Login extends React.Component {
       password: '',
       isButtonDisabled: false
     };
+  }
+
+   /**
+   * @return {void}
+   * @param {object} nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user !== nextProps.user) {
+      location.href = '#/dashboard';
+    }
+
+    if (nextProps.error !== '') {
+      this.setState({ isButtonDisabled: false, errorMessage: nextProps.error });
+    }
   }
 
   /**
@@ -60,13 +75,8 @@ export class Login extends React.Component {
     const username = this.state.username.trim();
     if (username !== '' || password !== '') {
       this.setState({ isButtonDisabled: true });
-      this.props.apiLoginUser({ username, password })
-      .then(() => {
-        location.href = '/#/dashboard';
-      }).catch((err) => {
-        this.setState({ isButtonDisabled: false });
-        this.setState({ errorMessage: `Error: ${err.data.error}` });
-      });
+      this.props.clearError();
+      this.props.apiLoginUser({ username, password });
     } else {
       this.setState({ errorMessage: 'Error: One or more fields are empty' });
     }
@@ -127,10 +137,26 @@ export class Login extends React.Component {
 const mapDispatchToProps = dispatch => ({
   apiLoginUser: ({ username, password }) =>
    dispatch(apiLoginUser({ username, password })),
+  clearError: () =>
+    dispatch(clearError()),
 });
+
+const mapStateToProps = state => ({
+  error: state.error,
+  user: state.user
+});
+
+Login.defaultProps = {
+  error: '',
+  user: {},
+  clearError: () => {}
+};
 
 Login.propTypes = {
   apiLoginUser: PropTypes.func.isRequired,
+  user: PropTypes.object,
+  error: PropTypes.string,
+  clearError: PropTypes.func
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

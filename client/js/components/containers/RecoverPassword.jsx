@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form } from './Form';
 import { apiRequestPassword } from '../../actions/user';
+import clearError from '../../actions/common';
 
 /**
  * Recover Password Page
@@ -30,6 +31,28 @@ export class RecoverPassword extends React.Component {
     this.onSend = this.onSend.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onFocus = this.onFocus.bind(this);
+  }
+
+   /**
+   * @return {void}
+   * @param {object} nextProps
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user !== nextProps.user) {
+      if (nextProps.user.message === 'Success') {
+        localStorage.removeItem('token');
+        location.href = '#/login';
+        Materialize.toast('Email sent! Please check your inbox', 4000);
+      }
+    }
+
+    if (nextProps.error !== '') {
+      this.setState({
+        errorMessage: nextProps.error,
+        buttonText: 'TRY AGAIN',
+        isButtonDisabled: false
+      });
+    }
   }
 
   /**
@@ -70,19 +93,8 @@ export class RecoverPassword extends React.Component {
     });
 
     this.setState({ isButtonDisabled: true });
-    this.props.apiRequestPassword(this.state.email.trim())
-    .then(() => {
-      localStorage.removeItem('token');
-      location.hash = '#login';
-      Materialize.toast('Email sent! Please check your inbox', 4000);
-    })
-    .catch((error) => {
-      this.setState({
-        errorMessage: error.data.error,
-        buttonText: 'TRY AGAIN',
-        isButtonDisabled: false
-      });
-    });
+    this.props.clearError();
+    this.props.apiRequestPassword(this.state.email.trim());
   }
 
   /**
@@ -130,11 +142,26 @@ export class RecoverPassword extends React.Component {
 
 RecoverPassword.propTypes = {
   apiRequestPassword: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  user: PropTypes.object
+};
+
+RecoverPassword.defaultProps = {
+  error: '',
+  user: {},
+  clearError: () => {}
 };
 
 const mapDispatchToProps = dispatch => ({
   apiRequestPassword: email =>
-  dispatch(apiRequestPassword(email))
+  dispatch(apiRequestPassword(email)),
+  clearError: () =>
+  dispatch(clearError())
 });
 
-export default connect(null, mapDispatchToProps)(RecoverPassword);
+const mapStateToProps = state => ({
+  user: state.user,
+  error: state.error
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecoverPassword);

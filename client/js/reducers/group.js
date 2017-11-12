@@ -25,6 +25,25 @@ export const search = (state = {}, action) => {
   switch (type) {
     case 'SEARCH':
       return result;
+    case 'SEARCH_COMPLETE':
+      return { status: 'complete' };
+    case 'SEARCH_STOP':
+      return { status: 'stopped' };
+    default:
+      return state;
+  }
+};
+
+
+export const groups = (state = [], action) => {
+  switch (action.type) {
+    case 'FETCH_GROUPS_SUCCESS':
+      return action.groups;
+    case 'CREATE_GROUP':
+      return [
+        ...state,
+        action.group
+      ];
     default:
       return state;
   }
