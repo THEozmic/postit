@@ -34,7 +34,12 @@ export const search = (state = {}, action) => {
   }
 };
 
-
+/**
+ * Reducer to fire groups action
+ * @param {array} state
+ * @param {*} action
+ * @return {array} state
+ */
 export const groups = (state = [], action) => {
   switch (action.type) {
     case 'FETCH_GROUPS_SUCCESS':
