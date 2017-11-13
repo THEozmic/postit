@@ -76,7 +76,7 @@ export class NewPassword extends React.Component {
    */
   onSubmitPassword(event) {
     event.preventDefault();
-    if (this.props.user.btnText === 'Okay') {
+    if (this.props.user.buttonText === 'Okay') {
       location.hash = '#login';
       return;
     }
@@ -153,7 +153,7 @@ export class NewPassword extends React.Component {
             className="waves-effect waves-light btn action-btn"
             id="submitPassword"
             disabled={this.state.isButtonDisabled}
-          >{this.props.user.btnText || 'Update Password'}</button>
+          >{this.props.user.buttonText || 'Update Password'}</button>
           <Link
             className="right waves-effect waves-teal btn-flat action-btn"
             to="/login"

@@ -58,7 +58,7 @@ export const getCurrentUser = user => ({
  */
 const passwordReset = message => ({
   type: 'PASSWORD_RESET',
-  payload: { message, btnText: 'Okay' }
+  payload: { message, buttonText: 'Okay' }
 });
 
 /**

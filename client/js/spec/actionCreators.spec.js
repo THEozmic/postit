@@ -178,7 +178,7 @@ describe('actions', () => {
 
       const expectedAction = [{
         type: 'PASSWORD_RESET',
-        payload: { message: 'Password Reset Successful', btnText: 'Okay' }
+        payload: { message: 'Password Reset Successful', buttonText: 'Okay' }
       }];
 
       const store = mockStore({ messages: [] });

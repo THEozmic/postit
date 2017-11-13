@@ -46,7 +46,7 @@ export class Search extends React.Component {
       searchTerm: '',
       updateConfirmed: false,
       confirmMessage: '',
-      btnText: 'Finish',
+      buttonText: 'Finish',
       showCancelBtn: false,
       errorMessage: '',
       disableBtn: false
@@ -145,7 +145,7 @@ export class Search extends React.Component {
   onCancelClick() {
     this.setState({
       confirmMessage: '',
-      btnText: 'Finish',
+      buttonText: 'Finish',
       showCancelBtn: false
     });
   }
@@ -264,7 +264,7 @@ export class Search extends React.Component {
   showConfirmMessage() {
     this.setState({
       confirmMessage: 'Are you sure you want to update users in this group?',
-      btnText: 'Yes',
+      buttonText: 'Yes',
       showCancelBtn: true,
       errorMessage: ''
     });
@@ -394,7 +394,7 @@ export class Search extends React.Component {
             className="waves-effect waves-light btn action-btn"
             onClick={this.onFinishClick}
             disabled={this.state.disableBtn}
-          >{this.state.btnText}</button>
+          >{this.state.buttonText}</button>
           { this.state.showCancelBtn ?
             <button
               className="waves-effect waves-teal red btn action-btn"
