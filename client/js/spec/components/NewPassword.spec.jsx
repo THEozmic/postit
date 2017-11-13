@@ -150,11 +150,11 @@ describe('Given NewPassword component is mounted', () => {
     .toEqual('Password Reset Successful');
   });
 
-  it('should not call reset password if btnText is set to "Okay"',
+  it('should not call reset password if buttonText is set to "Okay"',
   () => {
     props.apiResetPassword = sinon.spy(() => Promise
     .reject({ error: { data: { message: mockData.string } } }));
-    props.user.btnText = mockData.btnText;
+    props.user.buttonText = mockData.buttonText;
     props.match.params.hash = '';
     const component = shallow(
       <NewPassword onSubmitPassword={onSubmitPasswordSpy} {...props} />);

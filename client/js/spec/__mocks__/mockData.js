@@ -20,7 +20,7 @@ export default {
   string: faker.lorem.word(),
   longString: faker.lorem.sentences(),
   number: 1,
-  btnText: 'Okay',
+  buttonText: 'Okay',
   createGroupString: 'create-group',
   boolTrue: true,
   boolFalse: false,
